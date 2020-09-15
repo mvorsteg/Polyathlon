@@ -14,11 +14,8 @@ public class PlayerMovement : MonoBehaviour
     {
         Walking,
         Running,
-        Sprinting,
-        Crouching,
-        Cover,
-        CoverCrouching,
-        Swimming
+        Swimming,
+        Biking,
     }
 
     #pragma warning disable 0649
@@ -67,11 +64,8 @@ public class PlayerMovement : MonoBehaviour
     private const float walkSpeed = 2f;
     private const float runSpeed = 5f;
     private const float sprintSpeed = 7f;
-    private const float crouchSpeed = 2f;
-    private const float coverSpeed = 1.7f;
-    private const float coverCrouchSpeed = 1.5f;
-    private const float swimSpeed = 8f;
-    private const float aimSpeed = 1.2f;
+    private const float swimSpeed = 3f;
+    private const float bikeSpeed = 10f;
     private const float jumpForce = 300f;
 
     private const float dampTime = 0.05f; // reduce jittering in animator by providing dampening
@@ -98,7 +92,7 @@ public class PlayerMovement : MonoBehaviour
         animOverride = new AnimatorOverrideController();
         //animOverride.runtimeAnimatorController = anim.runtimeAnimatorController;
 
-        SetMovementMode(movementMode);//PlayerMovement.MovementMode.Running);
+        SetMovementMode(movementMode);
     }
 
     void Update()
@@ -197,22 +191,14 @@ public class PlayerMovement : MonoBehaviour
             case PlayerMovement.MovementMode.Running:
                 maxSpeed = runSpeed;
                 break;
-            case PlayerMovement.MovementMode.Sprinting:
-                maxSpeed = sprintSpeed;
-                break;
-            case PlayerMovement.MovementMode.Crouching:
-                maxSpeed = crouchSpeed;
-                break;
-            case PlayerMovement.MovementMode.Cover:
-                maxSpeed = coverSpeed;
-                break;
-            case PlayerMovement.MovementMode.CoverCrouching:
-                maxSpeed = coverCrouchSpeed;
-                break;
             case PlayerMovement.MovementMode.Swimming:
                 maxSpeed = swimSpeed;
                 break;
+            case PlayerMovement.MovementMode.Biking:
+                maxSpeed = bikeSpeed;
+                break;
         }
+        anim.SetInteger("movement_mode", (int)movementMode);
     }
     /*  causes the player to jump */
     public void Jump()
@@ -251,13 +237,6 @@ public class PlayerMovement : MonoBehaviour
     /*  changes between crouching and non-crouching movement */
     public void ToggleSprint()
     {
-        if (movementMode == PlayerMovement.MovementMode.Sprinting)
-        {
-            SetMovementMode(PlayerMovement.MovementMode.Running);
-        }
-        else if (movementMode != PlayerMovement.MovementMode.Swimming)
-        {
-            SetMovementMode(PlayerMovement.MovementMode.Sprinting);
-        }
+
     }
 }

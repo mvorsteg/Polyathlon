@@ -124,6 +124,96 @@ public class @InputActions : IInputActionCollection, IDisposable
             ]
         },
         {
+            ""name"": ""Swimming"",
+            ""id"": ""b2ef0e01-46f9-4f2c-a3fb-1275cd22270f"",
+            ""actions"": [
+                {
+                    ""name"": ""Movement"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""aa76ede9-503b-4214-8054-ee5c598d8d69"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Look"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""dc2077f4-76d7-4b2b-af80-fe480d983995"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": ""WASD"",
+                    ""id"": ""c24640dd-657e-46b9-8d0d-e89060a51783"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""6b3f915b-7c8b-45d8-b9df-d91fc62cf6ff"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""da844862-c5ac-4535-8697-54241d6d4242"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""f36a6435-119c-4268-88b9-bb64fd6bb458"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""ed2b1412-dd30-4599-922a-532ffcad7797"",
+                    ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e736f5ca-96b4-4e45-a42a-5bbca3a40387"",
+                    ""path"": ""<Mouse>/delta"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Look"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
             ""name"": ""Debug"",
             ""id"": ""6311b186-9385-4739-8d72-970c1f919cff"",
             ""actions"": [
@@ -186,6 +276,10 @@ public class @InputActions : IInputActionCollection, IDisposable
         m_Running_Movement = m_Running.FindAction("Movement", throwIfNotFound: true);
         m_Running_Look = m_Running.FindAction("Look", throwIfNotFound: true);
         m_Running_Jump = m_Running.FindAction("Jump", throwIfNotFound: true);
+        // Swimming
+        m_Swimming = asset.FindActionMap("Swimming", throwIfNotFound: true);
+        m_Swimming_Movement = m_Swimming.FindAction("Movement", throwIfNotFound: true);
+        m_Swimming_Look = m_Swimming.FindAction("Look", throwIfNotFound: true);
         // Debug
         m_Debug = asset.FindActionMap("Debug", throwIfNotFound: true);
         m_Debug_SlowTime = m_Debug.FindAction("SlowTime", throwIfNotFound: true);
@@ -284,6 +378,47 @@ public class @InputActions : IInputActionCollection, IDisposable
     }
     public RunningActions @Running => new RunningActions(this);
 
+    // Swimming
+    private readonly InputActionMap m_Swimming;
+    private ISwimmingActions m_SwimmingActionsCallbackInterface;
+    private readonly InputAction m_Swimming_Movement;
+    private readonly InputAction m_Swimming_Look;
+    public struct SwimmingActions
+    {
+        private @InputActions m_Wrapper;
+        public SwimmingActions(@InputActions wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Movement => m_Wrapper.m_Swimming_Movement;
+        public InputAction @Look => m_Wrapper.m_Swimming_Look;
+        public InputActionMap Get() { return m_Wrapper.m_Swimming; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(SwimmingActions set) { return set.Get(); }
+        public void SetCallbacks(ISwimmingActions instance)
+        {
+            if (m_Wrapper.m_SwimmingActionsCallbackInterface != null)
+            {
+                @Movement.started -= m_Wrapper.m_SwimmingActionsCallbackInterface.OnMovement;
+                @Movement.performed -= m_Wrapper.m_SwimmingActionsCallbackInterface.OnMovement;
+                @Movement.canceled -= m_Wrapper.m_SwimmingActionsCallbackInterface.OnMovement;
+                @Look.started -= m_Wrapper.m_SwimmingActionsCallbackInterface.OnLook;
+                @Look.performed -= m_Wrapper.m_SwimmingActionsCallbackInterface.OnLook;
+                @Look.canceled -= m_Wrapper.m_SwimmingActionsCallbackInterface.OnLook;
+            }
+            m_Wrapper.m_SwimmingActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @Movement.started += instance.OnMovement;
+                @Movement.performed += instance.OnMovement;
+                @Movement.canceled += instance.OnMovement;
+                @Look.started += instance.OnLook;
+                @Look.performed += instance.OnLook;
+                @Look.canceled += instance.OnLook;
+            }
+        }
+    }
+    public SwimmingActions @Swimming => new SwimmingActions(this);
+
     // Debug
     private readonly InputActionMap m_Debug;
     private IDebugActions m_DebugActionsCallbackInterface;
@@ -339,6 +474,11 @@ public class @InputActions : IInputActionCollection, IDisposable
         void OnMovement(InputAction.CallbackContext context);
         void OnLook(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
+    }
+    public interface ISwimmingActions
+    {
+        void OnMovement(InputAction.CallbackContext context);
+        void OnLook(InputAction.CallbackContext context);
     }
     public interface IDebugActions
     {
