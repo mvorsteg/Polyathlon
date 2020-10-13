@@ -1,0 +1,11 @@
+Swimming
+
+"In a semi-order you'd need to accomplish the following:
+
+-Water plane detection. You need to know when/if your character is in the water. Which can be done many different ways. Tags, Colliders, raw position values.
+-Create a buoyancy system. Once the player object is detected "in" the water you need to have some system that counters general game Gravity for the character (or turns it off). Which means understanding how Rigidbody physics work. Like rigidbody.AddForce, and Rigidbody.drag.
+-Create a subset of control mappings for Water movement, such as changing the behavior of a "Crouch" or "Jump" to behave as a Dive & Rise. This is where you're integrating with the Character Controller.
+-Create a movement system for surface and underwater states. This includes any Camera position adjustments if you're using a 3rd person style camera. (If you already have a Flight system, underwater swimming is basically slow flying with embellishments.)
+-Setup an animation asset for the water movements, treading water, swimming, diving, surfacing.
+-Setup any VFXs to make it more believable, splashes, ripples, camera filters and tinting (for being underwater)."
+source: some random reddit comment
