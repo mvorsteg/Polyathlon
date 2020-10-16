@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Waves : MonoBehaviour
+public class GeneratedWaves : Waves
 {
 
     [System.Serializable]
@@ -17,10 +17,9 @@ public class Waves : MonoBehaviour
 
     public int dimension = 10;
 
-    public float uvScale;
+    public float uvScale = 2f;
 
     public MeshFilter meshFilter;
-    public Mesh mesh;
     public Ocatave[] ocataves;
 
     private void Start() {
@@ -30,6 +29,7 @@ public class Waves : MonoBehaviour
 
         mesh.vertices = GenerateVerts();
         mesh.triangles = GenerateTris();
+        mesh.uv = GenerateUVs();
         mesh.RecalculateBounds();
         mesh.RecalculateNormals();
 
@@ -57,7 +57,7 @@ public class Waves : MonoBehaviour
                     }
                     else
                     {
-                        float perl = Mathf.PerlinNoise((x * ocataves[o].scale.x + Time.time * ocataves[o].speed.x) / dimension, (z * ocataves[o].scale.y + Time.time * ocataves[0].speed.y) / dimension) * Mathf.PI * 2f;
+                        float perl = Mathf.PerlinNoise((x * ocataves[o].scale.x + Time.time * ocataves[o].speed.x) / dimension, (z * ocataves[o].scale.y + Time.time * ocataves[0].speed.y) / dimension) - 0.5f;
                         y += perl * ocataves[0].height;
                     }
                 }
@@ -69,10 +69,10 @@ public class Waves : MonoBehaviour
         mesh.RecalculateNormals();
     }
 
-    public float GetHeight(Vector3 position)
+    public override float GetHeight(Vector3 position)
     {
         // scale factor and position in local space
-        Vector3 scale = new Vector3(1 / transform.lossyScale.x, 0, 1/ transform.lossyScale.z);
+        Vector3 scale = new Vector3(1 / transform.lossyScale.x, 0, 1 / transform.lossyScale.z);
         Vector3 localPos = Vector3.Scale((position - transform.position), scale);
 
         // get edge points
@@ -98,10 +98,10 @@ public class Waves : MonoBehaviour
                    + (max - Vector3.Distance(p3, localPos))
                    + (max - Vector3.Distance(p4, localPos) + Mathf.Epsilon);
         // weighted sum
-        float height = mesh.vertices[index((int)p1.x, (int)p1.z)].y * Vector3.Distance(p1, localPos)
-                     + mesh.vertices[index((int)p2.x, (int)p2.z)].y * Vector3.Distance(p2, localPos)
-                     + mesh.vertices[index((int)p3.x, (int)p3.z)].y * Vector3.Distance(p3, localPos)
-                     + mesh.vertices[index((int)p4.x, (int)p4.z)].y * Vector3.Distance(p4, localPos);
+        float height = mesh.vertices[index((int)p1.x, (int)p1.z)].y * (max - Vector3.Distance(p1, localPos))
+                     + mesh.vertices[index((int)p2.x, (int)p2.z)].y * (max - Vector3.Distance(p2, localPos))
+                     + mesh.vertices[index((int)p3.x, (int)p3.z)].y * (max - Vector3.Distance(p3, localPos))
+                     + mesh.vertices[index((int)p4.x, (int)p4.z)].y * (max - Vector3.Distance(p4, localPos));
         // return scale
         return height * transform.lossyScale.y / dist;
 
@@ -161,5 +161,21 @@ public class Waves : MonoBehaviour
     private int index(int x, int z)
     {
         return x * (dimension + 1) + z;
+    }
+
+    private int index(float x, float z)
+    {
+        return index((int)x, (int)z);
+    }
+
+    private void OnDrawGizmos()
+    {
+        if (Application.isPlaying)
+        {
+            for (int i = 0; i < mesh.vertices.Length; i++)
+            {
+                Gizmos.DrawCube(new Vector3(mesh.vertices[i].x, mesh.vertices[i].y, mesh.vertices[i].z), Vector3.one * 0.1f);
+            }
+        }
     }
 }

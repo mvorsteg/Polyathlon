@@ -10,7 +10,7 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     /*  enumeration of the possible ways the player can be moving */
-    enum MovementMode
+    public enum MovementMode
     {
         Walking,
         Running,
@@ -180,7 +180,7 @@ public class PlayerMovement : MonoBehaviour
     }
 
     /*  updates player's movement mode and maxSpeed/locomotion accordingly */
-    private void SetMovementMode(PlayerMovement.MovementMode mode)
+    public void SetMovementMode(PlayerMovement.MovementMode mode)
     {
         movementMode = mode;
         switch (mode)
