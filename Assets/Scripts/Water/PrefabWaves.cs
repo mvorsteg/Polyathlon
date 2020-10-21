@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class PrefabWaves : Waves
 {
-    private int dimension;
+    private int dimension = 10;
     public MeshFilter meshFilter;
     private Vector3[] verts;
     private void Start() {

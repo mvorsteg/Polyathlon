@@ -214,6 +214,96 @@ public class @InputActions : IInputActionCollection, IDisposable
             ]
         },
         {
+            ""name"": ""Biking"",
+            ""id"": ""bc100f3f-18ac-4a4a-ae83-bafdd85413cd"",
+            ""actions"": [
+                {
+                    ""name"": ""Movement"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""1b71e55b-6f7c-411b-9ff6-dfee60f8c157"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Look"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""f821413a-e5c4-442a-9a25-631d38f72d25"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": ""WASD"",
+                    ""id"": ""1c5a5bed-0ac2-4a28-838e-f346db48871a"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""61a15c95-1ad7-462a-9fce-458d2cdcd273"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""9c79acbd-4602-47ad-a921-7f66020329e8"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""9846b6e4-ab8a-4c5b-ad96-c1a94c902f8e"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""18b63607-89ba-4aed-9ccd-dee9a5c50fc2"",
+                    ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""51f2de77-7cdd-4dba-9a15-b15a84704189"",
+                    ""path"": ""<Mouse>/delta"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Look"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
             ""name"": ""Debug"",
             ""id"": ""6311b186-9385-4739-8d72-970c1f919cff"",
             ""actions"": [
@@ -235,6 +325,52 @@ public class @InputActions : IInputActionCollection, IDisposable
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
                     ""action"": ""SlowTime"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""Driving"",
+            ""id"": ""f14021a1-234f-40e7-a36d-7fd0c6e36ca1"",
+            ""actions"": [
+                {
+                    ""name"": ""Steer"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""5a1044ce-5bf2-4ffc-93c1-6bd0907ffc6a"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Accelerate"",
+                    ""type"": ""Button"",
+                    ""id"": ""499eaa70-296c-4cf6-a4b7-f81b58326225"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""bf0efc01-2c93-41c6-b6c0-89ada0763955"",
+                    ""path"": ""<Mouse>/position/x"",
+                    ""interactions"": """",
+                    ""processors"": ""Clamp(min=-200,max=200),Normalize(min=-200,max=200)"",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Steer"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""96425631-a7d1-4f72-b019-f6a0ebabe8eb"",
+                    ""path"": ""<Keyboard>/anyKey"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Accelerate"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -280,9 +416,17 @@ public class @InputActions : IInputActionCollection, IDisposable
         m_Swimming = asset.FindActionMap("Swimming", throwIfNotFound: true);
         m_Swimming_Movement = m_Swimming.FindAction("Movement", throwIfNotFound: true);
         m_Swimming_Look = m_Swimming.FindAction("Look", throwIfNotFound: true);
+        // Biking
+        m_Biking = asset.FindActionMap("Biking", throwIfNotFound: true);
+        m_Biking_Movement = m_Biking.FindAction("Movement", throwIfNotFound: true);
+        m_Biking_Look = m_Biking.FindAction("Look", throwIfNotFound: true);
         // Debug
         m_Debug = asset.FindActionMap("Debug", throwIfNotFound: true);
         m_Debug_SlowTime = m_Debug.FindAction("SlowTime", throwIfNotFound: true);
+        // Driving
+        m_Driving = asset.FindActionMap("Driving", throwIfNotFound: true);
+        m_Driving_Steer = m_Driving.FindAction("Steer", throwIfNotFound: true);
+        m_Driving_Accelerate = m_Driving.FindAction("Accelerate", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -419,6 +563,47 @@ public class @InputActions : IInputActionCollection, IDisposable
     }
     public SwimmingActions @Swimming => new SwimmingActions(this);
 
+    // Biking
+    private readonly InputActionMap m_Biking;
+    private IBikingActions m_BikingActionsCallbackInterface;
+    private readonly InputAction m_Biking_Movement;
+    private readonly InputAction m_Biking_Look;
+    public struct BikingActions
+    {
+        private @InputActions m_Wrapper;
+        public BikingActions(@InputActions wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Movement => m_Wrapper.m_Biking_Movement;
+        public InputAction @Look => m_Wrapper.m_Biking_Look;
+        public InputActionMap Get() { return m_Wrapper.m_Biking; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(BikingActions set) { return set.Get(); }
+        public void SetCallbacks(IBikingActions instance)
+        {
+            if (m_Wrapper.m_BikingActionsCallbackInterface != null)
+            {
+                @Movement.started -= m_Wrapper.m_BikingActionsCallbackInterface.OnMovement;
+                @Movement.performed -= m_Wrapper.m_BikingActionsCallbackInterface.OnMovement;
+                @Movement.canceled -= m_Wrapper.m_BikingActionsCallbackInterface.OnMovement;
+                @Look.started -= m_Wrapper.m_BikingActionsCallbackInterface.OnLook;
+                @Look.performed -= m_Wrapper.m_BikingActionsCallbackInterface.OnLook;
+                @Look.canceled -= m_Wrapper.m_BikingActionsCallbackInterface.OnLook;
+            }
+            m_Wrapper.m_BikingActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @Movement.started += instance.OnMovement;
+                @Movement.performed += instance.OnMovement;
+                @Movement.canceled += instance.OnMovement;
+                @Look.started += instance.OnLook;
+                @Look.performed += instance.OnLook;
+                @Look.canceled += instance.OnLook;
+            }
+        }
+    }
+    public BikingActions @Biking => new BikingActions(this);
+
     // Debug
     private readonly InputActionMap m_Debug;
     private IDebugActions m_DebugActionsCallbackInterface;
@@ -451,6 +636,47 @@ public class @InputActions : IInputActionCollection, IDisposable
         }
     }
     public DebugActions @Debug => new DebugActions(this);
+
+    // Driving
+    private readonly InputActionMap m_Driving;
+    private IDrivingActions m_DrivingActionsCallbackInterface;
+    private readonly InputAction m_Driving_Steer;
+    private readonly InputAction m_Driving_Accelerate;
+    public struct DrivingActions
+    {
+        private @InputActions m_Wrapper;
+        public DrivingActions(@InputActions wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Steer => m_Wrapper.m_Driving_Steer;
+        public InputAction @Accelerate => m_Wrapper.m_Driving_Accelerate;
+        public InputActionMap Get() { return m_Wrapper.m_Driving; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(DrivingActions set) { return set.Get(); }
+        public void SetCallbacks(IDrivingActions instance)
+        {
+            if (m_Wrapper.m_DrivingActionsCallbackInterface != null)
+            {
+                @Steer.started -= m_Wrapper.m_DrivingActionsCallbackInterface.OnSteer;
+                @Steer.performed -= m_Wrapper.m_DrivingActionsCallbackInterface.OnSteer;
+                @Steer.canceled -= m_Wrapper.m_DrivingActionsCallbackInterface.OnSteer;
+                @Accelerate.started -= m_Wrapper.m_DrivingActionsCallbackInterface.OnAccelerate;
+                @Accelerate.performed -= m_Wrapper.m_DrivingActionsCallbackInterface.OnAccelerate;
+                @Accelerate.canceled -= m_Wrapper.m_DrivingActionsCallbackInterface.OnAccelerate;
+            }
+            m_Wrapper.m_DrivingActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @Steer.started += instance.OnSteer;
+                @Steer.performed += instance.OnSteer;
+                @Steer.canceled += instance.OnSteer;
+                @Accelerate.started += instance.OnAccelerate;
+                @Accelerate.performed += instance.OnAccelerate;
+                @Accelerate.canceled += instance.OnAccelerate;
+            }
+        }
+    }
+    public DrivingActions @Driving => new DrivingActions(this);
     private int m_KeyboardSchemeIndex = -1;
     public InputControlScheme KeyboardScheme
     {
@@ -480,8 +706,18 @@ public class @InputActions : IInputActionCollection, IDisposable
         void OnMovement(InputAction.CallbackContext context);
         void OnLook(InputAction.CallbackContext context);
     }
+    public interface IBikingActions
+    {
+        void OnMovement(InputAction.CallbackContext context);
+        void OnLook(InputAction.CallbackContext context);
+    }
     public interface IDebugActions
     {
         void OnSlowTime(InputAction.CallbackContext context);
+    }
+    public interface IDrivingActions
+    {
+        void OnSteer(InputAction.CallbackContext context);
+        void OnAccelerate(InputAction.CallbackContext context);
     }
 }

@@ -8,7 +8,7 @@ public class Floater : MonoBehaviour
     public bool bob = true;
     public float offset = 0f;
 
-    private bool underwater = false;
+    //private bool underwater = false;
     private bool inWater = false;
 
     private float waterHeight;
@@ -54,10 +54,10 @@ public class Floater : MonoBehaviour
         prevDrag = rb.drag;
         prevAngularDrag = rb.angularDrag;
 
-        PlayerMovement mov = GetComponent<PlayerMovement>();
+        PlayerController mov = GetComponent<PlayerController>();
         if (mov != null)
         {
-            mov.SetMovementMode(PlayerMovement.MovementMode.Swimming);
+            mov.SetMovementMode(PlayerController.MovementMode.Swimming);
         }
 
     }
@@ -72,10 +72,10 @@ public class Floater : MonoBehaviour
         rb.angularDrag = prevAngularDrag;
 
 
-        PlayerMovement mov = GetComponent<PlayerMovement>();
+        PlayerController mov = GetComponent<PlayerController>();
         if (mov != null)
         {
-            mov.SetMovementMode(PlayerMovement.MovementMode.Running);
+            mov.SetMovementMode(PlayerController.MovementMode.Running);
         }
     }
 }

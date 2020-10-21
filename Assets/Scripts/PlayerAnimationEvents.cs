@@ -6,7 +6,7 @@ using UnityEngine;
 [RequireComponent(typeof(AudioSource))]
 public class PlayerAnimationEvents : MonoBehaviour
 {
-    public PlayerMovement playerMovement;
+    public Movement movement;
     private AudioSource aud;
     [Header("Footstep sounds")]
     public AudioClip[] concreteSteps;
@@ -23,7 +23,7 @@ public class PlayerAnimationEvents : MonoBehaviour
     {
         // if the state of the target speed is not matched, do not play a footstep.
         // this prevents the blended animation of 2 motion states playing the sound effect twice.
-        bool doStep = GetMovementState(targetWalkSpeed) == GetMovementState(playerMovement.Velocity.magnitude);
+        bool doStep = GetMovementState(targetWalkSpeed) == GetMovementState(movement.Velocity.magnitude);
         if (doStep)
         {
             if (targetWalkSpeed == 2.0f)
@@ -42,7 +42,7 @@ public class PlayerAnimationEvents : MonoBehaviour
         prevents triggering landing at the start of the jump */
     public void StartFalling()
     {
-        playerMovement.Falling = true;
+        movement.Falling = true;
     }
 
     /*  returns the movement state category of a float passed in through an animation */
