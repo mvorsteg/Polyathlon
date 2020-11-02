@@ -57,7 +57,7 @@ public class Floater : MonoBehaviour
         PlayerController mov = GetComponent<PlayerController>();
         if (mov != null)
         {
-            mov.SetMovementMode(PlayerController.MovementMode.Swimming);
+            mov.SetMovementMode(Movement.Mode.Swimming);
         }
 
     }
@@ -75,7 +75,7 @@ public class Floater : MonoBehaviour
         PlayerController mov = GetComponent<PlayerController>();
         if (mov != null)
         {
-            mov.SetMovementMode(PlayerController.MovementMode.Running);
+            mov.SetMovementMode(Movement.Mode.Running);
         }
     }
 }

@@ -3,6 +3,15 @@ using UnityEngine;
 public abstract class Movement : MonoBehaviour
 {
 
+    /*  enumeration of the possible ways the player can be moving */
+    public enum Mode
+    {
+        //Walking,
+        Running,
+        Swimming,
+        Biking,
+    }
+
     // constants consist primarily of values for movement speeds
     protected const float rotationSpeed = 10f;
     protected const float walkSpeed = 2f;

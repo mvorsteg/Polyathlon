@@ -3,16 +3,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
 
-    /*  enumeration of the possible ways the player can be moving */
-    public enum MovementMode
-    {
-        //Walking,
-        Running,
-        Swimming,
-        Biking,
-    }
-
-    public MovementMode movementMode;
+    public Movement.Mode movementMode;
     public Movement[] movementOptions;
 
     public CameraController cameraController;
@@ -86,7 +77,7 @@ public class PlayerController : MonoBehaviour
     }
 
     /*  updates player's movement mode and maxSpeed/locomotion accordingly */
-    public void SetMovementMode(MovementMode mode)
+    public void SetMovementMode(Movement.Mode mode)
     {
         movementMode = mode;
         if (movement != null)
@@ -98,16 +89,16 @@ public class PlayerController : MonoBehaviour
         {
             // case MovementMode.Walking:
             //     break;
-            case MovementMode.Running:
-                movement = movementOptions[(int)MovementMode.Running];
+            case Movement.Mode.Running:
+                movement = movementOptions[(int)Movement.Mode.Running];
                 inputActions.Running.Enable();
                 break;
-            case MovementMode.Swimming:
-                movement = movementOptions[(int)MovementMode.Swimming];
+            case Movement.Mode.Swimming:
+                movement = movementOptions[(int)Movement.Mode.Swimming];
                 inputActions.Swimming.Enable();
                 break;
-            case MovementMode.Biking:
-                movement = movementOptions[(int)MovementMode.Biking];
+            case Movement.Mode.Biking:
+                movement = movementOptions[(int)Movement.Mode.Biking];
                 inputActions.Biking.Enable();
                 break;
         }
