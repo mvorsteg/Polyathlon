@@ -17,7 +17,7 @@ CMSC425 Final Project
 - any
 
 ### Gameplay
-- place indicator
+- ~~place indicator~~
 - racing ai
 - splitscreen
 
