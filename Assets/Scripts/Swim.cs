@@ -19,13 +19,15 @@ public class Swim : Movement
     public float Direction { get => actualVelocity == Vector3.zero ? 0f : Mathf.Abs(Quaternion.LookRotation(actualVelocity, Vector3.up).eulerAngles.y - characterMesh.transform.rotation.eulerAngles.y); }
     public float BonusSpeed { get => bonusSpeed; set => bonusSpeed = value; }
 
-    protected override void Start() 
+    protected override void OnEnable() 
     {
-        base.Start();
+        base.OnEnable();
         rb.mass = 1;
         rb.angularDrag = 0.5f;
         rb.constraints = RigidbodyConstraints.FreezeRotation;
+
         maxSpeed = runSpeed;
+        acceleration = swimAcceleration;
     }
 
     /*  moves the player rigidbody */

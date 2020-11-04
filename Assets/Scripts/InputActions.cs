@@ -314,6 +314,14 @@ public class @InputActions : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Die"",
+                    ""type"": ""Button"",
+                    ""id"": ""b2043a1e-4252-4bec-afc1-6c92eb7096df"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -325,6 +333,17 @@ public class @InputActions : IInputActionCollection, IDisposable
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
                     ""action"": ""SlowTime"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1ce8b14e-a2e6-4d08-a813-b027a3ac4c6f"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Die"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -423,6 +442,7 @@ public class @InputActions : IInputActionCollection, IDisposable
         // Debug
         m_Debug = asset.FindActionMap("Debug", throwIfNotFound: true);
         m_Debug_SlowTime = m_Debug.FindAction("SlowTime", throwIfNotFound: true);
+        m_Debug_Die = m_Debug.FindAction("Die", throwIfNotFound: true);
         // Driving
         m_Driving = asset.FindActionMap("Driving", throwIfNotFound: true);
         m_Driving_Steer = m_Driving.FindAction("Steer", throwIfNotFound: true);
@@ -608,11 +628,13 @@ public class @InputActions : IInputActionCollection, IDisposable
     private readonly InputActionMap m_Debug;
     private IDebugActions m_DebugActionsCallbackInterface;
     private readonly InputAction m_Debug_SlowTime;
+    private readonly InputAction m_Debug_Die;
     public struct DebugActions
     {
         private @InputActions m_Wrapper;
         public DebugActions(@InputActions wrapper) { m_Wrapper = wrapper; }
         public InputAction @SlowTime => m_Wrapper.m_Debug_SlowTime;
+        public InputAction @Die => m_Wrapper.m_Debug_Die;
         public InputActionMap Get() { return m_Wrapper.m_Debug; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -625,6 +647,9 @@ public class @InputActions : IInputActionCollection, IDisposable
                 @SlowTime.started -= m_Wrapper.m_DebugActionsCallbackInterface.OnSlowTime;
                 @SlowTime.performed -= m_Wrapper.m_DebugActionsCallbackInterface.OnSlowTime;
                 @SlowTime.canceled -= m_Wrapper.m_DebugActionsCallbackInterface.OnSlowTime;
+                @Die.started -= m_Wrapper.m_DebugActionsCallbackInterface.OnDie;
+                @Die.performed -= m_Wrapper.m_DebugActionsCallbackInterface.OnDie;
+                @Die.canceled -= m_Wrapper.m_DebugActionsCallbackInterface.OnDie;
             }
             m_Wrapper.m_DebugActionsCallbackInterface = instance;
             if (instance != null)
@@ -632,6 +657,9 @@ public class @InputActions : IInputActionCollection, IDisposable
                 @SlowTime.started += instance.OnSlowTime;
                 @SlowTime.performed += instance.OnSlowTime;
                 @SlowTime.canceled += instance.OnSlowTime;
+                @Die.started += instance.OnDie;
+                @Die.performed += instance.OnDie;
+                @Die.canceled += instance.OnDie;
             }
         }
     }
@@ -714,6 +742,7 @@ public class @InputActions : IInputActionCollection, IDisposable
     public interface IDebugActions
     {
         void OnSlowTime(InputAction.CallbackContext context);
+        void OnDie(InputAction.CallbackContext context);
     }
     public interface IDrivingActions
     {

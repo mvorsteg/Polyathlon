@@ -21,7 +21,11 @@ public abstract class Movement : MonoBehaviour
     protected const float bikeSpeed = 10f;
     protected const float jumpForce = 300f;
 
-    protected float maxSpeed;
+    protected const float runAcceleration = 2.5f;
+    protected const float swimAcceleration = 5f;
+
+    public float maxSpeed;
+    public float acceleration;
 
     protected CameraController cameraController;
 
@@ -44,7 +48,7 @@ public abstract class Movement : MonoBehaviour
     public bool Falling { get => falling; set => falling = value; }
     public CameraController CameraController { get => cameraController; set => cameraController = value; }
 
-    protected virtual void Start() 
+    protected virtual void OnEnable()
     {
         rb = GetComponent<Rigidbody>();
         characterMesh = transform.GetChild(0);

@@ -19,14 +19,15 @@ public class Run : Movement
     public float Direction { get => actualVelocity == Vector3.zero ? 0f : Mathf.Abs(Quaternion.LookRotation(actualVelocity, Vector3.up).eulerAngles.y - characterMesh.transform.rotation.eulerAngles.y); }
     public float BonusSpeed { get => bonusSpeed; set => bonusSpeed = value; }
 
-    protected override void Start() 
+    protected override void OnEnable() 
     {
-        base.Start();
+        base.OnEnable();
         rb.mass = 1;
         rb.angularDrag = 0;
         rb.constraints = RigidbodyConstraints.FreezeRotation;
 
         maxSpeed = runSpeed;
+        acceleration = runAcceleration;
     }
 
     /*  moves the player rigidbody */
@@ -41,8 +42,16 @@ public class Run : Movement
         }
         else
         {
-            translation += right * cameraController.transform.forward;
-            translation += forward * cameraController.transform.right;
+            if (cameraController == null)
+            {
+                translation += right * transform.forward;
+                translation += forward * transform.right;    
+            }
+            else
+            {
+                translation += right * cameraController.transform.forward;
+                translation += forward * cameraController.transform.right;
+            }
         }
         translation.y = 0;
         if (translation.magnitude > 0)

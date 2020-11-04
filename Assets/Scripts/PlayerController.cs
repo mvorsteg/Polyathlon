@@ -1,22 +1,10 @@
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : Racer
 {
-
-    public Movement.Mode movementMode;
-    public Movement[] movementOptions;
-
     public CameraController cameraController;
     public PlayerAnimationEvents animEvents;
 
-    public Transform characterMesh;
-    public AnimatorOverrideController animOverride;
-
-    private Movement movement;
-    private Animator anim;
-    private AudioSource audioSource;
-    
-    private Vector2 move;
     private Vector2 look;
 
     private InputActions inputActions;
@@ -50,38 +38,35 @@ public class PlayerController : MonoBehaviour
 
         //  Debug actions
         inputActions.Debug.SlowTime.performed += ctx => SlowTime();
+        inputActions.Debug.Die.performed += ctx => Die();
+        inputActions.Debug.Enable();
         
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
 
-    private void Start() 
+    protected override void Start() 
     {
-        anim = characterMesh.GetComponent<Animator>();
-        //animOverride = GetComponent<AnimatorOverrideController>();
-        audioSource = characterMesh.GetComponent<AudioSource>();
-
         foreach(Movement m in movementOptions)
         {
             m.enabled = false;
             m.CameraController = cameraController;
         }
-        SetMovementMode(movementMode);
+        base.Start();
+        
     }
 
-    private void Update()
+    protected override void Update()
     {
-        movement.AddMovement(move.x, move.y);
+        base.Update();
         movement.RotateCamera(look.x, look.y);
     }
 
     /*  updates player's movement mode and maxSpeed/locomotion accordingly */
-    public void SetMovementMode(Movement.Mode mode)
+    public override void SetMovementMode(Movement.Mode mode)
     {
-        movementMode = mode;
-        if (movement != null)
-            movement.enabled = false;
+        base.SetMovementMode(mode);
         inputActions.Running.Disable();
         inputActions.Swimming.Disable();
         inputActions.Biking.Disable();
@@ -90,29 +75,23 @@ public class PlayerController : MonoBehaviour
             // case MovementMode.Walking:
             //     break;
             case Movement.Mode.Running:
-                movement = movementOptions[(int)Movement.Mode.Running];
                 inputActions.Running.Enable();
                 break;
             case Movement.Mode.Swimming:
-                movement = movementOptions[(int)Movement.Mode.Swimming];
                 inputActions.Swimming.Enable();
                 break;
             case Movement.Mode.Biking:
-                movement = movementOptions[(int)Movement.Mode.Biking];
                 inputActions.Biking.Enable();
                 break;
         }
-        movement.enabled = true;
         animEvents.movement = movement;
-        anim.SetInteger("movement_mode", (int)movementMode);
     }
 
-    /*  plays a miscellaneus animation that is NOT defined in the animation controller */
-    public void PlayMiscAnimation(AnimationClip clip)
+    public override void Die()
     {
-        animOverride["miscAnimation"] = clip;
-        anim.runtimeAnimatorController = animOverride;
-        anim.SetTrigger("misc");
+        base.Die();
+        Debug.Log("die");
+        
     }
 
     /*  debug method
