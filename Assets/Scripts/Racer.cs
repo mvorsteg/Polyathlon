@@ -15,10 +15,16 @@ public class Racer : MonoBehaviour
     protected AudioSource audioSource;
     
     protected Vector2 move;
+    protected bool fireJetpack; // this tells us whether we will be firing the jetpack during this frame
+    public GameObject jetpack;
+    public bool jetpackEnabled; /* this is just public to make it easy to test
+                                    this indicates whether the jetpack is available to be used
+                                */
 
     public int place;
     public Checkpoint lastCheckpoint;
     public Checkpoint nextCheckpoint;
+
 
     protected virtual void Start() 
     {
@@ -29,11 +35,16 @@ public class Racer : MonoBehaviour
         //animOverride = GetComponent<AnimatorOverrideController>();
         audioSource = characterMesh.GetComponent<AudioSource>();
         SetMovementMode(movementMode);
+        
     } 
 
     protected virtual void Update()
     {
         movement.AddMovement(move.x, move.y);
+        if (jetpackEnabled)
+        {
+            movement.Jetpack(fireJetpack);
+        }
     }
 
     /*  updates player's movement mode and maxSpeed/locomotion accordingly */
@@ -68,6 +79,14 @@ public class Racer : MonoBehaviour
         GetComponent<Collider>().enabled = false;
         ragdoll.SetRagdoll(true);
         ragdoll.AddMomentum(momentum);
+    }
+
+    public virtual void SetJetpack(bool enabled)
+    {
+        jetpackEnabled = enabled;
+        if (jetpack != null)
+            jetpack.SetActive(jetpackEnabled);
+        anim.SetBool("jetpack", jetpackEnabled);
     }
 
     public void ArriveAtCheckpoint(Checkpoint checkpoint)

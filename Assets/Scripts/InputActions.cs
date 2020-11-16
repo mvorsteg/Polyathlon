@@ -41,6 +41,14 @@ public class @InputActions : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Jetpack"",
+                    ""type"": ""Value"",
+                    ""id"": ""f5125fc1-98c0-4507-9027-6e09a7612249"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -118,6 +126,17 @@ public class @InputActions : IInputActionCollection, IDisposable
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
                     ""action"": ""Jump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f50f423a-8e52-4d0c-8a0d-dd7451fb48a4"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Jetpack"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -431,6 +450,7 @@ public class @InputActions : IInputActionCollection, IDisposable
         m_Running_Movement = m_Running.FindAction("Movement", throwIfNotFound: true);
         m_Running_Look = m_Running.FindAction("Look", throwIfNotFound: true);
         m_Running_Jump = m_Running.FindAction("Jump", throwIfNotFound: true);
+        m_Running_Jetpack = m_Running.FindAction("Jetpack", throwIfNotFound: true);
         // Swimming
         m_Swimming = asset.FindActionMap("Swimming", throwIfNotFound: true);
         m_Swimming_Movement = m_Swimming.FindAction("Movement", throwIfNotFound: true);
@@ -499,6 +519,7 @@ public class @InputActions : IInputActionCollection, IDisposable
     private readonly InputAction m_Running_Movement;
     private readonly InputAction m_Running_Look;
     private readonly InputAction m_Running_Jump;
+    private readonly InputAction m_Running_Jetpack;
     public struct RunningActions
     {
         private @InputActions m_Wrapper;
@@ -506,6 +527,7 @@ public class @InputActions : IInputActionCollection, IDisposable
         public InputAction @Movement => m_Wrapper.m_Running_Movement;
         public InputAction @Look => m_Wrapper.m_Running_Look;
         public InputAction @Jump => m_Wrapper.m_Running_Jump;
+        public InputAction @Jetpack => m_Wrapper.m_Running_Jetpack;
         public InputActionMap Get() { return m_Wrapper.m_Running; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -524,6 +546,9 @@ public class @InputActions : IInputActionCollection, IDisposable
                 @Jump.started -= m_Wrapper.m_RunningActionsCallbackInterface.OnJump;
                 @Jump.performed -= m_Wrapper.m_RunningActionsCallbackInterface.OnJump;
                 @Jump.canceled -= m_Wrapper.m_RunningActionsCallbackInterface.OnJump;
+                @Jetpack.started -= m_Wrapper.m_RunningActionsCallbackInterface.OnJetpack;
+                @Jetpack.performed -= m_Wrapper.m_RunningActionsCallbackInterface.OnJetpack;
+                @Jetpack.canceled -= m_Wrapper.m_RunningActionsCallbackInterface.OnJetpack;
             }
             m_Wrapper.m_RunningActionsCallbackInterface = instance;
             if (instance != null)
@@ -537,6 +562,9 @@ public class @InputActions : IInputActionCollection, IDisposable
                 @Jump.started += instance.OnJump;
                 @Jump.performed += instance.OnJump;
                 @Jump.canceled += instance.OnJump;
+                @Jetpack.started += instance.OnJetpack;
+                @Jetpack.performed += instance.OnJetpack;
+                @Jetpack.canceled += instance.OnJetpack;
             }
         }
     }
@@ -728,6 +756,7 @@ public class @InputActions : IInputActionCollection, IDisposable
         void OnMovement(InputAction.CallbackContext context);
         void OnLook(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
+        void OnJetpack(InputAction.CallbackContext context);
     }
     public interface ISwimmingActions
     {

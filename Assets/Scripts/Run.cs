@@ -33,7 +33,9 @@ public class Run : Movement
     /*  moves the player rigidbody */
     public override void AddMovement(float forward, float right)
     {
+    
         base.AddMovement(forward, right);
+        
         Vector3 translation = Vector3.zero;
         if (!orientRotation)
         {
@@ -65,48 +67,48 @@ public class Run : Movement
 
         // moved from update
         if (velocity.magnitude > 0)
-            {
-                rb.velocity = new Vector3(velocity.normalized.x * smoothSpeed, rb.velocity.y, velocity.normalized.z * smoothSpeed);
-                smoothSpeed = Mathf.Lerp(smoothSpeed, maxSpeed * bonusSpeed, Time.deltaTime);
-                // rotate the character mesh if enabled
-                if (orientRotation)
-                {
-                    characterMesh.rotation = Quaternion.Lerp(characterMesh.rotation, Quaternion.LookRotation(velocity), Time.deltaTime * rotationSpeed);
-                }
-            }
-            else
-            {
-                smoothSpeed = Mathf.Lerp(smoothSpeed, 0, Time.deltaTime*8);
-            }
-            // if the player landed, enable another jump
-            if (!grounded)
-            {
-                RaycastHit hit;
-                if (falling && Physics.Linecast(transform.position + new Vector3(0, 0.1f, 0), transform.position + new Vector3(0, -0.2f, 0), out hit))
-                {
-                    falling = false;
-                    Land();
-                }
-            }
-            // blend speed in animator to match pace of footsteps
-            // normal movement (character moves independent of camera)
+        {
+            rb.velocity = new Vector3(velocity.normalized.x * smoothSpeed, rb.velocity.y, velocity.normalized.z * smoothSpeed);
+            smoothSpeed = Mathf.Lerp(smoothSpeed, maxSpeed * bonusSpeed, Time.deltaTime);
+            // rotate the character mesh if enabled
             if (orientRotation)
             {
-                speed = Mathf.SmoothStep(speed, actualVelocity.magnitude, Time.deltaTime * 20);
+                characterMesh.rotation = Quaternion.Lerp(characterMesh.rotation, Quaternion.LookRotation(velocity), Time.deltaTime * rotationSpeed);
             }
-            // movement when aiming (straft left/right/forward/backward)
-            else
-            {
-                float speedY = Vector3.Dot(actualVelocity, anim.transform.right);
-                anim.SetFloat("speedY", speedY, dampTime, Time.deltaTime);
-                speed = Vector3.Dot(actualVelocity, anim.transform.forward);
-            }
-            anim.SetFloat("speed", speed, dampTime, Time.deltaTime);
-            //Debug.Log("velocity" + velocity);
-    }
-
+        }
+        else
+        {
+            smoothSpeed = Mathf.Lerp(smoothSpeed, 0, Time.deltaTime*8);
+        }
     
-    /*  causes the player to jump */
+        // if the player landed, enable another jump
+        if (!grounded)
+        {
+            RaycastHit hit;
+            if (falling && Physics.Linecast(transform.position + new Vector3(0, 0.1f, 0), transform.position + new Vector3(0, -0.2f, 0), out hit))
+            {
+                falling = false;
+                Land();
+            }
+        }
+        // blend speed in animator to match pace of footsteps
+        // normal movement (character moves independent of camera)
+        if (orientRotation)
+        {
+            speed = Mathf.SmoothStep(speed, actualVelocity.magnitude, Time.deltaTime * 20);
+        }
+        // movement when aiming (straft left/right/forward/backward)
+        else
+        {
+            float speedY = Vector3.Dot(actualVelocity, anim.transform.right);
+            anim.SetFloat("speedY", speedY, dampTime, Time.deltaTime);
+            speed = Vector3.Dot(actualVelocity, anim.transform.forward);
+        }
+        anim.SetFloat("speed", speed, dampTime, Time.deltaTime);
+        //Debug.Log("velocity" + velocity);
+    }
+    
+    /* causes the player to jump */
     public override void Jump()
     {
         if (orientRotation && grounded)
@@ -117,6 +119,20 @@ public class Run : Movement
                 grounded = false;
                 anim.SetTrigger("jump");
             }
+        
+        }
+    }
+
+    /* fires the players jetpack
+       this is called every frame */
+    public override void Jetpack(bool fire)
+    {
+        base.Jetpack(fire);
+        if (fire) {
+            rb.AddForce(jetpackTransform.up * jetpackForce * Time.deltaTime);
+            rb.velocity = Vector3.ClampMagnitude(rb.velocity, jetpackSpeed);
+            grounded = false;
+            anim.SetTrigger("jump");
         }
     }
 

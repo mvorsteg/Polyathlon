@@ -20,7 +20,17 @@ public class PlayerController : Racer
         inputActions.Running.Look.performed += ctx => look = ctx.ReadValue<Vector2>();
         inputActions.Running.Look.canceled += ctx => look = Vector2.zero;
 
-        inputActions.Running.Jump.performed += ctx => movement.Jump();
+        inputActions.Running.Jump.performed += ctx =>
+        {
+            if (!jetpackEnabled)
+                movement.Jump();
+            else
+            {
+                fireJetpack = true;
+            }
+        };
+
+        inputActions.Running.Jump.canceled += ctx => fireJetpack = false;
 
         // swimming
         inputActions.Swimming.Movement.performed += ctx => move = ctx.ReadValue<Vector2>();
@@ -54,7 +64,7 @@ public class PlayerController : Racer
             m.CameraController = cameraController;
         }
         base.Start();
-        
+        SetJetpack(jetpackEnabled);
     }
 
     protected override void Update()

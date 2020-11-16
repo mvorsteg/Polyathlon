@@ -17,9 +17,11 @@ public abstract class Movement : MonoBehaviour
     protected const float walkSpeed = 2f;
     protected const float runSpeed = 5f;
     protected const float sprintSpeed = 7f;
+    protected const float jetpackSpeed = 20f;
     protected const float swimSpeed = 3f;
     protected const float bikeSpeed = 10f;
     protected const float jumpForce = 300f;
+    protected const float jetpackForce = 1500f;
 
     protected const float runAcceleration = 2.5f;
     protected const float swimAcceleration = 5f;
@@ -33,6 +35,8 @@ public abstract class Movement : MonoBehaviour
 
     protected Animator anim;
     protected Rigidbody rb;
+    protected Transform jetpackTransform;
+    protected ParticleSystem[] jetpackExhaust;
 
     protected Vector3 velocity = Vector3.zero;
     protected Vector3 actualVelocity; // accounts for walking into walls
@@ -54,6 +58,8 @@ public abstract class Movement : MonoBehaviour
         characterMesh = transform.GetChild(0);
         anim = characterMesh.GetComponent<Animator>();
         playerPosition = transform.position;
+        jetpackTransform = GetComponent<Racer>().jetpack.transform;
+        jetpackExhaust = jetpackTransform.GetComponentsInChildren<ParticleSystem>();
     }
 
     /*  rotate the camera around the player */
@@ -75,10 +81,35 @@ public abstract class Movement : MonoBehaviour
 
     }
 
+    /*  causes the player to fire their jetpack */
+    public virtual void Jetpack(bool fire)
+    {
+        // Handle particle systems for the exhaust
+        foreach(ParticleSystem nozzle in jetpackExhaust)
+        {
+            if (fire && !nozzle.isPlaying)
+            {
+                nozzle.Play();
+            }
+            else if (!fire)
+            {
+                nozzle.Stop();
+            }
+        }
+    }
+
     /*  grounds the player after a jump is complete */
     protected virtual void Land()
     {
 
+    }
+
+
+    protected virtual void LateUpdate()
+    {
+        Debug.Log(falling);
+        // Prevent short jumps or jetpack flights from happening twice due to a lingering trigger
+        anim.ResetTrigger("jump");
     }
 
 }
