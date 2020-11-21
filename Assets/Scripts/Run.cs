@@ -130,7 +130,7 @@ public class Run : Movement
         base.Jetpack(fire);
         if (fire) {
             rb.AddForce(jetpackTransform.up * jetpackForce * Time.deltaTime);
-            rb.velocity = Vector3.ClampMagnitude(rb.velocity, jetpackSpeed);
+           // rb.velocity = Vector3.ClampMagnitude(rb.velocity, jetpackSpeed);
             grounded = false;
             anim.SetTrigger("jump");
         }
