@@ -8,6 +8,7 @@ public abstract class Movement : MonoBehaviour
     {
         //Walking,
         Running,
+        Jetpacking,
         Swimming,
         Biking,
     }
@@ -35,8 +36,6 @@ public abstract class Movement : MonoBehaviour
 
     protected Animator anim;
     protected Rigidbody rb;
-    protected Transform jetpackTransform;
-    protected ParticleSystem[] jetpackExhaust;
 
     protected Vector3 velocity = Vector3.zero;
     protected Vector3 actualVelocity; // accounts for walking into walls
@@ -45,8 +44,6 @@ public abstract class Movement : MonoBehaviour
     // used to determine when jumping can occur
     protected bool grounded = true;
     protected bool falling = false;
-
-    protected bool orientRotation = true;
     
     public Vector3 Velocity { get => actualVelocity; set => velocity = value; }
     public bool Falling { get => falling; set => falling = value; }
@@ -58,8 +55,6 @@ public abstract class Movement : MonoBehaviour
         characterMesh = transform.GetChild(0);
         anim = characterMesh.GetComponent<Animator>();
         playerPosition = transform.position;
-        jetpackTransform = GetComponent<Racer>().jetpack.transform;
-        jetpackExhaust = jetpackTransform.GetComponentsInChildren<ParticleSystem>();
     }
 
     /*  rotate the camera around the player */
@@ -76,26 +71,9 @@ public abstract class Movement : MonoBehaviour
     }
 
     /*  causes the player to jump */
-    public virtual void Jump()
+    public virtual void Jump(bool hold)
     {
 
-    }
-
-    /*  causes the player to fire their jetpack */
-    public virtual void Jetpack(bool fire)
-    {
-        // Handle particle systems for the exhaust
-        foreach(ParticleSystem nozzle in jetpackExhaust)
-        {
-            if (fire && !nozzle.isPlaying)
-            {
-                nozzle.Play();
-            }
-            else if (!fire)
-            {
-                nozzle.Stop();
-            }
-        }
     }
 
     /*  grounds the player after a jump is complete */
@@ -107,7 +85,7 @@ public abstract class Movement : MonoBehaviour
 
     protected virtual void LateUpdate()
     {
-        Debug.Log(falling);
+        //Debug.Log(falling);
         // Prevent short jumps or jetpack flights from happening twice due to a lingering trigger
         anim.ResetTrigger("jump");
     }

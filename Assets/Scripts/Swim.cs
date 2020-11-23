@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-//[RequireComponent(typeof(Player))]
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(CapsuleCollider))]
 public class Swim : Movement
@@ -35,11 +34,13 @@ public class Swim : Movement
     {
         base.AddMovement(forward, right);
         Vector3 translation = Vector3.zero;
-        if (!orientRotation)
+        // for npcs
+        if (cameraController == null)
         {
-            translation += right * characterMesh.transform.forward;;
-            translation += forward * characterMesh.transform.right;
+            translation += right * transform.forward;
+            translation += forward * transform.right;    
         }
+        // for players
         else
         {
             translation += right * cameraController.transform.forward;
@@ -61,10 +62,7 @@ public class Swim : Movement
                 rb.velocity = new Vector3(velocity.normalized.x * smoothSpeed, rb.velocity.y, velocity.normalized.z * smoothSpeed);
                 smoothSpeed = Mathf.Lerp(smoothSpeed, maxSpeed * bonusSpeed, Time.deltaTime);
                 // rotate the character mesh if enabled
-                if (orientRotation)
-                {
-                    characterMesh.rotation = Quaternion.Lerp(characterMesh.rotation, Quaternion.LookRotation(velocity), Time.deltaTime * rotationSpeed);
-                }
+                characterMesh.rotation = Quaternion.Lerp(characterMesh.rotation, Quaternion.LookRotation(velocity), Time.deltaTime * rotationSpeed);
             }
             else
             {
@@ -73,24 +71,13 @@ public class Swim : Movement
             
             // blend speed in animator to match pace of footsteps
             // normal movement (character moves independent of camera)
-            if (orientRotation)
-            {
-                speed = Mathf.SmoothStep(speed, actualVelocity.magnitude, Time.deltaTime * 20);
-            }
-            // movement when aiming (straft left/right/forward/backward)
-            else
-            {
-                float speedY = Vector3.Dot(actualVelocity, anim.transform.right);
-                anim.SetFloat("speedY", speedY, dampTime, Time.deltaTime);
-                speed = Vector3.Dot(actualVelocity, anim.transform.forward);
-            }
+            speed = Mathf.SmoothStep(speed, actualVelocity.magnitude, Time.deltaTime * 20);
             anim.SetFloat("speed", speed, dampTime, Time.deltaTime);
-            //Debug.Log("velocity" + velocity);
     }
 
     
     /*  causes the player to jump */
-    public override void Jump()
+    public override void Jump(bool hold)
     {
         
     }

@@ -20,17 +20,8 @@ public class PlayerController : Racer
         inputActions.Running.Look.performed += ctx => look = ctx.ReadValue<Vector2>();
         inputActions.Running.Look.canceled += ctx => look = Vector2.zero;
 
-        inputActions.Running.Jump.performed += ctx =>
-        {
-            if (!jetpackEnabled)
-                movement.Jump();
-            else
-            {
-                fireJetpack = true;
-            }
-        };
-
-        inputActions.Running.Jump.canceled += ctx => fireJetpack = false;
+        inputActions.Running.Jump.performed += ctx => movement.Jump(true);
+        inputActions.Running.Jump.canceled += ctx => movement.Jump(false);
 
         // swimming
         inputActions.Swimming.Movement.performed += ctx => move = ctx.ReadValue<Vector2>();
@@ -46,9 +37,19 @@ public class PlayerController : Racer
         inputActions.Biking.Look.performed += ctx => look = ctx.ReadValue<Vector2>();
         inputActions.Biking.Look.canceled += ctx => look = Vector2.zero;
 
+        // jetpacking
+        inputActions.Jetpacking.Movement.performed += ctx => move = ctx.ReadValue<Vector2>();
+        inputActions.Jetpacking.Movement.canceled += ctx => move = Vector2.zero;
+
+        inputActions.Jetpacking.Look.performed += ctx => look = ctx.ReadValue<Vector2>();
+        inputActions.Jetpacking.Look.canceled += ctx => look = Vector2.zero;
+
+        inputActions.Jetpacking.Jump.performed += ctx => movement.Jump(true);
+        inputActions.Jetpacking.Jump.canceled += ctx => movement.Jump(false);
+
         //  Debug actions
         inputActions.Debug.SlowTime.performed += ctx => SlowTime();
-        inputActions.Debug.Die.performed += ctx => Die();
+        inputActions.Debug.Die.performed += ctx => Revive();
         inputActions.Debug.Enable();
         
         Cursor.visible = false;
@@ -64,7 +65,6 @@ public class PlayerController : Racer
             m.CameraController = cameraController;
         }
         base.Start();
-        SetJetpack(jetpackEnabled);
     }
 
     protected override void Update()
@@ -82,10 +82,11 @@ public class PlayerController : Racer
         inputActions.Biking.Disable();
         switch (mode)
         {
-            // case MovementMode.Walking:
-            //     break;
             case Movement.Mode.Running:
                 inputActions.Running.Enable();
+                break;
+            case Movement.Mode.Jetpacking:
+                inputActions.Jetpacking.Enable();
                 break;
             case Movement.Mode.Swimming:
                 inputActions.Swimming.Enable();

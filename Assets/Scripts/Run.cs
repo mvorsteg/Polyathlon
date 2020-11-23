@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-//[RequireComponent(typeof(Player))]
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(CapsuleCollider))]
 public class Run : Movement
@@ -33,28 +32,22 @@ public class Run : Movement
     /*  moves the player rigidbody */
     public override void AddMovement(float forward, float right)
     {
-    
         base.AddMovement(forward, right);
-        
+
         Vector3 translation = Vector3.zero;
-        if (!orientRotation)
+        // for npcs
+        if (cameraController == null)
         {
-            translation += right * characterMesh.transform.forward;;
-            translation += forward * characterMesh.transform.right;
+            translation += right * transform.forward;
+            translation += forward * transform.right;    
         }
+        // for players
         else
         {
-            if (cameraController == null)
-            {
-                translation += right * transform.forward;
-                translation += forward * transform.right;    
-            }
-            else
-            {
-                translation += right * cameraController.transform.forward;
-                translation += forward * cameraController.transform.right;
-            }
+            translation += right * cameraController.transform.forward;
+            translation += forward * cameraController.transform.right;
         }
+        
         translation.y = 0;
         if (translation.magnitude > 0)
         {
@@ -71,10 +64,9 @@ public class Run : Movement
             rb.velocity = new Vector3(velocity.normalized.x * smoothSpeed, rb.velocity.y, velocity.normalized.z * smoothSpeed);
             smoothSpeed = Mathf.Lerp(smoothSpeed, maxSpeed * bonusSpeed, Time.deltaTime);
             // rotate the character mesh if enabled
-            if (orientRotation)
-            {
-                characterMesh.rotation = Quaternion.Lerp(characterMesh.rotation, Quaternion.LookRotation(velocity), Time.deltaTime * rotationSpeed);
-            }
+            
+            characterMesh.rotation = Quaternion.Lerp(characterMesh.rotation, Quaternion.LookRotation(velocity), Time.deltaTime * rotationSpeed);
+            
         }
         else
         {
@@ -93,25 +85,17 @@ public class Run : Movement
         }
         // blend speed in animator to match pace of footsteps
         // normal movement (character moves independent of camera)
-        if (orientRotation)
-        {
-            speed = Mathf.SmoothStep(speed, actualVelocity.magnitude, Time.deltaTime * 20);
-        }
-        // movement when aiming (straft left/right/forward/backward)
-        else
-        {
-            float speedY = Vector3.Dot(actualVelocity, anim.transform.right);
-            anim.SetFloat("speedY", speedY, dampTime, Time.deltaTime);
-            speed = Vector3.Dot(actualVelocity, anim.transform.forward);
-        }
+        
+        speed = Mathf.SmoothStep(speed, actualVelocity.magnitude, Time.deltaTime * 20);
+    
         anim.SetFloat("speed", speed, dampTime, Time.deltaTime);
         //Debug.Log("velocity" + velocity);
     }
     
     /* causes the player to jump */
-    public override void Jump()
+    public override void Jump(bool hold)
     {
-        if (orientRotation && grounded)
+        if (grounded)
         {
             if (Physics.Linecast(transform.position + new Vector3(0, 0.1f, 0), transform.position + new Vector3(0, -0.1f, 0)))
             {
@@ -119,20 +103,6 @@ public class Run : Movement
                 grounded = false;
                 anim.SetTrigger("jump");
             }
-        
-        }
-    }
-
-    /* fires the players jetpack
-       this is called every frame */
-    public override void Jetpack(bool fire)
-    {
-        base.Jetpack(fire);
-        if (fire) {
-            rb.AddForce(jetpackTransform.up * jetpackForce * Time.deltaTime);
-           // rb.velocity = Vector3.ClampMagnitude(rb.velocity, jetpackSpeed);
-            grounded = false;
-            anim.SetTrigger("jump");
         }
     }
 

@@ -41,14 +41,6 @@ public class @InputActions : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
-                },
-                {
-                    ""name"": ""Jetpack"",
-                    ""type"": ""Value"",
-                    ""id"": ""f5125fc1-98c0-4507-9027-6e09a7612249"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -126,17 +118,6 @@ public class @InputActions : IInputActionCollection, IDisposable
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
                     ""action"": ""Jump"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""f50f423a-8e52-4d0c-8a0d-dd7451fb48a4"",
-                    ""path"": ""<Keyboard>/space"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard"",
-                    ""action"": ""Jetpack"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -323,6 +304,115 @@ public class @InputActions : IInputActionCollection, IDisposable
             ]
         },
         {
+            ""name"": ""Jetpacking"",
+            ""id"": ""fa7ebb7c-390a-44e2-aa31-25f84c515f18"",
+            ""actions"": [
+                {
+                    ""name"": ""Movement"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""007b87fc-44d8-42b7-aa9e-9ed20e045433"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Look"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""39edf10f-15e6-4ee5-9cdb-c4d1a7ef07e0"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Jump"",
+                    ""type"": ""Value"",
+                    ""id"": ""e28d79d8-fa6f-432a-a85d-0a83b7757a64"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": ""WASD"",
+                    ""id"": ""e7190954-4e1e-44fa-b885-7eae5f7bbe62"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""d8b79142-eae9-4907-b9fa-aa32d8ac0baf"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""5d7a940a-8966-4f53-9103-ffd135fe9d45"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""4fa88fce-3f46-4cd0-9e70-069bc0454ea5"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""2bf002ae-f0a9-4d10-b36e-0d937de44e07"",
+                    ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a7656801-239d-4883-8ca6-ed5d62e7d6cf"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Jump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""521a519b-7fe8-4cc3-b5bd-84dc832987b4"",
+                    ""path"": ""<Mouse>/delta"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Look"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
             ""name"": ""Debug"",
             ""id"": ""6311b186-9385-4739-8d72-970c1f919cff"",
             ""actions"": [
@@ -450,7 +540,6 @@ public class @InputActions : IInputActionCollection, IDisposable
         m_Running_Movement = m_Running.FindAction("Movement", throwIfNotFound: true);
         m_Running_Look = m_Running.FindAction("Look", throwIfNotFound: true);
         m_Running_Jump = m_Running.FindAction("Jump", throwIfNotFound: true);
-        m_Running_Jetpack = m_Running.FindAction("Jetpack", throwIfNotFound: true);
         // Swimming
         m_Swimming = asset.FindActionMap("Swimming", throwIfNotFound: true);
         m_Swimming_Movement = m_Swimming.FindAction("Movement", throwIfNotFound: true);
@@ -459,6 +548,11 @@ public class @InputActions : IInputActionCollection, IDisposable
         m_Biking = asset.FindActionMap("Biking", throwIfNotFound: true);
         m_Biking_Movement = m_Biking.FindAction("Movement", throwIfNotFound: true);
         m_Biking_Look = m_Biking.FindAction("Look", throwIfNotFound: true);
+        // Jetpacking
+        m_Jetpacking = asset.FindActionMap("Jetpacking", throwIfNotFound: true);
+        m_Jetpacking_Movement = m_Jetpacking.FindAction("Movement", throwIfNotFound: true);
+        m_Jetpacking_Look = m_Jetpacking.FindAction("Look", throwIfNotFound: true);
+        m_Jetpacking_Jump = m_Jetpacking.FindAction("Jump", throwIfNotFound: true);
         // Debug
         m_Debug = asset.FindActionMap("Debug", throwIfNotFound: true);
         m_Debug_SlowTime = m_Debug.FindAction("SlowTime", throwIfNotFound: true);
@@ -519,7 +613,6 @@ public class @InputActions : IInputActionCollection, IDisposable
     private readonly InputAction m_Running_Movement;
     private readonly InputAction m_Running_Look;
     private readonly InputAction m_Running_Jump;
-    private readonly InputAction m_Running_Jetpack;
     public struct RunningActions
     {
         private @InputActions m_Wrapper;
@@ -527,7 +620,6 @@ public class @InputActions : IInputActionCollection, IDisposable
         public InputAction @Movement => m_Wrapper.m_Running_Movement;
         public InputAction @Look => m_Wrapper.m_Running_Look;
         public InputAction @Jump => m_Wrapper.m_Running_Jump;
-        public InputAction @Jetpack => m_Wrapper.m_Running_Jetpack;
         public InputActionMap Get() { return m_Wrapper.m_Running; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -546,9 +638,6 @@ public class @InputActions : IInputActionCollection, IDisposable
                 @Jump.started -= m_Wrapper.m_RunningActionsCallbackInterface.OnJump;
                 @Jump.performed -= m_Wrapper.m_RunningActionsCallbackInterface.OnJump;
                 @Jump.canceled -= m_Wrapper.m_RunningActionsCallbackInterface.OnJump;
-                @Jetpack.started -= m_Wrapper.m_RunningActionsCallbackInterface.OnJetpack;
-                @Jetpack.performed -= m_Wrapper.m_RunningActionsCallbackInterface.OnJetpack;
-                @Jetpack.canceled -= m_Wrapper.m_RunningActionsCallbackInterface.OnJetpack;
             }
             m_Wrapper.m_RunningActionsCallbackInterface = instance;
             if (instance != null)
@@ -562,9 +651,6 @@ public class @InputActions : IInputActionCollection, IDisposable
                 @Jump.started += instance.OnJump;
                 @Jump.performed += instance.OnJump;
                 @Jump.canceled += instance.OnJump;
-                @Jetpack.started += instance.OnJetpack;
-                @Jetpack.performed += instance.OnJetpack;
-                @Jetpack.canceled += instance.OnJetpack;
             }
         }
     }
@@ -651,6 +737,55 @@ public class @InputActions : IInputActionCollection, IDisposable
         }
     }
     public BikingActions @Biking => new BikingActions(this);
+
+    // Jetpacking
+    private readonly InputActionMap m_Jetpacking;
+    private IJetpackingActions m_JetpackingActionsCallbackInterface;
+    private readonly InputAction m_Jetpacking_Movement;
+    private readonly InputAction m_Jetpacking_Look;
+    private readonly InputAction m_Jetpacking_Jump;
+    public struct JetpackingActions
+    {
+        private @InputActions m_Wrapper;
+        public JetpackingActions(@InputActions wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Movement => m_Wrapper.m_Jetpacking_Movement;
+        public InputAction @Look => m_Wrapper.m_Jetpacking_Look;
+        public InputAction @Jump => m_Wrapper.m_Jetpacking_Jump;
+        public InputActionMap Get() { return m_Wrapper.m_Jetpacking; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(JetpackingActions set) { return set.Get(); }
+        public void SetCallbacks(IJetpackingActions instance)
+        {
+            if (m_Wrapper.m_JetpackingActionsCallbackInterface != null)
+            {
+                @Movement.started -= m_Wrapper.m_JetpackingActionsCallbackInterface.OnMovement;
+                @Movement.performed -= m_Wrapper.m_JetpackingActionsCallbackInterface.OnMovement;
+                @Movement.canceled -= m_Wrapper.m_JetpackingActionsCallbackInterface.OnMovement;
+                @Look.started -= m_Wrapper.m_JetpackingActionsCallbackInterface.OnLook;
+                @Look.performed -= m_Wrapper.m_JetpackingActionsCallbackInterface.OnLook;
+                @Look.canceled -= m_Wrapper.m_JetpackingActionsCallbackInterface.OnLook;
+                @Jump.started -= m_Wrapper.m_JetpackingActionsCallbackInterface.OnJump;
+                @Jump.performed -= m_Wrapper.m_JetpackingActionsCallbackInterface.OnJump;
+                @Jump.canceled -= m_Wrapper.m_JetpackingActionsCallbackInterface.OnJump;
+            }
+            m_Wrapper.m_JetpackingActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @Movement.started += instance.OnMovement;
+                @Movement.performed += instance.OnMovement;
+                @Movement.canceled += instance.OnMovement;
+                @Look.started += instance.OnLook;
+                @Look.performed += instance.OnLook;
+                @Look.canceled += instance.OnLook;
+                @Jump.started += instance.OnJump;
+                @Jump.performed += instance.OnJump;
+                @Jump.canceled += instance.OnJump;
+            }
+        }
+    }
+    public JetpackingActions @Jetpacking => new JetpackingActions(this);
 
     // Debug
     private readonly InputActionMap m_Debug;
@@ -756,7 +891,6 @@ public class @InputActions : IInputActionCollection, IDisposable
         void OnMovement(InputAction.CallbackContext context);
         void OnLook(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
-        void OnJetpack(InputAction.CallbackContext context);
     }
     public interface ISwimmingActions
     {
@@ -767,6 +901,12 @@ public class @InputActions : IInputActionCollection, IDisposable
     {
         void OnMovement(InputAction.CallbackContext context);
         void OnLook(InputAction.CallbackContext context);
+    }
+    public interface IJetpackingActions
+    {
+        void OnMovement(InputAction.CallbackContext context);
+        void OnLook(InputAction.CallbackContext context);
+        void OnJump(InputAction.CallbackContext context);
     }
     public interface IDebugActions
     {

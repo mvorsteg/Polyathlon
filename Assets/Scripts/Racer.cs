@@ -6,6 +6,7 @@ public class Racer : MonoBehaviour
     public Movement[] movementOptions;
 
     public Transform characterMesh;
+    public Transform hips;
     protected AnimatorOverrideController animOverride;
 
     protected Movement movement;
@@ -15,13 +16,10 @@ public class Racer : MonoBehaviour
     protected AudioSource audioSource;
     
     protected Vector2 move;
-    protected bool fireJetpack; // this tells us whether we will be firing the jetpack during this frame
-    public GameObject jetpack;
-    public bool jetpackEnabled; /* this is just public to make it easy to test
-                                    this indicates whether the jetpack is available to be used
-                                */
+    protected Vector3 velocityBeforePhysicsUpdate;
 
     public int place;
+    public float dieThreshold = 40f;
     public Checkpoint lastCheckpoint;
     public Checkpoint nextCheckpoint;
 
@@ -41,10 +39,10 @@ public class Racer : MonoBehaviour
     protected virtual void Update()
     {
         movement.AddMovement(move.x, move.y);
-        if (jetpackEnabled)
-        {
-            movement.Jetpack(fireJetpack);
-        }
+    }
+
+    private void FixedUpdate() {
+        velocityBeforePhysicsUpdate = rb.velocity;
     }
 
     /*  updates player's movement mode and maxSpeed/locomotion accordingly */
@@ -60,6 +58,9 @@ public class Racer : MonoBehaviour
             case Movement.Mode.Running:
                 movement = movementOptions[(int)Movement.Mode.Running];
                 break;
+            case Movement.Mode.Jetpacking:
+                movement = movementOptions[(int)Movement.Mode.Jetpacking];
+                break;
             case Movement.Mode.Swimming:
                 movement = movementOptions[(int)Movement.Mode.Swimming];
                 break;
@@ -69,6 +70,24 @@ public class Racer : MonoBehaviour
         }
         movement.enabled = true;
         anim.SetInteger("movement_mode", (int)movementMode);
+    }
+
+    /*  check if we hit something too fast */
+    private void OnCollisionEnter(Collision other)
+    {
+        float mag;
+        if (other.rigidbody != null)    // if the other thing is moving
+        {
+          mag = (velocityBeforePhysicsUpdate - other.rigidbody.velocity).magnitude;
+        }
+        else    // if the other thing is stationary
+        {
+            mag = velocityBeforePhysicsUpdate.magnitude;
+        }
+        if (mag > dieThreshold)
+        {
+            Die();
+        }
     }
 
     public virtual void Die()
@@ -81,12 +100,14 @@ public class Racer : MonoBehaviour
         ragdoll.AddMomentum(momentum);
     }
 
-    public virtual void SetJetpack(bool enabled)
+    public virtual void Revive()
     {
-        jetpackEnabled = enabled;
-        if (jetpack != null)
-            jetpack.SetActive(jetpackEnabled);
-        anim.SetBool("jetpack", jetpackEnabled);
+        ragdoll.SetRagdoll(false);
+        anim.enabled = true;
+        rb.isKinematic = false;
+        GetComponent<Collider>().enabled = true;
+        transform.position = hips.position;
+        hips.localPosition = Vector3.zero;
     }
 
     public void ArriveAtCheckpoint(Checkpoint checkpoint)
