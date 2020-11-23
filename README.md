@@ -7,7 +7,7 @@ CMSC425 Final Project
 - ~~running~~
 - ~~swimming~~
 - biking
-- flying
+- ~~jetpacking~~
 
 ### Courses
 - mountain
