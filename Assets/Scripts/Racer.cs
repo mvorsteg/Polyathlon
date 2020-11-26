@@ -144,6 +144,16 @@ public class Racer : MonoBehaviour
         anim.SetTrigger("misc");
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        // Pick up an item
+        if (other.gameObject.CompareTag("Item"))
+        {
+            Item item = other.GetComponent<Item>();
+            item.Pickup(this);
+        }
+    }
+
     // Returns whether or not this racer is currently "dead"
     public bool IsDead()
     {
