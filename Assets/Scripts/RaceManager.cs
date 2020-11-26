@@ -34,7 +34,7 @@ public class RaceManager : MonoBehaviour
     public string GetPosition()
     {
         string str = "";
-        int i = 1;
+        //int i = 1;
         foreach((Racer, int, float) position in positions)
         {
             str += position.Item2 + " : " + position.Item1.transform.name + " "+ position.Item3.ToString("0.00") + '\n';

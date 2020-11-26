@@ -144,4 +144,9 @@ public class Bicycle : Movement
         obj.transform.Rotate(Time.deltaTime * rb.velocity.magnitude * (360f / oneRotationSpeed) * multiplier, 0, 0);
         //obj.transform.Rotate(Time.deltaTime * rotSpeed * (360f / oneRotationSpeed) * multiplier, 0, 0);
     }
+
+    public override void Jump(bool hold)
+    {
+        base.Jump(hold);
+    }
 }

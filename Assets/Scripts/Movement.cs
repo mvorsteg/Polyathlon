@@ -36,6 +36,7 @@ public abstract class Movement : MonoBehaviour
 
     protected Animator anim;
     protected Rigidbody rb;
+    protected Racer racer;
 
     protected Vector3 velocity = Vector3.zero;
     protected Vector3 actualVelocity; // accounts for walking into walls
@@ -52,6 +53,7 @@ public abstract class Movement : MonoBehaviour
     protected virtual void OnEnable()
     {
         rb = GetComponent<Rigidbody>();
+        racer = GetComponent<Racer>();
         characterMesh = transform.GetChild(0);
         anim = characterMesh.GetComponent<Animator>();
         playerPosition = transform.position;
@@ -73,7 +75,7 @@ public abstract class Movement : MonoBehaviour
     /*  causes the player to jump */
     public virtual void Jump(bool hold)
     {
-
+        racer.Revive();
     }
 
     /*  grounds the player after a jump is complete */

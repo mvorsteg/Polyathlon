@@ -79,7 +79,7 @@ public class Swim : Movement
     /*  causes the player to jump */
     public override void Jump(bool hold)
     {
-        
+        base.Jump(hold);
     }
 
     /*  grounds the player after a jump is complete */

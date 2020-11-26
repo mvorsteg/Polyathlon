@@ -383,14 +383,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1083dbdbaad6e2842bec6b23aedd92bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementMode: 1
+  movementMode: 0
   movementOptions:
   - {fileID: 8244711337795581056}
   - {fileID: 9144151379563648246}
   - {fileID: 8244711337795581062}
   - {fileID: 8244711337795581081}
   characterMesh: {fileID: 2542605710116747977}
+  hips: {fileID: 8005558046135491165}
   place: 0
+  dieThreshold: 35
   lastCheckpoint: {fileID: 0}
   nextCheckpoint: {fileID: 0}
   cameraController: {fileID: 8244711339647602193}
@@ -2129,15 +2131,21 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 8637388831774711932}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &2542605710116747977 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 6095354971156961973, guid: 6ddd86d70f72eb34ca927329e6f75cb2,
-    type: 3}
-  m_PrefabInstance: {fileID: 8637388831774711932}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &7742124779505150414 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2067053369989319090, guid: 6ddd86d70f72eb34ca927329e6f75cb2,
+    type: 3}
+  m_PrefabInstance: {fileID: 8637388831774711932}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &8005558046135491165 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1785501061964282401, guid: 6ddd86d70f72eb34ca927329e6f75cb2,
+    type: 3}
+  m_PrefabInstance: {fileID: 8637388831774711932}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &2542605710116747977 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6095354971156961973, guid: 6ddd86d70f72eb34ca927329e6f75cb2,
     type: 3}
   m_PrefabInstance: {fileID: 8637388831774711932}
   m_PrefabAsset: {fileID: 0}

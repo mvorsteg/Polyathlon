@@ -43,7 +43,8 @@ public class Jetpack : Movement
 
     private void Update()
     {
-        JetpackThrust(fireJetpack);
+        if (!racer.IsDead())
+            JetpackThrust(fireJetpack);
     }
 
     public virtual void SetJetpack(bool enabled)
@@ -125,6 +126,7 @@ public class Jetpack : Movement
     /*  causes the player to fire their jetpack */
     public override void Jump(bool hold)
     {
+        base.Jump(hold);
         fireJetpack = hold;
         if (grounded)
         {

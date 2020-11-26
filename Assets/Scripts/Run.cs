@@ -95,6 +95,7 @@ public class Run : Movement
     /* causes the player to jump */
     public override void Jump(bool hold)
     {
+        base.Jump(hold);
         if (grounded)
         {
             if (Physics.Linecast(transform.position + new Vector3(0, 0.1f, 0), transform.position + new Vector3(0, -0.1f, 0)))

@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public class Racer : MonoBehaviour
 {
@@ -17,6 +18,8 @@ public class Racer : MonoBehaviour
     
     protected Vector2 move;
     protected Vector3 velocityBeforePhysicsUpdate;
+    protected bool dead;
+    protected bool canRevive; // when this is true, a dead racer can be revived.
 
     public int place;
     public float dieThreshold = 40f;
@@ -38,7 +41,8 @@ public class Racer : MonoBehaviour
 
     protected virtual void Update()
     {
-        movement.AddMovement(move.x, move.y);
+        if (!dead)
+            movement.AddMovement(move.x, move.y);
     }
 
     private void FixedUpdate() {
@@ -82,10 +86,11 @@ public class Racer : MonoBehaviour
         }
         else    // if the other thing is stationary
         {
-            mag = velocityBeforePhysicsUpdate.magnitude;
+            mag = (velocityBeforePhysicsUpdate).magnitude;
         }
         if (mag > dieThreshold)
         {
+            Debug.Log(gameObject.name + " hit " + other.gameObject.name + " at " + mag + " m/s and died");
             Die();
         }
     }
@@ -93,21 +98,35 @@ public class Racer : MonoBehaviour
     public virtual void Die()
     {
         anim.enabled = false;
-        Vector3 momentum = rb.velocity;
+        Vector3 momentum = Vector3.ClampMagnitude(velocityBeforePhysicsUpdate, 30);
         rb.isKinematic = true;
         GetComponent<Collider>().enabled = false;
         ragdoll.SetRagdoll(true);
         ragdoll.AddMomentum(momentum);
+        dead = true;
+        canRevive = false;
+        StartCoroutine(RevivalEnabler());
+    }
+
+    protected virtual IEnumerator RevivalEnabler()
+    {
+        // Don't allow a revival until we stop moving on the ground
+        yield return new WaitUntil(() => !ragdoll.IsMoving());
+        canRevive = true;
     }
 
     public virtual void Revive()
     {
-        ragdoll.SetRagdoll(false);
-        anim.enabled = true;
-        rb.isKinematic = false;
-        GetComponent<Collider>().enabled = true;
-        transform.position = hips.position;
-        hips.localPosition = Vector3.zero;
+        if (dead && canRevive)
+        {
+            ragdoll.SetRagdoll(false);
+            anim.enabled = true;
+            rb.isKinematic = false;
+            GetComponent<Collider>().enabled = true;
+            transform.position = hips.position;
+            hips.localPosition = Vector3.zero;
+            dead = false;
+        }
     }
 
     public void ArriveAtCheckpoint(Checkpoint checkpoint)
@@ -123,5 +142,11 @@ public class Racer : MonoBehaviour
         animOverride["miscAnimation"] = clip;
         anim.runtimeAnimatorController = animOverride;
         anim.SetTrigger("misc");
+    }
+
+    // Returns whether or not this racer is currently "dead"
+    public bool IsDead()
+    {
+        return dead;
     }
 }

@@ -49,7 +49,7 @@ public class PlayerController : Racer
 
         //  Debug actions
         inputActions.Debug.SlowTime.performed += ctx => SlowTime();
-        inputActions.Debug.Die.performed += ctx => Revive();
+        //inputActions.Debug.Die.performed += ctx => Revive();
         inputActions.Debug.Enable();
         
         Cursor.visible = false;
