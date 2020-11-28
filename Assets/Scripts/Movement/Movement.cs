@@ -47,7 +47,8 @@ public abstract class Movement : MonoBehaviour
     protected bool falling = false;
     
     public Vector3 Velocity { get => actualVelocity; set => velocity = value; }
-    public bool Falling { get => falling; set => falling = value; }
+    public bool Falling { get => falling; set => falling = value; } 
+    public bool Grounded { get => grounded; set => grounded = value; }
     public CameraController CameraController { get => cameraController; set => cameraController = value; }
 
     protected virtual void OnEnable()

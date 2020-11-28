@@ -15,8 +15,8 @@ public class WaypointChain : MonoBehaviour
         }
     }
 
-    public Vector3 GetStartingWaypoint()
+    public Waypoint GetStartingWaypoint()
     {
-        return waypoints[0].pos;
+        return waypoints[0];
     }
 }

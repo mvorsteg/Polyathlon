@@ -3,7 +3,6 @@ using UnityEngine;
 public class PlayerController : Racer
 {
     public CameraController cameraController;
-    public PlayerAnimationEvents animEvents;
 
     private Vector2 look;
 
@@ -95,7 +94,6 @@ public class PlayerController : Racer
                 inputActions.Biking.Enable();
                 break;
         }
-        animEvents.movement = movement;
     }
 
     public override void Die()
