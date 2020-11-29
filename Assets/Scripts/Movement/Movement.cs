@@ -92,5 +92,4 @@ public abstract class Movement : MonoBehaviour
         // Prevent short jumps or jetpack flights from happening twice due to a lingering trigger
         anim.ResetTrigger("jump");
     }
-
 }

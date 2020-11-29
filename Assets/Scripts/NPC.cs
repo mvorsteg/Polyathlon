@@ -9,7 +9,9 @@ public class NPC : Racer
     protected Waypoint nextWaypoint;
     protected NavMeshAgent agent;
 
-    protected const float jetpackForceOffset = 2f;
+    protected const float jetpackVerticalForceOffset = 2f;
+    protected const float jetpackHorizontalCorrection = 15f;
+    
 
     protected override void Start() 
     {
@@ -35,7 +37,7 @@ public class NPC : Racer
 
         if (movementMode == Movement.Mode.Jetpacking)
         {
-            if (transform.position.y < nextWaypoint.pos.y + nextWaypoint.height - jetpackForceOffset)
+            if (transform.position.y < nextWaypoint.pos.y + nextWaypoint.height - jetpackVerticalForceOffset)
             {
                 SetNavMeshAgent(false);
                 movement.Jump(true);
@@ -46,7 +48,11 @@ public class NPC : Racer
             }
             if (!movement.Grounded)
             {
-                Vector3 targetDir = nextWaypoint.pos - transform.position;
+                // calculate offset to exit orbit
+                Vector3 localVel = transform.InverseTransformDirection(rb.velocity);
+
+
+                Vector3 targetDir = nextWaypoint.pos - transform.position - Vector3.Normalize(rb.velocity) * jetpackHorizontalCorrection;
                 Vector3 newDir = Vector3.RotateTowards(transform.forward, targetDir, 5f * Time.deltaTime, 0);
                 newDir = new Vector3(newDir.x, 0, newDir.z);
                 Debug.DrawRay(transform.position, newDir, Color.red);

@@ -137,7 +137,7 @@ public class Jetpack : Movement
     
     private void JetpackThrust(bool fire)
     {
-        // Handle particle systems for the exhaust
+        // Handle thrust
         if (fire) 
         {
             rb.AddForce(jetpack.transform.up * jetpackForce * Time.deltaTime);
@@ -145,7 +145,7 @@ public class Jetpack : Movement
             grounded = false;
             anim.SetTrigger("jump");
         }
-
+        // Handle particle systems for the exhaust
         foreach(ParticleSystem nozzle in jetpackExhaust)
         {
             if (fire && !nozzle.isPlaying)
