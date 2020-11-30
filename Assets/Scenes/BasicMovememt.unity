@@ -2694,6 +2694,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxSpeed: 0
   acceleration: 0
+  amt: 1
   bike: {fileID: 2125045872}
   rearWheel: {fileID: 523170413}
   frontWheel: {fileID: 1895317004}
@@ -2702,25 +2703,12 @@ MonoBehaviour:
   centerOfMass: {fileID: 638245182}
   oneRotationSpeed: 2.7
   crankMultiplier: 2
-  axleInfos:
-  - wheel: {fileID: 1878058223}
-    motor: 0
-    steering: 1
-  - wheel: {fileID: 702544415}
-    motor: 0
-    steering: 1
-  - wheel: {fileID: 1887541556}
-    motor: 1
-    steering: 0
-  - wheel: {fileID: 311903522}
-    motor: 1
-    steering: 0
   maxMotorTorque: 60
   maxSteeringAngle: 60
   relativeLeanAmount: 0
-  leftWheels: {fileID: 1903777496}
-  rightWheels: {fileID: 198100688}
   rotSpeed: 10
+  rbB: {fileID: 0}
+  rbF: {fileID: 0}
   speedModifier: 10
 --- !u!114 &586183033
 MonoBehaviour:
@@ -2768,11 +2756,12 @@ MonoBehaviour:
   - {fileID: 586183033}
   - {fileID: 586183032}
   characterMesh: {fileID: 1760444267}
+  hips: {fileID: 0}
   place: 0
+  dieThreshold: 40
   lastCheckpoint: {fileID: 0}
   nextCheckpoint: {fileID: 0}
   cameraController: {fileID: 1393583280}
-  animEvents: {fileID: 1760444268}
 --- !u!82 &586183036
 AudioSource:
   m_ObjectHideFlags: 0
@@ -3120,6 +3109,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxSpeed: 0
   acceleration: 0
+  amt: 1
   bike: {fileID: 0}
   rearWheel: {fileID: 0}
   frontWheel: {fileID: 0}
@@ -3128,19 +3118,12 @@ MonoBehaviour:
   centerOfMass: {fileID: 0}
   oneRotationSpeed: 2.7
   crankMultiplier: 2
-  axleInfos:
-  - wheel: {fileID: 190626138}
-    motor: 1
-    steering: 1
-  - wheel: {fileID: 1644970146}
-    motor: 0
-    steering: 0
   maxMotorTorque: 0
   maxSteeringAngle: 45
   relativeLeanAmount: 0
-  leftWheels: {fileID: 0}
-  rightWheels: {fileID: 0}
   rotSpeed: 10
+  rbB: {fileID: 0}
+  rbF: {fileID: 0}
   speedModifier: 10
 --- !u!4 &675105301
 Transform:
@@ -6773,6 +6756,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxSpeed: 0
   acceleration: 0
+  amt: 1
   bike: {fileID: 0}
   rearWheel: {fileID: 0}
   frontWheel: {fileID: 0}
@@ -6781,25 +6765,12 @@ MonoBehaviour:
   centerOfMass: {fileID: 0}
   oneRotationSpeed: 2.7
   crankMultiplier: 2
-  axleInfos:
-  - wheel: {fileID: 0}
-    motor: 0
-    steering: 1
-  - wheel: {fileID: 0}
-    motor: 0
-    steering: 1
-  - wheel: {fileID: 0}
-    motor: 1
-    steering: 0
-  - wheel: {fileID: 0}
-    motor: 1
-    steering: 0
   maxMotorTorque: 60
   maxSteeringAngle: 60
   relativeLeanAmount: 0
-  leftWheels: {fileID: 0}
-  rightWheels: {fileID: 0}
   rotSpeed: 10
+  rbB: {fileID: 0}
+  rbF: {fileID: 0}
   speedModifier: 10
 --- !u!4 &1457499393
 Transform:
@@ -6958,6 +6929,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxSpeed: 0
   acceleration: 0
+  amt: 1
   bike: {fileID: 0}
   rearWheel: {fileID: 2086241175}
   frontWheel: {fileID: 1388835834}
@@ -6966,25 +6938,12 @@ MonoBehaviour:
   centerOfMass: {fileID: 1842458938}
   oneRotationSpeed: 2.7
   crankMultiplier: 2
-  axleInfos:
-  - wheel: {fileID: 1286760356}
-    motor: 0
-    steering: 1
-  - wheel: {fileID: 1782613944}
-    motor: 0
-    steering: 1
-  - wheel: {fileID: 1612719927}
-    motor: 1
-    steering: 0
-  - wheel: {fileID: 174284427}
-    motor: 1
-    steering: 0
   maxMotorTorque: 60
   maxSteeringAngle: 60
   relativeLeanAmount: 0
-  leftWheels: {fileID: 940527535}
-  rightWheels: {fileID: 620785937}
   rotSpeed: 10
+  rbB: {fileID: 0}
+  rbF: {fileID: 0}
   speedModifier: 10
 --- !u!4 &1512845605
 Transform:
@@ -10089,6 +10048,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Wedy
+      objectReference: {fileID: 0}
+    - target: {fileID: 411290082333151904, guid: ac913eb11a458c84492f2f504ab34eba,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 411290082333151906, guid: ac913eb11a458c84492f2f504ab34eba,
         type: 3}

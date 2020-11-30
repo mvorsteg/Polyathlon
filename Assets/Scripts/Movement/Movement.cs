@@ -26,6 +26,7 @@ public abstract class Movement : MonoBehaviour
 
     protected const float runAcceleration = 2.5f;
     protected const float swimAcceleration = 5f;
+    protected const float bikeAcceleration = 1.2f;
 
     public float maxSpeed;
     public float acceleration;
@@ -42,6 +43,15 @@ public abstract class Movement : MonoBehaviour
     protected Vector3 actualVelocity; // accounts for walking into walls
     protected Vector3 playerPosition; // position in previous frame
 
+    // used to smooth out speed transition an animation
+    protected float speed = 0;
+    protected float smoothSpeed = 0;
+    protected const float dampTime = 0.05f; // reduce jittering in animator by providing dampening
+
+
+    protected float bonusSpeed = 1f;
+
+
     // used to determine when jumping can occur
     protected bool grounded = true;
     protected bool falling = false;
@@ -49,6 +59,7 @@ public abstract class Movement : MonoBehaviour
     public Vector3 Velocity { get => actualVelocity; set => velocity = value; }
     public bool Falling { get => falling; set => falling = value; } 
     public bool Grounded { get => grounded; set => grounded = value; }
+    public float BonusSpeed { get => bonusSpeed; set => bonusSpeed = value; }
     public CameraController CameraController { get => cameraController; set => cameraController = value; }
 
     protected virtual void OnEnable()

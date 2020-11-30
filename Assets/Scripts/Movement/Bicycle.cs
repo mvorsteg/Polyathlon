@@ -5,18 +5,9 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class Bicycle : Movement
 {
-
-    [System.Serializable]
-    public class AxleInfo
-    {
-        public WheelCollider wheel;
-        public bool motor; // is this wheel attached to motor?
-        public bool steering; // does this wheel apply steer angle?
-    }
-
+    public float amt = 1f;
 
     [Header ("GameObjects")]
-
     public GameObject bike;
 
     public GameObject rearWheel;
@@ -30,21 +21,17 @@ public class Bicycle : Movement
     [Header("Values")]
     public float oneRotationSpeed = 2.7f;
     public float crankMultiplier = 2f;
-    public List<AxleInfo> axleInfos; // the information about each individual axle
     public float maxMotorTorque; // maximum torque the motor can apply to wheel
     public float maxSteeringAngle; // maximum steer angle the wheel can have
     [Range(0,1)]
-    public float relativeLeanAmount = 0f;
-    public Transform leftWheels;
-    public Transform rightWheels;
+    public float lean = 0.5f;
+    public float smoothLean = 0.5f;
 
     private float rotationValue = 0f;
     public float rotSpeed = 10;
 
-    private Vector3[] wheelPositions;
     private Quaternion startForkRot;
     private Vector3 upDirection = Vector3.up;
-
 
     public float speedModifier = 10f;
 
@@ -53,10 +40,13 @@ public class Bicycle : Movement
     {
         base.OnEnable();
         bike.SetActive(true);
-        rb.mass = 100;
-        rb.angularDrag = 1;
-        rb.constraints = RigidbodyConstraints.None;
+        rb.mass = 50;
+        rb.angularDrag = 0;
+        rb.constraints = RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
         rb.centerOfMass = centerOfMass.localPosition;
+
+        maxSpeed = bikeSpeed;
+        acceleration = bikeAcceleration;
 
         characterMesh.localPosition = new Vector3(0, 0.625f, -0.7f);
         characterMesh.localEulerAngles = new Vector3(56.975f, 0, 0);
@@ -64,25 +54,79 @@ public class Bicycle : Movement
         lPedal = pedals.transform.GetChild(0).gameObject;
         rPedal = pedals.transform.GetChild(1).gameObject;
         startForkRot = fork.transform.localRotation;
-        wheelPositions = new Vector3[axleInfos.Count];
-        for (int i = 0; i < axleInfos.Count; i++)
-        {
-            wheelPositions[i] = axleInfos[i].wheel.center;
-            
-        }
     }
 
     public override void AddMovement(float forward, float right)
     {
-        setRotationAndSpeed(forward, right);
+        base.AddMovement(forward, right);
+
+        Vector3 translation = Vector3.zero;
+        float rot = 0;
+
+        if (right > 0)
+            translation += right * transform.forward;
+        rot += forward * rotSpeed;
+        
+        translation.y = 0;
+        if (translation.magnitude > 0)
+        {
+            velocity = translation;
+        }
+        else
+        {
+            velocity = Vector3.zero;
+        }
+
+        // moved from update
+        if (velocity.magnitude > 0)
+        {
+            rb.velocity = new Vector3(velocity.normalized.x * smoothSpeed, rb.velocity.y, velocity.normalized.z * smoothSpeed);
+            smoothSpeed = Mathf.Lerp(smoothSpeed, maxSpeed * bonusSpeed, Time.deltaTime);    
+        }
+        else
+        {
+            smoothSpeed = Mathf.Lerp(smoothSpeed, 0, Time.deltaTime * 8);
+        }
+
+        if (rb.velocity.magnitude > 0.001 && forward != 0)
+        {
+            transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, transform.localEulerAngles.y + (rot * Time.deltaTime), 0);
+            if (rb.velocity.magnitude > 10f)
+            if (forward > 0)
+            {
+                lean = Mathf.Lerp(lean, 45f, Time.deltaTime);
+            }
+            else
+            {
+                lean = Mathf.Lerp(lean, -45f, Time.deltaTime);   
+            }
+        }
+        else
+        {
+            lean = Mathf.Lerp(lean, 0.5f, Time.deltaTime * 4);
+        }
+        //characterMesh.localEulerAngles = new Vector3(characterMesh.localEulerAngles.x, characterMesh.localEulerAngles.y, lean);
+        //bike.transform.localEulerAngles = new Vector3(bike.transform.localEulerAngles.x, bike.transform.localEulerAngles.y, lean);
+    
+        // if the player landed, enable another jump
+        if (!grounded)
+        {
+            RaycastHit hit;
+            if (falling && Physics.Linecast(transform.position + new Vector3(0, 0.1f, 0), transform.position + new Vector3(0, -0.2f, 0), out hit))
+            {
+                falling = false;
+                Land();
+            }
+        }
+        // blend speed in animator to match pace of footsteps
+        // normal movement (character moves independent of camera)
+        
+        speed = Mathf.SmoothStep(speed, actualVelocity.magnitude, Time.deltaTime * 20);
+
+
+        //setRotationAndSpeed(forward, right);
         RotateMeshes();
         RotateFork();
-    }
-
-    public void FixedUpdate()
-    {
-        ApplyWheelForce();
-        //RotateStraight();
     }
 
     private void RotateMeshes()
@@ -102,40 +146,7 @@ public class Bicycle : Movement
 
     void Lean()
     {
-        upDirection = Vector3.Normalize(Vector3.up + transform.right * maxSteeringAngle * relativeLeanAmount * rotationValue* rb.velocity.magnitude / 100);
-    }
-    
-
-    void ApplyWheelForce()
-    {
-        float motor = maxMotorTorque;
-        float steering = maxSteeringAngle * rotationValue;
-
-        leftWheels.localPosition = - Vector3.up * relativeLeanAmount * rotationValue * rb.velocity.magnitude;
-        rightWheels.localPosition = Vector3.up * relativeLeanAmount * rotationValue * rb.velocity.magnitude;
-
-        foreach (AxleInfo axleInfo in axleInfos)
-        {
-            
-            if (axleInfo.steering)
-            {
-                axleInfo.wheel.steerAngle = steering;
-            }
-            if (axleInfo.motor && rb.velocity.magnitude < maxSpeed)
-            {
-                axleInfo.wheel.motorTorque = motor;
-            }
-            else if(axleInfo.motor)
-            {
-                axleInfo.wheel.motorTorque = 0;
-            }
-        }
-    }
-
-    public void setRotationAndSpeed(float x, float y)
-    {
-        rotationValue = x;
-        maxSpeed = y * bikeSpeed;
+        upDirection = Vector3.Normalize(Vector3.up + transform.right * maxSteeringAngle * lean * rotationValue* rb.velocity.magnitude / 100);
     }
     
     //rotates the meshes

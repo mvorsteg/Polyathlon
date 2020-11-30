@@ -23433,10 +23433,15 @@ PrefabInstance:
       propertyPath: m_Name
       value: Buck
       objectReference: {fileID: 0}
+    - target: {fileID: 8244711337795581057, guid: e3a9d80cc43a09349a3722ae3f3b213f,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8244711337795581059, guid: e3a9d80cc43a09349a3722ae3f3b213f,
         type: 3}
       propertyPath: movementMode
-      value: 0
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8244711337795581063, guid: e3a9d80cc43a09349a3722ae3f3b213f,
         type: 3}
@@ -23491,6 +23496,21 @@ PrefabInstance:
     - target: {fileID: 8244711337795581063, guid: e3a9d80cc43a09349a3722ae3f3b213f,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8244711337795581081, guid: e3a9d80cc43a09349a3722ae3f3b213f,
+        type: 3}
+      propertyPath: amt
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 8244711337795581081, guid: e3a9d80cc43a09349a3722ae3f3b213f,
+        type: 3}
+      propertyPath: rotSpeed
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 8244711339753046576, guid: e3a9d80cc43a09349a3722ae3f3b213f,
+        type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8478319561276301491, guid: e3a9d80cc43a09349a3722ae3f3b213f,

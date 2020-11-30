@@ -5,18 +5,8 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(CapsuleCollider))]
 public class Swim : Movement
-{
-
-    // used to smooth out speed transition an animation
-    protected float speed = 0;
-    protected float smoothSpeed = 0;
-
-    private float bonusSpeed = 1f;
-
-    private const float dampTime = 0.05f; // reduce jittering in animator by providing dampening
-
+{    
     public float Direction { get => actualVelocity == Vector3.zero ? 0f : Mathf.Abs(Quaternion.LookRotation(actualVelocity, Vector3.up).eulerAngles.y - characterMesh.transform.rotation.eulerAngles.y); }
-    public float BonusSpeed { get => bonusSpeed; set => bonusSpeed = value; }
 
     protected override void OnEnable() 
     {
