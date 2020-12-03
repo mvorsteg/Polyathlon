@@ -59,6 +59,10 @@ public class NPC : Racer
                 transform.rotation = Quaternion.LookRotation(newDir);
             }
         }
+        else if (movementMode == Movement.Mode.Biking)
+        {
+            agent.acceleration = Mathf.Lerp(1.2f, 10f, rb.velocity.magnitude / movement.maxSpeed);
+        }
         
     }
 
@@ -100,6 +104,7 @@ public class NPC : Racer
         SetNavMeshAgent(true);
         agent.speed = movement.maxSpeed;
         agent.acceleration = movement.acceleration;
+        agent.angularSpeed = movement.angularSpeed;
     }
 
     public void ArriveAtWaypoint(Waypoint waypoint)

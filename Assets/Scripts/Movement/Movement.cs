@@ -30,6 +30,7 @@ public abstract class Movement : MonoBehaviour
 
     public float maxSpeed;
     public float acceleration;
+    public float angularSpeed;
 
     protected CameraController cameraController;
 

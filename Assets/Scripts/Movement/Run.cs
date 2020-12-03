@@ -17,6 +17,7 @@ public class Run : Movement
 
         maxSpeed = runSpeed;
         acceleration = runAcceleration;
+        angularSpeed = 120f;
     }
 
     /*  moves the player rigidbody */

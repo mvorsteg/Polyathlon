@@ -17,6 +17,7 @@ public class Swim : Movement
 
         maxSpeed = runSpeed;
         acceleration = swimAcceleration;
+        angularSpeed = 120f;
     }
 
     /*  moves the player rigidbody */

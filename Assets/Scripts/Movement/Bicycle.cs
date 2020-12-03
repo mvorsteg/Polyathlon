@@ -40,13 +40,14 @@ public class Bicycle : Movement
     {
         base.OnEnable();
         bike.SetActive(true);
-        rb.mass = 50;
+        //rb.mass = 50;
         rb.angularDrag = 0;
         rb.constraints = RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
         rb.centerOfMass = centerOfMass.localPosition;
 
         maxSpeed = bikeSpeed;
-        acceleration = bikeAcceleration;
+        acceleration = 10f;
+        angularSpeed = 65f;
 
         characterMesh.localPosition = new Vector3(0, 0.625f, -0.7f);
         characterMesh.localEulerAngles = new Vector3(56.975f, 0, 0);

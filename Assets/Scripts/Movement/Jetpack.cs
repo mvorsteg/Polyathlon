@@ -27,6 +27,7 @@ public class Jetpack : Movement
 
         maxSpeed = runSpeed;
         acceleration = runAcceleration;
+        angularSpeed = 120f;
 
         SetJetpack(true);
     }
