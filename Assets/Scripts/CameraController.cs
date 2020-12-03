@@ -5,15 +5,12 @@ using UnityEngine;
 public class CameraController : MonoBehaviour
 {
 
-    const float xMin = 0f;
+    const float xMin = -40f;
     const float xMax = 60f;
-    const float aimMin = -90f;
-    const float aimMax = 90f;
 
     public Transform player;
     public Transform cameraTransform;
     public Transform characterMesh;
-    private Animator anim;
 
     private Quaternion cameraRotation;
     private Vector3 cameraOffset;
@@ -26,7 +23,6 @@ public class CameraController : MonoBehaviour
         cameraRotation = transform.localRotation;
         cameraOffset = cameraTransform.localPosition;
         characterMesh = player.GetChild(0);
-        anim = transform.parent.GetChild(0).GetComponent<Animator>();
     }
  
     /*  rotates the camera with the given rotation values */

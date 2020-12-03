@@ -56,6 +56,12 @@ public class Bicycle : Movement
         startForkRot = fork.transform.localRotation;
     }
 
+    protected override void OnDisable()
+    {
+        base.OnDisable();
+        bike.SetActive(false);
+    }
+
     public override void AddMovement(float forward, float right)
     {
         base.AddMovement(forward, right);
