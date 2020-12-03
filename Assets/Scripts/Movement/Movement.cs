@@ -52,6 +52,15 @@ public abstract class Movement : MonoBehaviour
 
     protected float bonusSpeed = 1f;
 
+    // keep track of these because some movement modes will change these
+    private float defaultMass;
+    private float defaultDrag;
+    private RigidbodyConstraints defaultConstraints;
+    private float defaultAngularDrag;
+    private Vector3 defaultCenterOfMass;
+    private Vector3 defaultCharacterMeshPos;
+    private Vector3 defaultCharacterMeshRot;
+
 
     // used to determine when jumping can occur
     protected bool grounded = true;
@@ -66,10 +75,29 @@ public abstract class Movement : MonoBehaviour
     protected virtual void OnEnable()
     {
         rb = GetComponent<Rigidbody>();
+        defaultMass = rb.mass;
+        defaultDrag = rb.drag;
+        defaultAngularDrag = rb.angularDrag;
+        defaultConstraints = rb.constraints;
+        defaultCenterOfMass = rb.centerOfMass;
         racer = GetComponent<Racer>();
         characterMesh = transform.GetChild(0);
+        defaultCharacterMeshPos = characterMesh.localPosition;
+        defaultCharacterMeshRot = characterMesh.localEulerAngles;
         anim = characterMesh.GetComponent<Animator>();
         playerPosition = transform.position;
+    }
+
+    protected virtual void OnDisable()
+    {
+        // Reset these to what they should be by default
+        rb.mass = defaultMass;
+        rb.drag = defaultDrag;
+        rb.angularDrag = defaultAngularDrag;
+        rb.constraints = defaultConstraints;
+        rb.centerOfMass = defaultCenterOfMass;
+        characterMesh.localPosition = defaultCharacterMeshPos;
+        characterMesh.localEulerAngles = defaultCharacterMeshRot;
     }
 
     /*  rotate the camera around the player */

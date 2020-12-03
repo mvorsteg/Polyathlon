@@ -98,9 +98,9 @@ public class NPC : Racer
     }
 
     /*  updates player's movement mode and maxSpeed/locomotion accordingly */
-    public override void SetMovementMode(Movement.Mode mode)
+    public override void SetMovementMode(Movement.Mode mode, bool initial = false)
     {
-        base.SetMovementMode(mode);
+        base.SetMovementMode(mode, initial);
         SetNavMeshAgent(true);
         agent.speed = movement.maxSpeed;
         agent.acceleration = movement.acceleration;

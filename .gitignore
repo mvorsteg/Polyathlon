@@ -10,8 +10,13 @@
 /[Ll]ogs/
 /[Mm]emoryCaptures/
 
+<<<<<<< HEAD
 /[Aa]ssets/EasyRoads3D/html/
 /[Aa]ssets/[Pp]rivate/
+=======
+/[Aa]ssets/Imports/EasyRoads3D/html/
+/[Aa]ssets/Imports/Paid/
+>>>>>>> 143b3751e572b12e00c57012329b6135e0a56336
 
 # Asset meta data should only be ignored when the corresponding asset is also ignored
 !/[Aa]ssets/**/*.meta

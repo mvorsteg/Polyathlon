@@ -37,7 +37,7 @@ public class Racer : MonoBehaviour
         animEvents = characterMesh.GetComponent<PlayerAnimationEvents>();
         //animOverride = GetComponent<AnimatorOverrideController>();
         audioSource = characterMesh.GetComponent<AudioSource>();
-        SetMovementMode(movementMode);
+        SetMovementMode(movementMode, true);
         
     } 
 
@@ -52,31 +52,34 @@ public class Racer : MonoBehaviour
     }
 
     /*  updates player's movement mode and maxSpeed/locomotion accordingly */
-    public virtual void SetMovementMode(Movement.Mode mode)
+    public virtual void SetMovementMode(Movement.Mode mode, bool initial = false)
     {
-        movementMode = mode;
-        if (movement != null)
-            movement.enabled = false;
-        switch (mode)
-        {
-            // case MovementMode.Walking:
-            //     break;
-            case Movement.Mode.Running:
-                movement = movementOptions[(int)Movement.Mode.Running];
-                break;
-            case Movement.Mode.Jetpacking:
-                movement = movementOptions[(int)Movement.Mode.Jetpacking];
-                break;
-            case Movement.Mode.Swimming:
-                movement = movementOptions[(int)Movement.Mode.Swimming];
-                break;
-            case Movement.Mode.Biking:
-                movement = movementOptions[(int)Movement.Mode.Biking];
-                break;
+        if (initial || mode != movementMode)
+        { 
+            movementMode = mode;
+            if (movement != null)
+                movement.enabled = false;
+            switch (mode)
+            {
+                // case MovementMode.Walking:
+                //     break;
+                case Movement.Mode.Running:
+                    movement = movementOptions[(int)Movement.Mode.Running];
+                    break;
+                case Movement.Mode.Jetpacking:
+                    movement = movementOptions[(int)Movement.Mode.Jetpacking];
+                    break;
+                case Movement.Mode.Swimming:
+                    movement = movementOptions[(int)Movement.Mode.Swimming];
+                    break;
+                case Movement.Mode.Biking:
+                    movement = movementOptions[(int)Movement.Mode.Biking];
+                    break;
+            }
+            movement.enabled = true;
+            animEvents.movement = movement;
+            anim.SetInteger("movement_mode", (int)movementMode);
         }
-        movement.enabled = true;
-        animEvents.movement = movement;
-        anim.SetInteger("movement_mode", (int)movementMode);
     }
 
     public virtual void Die()

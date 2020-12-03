@@ -18,6 +18,7 @@ public class Jetpack : Movement
         jetpackExhaust = jetpack.transform.GetComponentsInChildren<ParticleSystem>();    
     }
 
+    // Set up jetpack
     protected override void OnEnable() 
     {
         base.OnEnable();
@@ -30,6 +31,13 @@ public class Jetpack : Movement
         angularSpeed = 120f;
 
         SetJetpack(true);
+    }
+
+    // Put away jetpack
+    protected override void OnDisable()
+    {
+        base.OnDisable();
+        SetJetpack(false);
     }
 
     private void Update()

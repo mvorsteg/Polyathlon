@@ -73,9 +73,9 @@ public class PlayerController : Racer
     }
 
     /*  updates player's movement mode and maxSpeed/locomotion accordingly */
-    public override void SetMovementMode(Movement.Mode mode)
+    public override void SetMovementMode(Movement.Mode mode, bool initial = false)
     {
-        base.SetMovementMode(mode);
+        base.SetMovementMode(mode, initial);
         inputActions.Running.Disable();
         inputActions.Swimming.Disable();
         inputActions.Biking.Disable();
@@ -100,7 +100,11 @@ public class PlayerController : Racer
     {
         base.Die();
         Debug.Log("die");
-        
+    }
+
+    public override void Revive()
+    {
+        base.Revive();
     }
 
     /*  debug method
