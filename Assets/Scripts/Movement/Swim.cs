@@ -19,7 +19,10 @@ public class Swim : Movement
         acceleration = swimAcceleration;
         angularSpeed = 120f;
         // prevent the player from moving the camera underwater
-        cameraController.SetXMinMax(0f, 60f);
+        if (cameraController != null)
+        {
+            cameraController.SetXMinMax(0f, 60f);
+        }
     }
 
     /*  moves the player rigidbody */

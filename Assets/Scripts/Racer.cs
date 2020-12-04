@@ -92,6 +92,16 @@ public class Racer : MonoBehaviour
         ragdoll.AddMomentum(momentum);
         dead = true;
         canRevive = false;
+        try
+        {
+            // Deactivate jetpack particles if we're jetpacking
+            Jetpack jetpack = (Jetpack)movement;
+            jetpack.SetParticles(false);
+        }
+        catch (System.Exception)
+        {
+            
+        }
         StartCoroutine(RevivalEnabler());
     }
 

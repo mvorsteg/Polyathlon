@@ -582,7 +582,6 @@ MonoBehaviour:
   lastCheckpoint: {fileID: 0}
   nextCheckpoint: {fileID: 0}
   cameraController: {fileID: 411290083769952304}
-  animEvents: {fileID: 411290081943359737}
 --- !u!114 &411290082333151905
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -597,6 +596,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxSpeed: 0
   acceleration: 0
+  angularSpeed: 0
 --- !u!114 &664463851632276183
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -611,6 +611,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxSpeed: 2
   acceleration: 1
+  angularSpeed: 0
   jetpack: {fileID: 1225845877962384456}
 --- !u!114 &411290082333151911
 MonoBehaviour:
@@ -626,6 +627,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxSpeed: 0
   acceleration: 0
+  angularSpeed: 0
 --- !u!114 &411290082333151928
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -640,6 +642,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxSpeed: 0
   acceleration: 0
+  angularSpeed: 0
+  amt: 1
   bike: {fileID: 411290083597394961}
   rearWheel: {fileID: 411290083488516401}
   frontWheel: {fileID: 411290082585942096}
@@ -648,24 +652,10 @@ MonoBehaviour:
   centerOfMass: {fileID: 411290083770451238}
   oneRotationSpeed: 2.7
   crankMultiplier: 2
-  axleInfos:
-  - wheel: {fileID: 411290083553833642}
-    motor: 0
-    steering: 1
-  - wheel: {fileID: 411290083131439149}
-    motor: 0
-    steering: 1
-  - wheel: {fileID: 411290083123907286}
-    motor: 1
-    steering: 0
-  - wheel: {fileID: 411290082135340009}
-    motor: 1
-    steering: 0
   maxMotorTorque: 120
   maxSteeringAngle: 60
-  relativeLeanAmount: 0
-  leftWheels: {fileID: 411290082708735825}
-  rightWheels: {fileID: 411290083997792985}
+  lean: 0.5
+  smoothLean: 0.5
   rotSpeed: 10
   speedModifier: 10
 --- !u!114 &411290082333151929
@@ -786,7 +776,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.3
-  far clip plane: 1000
+  far clip plane: 1200
   field of view: 60
   orthographic: 0
   orthographic size: 5

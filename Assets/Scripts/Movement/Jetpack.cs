@@ -131,6 +131,10 @@ public class Jetpack : Movement
         {
             grounded = false;
         }
+        if (cameraController != null)
+        {
+            cameraController.SetXMinMax(-60f, 70f);
+        }
     }
 
     
@@ -144,6 +148,11 @@ public class Jetpack : Movement
             grounded = false;
             anim.SetTrigger("jump");
         }
+        SetParticles(fire);
+    }
+
+    public void SetParticles(bool fire)
+    {
         // Handle particle systems for the exhaust
         foreach(ParticleSystem nozzle in jetpackExhaust)
         {
@@ -166,6 +175,10 @@ public class Jetpack : Movement
         if (racer is NPC)
         {
             ((NPC)racer).Land();
+        }
+        else
+        {
+            cameraController.ResetXMinMax();
         }
     }
 }
