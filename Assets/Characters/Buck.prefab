@@ -260,7 +260,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 112
-  m_CollisionDetection: 0
+  m_CollisionDetection: 2
 --- !u!136 &8244711337795581061
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -410,6 +410,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxSpeed: 0
   acceleration: 0
+  angularSpeed: 0
 --- !u!114 &9144151379563648246
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -424,6 +425,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxSpeed: 2
   acceleration: 1
+  angularSpeed: 0
   jetpack: {fileID: 5152142437583189090}
 --- !u!114 &8244711337795581062
 MonoBehaviour:
@@ -439,6 +441,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxSpeed: 0
   acceleration: 0
+  angularSpeed: 0
 --- !u!114 &8244711337795581081
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -453,6 +456,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxSpeed: 0
   acceleration: 0
+  angularSpeed: 0
   amt: 1
   bike: {fileID: 8244711339753046576}
   rearWheel: {fileID: 8244711338787630864}
@@ -1666,7 +1670,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8244711339753046579
 Transform:
   m_ObjectHideFlags: 0

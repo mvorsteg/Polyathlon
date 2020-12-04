@@ -98,6 +98,7 @@ public abstract class Movement : MonoBehaviour
         rb.centerOfMass = defaultCenterOfMass;
         characterMesh.localPosition = defaultCharacterMeshPos;
         characterMesh.localEulerAngles = defaultCharacterMeshRot;
+        cameraController.ResetXMinMax();
     }
 
     /*  rotate the camera around the player */

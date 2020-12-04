@@ -5,8 +5,8 @@ using UnityEngine;
 public class CameraController : MonoBehaviour
 {
 
-    const float xMin = -40f;
-    const float xMax = 60f;
+    const float defaultXMin = -40f;
+    const float defaultXMax = 60f;
 
     public Transform player;
     public Transform cameraTransform;
@@ -18,11 +18,15 @@ public class CameraController : MonoBehaviour
     private int invert = -1;
     private float sensitivity = 0.10f;
 
+    private float xMin;
+    private float xMax;
+
     void Start()
     {
         cameraRotation = transform.localRotation;
         cameraOffset = cameraTransform.localPosition;
         characterMesh = player.GetChild(0);
+        ResetXMinMax();
     }
  
     /*  rotates the camera with the given rotation values */
@@ -42,5 +46,19 @@ public class CameraController : MonoBehaviour
         {
             cameraTransform.localPosition = Vector3.Lerp(cameraTransform.localPosition, cameraOffset, Time.deltaTime);
         }
+    }
+
+    // Specify a new xMin and xMax to use for camera movement allowances
+    public void SetXMinMax(float newXMin, float newXMax)
+    {
+        xMin = newXMin;
+        xMax = newXMax;
+    }
+
+    // Reset xMin and xMax to the defaults use for camera movement allowances
+    public void ResetXMinMax()
+    {
+        xMin = defaultXMin;
+        xMax = defaultXMax;
     }
 }
