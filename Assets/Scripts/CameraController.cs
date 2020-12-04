@@ -40,7 +40,7 @@ public class CameraController : MonoBehaviour
         RaycastHit hit;
         if (Physics.Linecast(transform.position, transform.position + transform.localRotation * cameraOffset, out hit))
         {
-            cameraTransform.localPosition = new Vector3(0, 0, -Vector3.Distance(transform.position, hit.point));
+            cameraTransform.localPosition = new Vector3(0, 0, -Vector3.Distance(transform.position, hit.point) + 0.2f);
         }
         else
         {

@@ -49,7 +49,6 @@ public abstract class Movement : MonoBehaviour
     protected float smoothSpeed = 0;
     protected const float dampTime = 0.05f; // reduce jittering in animator by providing dampening
 
-
     protected float bonusSpeed = 1f;
 
     // keep track of these because some movement modes will change these

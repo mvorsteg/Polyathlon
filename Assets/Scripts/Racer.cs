@@ -133,6 +133,15 @@ public class Racer : MonoBehaviour
             nextCheckpoint = checkpoint.next;
     }
 
+    public IEnumerator SpeedBoost(float magnitude, float duration)
+    {
+        movement.BonusSpeed = magnitude;
+        anim.speed = magnitude;
+        yield return new WaitForSeconds(duration);
+        movement.BonusSpeed = 1f;
+        anim.speed = 1f;
+    }
+
     /*  plays a miscellaneus animation that is NOT defined in the animation controller */
     public void PlayMiscAnimation(AnimationClip clip)
     {

@@ -42,7 +42,7 @@ public class Bicycle : Movement
         bike.SetActive(true);
         //rb.mass = 50;
         rb.angularDrag = 0;
-        rb.constraints = RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ;
+        rb.constraints = RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezeRotationX;
         rb.centerOfMass = centerOfMass.localPosition;
 
         maxSpeed = bikeSpeed;
