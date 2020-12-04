@@ -48,6 +48,7 @@ public class PlayerController : Racer
 
         //  Debug actions
         inputActions.Debug.SlowTime.performed += ctx => SlowTime();
+        inputActions.Debug.Exit.performed += ctx => Application.Quit();
         //inputActions.Debug.Die.performed += ctx => Revive();
         inputActions.Debug.Enable();
         

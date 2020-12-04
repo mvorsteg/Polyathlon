@@ -431,6 +431,14 @@ public class @InputActions : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Exit"",
+                    ""type"": ""Button"",
+                    ""id"": ""53c2239e-87c3-4e71-8351-c7e5e802ad56"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -453,6 +461,17 @@ public class @InputActions : IInputActionCollection, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Die"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""cdef8518-b9c0-43df-90b0-f40720d973d3"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Exit"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -557,6 +576,7 @@ public class @InputActions : IInputActionCollection, IDisposable
         m_Debug = asset.FindActionMap("Debug", throwIfNotFound: true);
         m_Debug_SlowTime = m_Debug.FindAction("SlowTime", throwIfNotFound: true);
         m_Debug_Die = m_Debug.FindAction("Die", throwIfNotFound: true);
+        m_Debug_Exit = m_Debug.FindAction("Exit", throwIfNotFound: true);
         // Driving
         m_Driving = asset.FindActionMap("Driving", throwIfNotFound: true);
         m_Driving_Steer = m_Driving.FindAction("Steer", throwIfNotFound: true);
@@ -792,12 +812,14 @@ public class @InputActions : IInputActionCollection, IDisposable
     private IDebugActions m_DebugActionsCallbackInterface;
     private readonly InputAction m_Debug_SlowTime;
     private readonly InputAction m_Debug_Die;
+    private readonly InputAction m_Debug_Exit;
     public struct DebugActions
     {
         private @InputActions m_Wrapper;
         public DebugActions(@InputActions wrapper) { m_Wrapper = wrapper; }
         public InputAction @SlowTime => m_Wrapper.m_Debug_SlowTime;
         public InputAction @Die => m_Wrapper.m_Debug_Die;
+        public InputAction @Exit => m_Wrapper.m_Debug_Exit;
         public InputActionMap Get() { return m_Wrapper.m_Debug; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -813,6 +835,9 @@ public class @InputActions : IInputActionCollection, IDisposable
                 @Die.started -= m_Wrapper.m_DebugActionsCallbackInterface.OnDie;
                 @Die.performed -= m_Wrapper.m_DebugActionsCallbackInterface.OnDie;
                 @Die.canceled -= m_Wrapper.m_DebugActionsCallbackInterface.OnDie;
+                @Exit.started -= m_Wrapper.m_DebugActionsCallbackInterface.OnExit;
+                @Exit.performed -= m_Wrapper.m_DebugActionsCallbackInterface.OnExit;
+                @Exit.canceled -= m_Wrapper.m_DebugActionsCallbackInterface.OnExit;
             }
             m_Wrapper.m_DebugActionsCallbackInterface = instance;
             if (instance != null)
@@ -823,6 +848,9 @@ public class @InputActions : IInputActionCollection, IDisposable
                 @Die.started += instance.OnDie;
                 @Die.performed += instance.OnDie;
                 @Die.canceled += instance.OnDie;
+                @Exit.started += instance.OnExit;
+                @Exit.performed += instance.OnExit;
+                @Exit.canceled += instance.OnExit;
             }
         }
     }
@@ -912,6 +940,7 @@ public class @InputActions : IInputActionCollection, IDisposable
     {
         void OnSlowTime(InputAction.CallbackContext context);
         void OnDie(InputAction.CallbackContext context);
+        void OnExit(InputAction.CallbackContext context);
     }
     public interface IDrivingActions
     {
