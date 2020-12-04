@@ -6,7 +6,7 @@ CMSC425 Final Project
 ### Athlons
 - ~~running~~
 - ~~swimming~~
-- biking
+- ~~biking~~
 - ~~jetpacking~~
 
 ### Courses
@@ -14,7 +14,9 @@ CMSC425 Final Project
 - city
 
 ### Items
-- any
+- spiedie sauce
+- banana peel
+- rock
 
 ### Gameplay
 - ~~place indicator~~
@@ -28,3 +30,5 @@ CMSC425 Final Project
 
 ### Misc
 - music
+- ourselves as narrators
+- shortcut w/ coroutine
