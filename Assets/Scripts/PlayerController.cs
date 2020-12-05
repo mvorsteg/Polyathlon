@@ -97,9 +97,9 @@ public class PlayerController : Racer
         }
     }
 
-    public override void Die()
+    public override void Die(Vector3 newMomentum = default(Vector3))
     {
-        base.Die();
+        base.Die(newMomentum);
         Debug.Log("die");
     }
 

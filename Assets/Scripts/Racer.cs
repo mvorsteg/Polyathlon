@@ -51,6 +51,11 @@ public class Racer : MonoBehaviour
         velocityBeforePhysicsUpdate = rb.velocity;
     }
 
+    public Transform GetHips()
+    {
+        return hips;
+    }
+
     /*  updates player's movement mode and maxSpeed/locomotion accordingly */
     public virtual void SetMovementMode(Movement.Mode mode, bool initial = false)
     {
@@ -82,13 +87,22 @@ public class Racer : MonoBehaviour
         }
     }
 
-    public virtual void Die()
+    public virtual void Die(Vector3 newMomentum = default(Vector3)) // handle if AddMomentum should be called
     {
         anim.enabled = false;
-        Vector3 momentum = Vector3.ClampMagnitude(velocityBeforePhysicsUpdate, 30);
         rb.isKinematic = true;
         GetComponent<Collider>().enabled = false;
         ragdoll.SetRagdoll(true);
+        Vector3 momentum;
+        if (newMomentum == Vector3.zero)
+        {
+            momentum = Vector3.ClampMagnitude(velocityBeforePhysicsUpdate, 30);
+        }
+        else
+        {
+            momentum = newMomentum;
+            Debug.Log(momentum);
+        }
         ragdoll.AddMomentum(momentum);
         dead = true;
         canRevive = false;
@@ -163,19 +177,22 @@ public class Racer : MonoBehaviour
     /*  check if we hit something too fast */
     private void OnCollisionEnter(Collision other)
     {
-        float mag;
-        if (other.rigidbody != null)    // if the other thing is moving
+        if (other.gameObject.layer != 8) // ignore collisions with projectiles
         {
-          mag = (velocityBeforePhysicsUpdate - other.rigidbody.velocity).magnitude;
-        }
-        else    // if the other thing is stationary
-        {
-            mag = (velocityBeforePhysicsUpdate).magnitude;
-        }
-        if (mag > dieThreshold)
-        {
-            Debug.Log(gameObject.name + " hit " + other.gameObject.name + " at " + mag + " m/s and died");
-            Die();
+            float mag;
+            if (other.rigidbody != null)    // if the other thing is moving
+            {
+                mag = (velocityBeforePhysicsUpdate - other.rigidbody.velocity).magnitude;
+            }
+            else    // if the other thing is stationary
+            {
+                mag = (velocityBeforePhysicsUpdate).magnitude;
+            }
+            if (mag > dieThreshold)
+            {
+                Debug.Log(gameObject.name + " hit " + other.gameObject.name + " at " + mag + " m/s and died");
+                Die();
+            }
         }
     }
 
