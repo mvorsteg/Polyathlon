@@ -10,7 +10,7 @@ public class CameraController : MonoBehaviour
 
     public Transform player;
     public Transform cameraTransform;
-    public Transform characterMesh;
+    public Transform characterHips;
 
     private Quaternion cameraRotation;
     private Vector3 cameraOffset;
@@ -21,11 +21,13 @@ public class CameraController : MonoBehaviour
     private float xMin;
     private float xMax;
 
+    private bool following = false;
+
     void Start()
     {
         cameraRotation = transform.localRotation;
         cameraOffset = cameraTransform.localPosition;
-        characterMesh = player.GetChild(0);
+        characterHips = player.GetComponent<Racer>().GetHips();
         ResetXMinMax();
     }
  
@@ -38,7 +40,7 @@ public class CameraController : MonoBehaviour
         transform.localRotation = Quaternion.Euler(cameraRotation.x, cameraRotation.y, cameraRotation.z);
         
         RaycastHit hit;
-        if (Physics.Linecast(transform.position, transform.position + transform.localRotation * cameraOffset, out hit))
+        if (!following && Physics.Linecast(transform.position, transform.position + transform.localRotation * cameraOffset, out hit))
         {
             cameraTransform.localPosition = new Vector3(0, 0, -Vector3.Distance(transform.position, hit.point) + 0.2f);
         }
@@ -60,5 +62,29 @@ public class CameraController : MonoBehaviour
     {
         xMin = defaultXMin;
         xMax = defaultXMax;
+    }
+
+    // Start this to have the camera follow the character when they ragdoll
+    // Start this again to stop following
+    public IEnumerator FollowRagdoll()
+    {
+        Debug.Log("FollowRagdoll");
+        if (following)
+        {
+            Debug.Log("Stop Following!");
+            following = false;
+            yield break;
+        }
+        following = true;
+        while (following)
+        {
+            
+            transform.position = characterHips.position;
+            Debug.Log("our pos: " + transform.position);
+            Debug.Log("character pos: " + characterHips.position);
+            yield return null;
+        }
+        Debug.Log("End!");
+        transform.localPosition = new Vector3(0, 1.5f, 0);
     }
 }

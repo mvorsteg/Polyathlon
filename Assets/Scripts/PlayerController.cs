@@ -101,10 +101,17 @@ public class PlayerController : Racer
     {
         base.Die(newMomentum);
         Debug.Log("die");
+        // Have the camera start following the ragdoll
+        StartCoroutine(cameraController.FollowRagdoll());
     }
 
     public override void Revive()
     {
+        if (dead && canRevive)
+        {
+            // have the camera stop following the ragdoll
+            StartCoroutine(cameraController.FollowRagdoll());
+        }
         base.Revive();
     }
 

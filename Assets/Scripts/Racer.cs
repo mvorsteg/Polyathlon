@@ -101,7 +101,6 @@ public class Racer : MonoBehaviour
         else
         {
             momentum = newMomentum;
-            Debug.Log(momentum);
         }
         ragdoll.AddMomentum(momentum);
         dead = true;
