@@ -63,6 +63,19 @@ public class NPC : Racer
         {
             agent.acceleration = Mathf.Lerp(1.2f, 10f, rb.velocity.magnitude / movement.maxSpeed);
         }
+        else if (movementMode == Movement.Mode.Swimming)
+        {
+            //SetNavMeshAgent(false);
+            Vector3 localVel = transform.InverseTransformDirection(rb.velocity);
+
+
+            Vector3 targetDir = nextWaypoint.pos - transform.position - Vector3.Normalize(rb.velocity);
+            Vector3 newDir = Vector3.RotateTowards(transform.forward, targetDir, 5f * Time.deltaTime, 0);
+            newDir = new Vector3(newDir.x, 0, newDir.z);
+            Debug.DrawRay(transform.position, newDir, Color.red);
+            transform.rotation = Quaternion.LookRotation(newDir);
+            movement.AddMovement(1f, 0);
+        }
         
     }
 
@@ -101,7 +114,14 @@ public class NPC : Racer
     public override void SetMovementMode(Movement.Mode mode, bool initial = false)
     {
         base.SetMovementMode(mode, initial);
-        SetNavMeshAgent(true);
+        if (mode == Movement.Mode.Swimming)
+        {
+            SetNavMeshAgent(false);
+        }
+        else
+        {
+            SetNavMeshAgent(true);
+        }
         agent.speed = movement.maxSpeed;
         agent.acceleration = movement.acceleration;
         agent.angularSpeed = movement.angularSpeed;

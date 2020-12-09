@@ -8,21 +8,25 @@ public class Waypoint : MonoBehaviour
     public Waypoint next;
     public Vector3 pos;
     public float height;
+    public bool water = false;
     private Color color;
 
     private void Awake()
     {
-        NavMeshHit hit;
+        if (water)
+        {
+            NavMeshHit hit;
 
-        if (NavMesh.SamplePosition(transform.position, out hit, 2f, NavMesh.AllAreas))
-        {
-            pos = hit.position;
-            color = new Color(0, 1, 0, 0.5f);
-        }
-        else
-        {
-            pos = transform.position;
-            color = new Color(1, 0, 0, 0.5f);
+            if (NavMesh.SamplePosition(transform.position, out hit, 2f, NavMesh.AllAreas))
+            {
+                pos = hit.position;
+                color = new Color(0, 1, 0, 0.5f);
+            }
+            else
+            {
+                pos = transform.position;
+                color = new Color(1, 0, 0, 0.5f);
+            }
         }
     }
 
