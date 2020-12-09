@@ -76,6 +76,7 @@ public class PlayerController : Racer
     /*  updates player's movement mode and maxSpeed/locomotion accordingly */
     public override void SetMovementMode(Movement.Mode mode, bool initial = false)
     {
+        Vector2 movePreserve = move;
         base.SetMovementMode(mode, initial);
         inputActions.Running.Disable();
         inputActions.Swimming.Disable();
@@ -95,11 +96,12 @@ public class PlayerController : Racer
                 inputActions.Biking.Enable();
                 break;
         }
+        move = movePreserve;
     }
 
-    public override void Die(Vector3 newMomentum = default(Vector3))
+    public override void Die(bool emphasizeTorso, Vector3 newMomentum = default(Vector3))
     {
-        base.Die(newMomentum);
+        base.Die(emphasizeTorso, newMomentum);
         Debug.Log("die");
         // Have the camera start following the ragdoll
         StartCoroutine(cameraController.FollowRagdoll());

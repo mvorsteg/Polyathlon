@@ -28,7 +28,7 @@ public class LaserBolt : MonoBehaviour
         Racer racer = other.gameObject.GetComponent<Racer>();
         if (racer != null)
         {
-            racer.Die(Vector3.ClampMagnitude(rb.velocity, impactVelMax));
+            racer.Die(true, Vector3.ClampMagnitude(rb.velocity, impactVelMax));
         }
         Destroy(gameObject);
     }

@@ -87,7 +87,11 @@ public class Racer : MonoBehaviour
         }
     }
 
-    public virtual void Die(Vector3 newMomentum = default(Vector3)) // handle if AddMomentum should be called
+    // If emphasizeTorso is true, then extra force will be added to the racer's hips
+    // when they ragdoll, preventing them from simply retaining their animation pose
+    // if hit by a laser midair
+    // When newMomentum is 0,0,0, the momentum used will be simply the character's current momentum
+    public virtual void Die(bool emphasizeTorso, Vector3 newMomentum = default(Vector3))
     {
         anim.enabled = false;
         rb.isKinematic = true;
@@ -103,7 +107,7 @@ public class Racer : MonoBehaviour
         {
             momentum = newMomentum;
         }
-        ragdoll.AddMomentum(momentum);
+        ragdoll.AddMomentum(momentum, emphasizeTorso);
         dead = true;
         canRevive = false;
         try
@@ -191,7 +195,7 @@ public class Racer : MonoBehaviour
             if (mag > dieThreshold)
             {
                 Debug.Log(gameObject.name + " hit " + other.gameObject.name + " at " + mag + " m/s and died");
-                Die();
+                Die(false);
             }
         }
     }

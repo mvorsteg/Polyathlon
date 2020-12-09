@@ -11,7 +11,7 @@ public class PropellerKO : MonoBehaviour
         Racer racer = other.gameObject.GetComponent<Racer>();
         if(racer != null)
         {
-            racer.Die();
+            racer.Die(false);
         }
     }
 }
