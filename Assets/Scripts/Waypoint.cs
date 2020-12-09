@@ -28,6 +28,11 @@ public class Waypoint : MonoBehaviour
                 color = new Color(1, 0, 0, 0.5f);
             }
         }
+        else 
+        {
+            pos = transform.position;
+            color = new Color(1, 0, 0, 0.5f);
+        }
     }
 
     private void OnTriggerEnter(Collider other) 

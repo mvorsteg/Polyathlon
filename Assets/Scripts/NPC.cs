@@ -17,6 +17,7 @@ public class NPC : Racer
     {
         agent = GetComponent<NavMeshAgent>();
         nextWaypoint = chain.GetStartingWaypoint();
+        agent.SetDestination(nextWaypoint.pos);
         
         //agent.updatePosition = false;
         foreach(Movement m in movementOptions)
@@ -47,10 +48,6 @@ public class NPC : Racer
             }
             if (!movement.Grounded)
             {
-                // calculate offset to exit orbit
-                Vector3 localVel = transform.InverseTransformDirection(rb.velocity);
-
-
                 Vector3 targetDir = nextWaypoint.pos - transform.position - Vector3.Normalize(rb.velocity) * jetpackHorizontalCorrection;
                 Vector3 newDir = Vector3.RotateTowards(transform.forward, targetDir, 5f * Time.deltaTime, 0);
                 newDir = new Vector3(newDir.x, 0, newDir.z);
