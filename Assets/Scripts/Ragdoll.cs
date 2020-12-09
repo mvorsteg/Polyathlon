@@ -26,6 +26,7 @@ public class Ragdoll : MonoBehaviour
     {
         foreach (Rigidbody rb in rigidbodies)
         {
+            rb.collisionDetectionMode = value ? CollisionDetectionMode.Discrete : CollisionDetectionMode.ContinuousSpeculative;
             rb.isKinematic = !value;
         }
 
