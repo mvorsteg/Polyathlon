@@ -96,7 +96,8 @@ public class Racer : MonoBehaviour
         Vector3 momentum;
         if (newMomentum == Vector3.zero)
         {
-            momentum = Vector3.ClampMagnitude(velocityBeforePhysicsUpdate, 30);
+            //momentum = Vector3.ClampMagnitude(velocityBeforePhysicsUpdate, 30);
+            momentum = velocityBeforePhysicsUpdate;
         }
         else
         {

@@ -7,18 +7,20 @@ public class Ragdoll : MonoBehaviour
     private Rigidbody[] rigidbodies;
     //[SerializeField]
     private Collider[] colliders;
+    private Rigidbody hips;
 
     /* Ocassionally someone will die and get their head caught on something
         making some weird collisions that give like 1 limb a tiny velocity
         forever. If rigidbodies still have velocity when maxDeadTime is exceeded,
         then IsMoving will return false so the game can continue. */
-    private float maxDeadTime = 5;
+    private float maxDeadTime = 10;
     private float deadTime; // amount of time we've been dead for
 
     private void Awake()
     {
         rigidbodies = GetComponentsInChildren<Rigidbody>();
-        colliders = GetComponentsInChildren<Collider>();    
+        colliders = GetComponentsInChildren<Collider>();
+        hips = transform.parent.GetComponent<Racer>().GetHips().GetComponent<Rigidbody>(); 
     }
 
     /*  activates / deactivates the ragdoll's colliders and rigidbodies */
@@ -28,6 +30,7 @@ public class Ragdoll : MonoBehaviour
         {
             rb.collisionDetectionMode = value ? CollisionDetectionMode.Discrete : CollisionDetectionMode.ContinuousSpeculative;
             rb.isKinematic = !value;
+            rb.collisionDetectionMode = value ? CollisionDetectionMode.ContinuousDynamic : CollisionDetectionMode.ContinuousSpeculative;
         }
 
         foreach (Collider c in colliders)
@@ -65,10 +68,14 @@ public class Ragdoll : MonoBehaviour
         if (deadTime <= maxDeadTime)
         {
             // check each rigidbody to see if it's still moving
-            foreach (Rigidbody rb in rigidbodies)
+            /*foreach (Rigidbody rb in rigidbodies)
             {
                 if (rb.velocity != Vector3.zero)
                     return true;
+            }*/
+            if (hips.velocity.magnitude > 1)
+            {
+                return true;
             }
         }
         // reset our timer
