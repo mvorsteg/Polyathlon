@@ -54,12 +54,25 @@ public class Ragdoll : MonoBehaviour
         }
     }
 
-    public void AddMomentum(Vector3 momentum)
+    public void AddMomentum(Vector3 momentum, bool emphasizeTorso)
     {
-        foreach (Rigidbody rb in rigidbodies)
+
+        if (emphasizeTorso)
         {
-            rb.velocity = momentum;
+            foreach (Rigidbody rb in rigidbodies)
+            {
+                rb.velocity = momentum * 0.5f;
+            }
+            hips.velocity = momentum * 1.5f;
         }
+        else
+        {
+            foreach (Rigidbody rb in rigidbodies)
+            {
+                rb.velocity = momentum;
+            }
+        }
+        
     }
 
     public bool IsMoving()

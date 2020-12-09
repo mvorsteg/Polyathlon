@@ -87,9 +87,9 @@ public class NPC : Racer
         }
     }
 
-    public override void Die(Vector3 newMomentum = default(Vector3))
+    public override void Die(bool emphasizeTorso, Vector3 newMomentum = default(Vector3))
     {
-        base.Die(newMomentum);
+        base.Die(emphasizeTorso, newMomentum);
         agent.isStopped = true;
     }
 
