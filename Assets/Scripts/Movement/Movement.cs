@@ -11,6 +11,7 @@ public abstract class Movement : MonoBehaviour
         Jetpacking,
         Swimming,
         Biking,
+        GetOffTheBoat,
     }
 
     // constants consist primarily of values for movement speeds

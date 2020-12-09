@@ -54,7 +54,7 @@ public class Floater : MonoBehaviour
         prevDrag = rb.drag;
         prevAngularDrag = rb.angularDrag;
 
-        PlayerController mov = GetComponent<PlayerController>();
+        Racer mov = GetComponent<Racer>();
         if (mov != null)
         {
             mov.SetMovementMode(Movement.Mode.Swimming);
@@ -72,7 +72,7 @@ public class Floater : MonoBehaviour
         rb.angularDrag = prevAngularDrag;
 
 
-        PlayerController mov = GetComponent<PlayerController>();
+        Racer mov = GetComponent<Racer>();
         if (mov != null)
         {
             mov.SetMovementMode(Movement.Mode.Running);

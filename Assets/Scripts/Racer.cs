@@ -80,10 +80,14 @@ public class Racer : MonoBehaviour
                 case Movement.Mode.Biking:
                     movement = movementOptions[(int)Movement.Mode.Biking];
                     break;
+                case Movement.Mode.GetOffTheBoat:
+                    movement = movementOptions[(int)Movement.Mode.Running];
+                    break;
+                
             }
             movement.enabled = true;
             animEvents.movement = movement;
-            anim.SetInteger("movement_mode", (int)movementMode);
+            anim.SetInteger("movement_mode", (int)movementMode % 4);
         }
     }
 
