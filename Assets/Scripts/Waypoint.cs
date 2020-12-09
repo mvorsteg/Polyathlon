@@ -13,7 +13,7 @@ public class Waypoint : MonoBehaviour
 
     private void Awake()
     {
-        if (water)
+        if (!water)
         {
             NavMeshHit hit;
 
