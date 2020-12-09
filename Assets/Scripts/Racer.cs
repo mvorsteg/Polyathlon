@@ -183,25 +183,9 @@ public class Racer : MonoBehaviour
     }
 
     /*  check if we hit something too fast */
-    private void OnCollisionEnter(Collision other)
+    protected virtual void OnCollisionEnter(Collision other)
     {
-        if (other.gameObject.layer != 8) // ignore collisions with projectiles
-        {
-            float mag;
-            if (other.rigidbody != null)    // if the other thing is moving
-            {
-                mag = (velocityBeforePhysicsUpdate - other.rigidbody.velocity).magnitude;
-            }
-            else    // if the other thing is stationary
-            {
-                mag = (velocityBeforePhysicsUpdate).magnitude;
-            }
-            if (mag > dieThreshold)
-            {
-                Debug.Log(gameObject.name + " hit " + other.gameObject.name + " at " + mag + " m/s and died");
-                Die(false);
-            }
-        }
+        
     }
 
     // Returns whether or not this racer is currently "dead"

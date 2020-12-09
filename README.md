@@ -10,8 +10,14 @@ CMSC425 Final Project
 - ~~jetpacking~~
 
 ### Courses
-- mountain
-- city
+- vorsteg cup
+  - city
+  - bike path
+  - mountains
+- graber cup
+  - lake
+  - tunnel
+  - airfield
 
 ### Items
 - spiedie sauce
