@@ -117,6 +117,28 @@ public class PlayerController : Racer
         base.Revive();
     }
 
+    protected override void OnCollisionEnter(Collision other)
+    {
+        if (other.gameObject.layer != 8) // ignore collisions with projectiles
+        {
+            base.OnCollisionEnter(other);
+            float mag;
+            if (other.rigidbody != null)    // if the other thing is moving
+            {
+                mag = (velocityBeforePhysicsUpdate - other.rigidbody.velocity).magnitude;
+            }
+            else    // if the other thing is stationary
+            {
+                mag = (velocityBeforePhysicsUpdate).magnitude;
+            }
+            if (mag > dieThreshold)
+            {
+                Debug.Log(gameObject.name + " hit " + other.gameObject.name + " at " + mag + " m/s and died");
+                Die(false);
+            }
+        }
+    }
+
     /*  debug method
         toggles time between 20% and 100% */
     private void SlowTime()

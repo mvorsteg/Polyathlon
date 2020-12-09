@@ -17,7 +17,6 @@ public class NPC : Racer
     {
         agent = GetComponent<NavMeshAgent>();
         nextWaypoint = chain.GetStartingWaypoint();
-        agent.SetDestination(nextWaypoint.pos);
         
         //agent.updatePosition = false;
         foreach(Movement m in movementOptions)
