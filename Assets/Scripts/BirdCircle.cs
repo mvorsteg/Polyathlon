@@ -2,8 +2,13 @@ using UnityEngine;
 
 public class BirdCircle : MonoBehaviour
 {
-    public Bird bird;
+    private Bird bird;
     public float circleSpeed = 1f;
+
+    private void Start()
+    {
+        bird = transform.GetChild(0).GetComponent<Bird>();    
+    }
 
     private void Update()
     {

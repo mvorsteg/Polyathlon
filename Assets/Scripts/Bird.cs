@@ -1,39 +1,132 @@
 using UnityEngine;
+using System.Collections;
 
+[RequireComponent(typeof(Rigidbody))]
+[RequireComponent(typeof(BoxCollider))]
+[RequireComponent(typeof(AudioSource))]
 public class Bird : MonoBehaviour
 {
-    public float speed;
+    public float speed = 10f;
+    public float rotationSpeed = 360f;
 
+    public AudioClip[] birdSounds;
+
+    private Transform birdCircle;
     public bool circle = true;
 
+    private Vector3 startPos;
+    private Quaternion startRot;
     private Racer target;
     private Rigidbody rb;
+    private AudioSource audioSource;
 
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
-    }
-    
-    private void Update()
-    {
-        if (target == null)
-        {
-            // do flying stuff idk yet
-        }    
-        else
-        {
-            // chase target
-            transform.LookAt(target.transform);
-            rb.velocity = transform.forward * speed;
-        }
+        audioSource = GetComponent<AudioSource>();
+        startPos = transform.localPosition;
+        startRot = transform.localRotation;
+        birdCircle = transform.parent;
     }
 
+    /*  sets the bird's target to be the racer that just got too close to the circle */
     public void SetTarget(Racer racer)
     {
         if (target == null)
         {
             target = racer;
             circle = false;
+        }
+        StartCoroutine(ChaseTarget());
+    }
+
+    /*  Kill the target if we hit them */
+    private void OnCollisionEnter(Collision other)
+    {
+        Racer racer = other.gameObject.GetComponent<Racer>();
+        if (racer != null)
+        {
+            racer.Die(true, Vector3.ClampMagnitude(rb.velocity, 20f));
+        }
+        target = null;
+    }
+
+    /*  the bird will follow its target relentlessly */
+    private IEnumerator ChaseTarget()
+    {
+        PlayBirdSound();
+        StartCoroutine(DelayBirdSound());
+        while (target != null)
+        {
+            // look at target with rotation limit
+            Vector3 targetDir = (target.transform.position - transform.position).normalized;
+            Vector3 newDir = Vector3.RotateTowards(transform.forward, targetDir, rotationSpeed * Time.deltaTime, 0);
+            transform.rotation = Quaternion.LookRotation(newDir);
+
+            rb.velocity = transform.forward * speed;
+            yield return null;
+        }
+        PlayBirdSound();
+        StartCoroutine(ReturnToCircle());
+    }
+
+    /*  returns the bird to its starting position in its circle */
+    private IEnumerator ReturnToCircle()
+    {
+        // go back to center of circle
+        while (Vector3.Distance(birdCircle.position, transform.position) > 0.5)
+        {
+            // look at circle position with a rotation limit
+            Vector3 targetDir = (birdCircle.transform.position - transform.position).normalized;
+            Vector3 newDir = Vector3.RotateTowards(transform.forward, targetDir, rotationSpeed * Time.deltaTime, 0);
+            transform.rotation = Quaternion.LookRotation(newDir);
+
+            rb.velocity = transform.forward * speed;
+            yield return null;
+        }
+        // reset rigidbody stuff
+        rb.velocity = Vector3.zero;
+        rb.angularVelocity = Vector3.zero;
+        // lerp to the EXACT correct positon
+        float elapsedTime = 0f;
+        float duration = 1f;
+        Vector3 pos = transform.localPosition;
+        Quaternion rot = transform.localRotation;
+        while (elapsedTime < 1f)
+        {
+            transform.localPosition = Vector3.Lerp(pos, startPos, elapsedTime / duration);
+            transform.localRotation = Quaternion.Lerp(rot, startRot, elapsedTime / duration);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+        circle = true;
+    }
+
+    /*  plays a random sound that the bird can make */
+    private void PlayBirdSound()
+    {
+        if (birdSounds.Length != 0)
+        {
+            int i = Random.Range(0, birdSounds.Length);
+            {
+                audioSource.clip = birdSounds[i];
+                audioSource.Play();
+            }
+        }
+    }
+
+    /*  plays a bird sound after a random interval */
+    private IEnumerator DelayBirdSound()
+    {
+        while (!circle)
+        {   
+            float delay = Random.Range(2f, 4f);
+            yield return new WaitForSeconds(delay);
+            if (!circle)
+            {
+                PlayBirdSound();
+                // StartCoroutine(DelayBirdSound());   // is this ok? C# has tail recursion, right? // Update: it does not
+            }
         }
     }
 }
