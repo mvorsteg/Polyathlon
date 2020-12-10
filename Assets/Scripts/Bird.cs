@@ -1,24 +1,27 @@
 using UnityEngine;
 using System.Collections;
 
+[System.Serializable]
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(BoxCollider))]
 [RequireComponent(typeof(AudioSource))]
 public class Bird : MonoBehaviour
 {
-    public float speed = 10f;
-    public float rotationSpeed = 360f;
+    public float speed = 10f;           // units per second;
+    public float rotationSpeed = 360f;  // degrees per second
 
-    public AudioClip[] birdSounds;
+    public AudioClip[] birdSounds;      
 
-    private Transform birdCircle;
-    public bool circle = true;
+    private Transform birdCircle;  
+    public bool circle = true;          // if true, bird is circling
 
-    private Vector3 startPos;
+    private Vector3 startPos;           
     private Quaternion startRot;
-    private Racer target;
+    private Racer target;               // racer currently being targeted
     private Rigidbody rb;
     private AudioSource audioSource;
+
+    private const float maxDist = 50f;  // max distance before we give up on the racer
 
     private void Start()
     {
@@ -56,6 +59,7 @@ public class Bird : MonoBehaviour
     {
         PlayBirdSound();
         StartCoroutine(DelayBirdSound());
+
         while (target != null)
         {
             // look at target with rotation limit
@@ -64,6 +68,12 @@ public class Bird : MonoBehaviour
             transform.rotation = Quaternion.LookRotation(newDir);
 
             rb.velocity = transform.forward * speed;
+            
+            // if target is too far away, give up
+            if (Vector3.Distance(transform.position, target.transform.position) > maxDist)
+            {
+                target = null;
+            }
             yield return null;
         }
         PlayBirdSound();
