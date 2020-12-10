@@ -10,12 +10,13 @@ public class Waypoint : MonoBehaviour
     public float height;
     public bool water = false;
     public bool forceToGround = false;
+    // If this is the end of the chain, you can add other chains for NPCs to decide to follow
     public WaypointChain[] fork;
     private Color color;
 
     private void Awake()
     {
-        if (!water)
+        if (!water) // place the position firmly on the ground
         {
             NavMeshHit hit;
 

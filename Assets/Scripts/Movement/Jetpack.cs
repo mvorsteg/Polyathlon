@@ -165,14 +165,19 @@ public class Jetpack : Movement
     public void SetParticles(bool fire)
     {
         // Handle particle systems for the exhaust
-        foreach(ParticleSystem nozzle in jetpackExhaust)
+        if (fire)
         {
-            if (fire && !nozzle.isPlaying)
+            foreach(ParticleSystem nozzle in jetpackExhaust)
             {
+                Debug.Log("Play " + nozzle.gameObject);
                 nozzle.Play();
             }
-            else if (!fire)
+        }
+        else
+        {
+            foreach(ParticleSystem nozzle in jetpackExhaust)
             {
+                Debug.Log("Stop " + nozzle.gameObject);
                 nozzle.Stop();
             }
         }
