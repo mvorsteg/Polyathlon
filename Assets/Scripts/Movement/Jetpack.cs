@@ -40,12 +40,6 @@ public class Jetpack : Movement
         SetJetpack(false);
     }
 
-    private void Update()
-    {
-        if (!racer.IsDead())
-            JetpackThrust(fireJetpack);
-    }
-
     public virtual void SetJetpack(bool enabled)
     {
         if (jetpack != null)
@@ -127,6 +121,7 @@ public class Jetpack : Movement
     {
         base.Jump(hold);
         fireJetpack = hold;
+        StartCoroutine(JetpackThrust());
         if (grounded)
         {
             grounded = false;
@@ -138,17 +133,19 @@ public class Jetpack : Movement
     }
 
     
-    private void JetpackThrust(bool fire)
+    private IEnumerator JetpackThrust()
     {
+        SetParticles(true);
         // Handle thrust
-        if (fire) 
+        while(fireJetpack && !racer.IsDead())
         {
             rb.AddForce(jetpack.transform.up * jetpackForce * Time.deltaTime);
             rb.velocity = Vector3.ClampMagnitude(rb.velocity, jetpackSpeed);
             grounded = false;
             anim.SetTrigger("jump");
+            yield return null;
         }
-        SetParticles(fire);
+        SetParticles(false);
     }
 
     public void SetParticles(bool fire)
