@@ -120,8 +120,16 @@ public class Jetpack : Movement
     public override void Jump(bool hold)
     {
         base.Jump(hold);
-        fireJetpack = hold;
-        StartCoroutine(JetpackThrust());
+        if (!hold)
+        {
+            // shut down the jetpack
+            fireJetpack = false;
+        }
+        else
+        {
+            // Start firing the jetpack
+            StartCoroutine(JetpackThrust());    
+        }
         if (grounded)
         {
             grounded = false;
@@ -135,6 +143,12 @@ public class Jetpack : Movement
     
     private IEnumerator JetpackThrust()
     {
+        // no need to restart the coroutine if we've already started it
+        if (fireJetpack)
+        {
+            yield break;
+        }
+        fireJetpack = true;
         SetParticles(true);
         // Handle thrust
         while(fireJetpack && !racer.IsDead())
