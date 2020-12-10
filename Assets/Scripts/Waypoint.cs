@@ -2,10 +2,12 @@ using UnityEngine;
 using UnityEngine.AI;
 
 [RequireComponent(typeof(CapsuleCollider))]
-public class Waypoint : MonoBehaviour 
+public class Waypoint : MonoBehaviour, IWaypointable 
 {
-    public int seq;
-    public Waypoint next;
+    public IWaypointable Next { get { return next; } set { next = value; } }
+    private IWaypointable next;
+    public int Seq { get { return seq; } set { seq = value; } }
+    private int seq;
     public Vector3 pos;
     public float height;
     public bool water = false;
@@ -36,6 +38,21 @@ public class Waypoint : MonoBehaviour
             pos = transform.position;
             color = new Color(1, 0, 0, 0.5f);
         }
+    }
+
+    public Vector3 GetPos(NPC npc)
+    {
+        return pos;
+    }
+
+    public float GetHeight()
+    {
+        return height;
+    }
+
+    public WaypointChain[] GetFork()
+    {
+        return fork;
     }
 
     private void OnTriggerEnter(Collider other) 

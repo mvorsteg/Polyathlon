@@ -2,20 +2,20 @@ using UnityEngine;
 
 public class WaypointChain : MonoBehaviour
 {
-    private Waypoint[] waypoints;
+    private IWaypointable[] waypoints;
 
     private void Awake()
     {
-        waypoints = GetComponentsInChildren<Waypoint>();
+        waypoints = GetComponentsInChildren<IWaypointable>();
         for (int i = waypoints.Length - 1; i >= 0; i--)
         {
-            waypoints[i].seq = i;
+            waypoints[i].Seq = i;
             if (i < waypoints.Length - 1)
-                waypoints[i].next = waypoints[i + 1];
+                waypoints[i].Next = waypoints[i + 1];
         }
     }
 
-    public Waypoint GetStartingWaypoint()
+    public IWaypointable GetStartingWaypoint()
     {
         return waypoints[0];
     }

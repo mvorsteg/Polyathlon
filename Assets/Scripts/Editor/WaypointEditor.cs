@@ -26,14 +26,12 @@ public class WaypointEditor : Editor {
         //waypoint.forceToGround = EditorGUILayout.Toggle("Force To Ground", waypoint.forceToGround);
         EditorGUILayout.PropertyField(water, new GUIContent("Water"));
         EditorGUILayout.PropertyField(forceToGround, new GUIContent("Force Height To Zero"));
-
-
         
         EditorGUILayout.PropertyField(fork, true);
         if (EditorGUI.EndChangeCheck())
             serializedObject.ApplyModifiedProperties();
         
-        waypoint.seq = waypoint.transform.GetSiblingIndex();
+        waypoint.Seq = waypoint.transform.GetSiblingIndex();
         if (!waypoint.forceToGround)
         {
             waypoint.height = Mathf.Max(waypoint.transform.GetComponent<CapsuleCollider>().radius, waypoint.transform.GetComponent<CapsuleCollider>().height / 2) / 2;
@@ -42,7 +40,7 @@ public class WaypointEditor : Editor {
         {
             waypoint.height = 0;
         }
-        EditorGUILayout.LabelField("Seqence Number", waypoint.seq.ToString());
+        EditorGUILayout.LabelField("Seqence Number", waypoint.Seq.ToString());
         EditorGUILayout.LabelField("Height", waypoint.height.ToString());
     }
 }
