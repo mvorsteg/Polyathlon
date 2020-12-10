@@ -9,6 +9,8 @@ public class Waypoint : MonoBehaviour
     public Vector3 pos;
     public float height;
     public bool water = false;
+    public bool forceToGround = false;
+    public WaypointChain[] fork;
     private Color color;
 
     private void Awake()

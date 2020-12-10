@@ -81,7 +81,10 @@ public class NPC : Racer
     public override void Die(bool emphasizeTorso, Vector3 newMomentum = default(Vector3))
     {
         base.Die(emphasizeTorso, newMomentum);
-        agent.isStopped = true;
+        if (agent.isOnNavMesh)
+        {
+            agent.isStopped = true;
+        }
     }
 
     protected override IEnumerator RevivalEnabler()
@@ -97,7 +100,7 @@ public class NPC : Racer
     public override void Revive()
     {
         base.Revive();
-        if (agent.enabled)
+        if (agent.enabled && agent.isOnNavMesh)
             agent.isStopped = false;
     }
 
@@ -121,7 +124,13 @@ public class NPC : Racer
 
     public void ArriveAtWaypoint(Waypoint waypoint)
     {
-        if (waypoint.next != null)
+        if (waypoint.fork.Length > 0)
+        {
+            Debug.Log("Fork time baby");
+            nextWaypoint = waypoint.fork[(int)Mathf.Round(Random.Range(0, waypoint.fork.Length - 1))].GetStartingWaypoint();
+            agent.SetDestination(nextWaypoint.pos);
+        }
+        else if (waypoint.next != null)
         {
             nextWaypoint = waypoint.next;
             if (agent.enabled)
@@ -132,7 +141,7 @@ public class NPC : Racer
     protected void SetNavMeshAgent(bool active)
     {
         agent.enabled = active;
-        if (active)
+        if (active && agent.isOnNavMesh)
         {
             agent.isStopped = !active;
             agent.SetDestination(nextWaypoint.pos);
