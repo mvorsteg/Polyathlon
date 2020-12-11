@@ -363,7 +363,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8380b42c7331ea49aeb34fb923bb3c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 15
+  speed: 23
   rotationSpeed: 400
   birdSounds:
   - {fileID: 8300000, guid: e868c18d4e0b5ab45af52645c6680844, type: 3}

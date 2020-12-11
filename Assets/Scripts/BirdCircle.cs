@@ -9,7 +9,7 @@ public class BirdCircle : MonoBehaviour
     private void Start()
     {
         bird = transform.GetChild(0).GetComponent<Bird>();
-        float r = GetComponent<SphereCollider>().radius;
+        float r = GetComponent<CapsuleCollider>().radius;
         bird.transform.localPosition = new Vector3(r, 0, 0);
         bird.transform.localEulerAngles = new Vector3(0, reverse ? 180 : 0, 0);
         // calculate angular speed required to make bird go at its speed   
@@ -33,7 +33,7 @@ public class BirdCircle : MonoBehaviour
 
     private void OnDrawGizmos()
     {    
-        float r = GetComponent<SphereCollider>().radius;
+        float r = GetComponent<CapsuleCollider>().radius;
         Gizmos.color = new Color(0.5f, 0.5f, 0.5f, 0.5f);
         Gizmos.DrawSphere(transform.position, r);    
     }

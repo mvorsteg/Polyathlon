@@ -13,7 +13,7 @@ public class MusicSwitch : MonoBehaviour
 
     private void OnTriggerEnter(Collider other) 
     {
-        if (other.tag == "Player" && audioManager.MusicPlaying != musicIndex)
+        if (other.transform.GetComponent<PlayerController>() != null && audioManager.MusicPlaying != musicIndex)
         {
             StartCoroutine(audioManager.SwitchSong(musicIndex));
         }
