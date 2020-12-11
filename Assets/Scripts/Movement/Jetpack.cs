@@ -169,7 +169,6 @@ public class Jetpack : Movement
         {
             foreach(ParticleSystem nozzle in jetpackExhaust)
             {
-                //Debug.Log("Play " + nozzle.gameObject);
                 nozzle.Play();
             }
         }
@@ -177,7 +176,6 @@ public class Jetpack : Movement
         {
             foreach(ParticleSystem nozzle in jetpackExhaust)
             {
-                //Debug.Log("Stop " + nozzle.gameObject);
                 nozzle.Stop();
             }
         }
