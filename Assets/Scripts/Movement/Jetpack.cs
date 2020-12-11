@@ -130,7 +130,7 @@ public class Jetpack : Movement
             // Start firing the jetpack
             StartCoroutine(JetpackThrust());    
         }
-        if (grounded)
+        if (grounded && hold)
         {
             grounded = false;
         }
@@ -174,6 +174,7 @@ public class Jetpack : Movement
         }
         else
         {
+            fireJetpack = false; // this is only redundant sometimes
             foreach(ParticleSystem nozzle in jetpackExhaust)
             {
                 nozzle.Stop();
