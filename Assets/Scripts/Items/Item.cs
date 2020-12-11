@@ -6,6 +6,8 @@ public class Item : MonoBehaviour
     public float itemRespawnTime = 3;
     private GameObject child;
     private Collider itemCollider;
+    private ItemWaypoint itemWaypoint;
+    private bool available = true;
 
     void Start()
     {
@@ -13,23 +15,38 @@ public class Item : MonoBehaviour
         itemCollider = GetComponent<Collider>();
     }
 
+    // Called by an ItemWaypoint that is the parent of this gameObject
+    public void AssignItemWaypoint(ItemWaypoint itemParent)
+    {
+        itemWaypoint = itemParent;
+    }
 
     // Called when a racer picks up this item
     public virtual void Pickup(Racer racer)
     {
         StartCoroutine(RespawnItem());
+        // If the NPC has picked up this item...
+        if (racer is NPC && itemWaypoint != null)
+        {
+            itemWaypoint.NPCTookItem((NPC)racer);
+        }
     }
 
     /* when the item is picked up, it should seem to disappear,
        then reappear after itemRespawnTime seconds */
     protected IEnumerator RespawnItem()
     {
+        available = false;
         child.SetActive(false);
         itemCollider.enabled = false;
         yield return new WaitForSeconds(itemRespawnTime);
         child.SetActive(true);
         itemCollider.enabled = true;
+        available = true;
     }
 
-
+    public bool IsAvailable()
+    {
+        return available;
+    }
 }

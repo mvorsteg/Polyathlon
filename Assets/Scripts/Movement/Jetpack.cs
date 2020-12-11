@@ -113,7 +113,7 @@ public class Jetpack : Movement
         speed = Mathf.SmoothStep(speed, actualVelocity.magnitude, Time.deltaTime * 20);
     
         anim.SetFloat("speed", speed, dampTime, Time.deltaTime);
-        //Debug.Log("velocity" + velocity);
+        
     }
     
     /*  causes the player to fire their jetpack */

@@ -6,7 +6,7 @@ public class NPC : Racer
 {
     public WaypointChain chain;
 
-    protected Waypoint nextWaypoint;
+    protected IWaypointable nextWaypoint;
     protected NavMeshAgent agent;
 
     protected const float jetpackVerticalForceOffset = 2f;
@@ -17,7 +17,7 @@ public class NPC : Racer
     {
         agent = GetComponent<NavMeshAgent>();
         nextWaypoint = chain.GetStartingWaypoint();
-        agent.SetDestination(nextWaypoint.pos);
+        agent.SetDestination(nextWaypoint.GetPos(this));
         
         //agent.updatePosition = false;
         foreach(Movement m in movementOptions)
@@ -34,10 +34,9 @@ public class NPC : Racer
         //move.x = agent.desiredVelocity.x;
         //move.y = agent.desiredVelocity.z;
         base.Update();
-
         if (movementMode == Movement.Mode.Jetpacking)
         {
-            if (transform.position.y < nextWaypoint.pos.y + nextWaypoint.height - jetpackVerticalForceOffset)
+            if (transform.position.y < nextWaypoint.GetPos(this).y + nextWaypoint.GetHeight() - jetpackVerticalForceOffset)
             {
                 SetNavMeshAgent(false);
                 movement.Jump(true);
@@ -48,7 +47,7 @@ public class NPC : Racer
             }
             if (!movement.Grounded)
             {
-                Vector3 targetDir = nextWaypoint.pos - transform.position - Vector3.Normalize(rb.velocity) * jetpackHorizontalCorrection;
+                Vector3 targetDir = nextWaypoint.GetPos(this) - transform.position - Vector3.Normalize(rb.velocity) * jetpackHorizontalCorrection;
                 Vector3 newDir = Vector3.RotateTowards(transform.forward, targetDir, 5f * Time.deltaTime, 0);
                 newDir = new Vector3(newDir.x, 0, newDir.z);
                 Debug.DrawRay(transform.position, newDir, Color.red);
@@ -61,7 +60,7 @@ public class NPC : Racer
         }
         else if (movementMode == Movement.Mode.Swimming || movementMode == Movement.Mode.GetOffTheBoat)
         {
-            Vector3 targetDir = (nextWaypoint.pos - transform.position).normalized;
+            Vector3 targetDir = (nextWaypoint.GetPos(this) - transform.position).normalized;
             Vector3 newDir = Vector3.RotateTowards(transform.forward, targetDir, 5f * Time.deltaTime, 0);
             newDir = new Vector3(newDir.x, 0, newDir.z);
             Debug.DrawRay(transform.position, newDir, Color.red);
@@ -122,19 +121,19 @@ public class NPC : Racer
         agent.angularSpeed = movement.angularSpeed;
     }
 
-    public void ArriveAtWaypoint(Waypoint waypoint)
+    public void ArriveAtWaypoint(IWaypointable waypoint)
     {
-        if (waypoint.fork.Length > 0)
+        if (waypoint.GetFork().Length > 0)
         {
-            Debug.Log("Fork time baby");
-            nextWaypoint = waypoint.fork[(int)Mathf.Round(Random.Range(0, waypoint.fork.Length - 1))].GetStartingWaypoint();
-            agent.SetDestination(nextWaypoint.pos);
+            nextWaypoint = waypoint.GetFork()[(int)Mathf.Round(Random.Range(0, waypoint.GetFork().Length - 1))].GetStartingWaypoint();
+            if (agent.enabled && agent.isOnNavMesh)
+                agent.SetDestination(nextWaypoint.GetPos(this));
         }
-        else if (waypoint.next != null)
+        else if (waypoint.Next != null)
         {
-            nextWaypoint = waypoint.next;
-            if (agent.enabled)
-                agent.SetDestination(nextWaypoint.pos);
+            nextWaypoint = waypoint.Next;
+            if (agent.enabled && agent.isOnNavMesh)
+                agent.SetDestination(nextWaypoint.GetPos(this));
         }
     }
 
@@ -144,7 +143,7 @@ public class NPC : Racer
         if (active && agent.isOnNavMesh)
         {
             agent.isStopped = !active;
-            agent.SetDestination(nextWaypoint.pos);
+            agent.SetDestination(nextWaypoint.GetPos(this));
         }
     }
 }
