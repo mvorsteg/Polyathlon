@@ -140,9 +140,10 @@ GameObject:
   - component: {fileID: 3340191060880902357}
   - component: {fileID: 3340191060871396002}
   - component: {fileID: 3340191060871396012}
+  - component: {fileID: 5950109932181930393}
   - component: {fileID: 3340191060871396014}
   - component: {fileID: 3340191060871396008}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: littleBird
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -157,8 +158,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3340191060871396009}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 10, y: 0, z: 0}
-  m_LocalScale: {x: 8, y: 8, z: 8}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 13, y: 13, z: 13}
   m_Children:
   - {fileID: 3340191060871292725}
   - {fileID: 3340191060871292751}
@@ -213,6 +214,19 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.06494446, y: 0.086586766, z: 0.061065674}
   m_Center: {x: 0, y: 0.039754104, z: -0.0038787841}
+--- !u!135 &5950109932181930393
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3340191060871396009}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!82 &3340191060871396014
 AudioSource:
   m_ObjectHideFlags: 0
@@ -222,7 +236,8 @@ AudioSource:
   m_GameObject: {fileID: 3340191060871396009}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 1955823057381937147, guid: 974d1bdff93c59f4bb960ba7f08a44af,
+    type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 1
@@ -321,7 +336,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8380b42c7331ea49aeb34fb923bb3c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 9
+  speed: 16
   rotationSpeed: 360
   birdSounds:
   - {fileID: 8300000, guid: fce07fb9ee1c4e8469eb3dd0106a9214, type: 3}

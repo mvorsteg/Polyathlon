@@ -3,13 +3,17 @@ using UnityEngine;
 public class BirdCircle : MonoBehaviour
 {
     private Bird bird;
-    private float circleSpeed;  // rotations per second
+    private float circleSpeed;  // rotations per second 
+    public bool reverse = false;
 
     private void Start()
     {
         bird = transform.GetChild(0).GetComponent<Bird>();
+        float r = GetComponent<SphereCollider>().radius;
+        bird.transform.localPosition = new Vector3(r, 0, 0);
+        bird.transform.localEulerAngles = new Vector3(0, reverse ? 180 : 0, 0);
         // calculate angular speed required to make bird go at its speed   
-        circleSpeed = (180f / Mathf.PI) * (bird.speed / (GetComponent<SphereCollider>().radius));
+        circleSpeed = (reverse ? -1 : 1 ) * (180f / Mathf.PI) * (bird.speed / r);
     }
 
     private void Update()

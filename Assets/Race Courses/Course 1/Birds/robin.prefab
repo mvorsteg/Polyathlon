@@ -758,10 +758,11 @@ GameObject:
   - component: {fileID: 5275126019320980624}
   - component: {fileID: 5275126019320953021}
   - component: {fileID: 5275126019320953011}
+  - component: {fileID: 2572938403654740826}
   - component: {fileID: 5275126019330329388}
   - component: {fileID: 5275126019327992076}
   - component: {fileID: 5275126019320953010}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: robin
   m_TagString: lb_bird
   m_Icon: {fileID: 0}
@@ -776,8 +777,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5275126019320953008}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 10, y: 0, z: 0}
-  m_LocalScale: {x: 10, y: 10, z: 10}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 15, y: 15, z: 15}
   m_Children:
   - {fileID: 5275126019320980630}
   - {fileID: 5275126019320980628}
@@ -813,6 +814,19 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.06494446, y: 0.086586766, z: 0.061065674}
   m_Center: {x: 0, y: 0.039754104, z: -0.0038787841}
+--- !u!135 &2572938403654740826
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5275126019320953008}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!95 &5275126019330329388
 Animator:
   serializedVersion: 3
@@ -841,7 +855,8 @@ AudioSource:
   m_GameObject: {fileID: 5275126019320953008}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 1955823057381937147, guid: 974d1bdff93c59f4bb960ba7f08a44af,
+    type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 1
@@ -945,7 +960,6 @@ MonoBehaviour:
   birdSounds:
   - {fileID: 8300000, guid: a2c080251f6238942b88f8fb392b20ee, type: 3}
   - {fileID: 8300000, guid: 5c959748375d8b94a8a0c18cdfd02c9f, type: 3}
-  birdCircle: {fileID: 0}
   circle: 1
 --- !u!1 &5275126019320953012
 GameObject:

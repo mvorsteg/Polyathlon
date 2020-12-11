@@ -166,10 +166,11 @@ GameObject:
   - component: {fileID: 16205051730085221}
   - component: {fileID: 16205051730581660}
   - component: {fileID: 16205051730581662}
+  - component: {fileID: 6754856506869404785}
   - component: {fileID: 16205051721067257}
   - component: {fileID: 16205051730581632}
   - component: {fileID: 16205051730581634}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: crow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -184,8 +185,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 16205051730581637}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 10, y: 0, z: 0}
-  m_LocalScale: {x: 12, y: 12, z: 12}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 18, y: 18, z: 18}
   m_Children:
   - {fileID: 16205051730085145}
   - {fileID: 16205051730085219}
@@ -221,6 +222,19 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.06494446, y: 0.086586766, z: 0.061065674}
   m_Center: {x: 0, y: 0.039754104, z: -0.0038787841}
+--- !u!135 &6754856506869404785
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 16205051730581637}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!95 &16205051721067257
 Animator:
   serializedVersion: 3
@@ -249,7 +263,8 @@ AudioSource:
   m_GameObject: {fileID: 16205051730581637}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 1955823057381937147, guid: 974d1bdff93c59f4bb960ba7f08a44af,
+    type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 1
@@ -348,7 +363,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8380b42c7331ea49aeb34fb923bb3c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 10
+  speed: 11
   rotationSpeed: 280
   birdSounds:
   - {fileID: 8300000, guid: e2622b95524aab94b9a0448a1a4c6fc8, type: 3}

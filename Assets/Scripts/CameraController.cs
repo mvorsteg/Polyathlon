@@ -68,10 +68,10 @@ public class CameraController : MonoBehaviour
     // Start this again to stop following
     public IEnumerator FollowRagdoll()
     {
-        Debug.Log("FollowRagdoll");
+        //Debug.Log("FollowRagdoll");
         if (following)
         {
-            Debug.Log("Stop Following!");
+            //Debug.Log("Stop Following!");
             following = false;
             yield break;
         }
@@ -80,11 +80,11 @@ public class CameraController : MonoBehaviour
         {
             
             transform.position = characterHips.position;
-            Debug.Log("our pos: " + transform.position);
-            Debug.Log("character pos: " + characterHips.position);
+            //Debug.Log("our pos: " + transform.position);
+            //Debug.Log("character pos: " + characterHips.position);
             yield return null;
         }
-        Debug.Log("End!");
+        //Debug.Log("End!");
         transform.localPosition = new Vector3(0, 1.5f, 0);
     }
 }

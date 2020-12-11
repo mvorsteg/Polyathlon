@@ -32,6 +32,16 @@ public class Bird : MonoBehaviour
         birdCircle = transform.parent;
     }
 
+    /*  if a racer gets too close to this bird, make it a target */
+    private void OnTriggerEnter(Collider other)
+    {
+        Racer racer = other.transform.GetComponent<Racer>();
+        if (racer != null)
+        {
+            SetTarget(racer);
+        }   
+    }
+
     /*  sets the bird's target to be the racer that just got too close to the circle */
     public void SetTarget(Racer racer)
     {
@@ -54,7 +64,7 @@ public class Bird : MonoBehaviour
         target = null;
     }
 
-    /*  the bird will follow its target relentlessly */
+    /*  the bird will follow its target unitil they collide or target is too far */
     private IEnumerator ChaseTarget()
     {
         PlayBirdSound();
@@ -80,11 +90,12 @@ public class Bird : MonoBehaviour
         StartCoroutine(ReturnToCircle());
     }
 
-    /*  returns the bird to its starting position in its circle */
+    /*  returns the bird to its starting position in its circle 
+        this will be interrupted if the bird finds a new target first */
     private IEnumerator ReturnToCircle()
     {
         // go back to center of circle
-        while (Vector3.Distance(birdCircle.position, transform.position) > 0.5)
+        while (target == null && Vector3.Distance(birdCircle.position, transform.position) > 0.5)
         {
             // look at circle position with a rotation limit
             Vector3 targetDir = (birdCircle.transform.position - transform.position).normalized;
