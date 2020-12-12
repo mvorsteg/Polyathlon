@@ -1858,6 +1858,9 @@ MonoBehaviour:
   dieThreshold: 35
   lastCheckpoint: {fileID: 0}
   nextCheckpoint: {fileID: 0}
+  bikeSound: {fileID: 0}
+  waterSound: {fileID: 0}
+  equipSound: {fileID: 0}
   cameraController: {fileID: 4174475994182380415}
 --- !u!114 &4174475994960663022
 MonoBehaviour:
@@ -1890,6 +1893,7 @@ MonoBehaviour:
   acceleration: 1
   angularSpeed: 0
   jetpack: {fileID: 4361266592437300607}
+  thrustSound: {fileID: 8300000, guid: 891d8623a26a972409aebacf22875004, type: 3}
 --- !u!114 &4174475994960663016
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2291,7 +2295,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.3
-  far clip plane: 1200
+  far clip plane: 1350
   field of view: 60
   orthographic: 0
   orthographic size: 5

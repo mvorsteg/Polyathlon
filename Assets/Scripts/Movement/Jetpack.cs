@@ -8,7 +8,6 @@ public class Jetpack : Movement
 {
 
     public GameObject jetpack;
-    public AudioSource audioSource;
     public AudioClip thrustSound;
 
     protected ParticleSystem[] jetpackExhaust;
@@ -16,6 +15,7 @@ public class Jetpack : Movement
     
     public float Direction { get => actualVelocity == Vector3.zero ? 0f : Mathf.Abs(Quaternion.LookRotation(actualVelocity, Vector3.up).eulerAngles.y - characterMesh.transform.rotation.eulerAngles.y); }
     
+    private AudioSource audioSource;
     private bool landable = false; // lets us know if we're allowed to call Land()
     private bool countingDownLandable = false; // prevents PreventFalseLanding() coroutine from being started if its running
 

@@ -98,7 +98,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -3345,7 +3345,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -3354,7 +3354,7 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 1
+  MinDistance: 2
   MaxDistance: 500
   Pan2D: 0
   rolloffMode: 0
@@ -3390,7 +3390,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -3570,6 +3570,8 @@ MonoBehaviour:
   acceleration: 1
   angularSpeed: 0
   jetpack: {fileID: 8835194813366836572}
+  audioSource: {fileID: 0}
+  thrustSound: {fileID: 8300000, guid: 891d8623a26a972409aebacf22875004, type: 3}
 --- !u!1 &5834571711947405035
 GameObject:
   m_ObjectHideFlags: 0

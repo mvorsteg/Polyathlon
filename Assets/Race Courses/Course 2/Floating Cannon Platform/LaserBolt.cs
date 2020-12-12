@@ -30,13 +30,13 @@ public class LaserBolt : MonoBehaviour
     // Kill the racer if we hit them
     void OnCollisionEnter(Collision other)
     {
-        rb.velocity = Vector3.zero;
         Racer racer = other.gameObject.GetComponent<Racer>();
         if (racer != null)
         {
             racer.Die(true, Vector3.ClampMagnitude(rb.velocity, impactVelMax));
         }
         Destroy(laserChild.gameObject);
+        rb.velocity = Vector3.zero;
         StartCoroutine(DestroyAfterPlayingSound());
     }
 
