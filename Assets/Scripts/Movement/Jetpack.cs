@@ -12,6 +12,9 @@ public class Jetpack : Movement
     protected bool fireJetpack; // this tells us whether we will be firing the jetpack during this frame
     
     public float Direction { get => actualVelocity == Vector3.zero ? 0f : Mathf.Abs(Quaternion.LookRotation(actualVelocity, Vector3.up).eulerAngles.y - characterMesh.transform.rotation.eulerAngles.y); }
+    
+    private bool landable = false; // lets us know if we're allowed to call Land()
+    private bool countingDownLandable = false; // prevents PreventFalseLanding() coroutine from being started if its running
 
     private void Start()
     {
@@ -99,12 +102,12 @@ public class Jetpack : Movement
             // don't move player, just rotate
             if (forward != 0 || right != 0)
                 characterMesh.rotation = Quaternion.Lerp(characterMesh.rotation, Quaternion.LookRotation(velocity), Time.deltaTime * rotationSpeed);
-            // if the player landed, enable another jump
             RaycastHit hit;
-            if (falling && Physics.Linecast(transform.position + new Vector3(0, 0.1f, 0), transform.position + new Vector3(0, -0.2f, 0), out hit))
+            // allow exception to NPC from landable rule because their navmesh gets messed up otherwise
+            if ((landable || racer is NPC) && Physics.Linecast(transform.position + new Vector3(0, 0.1f, 0), transform.position + new Vector3(0, -0.2f, 0), out hit))
             {
-                falling = false;
                 Land();
+                Debug.Log(gameObject.name + "has landed");
             }
         }
         // blend speed in animator to match pace of footsteps
@@ -140,7 +143,7 @@ public class Jetpack : Movement
         }
     }
 
-    
+    // Handle the jetpack thrusting
     private IEnumerator JetpackThrust()
     {
         // no need to restart the coroutine if we've already started it
@@ -148,6 +151,8 @@ public class Jetpack : Movement
         {
             yield break;
         }
+        if (!landable)
+            StartCoroutine(PreventFalseLanding());
         fireJetpack = true;
         SetParticles(true);
         // Handle thrust
@@ -160,6 +165,24 @@ public class Jetpack : Movement
             yield return null;
         }
         SetParticles(false);
+    }
+
+    // Without this, when the racer first takes off, the raycast in AddMovement that
+    // determines if they're on the ground returns true, causing the player to do the
+    // landing animation while in the air.
+    // This coroutine prevents that by setting a bool (landable) after a short time of being airborn
+    // that allows the racer to land
+    private IEnumerator PreventFalseLanding()
+    {
+        // prevent other countdowns from being started
+        if (countingDownLandable)
+        {
+            yield break;
+        }
+        countingDownLandable = true;
+        yield return new WaitForSeconds(0.2f);
+        landable = true;
+        countingDownLandable = false;
     }
 
     public void SetParticles(bool fire)
@@ -186,6 +209,7 @@ public class Jetpack : Movement
     protected override void Land()
     {
         grounded = true;
+        landable = false;
         anim.SetTrigger("land");
         if (racer is NPC)
         {
