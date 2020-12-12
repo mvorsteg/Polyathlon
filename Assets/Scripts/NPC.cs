@@ -75,8 +75,7 @@ public class NPC : Racer
     {
         Debug.Log("go");
         base.StartRace();
-        SetNavMeshAgent(true);
-        agent.SetDestination(nextWaypoint.GetPos(this));
+        SetMovementMode(movementMode, true);
     }
 
     public void Land()

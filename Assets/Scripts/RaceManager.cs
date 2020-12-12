@@ -11,7 +11,6 @@ public class RaceManager : MonoBehaviour
 
     private bool isRaceActive = false;
 
-    public int numRacers;
     private Racer[] racers;
 
     public CheckpointChain chain;
@@ -31,7 +30,7 @@ public class RaceManager : MonoBehaviour
         {
             r.nextCheckpoint = chain.GetFirstCheckpoint();
         }
-        positions = new List<(Racer, int, float)>(numRacers);
+        positions = new List<(Racer, int, float)>(racers.Length);
     }
 
     private void Update()

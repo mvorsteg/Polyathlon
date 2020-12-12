@@ -26,11 +26,8 @@ public class FloatingPlatform : MonoBehaviour
         floatAmplitude = Random.Range(1, 2.5f);
         floatSpeed = Random.Range(1, 3);
 
-        // Find the parent GameObject that all racers are a child of
-        GameObject racersParent = GameObject.FindWithTag("Racers");
-
         // Get all the racers
-        racers = racersParent.GetComponentsInChildren<Racer>();
+        racers = FindObjectsOfType<Racer>();
 
         // Start spinning the propellers and controlling the cannon
         StartCoroutine(Hover());

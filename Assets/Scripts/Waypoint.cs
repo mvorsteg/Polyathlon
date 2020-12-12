@@ -38,8 +38,10 @@ public class Waypoint : MonoBehaviour, IWaypointable
             pos = transform.position;
             color = new Color(1, 0, 0, 0.5f);
         }
-
-        height = Mathf.Max(transform.GetComponent<CapsuleCollider>().radius, transform.GetComponent<CapsuleCollider>().height / 2) / 2;
+        if (!forceToGround)
+            height = Mathf.Max(transform.GetComponent<CapsuleCollider>().radius, transform.GetComponent<CapsuleCollider>().height / 2) / 2;
+        else
+            height = 0;
     }
 
     public Vector3 GetPos(NPC npc)
