@@ -7,6 +7,7 @@ public class PlayerController : Racer
     private Vector2 look;
 
     private InputActions inputActions;
+    private UI ui;
 
     private void Awake() 
     {
@@ -59,12 +60,16 @@ public class PlayerController : Racer
 
     protected override void Start() 
     {
+        inputActions.Disable();
         foreach(Movement m in movementOptions)
         {
             m.enabled = false;
             m.CameraController = cameraController;
         }
+        ui = transform.GetComponentInChildren<UI>();
+
         base.Start();
+        movement.enabled = false;
     }
 
     protected override void Update()
@@ -73,12 +78,34 @@ public class PlayerController : Racer
         movement.RotateCamera(look.x, look.y);
     }
 
+    /*  called when the race officially starts after the countdown 
+        enables movement */
+    public override void StartRace()
+    {
+        movement.enabled = true;
+    }
+
+    /*  called when the racer crosses the finish line 
+        disables movement controls, displays text */
+    public override void FinishRace()
+    {
+        base.FinishRace();
+        // disable all movement controls
+        inputActions.Running.Disable();
+        inputActions.Jetpacking.Disable();
+        inputActions.Swimming.Disable();
+        inputActions.Biking.Disable();
+        // display text
+        StartCoroutine(ui.FinishRace());
+    }
+
     /*  updates player's movement mode and maxSpeed/locomotion accordingly */
     public override void SetMovementMode(Movement.Mode mode, bool initial = false)
     {
         Vector2 movePreserve = move;
         base.SetMovementMode(mode, initial);
         inputActions.Running.Disable();
+        inputActions.Jetpacking.Disable();
         inputActions.Swimming.Disable();
         inputActions.Biking.Disable();
         switch (mode)

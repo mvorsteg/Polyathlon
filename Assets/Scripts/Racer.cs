@@ -43,8 +43,18 @@ public class Racer : MonoBehaviour
 
     protected virtual void Update()
     {
-        if (!dead)
+        if (!dead && RaceManager.IsRaceActive)
             movement.AddMovement(move.x, move.y);
+    }
+
+    public virtual void StartRace()
+    {
+
+    }
+
+    public virtual void FinishRace()
+    {
+        RaceManager.FinishRace(this);
     }
 
     private void FixedUpdate() {
