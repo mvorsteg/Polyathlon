@@ -10,23 +10,23 @@ CMSC425 Final Project
 - ~~jetpacking~~
 
 ### Courses
-- vorsteg cup
-  - city
-  - bike path
-  - mountains
+- ~~vorsteg cup~~
+  - ~~city~~
+  - ~~bike path~~
+  - ~~mountains~~
 - graber cup
-  - lake
-  - tunnel
-  - airfield
+  - ~~lake~~
+  - ~~tunnel~~
+  - ~~airfield~~
 
 ### Items
 - spiedie sauce
 - banana peel
-- rock
+- throwing item
 
 ### Gameplay
 - ~~place indicator~~
-- racing ai
+- ~~racing ai~~
 - splitscreen
 
 ### Menu
@@ -35,6 +35,7 @@ CMSC425 Final Project
 - how to play
 
 ### Misc
-- music
+- ~~music~~
 - ourselves as narrators
-- shortcut w/ coroutine
+- shortcut puzzle
+- ~~interruptable coroutine~~
