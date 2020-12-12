@@ -34,8 +34,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 155.83, y: 79.515465}
-  m_SizeDelta: {x: 311.65652, y: 159.0375}
+  m_AnchoredPosition: {x: 213.5, y: 89.895}
+  m_SizeDelta: {x: 426.96725, y: 179.86661}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &254540941
 CanvasRenderer:
@@ -66,16 +66,16 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 60
+    m_FontSize: 120
     m_FontStyle: 0
     m_BestFit: 0
-    m_MinSize: 6
-    m_MaxSize: 60
+    m_MinSize: 1
+    m_MaxSize: 120
     m_Alignment: 3
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 1
-    m_VerticalOverflow: 0
+    m_VerticalOverflow: 1
     m_LineSpacing: 1
   m_Text: 1st
 --- !u!1 &370014397
@@ -153,7 +153,7 @@ MonoBehaviour:
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
-    m_VerticalOverflow: 0
+    m_VerticalOverflow: 1
     m_LineSpacing: 1
   m_Text: 3
 --- !u!1 &1960206962
@@ -305,7 +305,7 @@ MonoBehaviour:
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 1
-    m_VerticalOverflow: 0
+    m_VerticalOverflow: 1
     m_LineSpacing: 1
   m_Text: 'Time: 00:00:000'
 --- !u!54 &1991650981
@@ -890,6 +890,9 @@ MonoBehaviour:
   dieThreshold: 40
   lastCheckpoint: {fileID: 0}
   nextCheckpoint: {fileID: 0}
+  bikeSound: {fileID: 8300000, guid: 1f34b669aba6ddd46951ef907b3a4bff, type: 3}
+  waterSound: {fileID: 8300000, guid: 528e8ba7959525540b0254364defe840, type: 3}
+  equipSound: {fileID: 8300000, guid: 80e3c557101698b49924cec3def9ba03, type: 3}
   cameraController: {fileID: 411290083769952304}
 --- !u!114 &411290082333151905
 MonoBehaviour:

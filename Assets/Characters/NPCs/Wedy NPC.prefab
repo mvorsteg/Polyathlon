@@ -3454,6 +3454,9 @@ MonoBehaviour:
   dieThreshold: 40
   lastCheckpoint: {fileID: 0}
   nextCheckpoint: {fileID: 0}
+  bikeSound: {fileID: 8300000, guid: 1f34b669aba6ddd46951ef907b3a4bff, type: 3}
+  waterSound: {fileID: 8300000, guid: 528e8ba7959525540b0254364defe840, type: 3}
+  equipSound: {fileID: 8300000, guid: 80e3c557101698b49924cec3def9ba03, type: 3}
   chain: {fileID: 0}
 --- !u!114 &5726297956981979252
 MonoBehaviour:

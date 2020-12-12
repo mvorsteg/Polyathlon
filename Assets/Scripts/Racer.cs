@@ -27,6 +27,11 @@ public class Racer : MonoBehaviour
     public Checkpoint lastCheckpoint;
     public Checkpoint nextCheckpoint;
 
+    [Header("Sound Effects")]
+    public AudioClip bikeSound;
+    public AudioClip waterSound;
+    public AudioClip equipSound;
+
 
     protected virtual void Start() 
     {
@@ -83,12 +88,18 @@ public class Racer : MonoBehaviour
                     break;
                 case Movement.Mode.Jetpacking:
                     movement = movementOptions[(int)Movement.Mode.Jetpacking];
+                    audioSource.clip = equipSound;
+                    audioSource.Play();
                     break;
                 case Movement.Mode.Swimming:
                     movement = movementOptions[(int)Movement.Mode.Swimming];
+                    audioSource.clip = waterSound;
+                    audioSource.Play();
                     break;
                 case Movement.Mode.Biking:
                     movement = movementOptions[(int)Movement.Mode.Biking];
+                    audioSource.clip = bikeSound;
+                    audioSource.Play();
                     break;
                 case Movement.Mode.GetOffTheBoat:
                     movement = movementOptions[(int)Movement.Mode.Running];

@@ -3,7 +3,14 @@ guid: 620532bc891e8a54c946452a854016ba
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - characterMesh: {instanceID: 0}
+  - hips: {instanceID: 0}
+  - lastCheckpoint: {instanceID: 0}
+  - nextCheckpoint: {instanceID: 0}
+  - bikeSound: {fileID: 8300000, guid: 1f34b669aba6ddd46951ef907b3a4bff, type: 3}
+  - waterSound: {fileID: 8300000, guid: 528e8ba7959525540b0254364defe840, type: 3}
+  - equipSound: {fileID: 8300000, guid: 80e3c557101698b49924cec3def9ba03, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

@@ -31,7 +31,22 @@ public class UI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        positionText.text = RaceManager.GetPosition();
+        int pos = RaceManager.GetPosition(this.racer);
+        switch (pos % 10)
+        {
+            case 1:
+                positionText.text = pos + "st";
+                break;
+            case 2:
+                positionText.text = pos + "nd";
+                break;
+            case 3:
+                positionText.text = pos + "rd";
+                break;
+            default:
+                positionText.text = pos + "th";
+                break;
+        }
         timeText.text = FormatTime(RaceManager.Time);
 
     }

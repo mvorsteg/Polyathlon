@@ -8,6 +8,9 @@ public class Jetpack : Movement
 {
 
     public GameObject jetpack;
+    public AudioSource audioSource;
+    public AudioClip thrustSound;
+
     protected ParticleSystem[] jetpackExhaust;
     protected bool fireJetpack; // this tells us whether we will be firing the jetpack during this frame
     
@@ -19,6 +22,7 @@ public class Jetpack : Movement
     private void Start()
     {
         jetpackExhaust = jetpack.transform.GetComponentsInChildren<ParticleSystem>();    
+        audioSource = GetComponent<AudioSource>();
     }
 
     // Set up jetpack
@@ -156,6 +160,9 @@ public class Jetpack : Movement
         fireJetpack = true;
         SetParticles(true);
         // Handle thrust
+        audioSource.clip = thrustSound;
+        audioSource.loop = true;
+        audioSource.Play();
         while(fireJetpack && !racer.IsDead())
         {
             rb.AddForce(jetpack.transform.up * jetpackForce * Time.deltaTime);
@@ -165,6 +172,8 @@ public class Jetpack : Movement
             yield return null;
         }
         SetParticles(false);
+        audioSource.loop = false;
+        audioSource.Stop();
     }
 
     // Without this, when the racer first takes off, the raycast in AddMovement that

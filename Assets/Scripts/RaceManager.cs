@@ -64,15 +64,15 @@ public class RaceManager : MonoBehaviour
 
     }
 
-    public static string GetPosition()
+    public static int GetPosition(Racer racer)
     {
-        string str = "";
-        //int i = 1;
-        foreach((Racer, int, float) position in instance.positions)
+        for (int i = 0; i < instance.positions.Count; i++)
         {
-            str += position.Item2 + " : " + position.Item1.transform.name + " "+ position.Item3.ToString("0.00") + '\n';
-            //str += i++ + " : " + position.Item1.transform.name + '\n';
+            if (instance.positions[i].Item1 == racer)
+            {
+                return i+1;
+            }
         }
-        return str;
+        return 0;
     }
 }
