@@ -4,13 +4,26 @@ using System.Collections.Generic;
 
 public class RaceManager : MonoBehaviour
 {
+    public static RaceManager instance;
+
     private List<(Racer, int, float)> positions;
+    private float time;
+
+    private bool isRaceActive = false;
 
     public int numRacers;
+    private Racer[] racers;
 
     public CheckpointChain chain;
 
-    private Racer[] racers;
+    public static float Time { get => instance.time; }
+    public static bool IsRaceActive { get => instance.isRaceActive; }
+
+    private void Awake()
+    {
+        instance = this;    
+    }
+
     private void Start() 
     {
         racers = GameObject.FindObjectsOfType<Racer>();
@@ -23,19 +36,40 @@ public class RaceManager : MonoBehaviour
 
     private void Update()
     {
-        positions.Clear();
-        foreach(Racer r in racers)
+        // update positions of racers (1st, 2nd...)
+        if (isRaceActive)
         {
-            positions.Add((r, r.nextCheckpoint.seq, Vector3.SqrMagnitude(r.nextCheckpoint.transform.position - r.transform.position)));
+            positions.Clear();
+            foreach(Racer r in racers)
+            {
+                positions.Add((r, r.nextCheckpoint.seq, Vector3.SqrMagnitude(r.nextCheckpoint.transform.position - r.transform.position)));
+            }
+            positions.Sort((a, b) => (b.Item2.CompareTo(a.Item2) == 0 ? a.Item3.CompareTo(b.Item3) : b.Item2.CompareTo(a.Item2)));
+
+            // update time
+            time += UnityEngine.Time.deltaTime;
         }
-        positions.Sort((a, b) => (b.Item2.CompareTo(a.Item2) == 0 ? a.Item3.CompareTo(b.Item3) : b.Item2.CompareTo(a.Item2)));    
     }
 
-    public string GetPosition()
+    public static void StartRace()
+    {
+        instance.isRaceActive = true;
+        foreach (Racer r in instance.racers)
+        {
+            r.StartRace();
+        }
+    }
+
+    public static void FinishRace(Racer racer)
+    {
+
+    }
+
+    public static string GetPosition()
     {
         string str = "";
         //int i = 1;
-        foreach((Racer, int, float) position in positions)
+        foreach((Racer, int, float) position in instance.positions)
         {
             str += position.Item2 + " : " + position.Item1.transform.name + " "+ position.Item3.ToString("0.00") + '\n';
             //str += i++ + " : " + position.Item1.transform.name + '\n';

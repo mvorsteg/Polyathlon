@@ -17,7 +17,7 @@ public class NPC : Racer
     {
         agent = GetComponent<NavMeshAgent>();
         nextWaypoint = chain.GetStartingWaypoint();
-        agent.SetDestination(nextWaypoint.GetPos(this));
+        SetNavMeshAgent(false);
         
         //agent.updatePosition = false;
         foreach(Movement m in movementOptions)
@@ -67,6 +67,16 @@ public class NPC : Racer
             transform.rotation = Quaternion.LookRotation(newDir);
             move = new Vector2(0, 1f);
         }        
+    }
+
+    /*  called by the RaceManager, makes the NPC start moving
+        the NPC will not officially start the race until this is called */
+    public override void StartRace()
+    {
+        Debug.Log("go");
+        base.StartRace();
+        SetNavMeshAgent(true);
+        agent.SetDestination(nextWaypoint.GetPos(this));
     }
 
     public void Land()
@@ -140,7 +150,7 @@ public class NPC : Racer
     protected void SetNavMeshAgent(bool active)
     {
         agent.enabled = active;
-        if (active && agent.isOnNavMesh)
+        if (active && agent.isOnNavMesh && RaceManager.IsRaceActive)
         {
             agent.isStopped = !active;
             agent.SetDestination(nextWaypoint.GetPos(this));
