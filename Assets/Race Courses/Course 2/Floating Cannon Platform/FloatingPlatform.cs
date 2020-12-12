@@ -13,6 +13,8 @@ public class FloatingPlatform : MonoBehaviour
     public Transform cannon;
     public GameObject projectile;
     public Rigidbody[] propellers;
+    public AudioClip cannonFiring;
+    private AudioSource cannonAudio;
     private Racer[] racers;
     private Transform target;
     private Rigidbody rb;
@@ -21,6 +23,7 @@ public class FloatingPlatform : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        cannonAudio = cannon.GetComponent<AudioSource>();
 
         // Set floatAmplitude and floatSpeed randomly so that each platform has unique motion
         floatAmplitude = Random.Range(1, 2.5f);
@@ -73,6 +76,7 @@ public class FloatingPlatform : MonoBehaviour
                 yield return null;
             }
             // Fire the cannon
+            cannonAudio.PlayOneShot(cannonFiring);
             GameObject laser = Instantiate(projectile, 2 * cannon.forward + cannon.position, cannon.rotation);
             laser.GetComponent<LaserBolt>().SetSpeed(laserSpeed);
         }
