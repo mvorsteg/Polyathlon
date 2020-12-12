@@ -11,6 +11,7 @@ public class CameraController : MonoBehaviour
     public Transform player;
     public Transform cameraTransform;
     public Transform characterHips;
+    public LayerMask layerMask; // probably want to ignore other players and lasers.
 
     private Quaternion cameraRotation;
     private Vector3 cameraOffset;
@@ -40,7 +41,7 @@ public class CameraController : MonoBehaviour
         transform.localRotation = Quaternion.Euler(cameraRotation.x, cameraRotation.y, cameraRotation.z);
         
         RaycastHit hit;
-        if (!following && Physics.Linecast(transform.position, transform.position + transform.localRotation * cameraOffset, out hit))
+        if (Physics.Linecast(transform.position, transform.position + transform.localRotation * cameraOffset, out hit, layerMask))
         {
             cameraTransform.localPosition = new Vector3(0, 0, -Vector3.Distance(transform.position, hit.point) + 0.2f);
         }

@@ -125,7 +125,7 @@ public class NPC : Racer
     {
         if (waypoint.GetFork().Length > 0)
         {
-            nextWaypoint = waypoint.GetFork()[(int)Mathf.Round(Random.Range(0, waypoint.GetFork().Length - 1))].GetStartingWaypoint();
+            nextWaypoint = waypoint.GetFork()[(int)Mathf.Round(Random.Range(0, waypoint.GetFork().Length))].GetStartingWaypoint();
             if (agent.enabled && agent.isOnNavMesh)
                 agent.SetDestination(nextWaypoint.GetPos(this));
         }

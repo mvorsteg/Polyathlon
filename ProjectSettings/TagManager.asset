@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Item
   - Racers
+  - water
   layers:
   - Default
   - TransparentFX
@@ -15,9 +16,9 @@ TagManager:
   - UI
   - 
   - 
-  - Projectile
+  - Laser
   - IgnoreProjectile
-  - 
+  - Racer
   - 
   - 
   - 
