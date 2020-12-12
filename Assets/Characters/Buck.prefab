@@ -399,6 +399,8 @@ MonoBehaviour:
   waterSound: {fileID: 0}
   equipSound: {fileID: 0}
   cameraController: {fileID: 8244711339647602193}
+  gamepadLookSensititvity: 900
+  mouseLookSensisitivity: 30
 --- !u!114 &8244711337795581056
 MonoBehaviour:
   m_ObjectHideFlags: 0

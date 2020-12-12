@@ -1,9 +1,11 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerController : Racer
 {
     public CameraController cameraController;
-
+    public float gamepadLookSensititvity = 20;
+    public float mouseLookSensisitivity = 15;
     private Vector2 look;
 
     private InputActions inputActions;
@@ -17,7 +19,8 @@ public class PlayerController : Racer
         inputActions.Running.Movement.performed += ctx => move = ctx.ReadValue<Vector2>();
         inputActions.Running.Movement.canceled += ctx => move = Vector2.zero;
 
-        inputActions.Running.Look.performed += ctx => look = ctx.ReadValue<Vector2>();
+        inputActions.Running.Look.performed += ctx => look = ctx.ReadValue<Vector2>() * Time.deltaTime * (ctx.control.device is Gamepad ?
+                                                                                            gamepadLookSensititvity : mouseLookSensisitivity);
         inputActions.Running.Look.canceled += ctx => look = Vector2.zero;
 
         inputActions.Running.Jump.performed += ctx => movement.Jump(true);
@@ -27,21 +30,24 @@ public class PlayerController : Racer
         inputActions.Swimming.Movement.performed += ctx => move = ctx.ReadValue<Vector2>();
         inputActions.Swimming.Movement.canceled += ctx => move = Vector2.zero;
 
-        inputActions.Swimming.Look.performed += ctx => look = ctx.ReadValue<Vector2>();
+        inputActions.Swimming.Look.performed += ctx => look = ctx.ReadValue<Vector2>() * Time.deltaTime * (ctx.control.device is Gamepad ?
+                                                                                            gamepadLookSensititvity : mouseLookSensisitivity);
         inputActions.Swimming.Look.canceled += ctx => look = Vector2.zero;
 
         // biking
         inputActions.Biking.Movement.performed += ctx => move = ctx.ReadValue<Vector2>();
         inputActions.Biking.Movement.canceled += ctx => move = Vector2.zero;
 
-        inputActions.Biking.Look.performed += ctx => look = ctx.ReadValue<Vector2>();
+        inputActions.Biking.Look.performed += ctx => look = ctx.ReadValue<Vector2>() * Time.deltaTime * (ctx.control.device is Gamepad ?
+                                                                                            gamepadLookSensititvity : mouseLookSensisitivity);
         inputActions.Biking.Look.canceled += ctx => look = Vector2.zero;
 
         // jetpacking
         inputActions.Jetpacking.Movement.performed += ctx => move = ctx.ReadValue<Vector2>();
         inputActions.Jetpacking.Movement.canceled += ctx => move = Vector2.zero;
 
-        inputActions.Jetpacking.Look.performed += ctx => look = ctx.ReadValue<Vector2>();
+        inputActions.Jetpacking.Look.performed += ctx => look = ctx.ReadValue<Vector2>() * Time.deltaTime * (ctx.control.device is Gamepad ?
+                                                                                            gamepadLookSensititvity : mouseLookSensisitivity);
         inputActions.Jetpacking.Look.canceled += ctx => look = Vector2.zero;
 
         inputActions.Jetpacking.Jump.performed += ctx => movement.Jump(true);
