@@ -12,6 +12,7 @@ public class CheckpointChain : MonoBehaviour
             checkpoints[i].seq = i;
             if (i < checkpoints.Length - 1)
                 checkpoints[i].next = checkpoints[i + 1];
+                checkpoints[i].distance = Vector3.Distance(checkpoints[i].transform.position, checkpoints[i + 1].transform.position);
         }
     }
 

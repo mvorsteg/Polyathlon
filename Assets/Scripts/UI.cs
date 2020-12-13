@@ -17,13 +17,21 @@ public class UI : MonoBehaviour
     private Racer racer;
 
     private bool isPrimaryUI;
+    private static UI primaryUI;
     private static bool isPrimaryTaken = false;
 
     private void Awake()
     {
+        if (!isPrimaryTaken)
+        {
+            primaryUI = this;
+            isPrimaryUI = true;
+            isPrimaryTaken = true;
+
+        }
         //isPrimaryUI = !isPrimaryTaken;
-        isPrimaryUI = true; // solve this bug later its 4:04 AM
-        isPrimaryTaken = true;
+        // isPrimaryUI = true; // solve this bug later its 4:04 AM
+        // isPrimaryTaken = true;
     }
 
     // Start is called before the first frame update
@@ -113,7 +121,7 @@ public class UI : MonoBehaviour
     }
 
     /*  returns time in the form "minutes:seconds.milliseconds" */
-    private static string FormatTime(float seconds)
+    public static string FormatTime(float seconds)
     {
         int mm = (int)(seconds / 60);
         int ss = (int)(seconds % 60);

@@ -9,7 +9,7 @@ public class FinishLine : MonoBehaviour
         Racer racer = other.transform.GetComponent<Racer>();
         if (racer != null)
         {
-            racer.FinishRace();
+            racer.FinishRace(false);
         }
     }
 }

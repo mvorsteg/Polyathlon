@@ -1,19 +1,31 @@
-using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class RaceManager : MonoBehaviour
 {
     public static RaceManager instance;
 
+    public Transform startingPositionsParent;
+    private Transform[] startingPositions;
+    private RaceSettings raceSettings;
+
     private List<(Racer, int, float)> positions;
+    private List<(Racer, float)> finalPositions;
     private float time;
 
     private bool isRaceActive = false;
 
     private Racer[] racers;
+    private int realPlayersInRace;
 
     public CheckpointChain chain;
+
+    public Text placeText;
+    public Text timeText;
 
     public static float Time { get => instance.time; }
     public static bool IsRaceActive { get => instance.isRaceActive; }
@@ -21,6 +33,53 @@ public class RaceManager : MonoBehaviour
     private void Awake()
     {
         instance = this;    
+
+        // race starter code
+        try {
+            raceSettings = GameObject.FindObjectsOfType<RaceSettings>()[0];
+            // get all the starting positions
+            startingPositions = new Transform[startingPositionsParent.childCount];
+            for (int i = 0; i < startingPositionsParent.childCount; i++)
+            {
+                startingPositions[i] = startingPositionsParent.GetChild(i);
+            }
+
+            // Get the racers
+            List<Character> npcChoices = raceSettings.GetNPCChoices();
+            List<RaceSettings.PlayerChoice> playerChoices = raceSettings.GetPlayerChoices();
+            // First instantiate the NPCs
+            for (int i = 0; i < npcChoices.Count; i++)
+            {
+                Racer racer = Instantiate(npcChoices[i].npcObj, startingPositions[i].position, startingPositions[i].rotation).GetComponent<Racer>();
+                // Change movement mode of NPCs if necessary
+                if (SceneManager.GetActiveScene().name == "Course 2")
+                {
+                    racer.movementMode = Movement.Mode.GetOffTheBoat;
+                }
+            }
+            // instantiate the players
+            for (int i = 0; i < playerChoices.Count; i++)
+            {
+                PlayerInput newPlayer = PlayerInput.Instantiate(playerChoices[i].character.playerObj, playerChoices[i].playerIndex,
+                                                                playerChoices[i].controlScheme, -1, playerChoices[i].inputDevices);
+                newPlayer.transform.position = startingPositions[i + npcChoices.Count].position;
+                newPlayer.transform.rotation = startingPositions[i + npcChoices.Count].rotation;
+
+                
+                newPlayer.GetComponentInChildren<UI>().SetScale(i, playerChoices.Count);
+
+                // remove excess audio listeners
+                if (i > 0)
+                {
+                    Destroy(newPlayer.GetComponentInChildren<AudioListener>());
+                }
+            }
+            realPlayersInRace = playerChoices.Count;            
+        }
+        catch (System.Exception)
+        {
+            Debug.LogWarning("Where are the RaceSettings?!?!");
+        }
     }
 
     private void Start() 
@@ -31,6 +90,9 @@ public class RaceManager : MonoBehaviour
             r.nextCheckpoint = chain.GetFirstCheckpoint();
         }
         positions = new List<(Racer, int, float)>(racers.Length);
+        finalPositions = new List<(Racer, float)>(racers.Length);
+        timeText.gameObject.SetActive(false);
+        placeText.gameObject.SetActive(false);
     }
 
     private void Update()
@@ -59,9 +121,24 @@ public class RaceManager : MonoBehaviour
         }
     }
 
-    public static void FinishRace(Racer racer)
+    public static void FinishRace(Racer racer, float extraTime = 0f)
     {
-
+        instance.finalPositions.Add((racer, instance.time + extraTime));
+        if (racer is PlayerController)
+        {
+            instance.realPlayersInRace--;
+            if (instance.realPlayersInRace == 0)
+            {
+                foreach(Racer r in instance.racers)
+                {
+                    if (!r.isFinished)
+                    {
+                        r.FinishRace(true);
+                    }
+                }
+                instance.StartCoroutine(instance.DisplayScores());
+            }
+        }
     }
 
     public static int GetPosition(Racer racer)
@@ -74,6 +151,22 @@ public class RaceManager : MonoBehaviour
             }
         }
         return 0;
+    }
+
+    private IEnumerator DisplayScores()
+    {
+        yield return new WaitForSeconds(2f);
+        string names = "";
+        string times = "";
+        for (int i = 0; i < racers.Length; i++)
+        {
+            names += (i+1) + (i < 9 ? "    " : "   ") + finalPositions[i].Item1 + '\n';
+            times += UI.FormatTime(finalPositions[i].Item2) + '\n';
+        }
+        placeText.text = names;
+        timeText.text = times;
+        timeText.gameObject.SetActive(true);
+        placeText.gameObject.SetActive(true);
     }
 
     /*  if it looks stupid but it works, it ain't stupid */

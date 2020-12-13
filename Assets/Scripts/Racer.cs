@@ -29,6 +29,7 @@ public class Racer : MonoBehaviour
     public float dieThreshold = 40f;
     public Checkpoint lastCheckpoint;
     public Checkpoint nextCheckpoint;
+    public bool isFinished = false;
 
     [Header("Sound Effects")]
     public AudioClip bikeSound;
@@ -60,9 +61,21 @@ public class Racer : MonoBehaviour
 
     }
 
-    public virtual void FinishRace()
+    public virtual void FinishRace(bool forced)
     {
-        RaceManager.FinishRace(this);
+        isFinished = true;
+        float extraTime = 0;
+        if (forced)
+        {
+            extraTime = Vector3.Distance(transform.position, nextCheckpoint.transform.position);
+            Checkpoint c = nextCheckpoint;
+            while (c != null)
+            {
+                extraTime += c.distance;
+            }
+            extraTime /= movement.maxSpeed;
+        }
+        RaceManager.FinishRace(this, 0);
     }
 
     private void FixedUpdate() {

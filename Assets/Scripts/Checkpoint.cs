@@ -5,6 +5,7 @@ public class Checkpoint : MonoBehaviour
 {
     public int seq;
     public Checkpoint next;
+    public float distance = 0f;
 
     private BoxCollider box;
 

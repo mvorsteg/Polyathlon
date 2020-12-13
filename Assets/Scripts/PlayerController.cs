@@ -238,9 +238,9 @@ public class PlayerController : Racer
 
     /*  called when the racer crosses the finish line 
         disables movement controls, displays text */
-    public override void FinishRace()
+    public override void FinishRace(bool force)
     {
-        base.FinishRace();
+        base.FinishRace(force);
         // disable all movement controls
         canMove = false;
        /* inputActions.Running.Disable();
