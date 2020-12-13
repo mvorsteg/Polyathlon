@@ -51,6 +51,17 @@ public class PlayerController : Racer
         }
     }
 
+    public void OnUseItem(InputAction.CallbackContext ctx)
+    {
+        if (canMove && item != null)
+        {
+            if (ctx.performed)
+            {
+                item.Use(this);
+            }
+        }
+    }
+
     // Swimming
     public void OnSwimmingMovement(InputAction.CallbackContext ctx)
     {
@@ -209,6 +220,12 @@ public class PlayerController : Racer
     {
         base.Update();
         movement.RotateCamera(look.x, look.y);
+    }
+
+    public override void EquipItem(Item item)
+    {
+        base.EquipItem(item);
+        ui.SetItemImage(item != null ? item.icon : null);
     }
 
     /*  called when the race officially starts after the countdown 

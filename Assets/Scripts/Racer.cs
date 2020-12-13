@@ -8,6 +8,9 @@ public class Racer : MonoBehaviour
 
     public Transform characterMesh;
     public Transform hips;
+
+    protected Item item;
+    
     protected AnimatorOverrideController animOverride;
     protected PlayerAnimationEvents animEvents;
 
@@ -176,13 +179,40 @@ public class Racer : MonoBehaviour
             nextCheckpoint = checkpoint.next;
     }
 
-    public IEnumerator SpeedBoost(float magnitude, float duration)
+    public virtual void EquipItem(Item item)
+    {
+        this.item = item;
+    }
+
+    public void SpeedBoost()
+    {
+        StartCoroutine(SpeedBoost(2f, 5f));
+        EquipItem(null);
+    }
+
+    private IEnumerator SpeedBoost(float magnitude, float duration)
     {
         movement.BonusSpeed = magnitude;
         anim.speed = magnitude;
         yield return new WaitForSeconds(duration);
         movement.BonusSpeed = 1f;
         anim.speed = 1f;
+    }
+
+    public void DropItem()
+    {
+        Vector3 pos = transform.position - characterMesh.transform.forward + 0.5f * characterMesh.transform.up;
+        Instantiate(item.Child, pos, Quaternion.identity);
+        EquipItem(null);
+    }
+
+    public void ThrowItem()
+    {
+        Vector3 pos = transform.position + 2f * characterMesh.transform.forward + 0.5f * characterMesh.transform.up;
+        GameObject obj = Instantiate(item.Child, pos, Quaternion.identity);
+        Rigidbody itemRb = obj.GetComponent<Rigidbody>();
+        itemRb.AddForce(1000 * (characterMesh.transform.forward + 0.1f * transform.up));
+        EquipItem(null);
     }
 
     /*  plays a miscellaneus animation that is NOT defined in the animation controller */

@@ -41,6 +41,14 @@ public class @InputActions : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Item"",
+                    ""type"": ""Button"",
+                    ""id"": ""ef2691be-aa54-4186-98f5-2335b106b0cd"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -173,6 +181,39 @@ public class @InputActions : IInputActionCollection, IDisposable
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
                     ""action"": ""Jump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b33ac9b8-df0e-4932-a73c-be0c5ec06a89"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Item"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5a3f253e-000b-4fb5-9f77-677c9028e1f7"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Item"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0f749a0a-cd34-4c05-a5e8-ed71ca18d96c"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Item"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1219,6 +1260,7 @@ public class @InputActions : IInputActionCollection, IDisposable
         m_Running_Movement = m_Running.FindAction("Movement", throwIfNotFound: true);
         m_Running_Look = m_Running.FindAction("Look", throwIfNotFound: true);
         m_Running_Jump = m_Running.FindAction("Jump", throwIfNotFound: true);
+        m_Running_Item = m_Running.FindAction("Item", throwIfNotFound: true);
         // Jetpacking
         m_Jetpacking = asset.FindActionMap("Jetpacking", throwIfNotFound: true);
         m_Jetpacking_Movement = m_Jetpacking.FindAction("Movement", throwIfNotFound: true);
@@ -1305,6 +1347,7 @@ public class @InputActions : IInputActionCollection, IDisposable
     private readonly InputAction m_Running_Movement;
     private readonly InputAction m_Running_Look;
     private readonly InputAction m_Running_Jump;
+    private readonly InputAction m_Running_Item;
     public struct RunningActions
     {
         private @InputActions m_Wrapper;
@@ -1312,6 +1355,7 @@ public class @InputActions : IInputActionCollection, IDisposable
         public InputAction @Movement => m_Wrapper.m_Running_Movement;
         public InputAction @Look => m_Wrapper.m_Running_Look;
         public InputAction @Jump => m_Wrapper.m_Running_Jump;
+        public InputAction @Item => m_Wrapper.m_Running_Item;
         public InputActionMap Get() { return m_Wrapper.m_Running; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1330,6 +1374,9 @@ public class @InputActions : IInputActionCollection, IDisposable
                 @Jump.started -= m_Wrapper.m_RunningActionsCallbackInterface.OnJump;
                 @Jump.performed -= m_Wrapper.m_RunningActionsCallbackInterface.OnJump;
                 @Jump.canceled -= m_Wrapper.m_RunningActionsCallbackInterface.OnJump;
+                @Item.started -= m_Wrapper.m_RunningActionsCallbackInterface.OnItem;
+                @Item.performed -= m_Wrapper.m_RunningActionsCallbackInterface.OnItem;
+                @Item.canceled -= m_Wrapper.m_RunningActionsCallbackInterface.OnItem;
             }
             m_Wrapper.m_RunningActionsCallbackInterface = instance;
             if (instance != null)
@@ -1343,6 +1390,9 @@ public class @InputActions : IInputActionCollection, IDisposable
                 @Jump.started += instance.OnJump;
                 @Jump.performed += instance.OnJump;
                 @Jump.canceled += instance.OnJump;
+                @Item.started += instance.OnItem;
+                @Item.performed += instance.OnItem;
+                @Item.canceled += instance.OnItem;
             }
         }
     }
@@ -1696,6 +1746,7 @@ public class @InputActions : IInputActionCollection, IDisposable
         void OnMovement(InputAction.CallbackContext context);
         void OnLook(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
+        void OnItem(InputAction.CallbackContext context);
     }
     public interface IJetpackingActions
     {

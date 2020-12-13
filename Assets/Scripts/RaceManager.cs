@@ -75,4 +75,15 @@ public class RaceManager : MonoBehaviour
         }
         return 0;
     }
+
+    /*  if it looks stupid but it works, it ain't stupid */
+    public static Racer GetRacerOtherThanThisOne(Racer racer)
+    {
+        Racer chosen = racer;
+        while (chosen == racer)
+        {
+            chosen = instance.racers[Random.Range(0, instance.racers.Length)];
+        }
+        return chosen;
+    }
 }
