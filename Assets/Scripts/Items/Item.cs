@@ -4,10 +4,17 @@ using System.Collections;
 public class Item : MonoBehaviour
 {
     public float itemRespawnTime = 3;
+    public bool consumable = false;
+
+    public Sprite icon;
+
+    [SerializeField]
     private GameObject child;
     private Collider itemCollider;
     private ItemWaypoint itemWaypoint;
     private bool available = true;
+
+    public GameObject Child { get => child; }
 
     void Start()
     {
@@ -24,11 +31,18 @@ public class Item : MonoBehaviour
     // Called when a racer picks up this item
     public virtual void Pickup(Racer racer)
     {
-        StartCoroutine(RespawnItem());
-        // If the NPC has picked up this item...
-        if (racer is NPC && itemWaypoint != null)
+        if (consumable)
         {
-            itemWaypoint.NPCTookItem((NPC)racer);
+            racer.EquipItem(this);
+        }
+        else
+        {
+            StartCoroutine(RespawnItem());
+            // If the NPC has picked up this item...
+            if (racer is NPC && itemWaypoint != null)
+            {
+                itemWaypoint.NPCTookItem((NPC)racer);
+            }
         }
     }
 
@@ -48,5 +62,10 @@ public class Item : MonoBehaviour
     public bool IsAvailable()
     {
         return available;
+    }
+
+    public virtual void Use(Racer racer)
+    {
+
     }
 }

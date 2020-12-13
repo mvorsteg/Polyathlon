@@ -9,6 +9,9 @@ public class UI : MonoBehaviour
     public Text positionText;
     public Text timeText;
     public Text centerText;
+    public Image itemImage;
+    
+    public Sprite defaultItemSprite;
     private Racer racer;
 
     private bool isPrimaryUI;
@@ -24,7 +27,7 @@ public class UI : MonoBehaviour
     void Start()
     {
         racer = GetComponentInParent<Racer>();
-
+        SetItemImage(null);
         StartCoroutine(StartRace());
     }
 
@@ -59,6 +62,21 @@ public class UI : MonoBehaviour
         int ms = (int)((seconds - ss) * 1000);
 
         return mm.ToString("D2")  + ":" + ss.ToString("D2") + "." + ms.ToString("D3");
+    }
+
+    /*  sets the item image to the specified sprite */
+    public void SetItemImage(Sprite icon)
+    {
+        if (icon == null)
+        {
+            // itemImage.sprite = defaultItemSprite;
+            itemImage.gameObject.SetActive(false);
+        }
+        else
+        {
+            itemImage.gameObject.SetActive(true);
+            itemImage.sprite = icon;
+        }
     }
 
     private IEnumerator StartRace()

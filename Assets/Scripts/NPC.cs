@@ -69,6 +69,19 @@ public class NPC : Racer
         }        
     }
 
+    public override void EquipItem(Item item)
+    {
+        base.EquipItem(item);
+        StartCoroutine(UseItem());
+    }
+
+    private IEnumerator UseItem()
+    {
+        float s = Random.Range(0.2f, 10f);
+        yield return new WaitForSeconds(s);
+        UseItem();
+    }
+
     /*  called by the RaceManager, makes the NPC start moving
         the NPC will not officially start the race until this is called */
     public override void StartRace()

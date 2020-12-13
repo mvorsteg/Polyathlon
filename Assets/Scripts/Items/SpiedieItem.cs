@@ -4,7 +4,11 @@ public class SpiedieItem : Item
 {
     public override void Pickup(Racer racer)
     {
-        StartCoroutine(racer.SpeedBoost(2f, 5f));
         base.Pickup(racer);
+    }
+
+    public override void Use(Racer racer)
+    {
+        racer.SpeedBoost();
     }
 }
