@@ -51,6 +51,9 @@ public class MainMenuManager : MonoBehaviour
         players.Add(newPlayer);
         controlSchemes.Add(newPlayer.GetControlScheme());
         newPlayer.SetPlayerNum(players.Count - 1);
+        // if everyone was ready before, they aren't now
+        InformReady(false);
+        // update positions of players
         ArrangePlayers();
         UpdateMessages();
     }
@@ -68,6 +71,8 @@ public class MainMenuManager : MonoBehaviour
             {
                 players[i].SetPlayerNum(i);
             }
+            // see if everyone's ready now
+            InformReady(true);
             // rearrange their positions
             ArrangePlayers();
             UpdateMessages();
