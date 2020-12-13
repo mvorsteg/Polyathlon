@@ -5,7 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class Bicycle : Movement
 {
-    public float amt = 1f;
+    private float amt = 100f;
 
     [Header ("GameObjects")]
     public GameObject bike;
@@ -28,7 +28,7 @@ public class Bicycle : Movement
     public float smoothLean = 0.5f;
 
     private float rotationValue = 0f;
-    public float rotSpeed = 10;
+    private float rotSpeed = 45;
 
     private Quaternion startForkRot;
     private Vector3 upDirection = Vector3.up;

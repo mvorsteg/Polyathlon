@@ -22,16 +22,16 @@ public class UI : MonoBehaviour
 
     private void Awake()
     {
-        if (!isPrimaryTaken)
-        {
-            primaryUI = this;
-            isPrimaryUI = true;
-            isPrimaryTaken = true;
+        // if (!isPrimaryTaken)
+        // {
+        //     primaryUI = this;
+        //     isPrimaryUI = true;
+        //     isPrimaryTaken = true;
 
-        }
-        //isPrimaryUI = !isPrimaryTaken;
-        // isPrimaryUI = true; // solve this bug later its 4:04 AM
-        // isPrimaryTaken = true;
+        // }
+        isPrimaryUI = !isPrimaryTaken;
+        isPrimaryUI = true; // solve this bug later its 4:04 AM
+        isPrimaryTaken = true;
     }
 
     // Start is called before the first frame update
@@ -46,7 +46,7 @@ public class UI : MonoBehaviour
     void Update()
     {
         int pos = RaceManager.GetPosition(this.racer);
-        switch (pos % 10)
+        switch (pos)
         {
             case 1:
                 positionText.text = pos + "st";
@@ -75,12 +75,12 @@ public class UI : MonoBehaviour
         {
             switch (player)
             {
-                case 0:
+                case 1:
                     scaleTransform.anchorMax = new Vector2(0, 0.5f);
                     scaleTransform.anchorMin = new Vector2(0, 0.5f);
                     scaleTransform.anchoredPosition = new Vector3(0, scaleTransform.sizeDelta.y / 2, 0);
                     break;
-                case 1:
+                case 0:
                     scaleTransform.anchorMax = new Vector2(1, 0.5f);
                     scaleTransform.anchorMin = new Vector2(1, 0.5f);
                     scaleTransform.anchoredPosition = new Vector3(-scaleTransform.sizeDelta.x / 2, scaleTransform.sizeDelta.y / 2, 0);
@@ -123,11 +123,11 @@ public class UI : MonoBehaviour
     /*  returns time in the form "minutes:seconds.milliseconds" */
     public static string FormatTime(float seconds)
     {
-        int mm = (int)(seconds / 60);
-        int ss = (int)(seconds % 60);
-        int ms = (int)((seconds - ss) * 1000);
-
-        return mm.ToString("D2")  + ":" + ss.ToString("D2") + "." + ms.ToString("D3");
+        int mm = ((int)(seconds / 60));
+        int ss = ((int)(seconds % 60));
+        int ms = ((int)((seconds - ss - 60 * mm) * 1000));
+    
+        return mm.ToString("D2")  + ":" + ss.ToString("D2") + "." + ms.ToString("D3");;
     }
 
     /*  sets the item image to the specified sprite */

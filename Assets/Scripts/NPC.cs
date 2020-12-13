@@ -71,15 +71,17 @@ public class NPC : Racer
 
     public override void EquipItem(Item item)
     {
+        Debug.Log("Equip");
         base.EquipItem(item);
         StartCoroutine(UseItem());
     }
 
     private IEnumerator UseItem()
     {
+        Debug.Log("Use");
         float s = Random.Range(0.2f, 10f);
         yield return new WaitForSeconds(s);
-        UseItem();
+        item.Use(this);
     }
 
     /*  called by the RaceManager, makes the NPC start moving

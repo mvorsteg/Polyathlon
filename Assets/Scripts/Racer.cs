@@ -3,6 +3,7 @@ using System.Collections;
 
 public class Racer : MonoBehaviour
 {
+    public new string name;
     public Movement.Mode movementMode;
     public Movement[] movementOptions;
 
@@ -69,13 +70,14 @@ public class Racer : MonoBehaviour
         {
             extraTime = Vector3.Distance(transform.position, nextCheckpoint.transform.position);
             Checkpoint c = nextCheckpoint;
-            while (c != null)
+            while (c.next != null)
             {
                 extraTime += c.distance;
+                c = c.next;
             }
             extraTime /= movement.maxSpeed;
         }
-        RaceManager.FinishRace(this, 0);
+        RaceManager.FinishRace(this, extraTime);
     }
 
     private void FixedUpdate() {
