@@ -55,6 +55,7 @@ public class RaceManager : MonoBehaviour
                 if (SceneManager.GetActiveScene().name == "Course 2")
                 {
                     racer.movementMode = Movement.Mode.GetOffTheBoat;
+                    racer.name = npcChoices[i].name;
                 }
             }
             // instantiate the players
@@ -65,7 +66,8 @@ public class RaceManager : MonoBehaviour
                 newPlayer.transform.position = startingPositions[i + npcChoices.Count].position;
                 newPlayer.transform.rotation = startingPositions[i + npcChoices.Count].rotation;
 
-                
+                newPlayer.GetComponent<Racer>().name = playerChoices[i].character.name;
+
                 newPlayer.GetComponentInChildren<UI>().SetScale(i, playerChoices.Count);
 
                 // remove excess audio listeners
@@ -131,7 +133,7 @@ public class RaceManager : MonoBehaviour
             {
                 foreach(Racer r in instance.racers)
                 {
-                    if (!r.isFinished)
+                    if (!r.isFinished && r is NPC)
                     {
                         r.FinishRace(true);
                     }
@@ -160,7 +162,7 @@ public class RaceManager : MonoBehaviour
         string times = "";
         for (int i = 0; i < racers.Length; i++)
         {
-            names += (i+1) + (i < 9 ? "    " : "   ") + finalPositions[i].Item1 + '\n';
+            names += (i+1) + (i < 9 ? "    " : "   ") + finalPositions[i].Item1.name + '\n';
             times += UI.FormatTime(finalPositions[i].Item2) + '\n';
         }
         placeText.text = names;
