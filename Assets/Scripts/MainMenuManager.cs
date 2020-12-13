@@ -31,7 +31,7 @@ public class MainMenuManager : MonoBehaviour
     private string confrimMessage;
     private bool allReady;
     private const float distanceBetweenPlayers = 1.3f;
-    private const int maxRacers = 10;
+    private const int maxRacers = 12;
 
     void Awake()
     {

@@ -20,7 +20,8 @@ public class Ragdoll : MonoBehaviour
     {
         rigidbodies = GetComponentsInChildren<Rigidbody>();
         colliders = GetComponentsInChildren<Collider>();
-        hips = transform.parent.GetComponent<Racer>().GetHips().GetComponent<Rigidbody>(); 
+        hips = transform.parent.GetComponent<Racer>().GetHips().GetComponent<Rigidbody>();
+        SetRagdoll(false);
     }
 
     /*  activates / deactivates the ragdoll's colliders and rigidbodies */
@@ -28,9 +29,16 @@ public class Ragdoll : MonoBehaviour
     {
         foreach (Rigidbody rb in rigidbodies)
         {
-            rb.collisionDetectionMode = value ? CollisionDetectionMode.Discrete : CollisionDetectionMode.ContinuousSpeculative;
-            rb.isKinematic = !value;
-            rb.collisionDetectionMode = value ? CollisionDetectionMode.ContinuousDynamic : CollisionDetectionMode.ContinuousSpeculative;
+            if (value)
+            {
+                rb.isKinematic = false;
+                rb.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
+            }
+            else
+            {
+                rb.collisionDetectionMode = CollisionDetectionMode.ContinuousSpeculative;
+                rb.isKinematic = true;
+            }
         }
 
         foreach (Collider c in colliders)

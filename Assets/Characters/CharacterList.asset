@@ -18,19 +18,82 @@ MonoBehaviour:
       type: 3}
     npcObj: {fileID: 5726297956981979253, guid: 130ab5acca8672a478b86110aa5790ba,
       type: 3}
-    previewObj: {fileID: 5626441515505511883, guid: 9ba9355e1357e9c4caec6020898b7bb5,
+    previewObj: {fileID: 5626441515505511883, guid: cda20b932e8cfde47b627abf798dcc58,
       type: 3}
   - name: Buck Bowman
     playerObj: {fileID: 8244711337795581057, guid: e3a9d80cc43a09349a3722ae3f3b213f,
       type: 3}
-    npcObj: {fileID: 5726297956981979253, guid: 130ab5acca8672a478b86110aa5790ba,
+    npcObj: {fileID: 5726297956981979253, guid: 2f643fc1fabbe7042b6a3e7ad9023a4e,
       type: 3}
-    previewObj: {fileID: 6907639614740660239, guid: 6ddd86d70f72eb34ca927329e6f75cb2,
+    previewObj: {fileID: 6907639614740660239, guid: a80bca964294b924c81b9f88fbf209e9,
+      type: 3}
+  - name: Bo Buckman
+    playerObj: {fileID: 8244711337795581057, guid: c338ac1b65c348141a865dd6fa08ae8a,
+      type: 3}
+    npcObj: {fileID: 5726297956981979253, guid: 4b7494b9b0d227a4faaa8c49f0f022f2,
+      type: 3}
+    previewObj: {fileID: 6908085716926845471, guid: 0b928052c13542449b8895b510343b22,
+      type: 3}
+  - name: Sergey
+    playerObj: {fileID: 411290082333151904, guid: 781d1427de15b4b46967b1986a086ad1,
+      type: 3}
+    npcObj: {fileID: 5726297956981979253, guid: 7e267d6feb8c0b646b20bed92674b5c8,
+      type: 3}
+    previewObj: {fileID: 6877081354341892973, guid: 30bf4819dee88a0419769314b01e528d,
+      type: 3}
+  - name: The Silver Sprinter
+    playerObj: {fileID: 411290082333151904, guid: e5414e52ea96a9741ba1ce3e8b2b8542,
+      type: 3}
+    npcObj: {fileID: 5726297956981979253, guid: 04cc180a28d4b054eb6584fd01600e50,
+      type: 3}
+    previewObj: {fileID: 7746803501532714720, guid: 8a58a162f32a63e45b0379fa05ae4c3d,
+      type: 3}
+  - name: Cowbot
+    playerObj: {fileID: 411290082333151904, guid: 9acadf4bf46cec3419502d95f1037e60,
+      type: 3}
+    npcObj: {fileID: 5726297956981979253, guid: e939743a968905541b0fc0ffcf36d601,
+      type: 3}
+    previewObj: {fileID: 1955606547528251518, guid: f0bbc810402d7f741be50948da9a45a1,
+      type: 3}
+  - name: Bestudo
+    playerObj: {fileID: 411290082333151904, guid: 6ee1be5df435efd4586cbb8a6c0c8e1b,
+      type: 3}
+    npcObj: {fileID: 5726297956981979253, guid: 72a0d9823a97a32439cdb55d099ad6f8,
+      type: 3}
+    previewObj: {fileID: 7391006145443133968, guid: b4ec85ebe552cce43b9f60ba08bb9986,
       type: 3}
   - name: The Walkin' Bass
     playerObj: {fileID: 4174475994960663023, guid: 113940e493890484e98d276e9f003284,
       type: 3}
-    npcObj: {fileID: 5726297956981979253, guid: 130ab5acca8672a478b86110aa5790ba,
+    npcObj: {fileID: 5726297956981979253, guid: adc6d66ea3e3ff94985e5685788f48cc,
       type: 3}
     previewObj: {fileID: 8326714970321871924, guid: aa4ff41ca58440c4183e6e1b66a8b4ba,
+      type: 3}
+  - name: Matt Graber
+    playerObj: {fileID: 411290082333151904, guid: 31118e0b69736aa4d8c925bea280d540,
+      type: 3}
+    npcObj: {fileID: 5726297956981979253, guid: 4eb682a4dc4bae94baa1dd95993bf1a6,
+      type: 3}
+    previewObj: {fileID: 4713012211943290316, guid: 850fe302612420b47b5841900d23f09a,
+      type: 3}
+  - name: Matt Vorsteg
+    playerObj: {fileID: 411290082333151904, guid: e836cb44d2d9d27418f5927f3c3cddef,
+      type: 3}
+    npcObj: {fileID: 5726297956981979253, guid: ec5a3a349ac817d44b8b22565580166d,
+      type: 3}
+    previewObj: {fileID: 7980382004344233561, guid: a857bf3443ddd56448a06017a9a23dcf,
+      type: 3}
+  - name: Dr. Desmesmert
+    playerObj: {fileID: 411290082333151904, guid: fefbd061bcf7b1a4fa8666235c69721d,
+      type: 3}
+    npcObj: {fileID: 5726297956981979253, guid: 931877d654ddc6141a0f02816349c128,
+      type: 3}
+    previewObj: {fileID: 6208265770907095726, guid: c09ecc6dde7f64147ab535ff494cdf46,
+      type: 3}
+  - name: Doug
+    playerObj: {fileID: 411290082333151904, guid: b792ad72c8c7dae48aa9791d007e4bdb,
+      type: 3}
+    npcObj: {fileID: 5726297956981979253, guid: 291669b636b9cde439a642d753d146ad,
+      type: 3}
+    previewObj: {fileID: 2950068046219622941, guid: 328a1197c4ce3a34db1c0dffcd3f291a,
       type: 3}
