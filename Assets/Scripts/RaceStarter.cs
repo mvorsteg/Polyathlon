@@ -42,6 +42,10 @@ public class RaceStarter : MonoBehaviour
                                                                 playerChoices[i].controlScheme, -1, playerChoices[i].inputDevices);
                 newPlayer.transform.position = startingPositions[i + npcChoices.Count].position;
                 newPlayer.transform.rotation = startingPositions[i + npcChoices.Count].rotation;
+
+                UI ui = newPlayer.transform.GetComponentInChildren<UI>();
+                ui.SetScale(i, playerChoices.Count);
+
                 // remove excess audio listeners
                 if (i > 0)
                 {

@@ -10,6 +10,8 @@ public class UI : MonoBehaviour
     public Text timeText;
     public Text centerText;
     public Image itemImage;
+
+    public RectTransform scaleTransform;
     
     public Sprite defaultItemSprite;
     private Racer racer;
@@ -53,6 +55,61 @@ public class UI : MonoBehaviour
         }
         timeText.text = FormatTime(RaceManager.Time);
 
+    }
+
+    public void SetScale(int player, int maxPlayers)
+    {
+        if (maxPlayers == 1)
+        {
+            // do nothing
+        }
+        else if (maxPlayers < 3)
+        {
+            switch (player)
+            {
+                case 0:
+                    scaleTransform.anchorMax = new Vector2(0, 0.5f);
+                    scaleTransform.anchorMin = new Vector2(0, 0.5f);
+                    scaleTransform.anchoredPosition = new Vector3(0, scaleTransform.sizeDelta.y / 2, 0);
+                    break;
+                case 1:
+                    scaleTransform.anchorMax = new Vector2(1, 0.5f);
+                    scaleTransform.anchorMin = new Vector2(1, 0.5f);
+                    scaleTransform.anchoredPosition = new Vector3(-scaleTransform.sizeDelta.x / 2, scaleTransform.sizeDelta.y / 2, 0);
+                    break;
+            }
+            scaleTransform.sizeDelta = new Vector2(scaleTransform.sizeDelta.x / 2 , scaleTransform.sizeDelta.y);
+
+        }
+        else
+        {
+            switch (player)
+            {
+                case 0:
+                    scaleTransform.pivot = new Vector2(0, 1);
+                    scaleTransform.anchorMax = new Vector2(0, 1);
+                    scaleTransform.anchorMin = new Vector2(0, 1);
+                    break;
+                case 1:
+                    scaleTransform.pivot = new Vector2(1, 1);
+                    scaleTransform.anchorMax = new Vector2(1, 1);
+                    scaleTransform.anchorMin = new Vector2(1, 1);
+                    break;
+                case 2:
+                    scaleTransform.pivot = new Vector2(0, 0);
+                    scaleTransform.anchorMax = new Vector2(0, 0);
+                    scaleTransform.anchorMin = new Vector2(0, 0);
+                    break;
+                case 3:
+                    scaleTransform.pivot = new Vector2(1, 0);
+                    scaleTransform.anchorMax = new Vector2(1, 0);
+                    scaleTransform.anchorMin = new Vector2(1, 0);
+                    break;
+
+            }
+            scaleTransform.localScale = new Vector3(0.5f, 0.5f, 1);
+            scaleTransform.anchoredPosition = new Vector3(0, 0, 0);
+        }
     }
 
     /*  returns time in the form "minutes:seconds.milliseconds" */
