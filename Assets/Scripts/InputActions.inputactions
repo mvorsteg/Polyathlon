@@ -638,7 +638,7 @@
                     "interactions": ""
                 },
                 {
-                    "name": "Start",
+                    "name": "ConfirmSelections",
                     "type": "Button",
                     "id": "4d046d82-dee9-4aad-9911-0d2d4b95e0d1",
                     "expectedControlType": "Button",
@@ -1138,7 +1138,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
-                    "action": "Start",
+                    "action": "ConfirmSelections",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -1149,7 +1149,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
-                    "action": "Start",
+                    "action": "ConfirmSelections",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

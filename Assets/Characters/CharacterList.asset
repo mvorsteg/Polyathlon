@@ -23,12 +23,14 @@ MonoBehaviour:
   - name: Buck Bowman
     playerObj: {fileID: 8244711337795581057, guid: e3a9d80cc43a09349a3722ae3f3b213f,
       type: 3}
-    npcObj: {fileID: 0}
+    npcObj: {fileID: 5726297956981979253, guid: 130ab5acca8672a478b86110aa5790ba,
+      type: 3}
     previewObj: {fileID: 6907639614740660239, guid: 6ddd86d70f72eb34ca927329e6f75cb2,
       type: 3}
   - name: The Walkin' Bass
     playerObj: {fileID: 4174475994960663023, guid: 113940e493890484e98d276e9f003284,
       type: 3}
-    npcObj: {fileID: 0}
+    npcObj: {fileID: 5726297956981979253, guid: 130ab5acca8672a478b86110aa5790ba,
+      type: 3}
     previewObj: {fileID: 8326714970321871924, guid: aa4ff41ca58440c4183e6e1b66a8b4ba,
       type: 3}

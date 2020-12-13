@@ -651,7 +651,7 @@ public class @InputActions : IInputActionCollection, IDisposable
                     ""interactions"": """"
                 },
                 {
-                    ""name"": ""Start"",
+                    ""name"": ""ConfirmSelections"",
                     ""type"": ""Button"",
                     ""id"": ""4d046d82-dee9-4aad-9911-0d2d4b95e0d1"",
                     ""expectedControlType"": ""Button"",
@@ -1151,7 +1151,7 @@ public class @InputActions : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
-                    ""action"": ""Start"",
+                    ""action"": ""ConfirmSelections"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -1162,7 +1162,7 @@ public class @InputActions : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
-                    ""action"": ""Start"",
+                    ""action"": ""ConfirmSelections"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1340,7 +1340,7 @@ public class @InputActions : IInputActionCollection, IDisposable
         m_UI_RightClick = m_UI.FindAction("RightClick", throwIfNotFound: true);
         m_UI_TrackedDevicePosition = m_UI.FindAction("TrackedDevicePosition", throwIfNotFound: true);
         m_UI_TrackedDeviceOrientation = m_UI.FindAction("TrackedDeviceOrientation", throwIfNotFound: true);
-        m_UI_Start = m_UI.FindAction("Start", throwIfNotFound: true);
+        m_UI_ConfirmSelections = m_UI.FindAction("ConfirmSelections", throwIfNotFound: true);
         // Debug
         m_Debug = asset.FindActionMap("Debug", throwIfNotFound: true);
         m_Debug_SlowTime = m_Debug.FindAction("SlowTime", throwIfNotFound: true);
@@ -1589,7 +1589,7 @@ public class @InputActions : IInputActionCollection, IDisposable
     private readonly InputAction m_UI_RightClick;
     private readonly InputAction m_UI_TrackedDevicePosition;
     private readonly InputAction m_UI_TrackedDeviceOrientation;
-    private readonly InputAction m_UI_Start;
+    private readonly InputAction m_UI_ConfirmSelections;
     public struct UIActions
     {
         private @InputActions m_Wrapper;
@@ -1604,7 +1604,7 @@ public class @InputActions : IInputActionCollection, IDisposable
         public InputAction @RightClick => m_Wrapper.m_UI_RightClick;
         public InputAction @TrackedDevicePosition => m_Wrapper.m_UI_TrackedDevicePosition;
         public InputAction @TrackedDeviceOrientation => m_Wrapper.m_UI_TrackedDeviceOrientation;
-        public InputAction @Start => m_Wrapper.m_UI_Start;
+        public InputAction @ConfirmSelections => m_Wrapper.m_UI_ConfirmSelections;
         public InputActionMap Get() { return m_Wrapper.m_UI; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1644,9 +1644,9 @@ public class @InputActions : IInputActionCollection, IDisposable
                 @TrackedDeviceOrientation.started -= m_Wrapper.m_UIActionsCallbackInterface.OnTrackedDeviceOrientation;
                 @TrackedDeviceOrientation.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnTrackedDeviceOrientation;
                 @TrackedDeviceOrientation.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnTrackedDeviceOrientation;
-                @Start.started -= m_Wrapper.m_UIActionsCallbackInterface.OnStart;
-                @Start.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnStart;
-                @Start.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnStart;
+                @ConfirmSelections.started -= m_Wrapper.m_UIActionsCallbackInterface.OnConfirmSelections;
+                @ConfirmSelections.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnConfirmSelections;
+                @ConfirmSelections.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnConfirmSelections;
             }
             m_Wrapper.m_UIActionsCallbackInterface = instance;
             if (instance != null)
@@ -1681,9 +1681,9 @@ public class @InputActions : IInputActionCollection, IDisposable
                 @TrackedDeviceOrientation.started += instance.OnTrackedDeviceOrientation;
                 @TrackedDeviceOrientation.performed += instance.OnTrackedDeviceOrientation;
                 @TrackedDeviceOrientation.canceled += instance.OnTrackedDeviceOrientation;
-                @Start.started += instance.OnStart;
-                @Start.performed += instance.OnStart;
-                @Start.canceled += instance.OnStart;
+                @ConfirmSelections.started += instance.OnConfirmSelections;
+                @ConfirmSelections.performed += instance.OnConfirmSelections;
+                @ConfirmSelections.canceled += instance.OnConfirmSelections;
             }
         }
     }
@@ -1830,7 +1830,7 @@ public class @InputActions : IInputActionCollection, IDisposable
         void OnRightClick(InputAction.CallbackContext context);
         void OnTrackedDevicePosition(InputAction.CallbackContext context);
         void OnTrackedDeviceOrientation(InputAction.CallbackContext context);
-        void OnStart(InputAction.CallbackContext context);
+        void OnConfirmSelections(InputAction.CallbackContext context);
     }
     public interface IDebugActions
     {
