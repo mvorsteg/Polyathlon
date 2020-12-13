@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class RaceStarter : MonoBehaviour
 {
@@ -27,7 +28,12 @@ public class RaceStarter : MonoBehaviour
             // First instantiate the NPCs
             for (int i = 0; i < npcChoices.Count; i++)
             {
-                Instantiate(npcChoices[i].npcObj, startingPositions[i].position, startingPositions[i].rotation);
+                Racer racer = Instantiate(npcChoices[i].npcObj, startingPositions[i].position, startingPositions[i].rotation).GetComponent<Racer>();
+                // Change movement mode of NPCs if necessary
+                if (SceneManager.GetActiveScene().name == "Course 2")
+                {
+                    racer.movementMode = Movement.Mode.GetOffTheBoat;
+                }
             }
             // instantiate the players
             for (int i = 0; i < playerChoices.Count; i++)
@@ -36,6 +42,11 @@ public class RaceStarter : MonoBehaviour
                                                                 playerChoices[i].controlScheme, -1, playerChoices[i].inputDevices);
                 newPlayer.transform.position = startingPositions[i + npcChoices.Count].position;
                 newPlayer.transform.rotation = startingPositions[i + npcChoices.Count].rotation;
+                // remove excess audio listeners
+                if (i > 0)
+                {
+                    Destroy(newPlayer.GetComponentInChildren<AudioListener>());
+                }
             }
             
         }

@@ -19,7 +19,8 @@ public class UI : MonoBehaviour
 
     private void Awake()
     {
-        isPrimaryUI = !isPrimaryTaken;
+        //isPrimaryUI = !isPrimaryTaken;
+        isPrimaryUI = true; // solve this bug later its 4:04 AM
         isPrimaryTaken = true;
     }
 

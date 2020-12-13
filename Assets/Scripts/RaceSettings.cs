@@ -36,6 +36,7 @@ public class RaceSettings : MonoBehaviour
     {
         DontDestroyOnLoad(this);
         playerChoices = new List<PlayerChoice>();
+        npcChoices = new List<Character>();
         characters = characterList.GetCharacters();
     }
 
@@ -73,7 +74,6 @@ public class RaceSettings : MonoBehaviour
     {
         if (numCPUs > 0)
         {
-            npcChoices = new List<Character>();
             // make a copy of the characters list
             List<Character> availableCharacters = characters.ToList();
             // remove all the characters that are taken from the list

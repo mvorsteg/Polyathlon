@@ -4,8 +4,7 @@ using System.Collections;
 
 public class NPC : Racer
 {
-    public WaypointChain chain;
-
+    protected WaypointChain chain;
     protected IWaypointable nextWaypoint;
     protected NavMeshAgent agent;
 
@@ -15,6 +14,7 @@ public class NPC : Racer
 
     protected override void Start() 
     {
+        chain = GameObject.FindWithTag("WaypointChainStart").GetComponent<WaypointChain>();
         agent = GetComponent<NavMeshAgent>();
         nextWaypoint = chain.GetStartingWaypoint();
         SetNavMeshAgent(false);
