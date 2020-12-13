@@ -237,7 +237,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8244711337795581057}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 596.21, y: 43.89, z: 392.5}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2542605710116747977}
@@ -754,6 +754,18 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 4d046d82-dee9-4aad-9911-0d2d4b95e0d1
     m_ActionName: UI/ConfirmSelections[/XInputControllerWindows/start,/XInputControllerWindows/start,/XInputControllerWindows/start,/Keyboard/enter]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 0149fb39-f34a-463f-8640-cd8d2e6e81c6
+    m_ActionName: Jetpacking/Item[/Mouse/leftButton,/Mouse/rightButton,/Keyboard/e,/XInputControllerWindows/leftTrigger,/XInputControllerWindows/leftShoulder]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 16d034a3-e544-4d58-bd27-85c6c57919ac
+    m_ActionName: Swimming/Item[/Mouse/leftButton,/Mouse/rightButton,/Keyboard/e,/XInputControllerWindows/leftTrigger,/XInputControllerWindows/leftShoulder]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 4d3b6522-357e-47ef-98d6-1c4a28657c3a
+    m_ActionName: Biking/Item[/Mouse/leftButton,/Mouse/rightButton,/Keyboard/e,/XInputControllerWindows/leftTrigger,/XInputControllerWindows/leftShoulder]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Running
