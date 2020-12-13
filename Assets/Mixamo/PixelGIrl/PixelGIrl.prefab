@@ -97,6 +97,16 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 3a1ceb7fa83f37946ac01d1dfb2fd1c8, type: 2}
+    - target: {fileID: 5866666021909216657, guid: c691dd7fb3659de479f7692df6784cdc,
+        type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5866666021909216657, guid: c691dd7fb3659de479f7692df6784cdc,
+        type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8574611706167915169, guid: c691dd7fb3659de479f7692df6784cdc,
         type: 3}
       propertyPath: m_Materials.Array.data[0]

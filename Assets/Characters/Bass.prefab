@@ -1862,7 +1862,7 @@ MonoBehaviour:
   nextCheckpoint: {fileID: 0}
   bikeSound: {fileID: 0}
   waterSound: {fileID: 0}
-  equipSound: {fileID: 0}
+  equipSound: {fileID: 8300000, guid: 71f0f2775339e7548b336659b92e6cdf, type: 3}
   cameraController: {fileID: 4174475994182380415}
   gamepadLookSensititvity: 900
   mouseLookSensisitivity: 70

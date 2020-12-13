@@ -3296,7 +3296,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5726297956981979253}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2.237732, y: -1.2266617, z: -4.838562}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 732142478044789184}
@@ -3456,8 +3456,7 @@ MonoBehaviour:
   nextCheckpoint: {fileID: 0}
   bikeSound: {fileID: 8300000, guid: 1f34b669aba6ddd46951ef907b3a4bff, type: 3}
   waterSound: {fileID: 8300000, guid: 528e8ba7959525540b0254364defe840, type: 3}
-  equipSound: {fileID: 8300000, guid: 80e3c557101698b49924cec3def9ba03, type: 3}
-  chain: {fileID: 0}
+  equipSound: {fileID: 8300000, guid: 71f0f2775339e7548b336659b92e6cdf, type: 3}
 --- !u!114 &5726297956981979252
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3570,7 +3569,6 @@ MonoBehaviour:
   acceleration: 1
   angularSpeed: 0
   jetpack: {fileID: 8835194813366836572}
-  audioSource: {fileID: 0}
   thrustSound: {fileID: 8300000, guid: 891d8623a26a972409aebacf22875004, type: 3}
 --- !u!1 &5834571711947405035
 GameObject:
