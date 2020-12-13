@@ -1,9 +1,12 @@
 ﻿using System.Collections;
+using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class ItemWaypoint : MonoBehaviour, IWaypointable
 {
+    public float chanceNPCGoesForItem = 1; // 0 means they will not go for an item, 1 means they definitely will
+    public float chanceNPCWaitsForItem = 1; // same scale as above, should the NPC wait at the item's spot until it is available?
     public WaypointChain[] fork;
     public IWaypointable Next { get { return next; } set { next = value; } }
     private IWaypointable next;
@@ -28,29 +31,51 @@ public class ItemWaypoint : MonoBehaviour, IWaypointable
     {
         if (!currentClaimers.ContainsKey(npc))
         {
-            int i = 0;
-            // Find an item that hasn't been claimed
-            while (i < items.Length && currentClaimers.ContainsValue(items[i]))
+            // Determine if we should go for an item or not
+            if (Random.Range(0,1) > chanceNPCGoesForItem)
             {
-                i++;
+                npc.ArriveAtWaypoint(this);
+                return Next.GetPos(npc);
             }
-            // if all items are claimed already, pick one at random
-            if (i >= items.Length)
+            else
             {
-                i = (int)Mathf.Round(Random.Range(0, items.Length - 1));
+                int i = 0;
+                // Find an item that hasn't been claimed
+                while (i < items.Length && currentClaimers.ContainsValue(items[i]))
+                {
+                    i++;
+                }
+                // if all items are claimed already, pick one at random
+                if (i >= items.Length)
+                {
+                    i = (int)Mathf.Round(Random.Range(0, items.Length - 1));
+                }
+                // Claim the item for the NPC
+                currentClaimers.Add(npc, items[i]);
             }
-            // Claim the item for the NPC
-            currentClaimers.Add(npc, items[i]);
         }
         // return the position of the NPC's assigned item
         return currentClaimers[npc].transform.position;
     }
 
     // Handle the arrival of the NPC at the waypoint and take them off the dictionary
-    public void NPCTookItem(NPC npc)
+    public void NPCTookItem(NPC npc, Item item)
     {
         npc.ArriveAtWaypoint(this);
         currentClaimers.Remove(npc);
+        // If the NPC should not wait for this item to return
+        // then just say we've arrived here and move on to the next
+        // waypoint
+        
+        // remove everyone who was gonna go for this item
+        foreach(var itemEntry in currentClaimers.Where(kvp => kvp.Value == item).ToList())
+        {
+            if (Random.Range(0,1) < chanceNPCWaitsForItem)
+            {
+                itemEntry.Key.ArriveAtWaypoint(this);
+                currentClaimers.Remove(itemEntry.Key);
+            }
+        }
     }
 
     // Height for waypoint items will always be zero

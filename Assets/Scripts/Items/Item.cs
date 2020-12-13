@@ -41,7 +41,7 @@ public class Item : MonoBehaviour
             // If the NPC has picked up this item...
             if (racer is NPC && itemWaypoint != null)
             {
-                itemWaypoint.NPCTookItem((NPC)racer);
+                itemWaypoint.NPCTookItem((NPC)racer, this);
             }
         }
     }

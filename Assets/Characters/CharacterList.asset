@@ -41,7 +41,7 @@ MonoBehaviour:
       type: 3}
     previewObj: {fileID: 6877081354341892973, guid: 30bf4819dee88a0419769314b01e528d,
       type: 3}
-  - name: The Silver Sprinter
+  - name: Silver Sprinter
     playerObj: {fileID: 411290082333151904, guid: e5414e52ea96a9741ba1ce3e8b2b8542,
       type: 3}
     npcObj: {fileID: 5726297956981979253, guid: 04cc180a28d4b054eb6584fd01600e50,
