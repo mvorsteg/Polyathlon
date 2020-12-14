@@ -122,7 +122,7 @@ public class RaceManager : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.Escape))
         {
-            Application.Quit();
+            ReturnToMenu();
         }
         // update positions of racers (1st, 2nd...)
         if (isRaceActive)
