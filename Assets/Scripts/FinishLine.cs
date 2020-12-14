@@ -7,7 +7,7 @@ public class FinishLine : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         Racer racer = other.transform.GetComponent<Racer>();
-        if (racer != null)
+        if (racer != null && !racer.isFinished)
         {
             racer.FinishRace(false);
         }

@@ -176,6 +176,13 @@ public class Racer : MonoBehaviour
         // Don't allow a revival until we stop moving on the ground
         yield return new WaitUntil(() => !ragdoll.IsMoving());
         canRevive = true;
+        ReviveText();
+
+    }
+
+    protected virtual void ReviveText()
+    {
+        //do nothing in base class;
     }
 
     public virtual void Revive()

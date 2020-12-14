@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 using UnityEngine.InputSystem;
 
 public class PlayerController : Racer
@@ -227,6 +228,11 @@ public class PlayerController : Racer
         movement.RotateCamera(look.x, look.y);
     }
 
+    protected override void ReviveText()
+    {
+        ui.ReviveText(true);
+    }
+
     public override void EquipItem(Item item)
     {
         base.EquipItem(item);
@@ -306,6 +312,7 @@ public class PlayerController : Racer
             // have the camera stop following the ragdoll
             StartCoroutine(cameraController.FollowRagdoll());
         }
+        ui.ReviveText(false);
         base.Revive();
     }
 

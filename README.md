@@ -20,22 +20,22 @@ CMSC425 Final Project
   - ~~airfield~~
 
 ### Items
-- spiedie sauce
-- banana peel
-- throwing item
+- ~~spiedie sauce~~
+- ~~banana peel~~
+- ~~throwing item~~
 
 ### Gameplay
 - ~~place indicator~~
 - ~~racing ai~~
-- splitscreen
+- ~~splitscreen~~
 
 ### Menu
-- title screen
-- character selection
+- ~~title screen~~
+- ~~character selection~~
 - how to play
 
 ### Misc
 - ~~music~~
 - ourselves as narrators
-- shortcut puzzle
+- ~~shortcut puzzle~~
 - ~~interruptable coroutine~~
