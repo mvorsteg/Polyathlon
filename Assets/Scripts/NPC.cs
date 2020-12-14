@@ -10,7 +10,7 @@ public class NPC : Racer
 
     protected const float jetpackVerticalForceOffset = 2f;
     protected const float jetpackHorizontalCorrection = 15f;
-    
+
 
     protected override void Start() 
     {
@@ -67,6 +67,14 @@ public class NPC : Racer
             transform.rotation = Quaternion.LookRotation(newDir);
             move = new Vector2(0, 1f);
         }        
+    }
+
+    void FixedUpdate()
+    {
+        if (movementMode == Movement.Mode.Running)
+        {
+            rb.velocity = Vector3.ClampMagnitude(rb.velocity, 20);
+        }
     }
 
     public override void EquipItem(Item item)

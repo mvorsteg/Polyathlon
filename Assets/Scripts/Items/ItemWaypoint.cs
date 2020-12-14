@@ -72,6 +72,7 @@ public class ItemWaypoint : MonoBehaviour, IWaypointable
         {
             if (Random.Range(0,1) > chanceNPCWaitsForItem)
             {
+                // stop waiting for item
                 itemEntry.Key.ArriveAtWaypoint(this);
                 currentClaimers.Remove(itemEntry.Key);
             }
