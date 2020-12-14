@@ -53,7 +53,7 @@ public class PlayerController : Racer
 
     public void OnUseItem(InputAction.CallbackContext ctx)
     {
-        if (canMove && item != null)
+        if (!dead && canMove && item != null)
         {
             if (ctx.performed)
             {

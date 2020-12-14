@@ -73,7 +73,7 @@ public class NPC : Racer
     {
         if (movementMode == Movement.Mode.Running || movementMode == Movement.Mode.Jetpacking && movement.Grounded)
         {
-            if (movement.BonusSpeed == 0)
+            if (movement.BonusSpeed == 1)
                 rb.velocity = Vector3.ClampMagnitude(rb.velocity, 20);
         }
     }

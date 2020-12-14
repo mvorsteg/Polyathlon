@@ -7,7 +7,7 @@ public class BananaObject : MonoBehaviour
         Racer racer = other.transform.GetComponent<Racer>();
         if (racer != null)
         {
-            racer.Die(true);
+            racer.Die(false);
             Destroy(this.gameObject, 2f);
         }    
     }   

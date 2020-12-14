@@ -165,8 +165,8 @@ public class Jetpack : Movement
         audioSource.Play();
         while(fireJetpack && !racer.IsDead())
         {
-            rb.AddForce(jetpack.transform.up * jetpackForce * Time.deltaTime);
-            rb.velocity = Vector3.ClampMagnitude(rb.velocity, jetpackSpeed);
+            rb.AddForce(jetpack.transform.up * jetpackForce * Time.deltaTime * bonusSpeed);
+            rb.velocity = Vector3.ClampMagnitude(rb.velocity, jetpackSpeed * bonusSpeed);
             grounded = false;
             anim.SetTrigger("jump");
             yield return null;

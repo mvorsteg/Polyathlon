@@ -27,4 +27,10 @@ public class MelonObject : MonoBehaviour
             }
         }
     }
+
+    public IEnumerator Despawn()
+    {
+        yield return new WaitForSeconds(60);
+        Destroy(gameObject);
+    }
 }

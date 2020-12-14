@@ -223,10 +223,16 @@ public class Racer : MonoBehaviour
 
     public void ThrowItem()
     {
-        Vector3 pos = transform.position + 2f * characterMesh.transform.forward + 0.5f * characterMesh.transform.up;
+        Vector3 pos = transform.position + 2f * characterMesh.transform.forward + 1.5f * characterMesh.transform.up;
         GameObject obj = Instantiate(item.Child, pos, Quaternion.identity);
         Rigidbody itemRb = obj.GetComponent<Rigidbody>();
         itemRb.AddForce(1000 * (characterMesh.transform.forward + 0.1f * transform.up));
+        try {
+            StartCoroutine(obj.GetComponent<MelonObject>().Despawn());
+        }
+        catch {
+            
+        }
         EquipItem(null);
     }
 
