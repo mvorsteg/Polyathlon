@@ -217,7 +217,7 @@ public class Racer : MonoBehaviour
         EquipItem(null);
     }
 
-    private IEnumerator SpeedBoost(float magnitude, float duration)
+    protected virtual IEnumerator SpeedBoost(float magnitude, float duration)
     {
         movement.BonusSpeed = magnitude;
         anim.speed = magnitude;

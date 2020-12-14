@@ -37,6 +37,7 @@ public class MainMenuManager : MonoBehaviour
     void Awake()
     {
         raceSettings = FindObjectsOfType<RaceSettings>()[0];
+        inputManager = GetComponent<PlayerInputManager>();
         players = new List<MainMenuPlayer>();
         controlSchemes = new List<string>();
     }
@@ -182,6 +183,7 @@ public class MainMenuManager : MonoBehaviour
                     confirmText.gameObject.SetActive(false);
                     bottomScreenInfo.text = "Press Space on Keyboard or A on Gamepad to confirm!";
                     currentMenuMode = MenuMode.CPUSelect;
+                    inputManager.DisableJoining();
                 }
             break;
             case MenuMode.CPUSelect:
@@ -202,6 +204,7 @@ public class MainMenuManager : MonoBehaviour
                     numCPUsText.gameObject.SetActive(false);
                     confirmText.gameObject.SetActive(false);
                     UpdateMessages();
+                    inputManager.EnableJoining();
                 }
             break;
             case MenuMode.StageSelect:
@@ -216,6 +219,7 @@ public class MainMenuManager : MonoBehaviour
                 else
                 {
                     chooseStage.SetActive(false);
+                    numCPUsText.gameObject.SetActive(true);
                     stageUI[stageIndex].SetActive(false);
                     currentMenuMode = MenuMode.CPUSelect;
                 }

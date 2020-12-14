@@ -12,6 +12,9 @@ public class AudioManager : MonoBehaviour
 
     private int musicPlaying;   // index of song playing
     private bool isSource1 = true;   // reference the audiousource that is playing
+    private bool switching = false;
+
+    private PlayerController ourPlayer;
 
     public int MusicPlaying { get => musicPlaying; }
 
@@ -36,8 +39,17 @@ public class AudioManager : MonoBehaviour
     }
 
     /*  fades between the current song and the next one we have asked for */
-    public IEnumerator SwitchSong(int idx)
+    public IEnumerator SwitchSong(int idx, PlayerController currentPlayer)
     {   
+        // the first player to cross a music switch takes ownership of the music
+        if (ourPlayer == null)
+            ourPlayer = currentPlayer;
+        // exit if we're already switching or this isn't our guy
+        if (switching || ourPlayer != currentPlayer)
+        {
+            yield break;
+        }
+        switching = true;
         // update which source we're using
         isSource1 = !isSource1;
         musicPlaying = idx;
@@ -60,7 +72,7 @@ public class AudioManager : MonoBehaviour
             elapsedTime += Time.deltaTime;
             yield return null;
         }
-
         old.Stop();
+        switching = false;
     }
 }
