@@ -42,6 +42,14 @@ public class MainMenuManager : MonoBehaviour
         controlSchemes = new List<string>();
     }
 
+    void Update()
+    {
+        if (Input.GetKey(KeyCode.Escape))
+        {
+            Application.Quit();
+        }
+    }
+
     // Each instantiated player object will call this so that they can be managed
     public void JoinPlayer(MainMenuPlayer newPlayer)
     {

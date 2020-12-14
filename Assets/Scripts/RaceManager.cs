@@ -120,6 +120,10 @@ public class RaceManager : MonoBehaviour
 
     private void Update()
     {
+        if (Input.GetKey(KeyCode.Escape))
+        {
+            Application.Quit();
+        }
         // update positions of racers (1st, 2nd...)
         if (isRaceActive)
         {

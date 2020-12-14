@@ -197,6 +197,9 @@ public class UI : MonoBehaviour
 
     public IEnumerator FinishRace()
     {
+        positionText.gameObject.SetActive(false);
+        timeText.gameObject.SetActive(false);
+        itemImage.gameObject.SetActive(false);
         centerText.gameObject.SetActive(true);
         centerText.text = "Finished!";
         centerText.rectTransform.localScale = Vector3.one;

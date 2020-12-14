@@ -230,7 +230,10 @@ public class PlayerController : Racer
 
     protected override void ReviveText()
     {
-        ui.ReviveText(true);
+        if (!isFinished)
+        {
+            ui.ReviveText(true);
+        }
     }
 
     public override void EquipItem(Item item)
