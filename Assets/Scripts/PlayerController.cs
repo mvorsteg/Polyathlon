@@ -53,7 +53,6 @@ public class PlayerController : Racer
 
     public void OnUseItem(InputAction.CallbackContext ctx)
     {
-        Debug.Log(canMove + " " + item != null);
         if (canMove && item != null)
         {
             if (ctx.performed)

@@ -17,6 +17,14 @@ public class MelonObject : MonoBehaviour
         if (racer != null && rb.velocity.magnitude > 5)
         {
             racer.Die(true);
-        }   
+        }
+        else
+        {
+            MelonButton button = other.transform.GetComponent<MelonButton>();
+            if (button != null)
+            {
+                StartCoroutine(button.Activate());
+            }
+        }
     }
 }
