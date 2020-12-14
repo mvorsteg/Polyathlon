@@ -31,6 +31,7 @@ public class RaceManager : MonoBehaviour
     public GameObject resultsText;
     public TextMeshProUGUI placeText;
     public TextMeshProUGUI timeText;
+    public Image panel;
     public GameObject menuText;
 
     public GameObject dummyUI;
@@ -74,7 +75,9 @@ public class RaceManager : MonoBehaviour
                 newPlayer.transform.position = startingPositions[i + npcChoices.Count].position;
                 newPlayer.transform.rotation = startingPositions[i + npcChoices.Count].rotation;
 
-                newPlayer.GetComponent<Racer>().name = playerChoices[i].character.name;
+                Racer racer = newPlayer.GetComponent<Racer>();
+                racer.name = playerChoices[i].character.name;
+                racer.playerNumber = playerChoices[i].playerNumber;
 
                 newPlayer.GetComponentInChildren<UI>().SetScale(i, playerChoices.Count);
 
@@ -110,6 +113,7 @@ public class RaceManager : MonoBehaviour
         resultsText.SetActive(false);
         timeText.gameObject.SetActive(false);
         placeText.gameObject.SetActive(false);
+        panel.enabled = false;
         menuText.SetActive(false);
         canLoadMenu = true;
     }
@@ -185,7 +189,12 @@ public class RaceManager : MonoBehaviour
         string times = "";
         for (int i = 0; i < racers.Length; i++)
         {
-            names += (i+1) + (i < 9 ? "    " : "   ") + finalPositions[i].Item1.name + '\n';
+            names += (i+1) + (i < 9 ? "    " : "   ") + finalPositions[i].Item1.name;
+            if (racers[i].playerNumber != -1)
+            {
+                names += "(P" + (racers[i].playerNumber + 1) + ")";
+            }
+            names += '\n';
             times += UI.FormatTime(finalPositions[i].Item2) + '\n';
         }
         placeText.text = names;
@@ -193,6 +202,7 @@ public class RaceManager : MonoBehaviour
         resultsText.SetActive(true);
         timeText.gameObject.SetActive(true);
         placeText.gameObject.SetActive(true);
+        panel.enabled = true;
 
         yield return new WaitForSeconds(2f);
         menuText.SetActive(true);

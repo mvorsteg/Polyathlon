@@ -49,6 +49,7 @@ MonoBehaviour:
   resultsText: {fileID: 5537804855209215817}
   placeText: {fileID: 1626200482163400055}
   timeText: {fileID: 7725356351210522282}
+  panel: {fileID: 6051685631321643198}
   menuText: {fileID: 3486025653226795286}
   dummyUI: {fileID: 4241080438625007664}
 --- !u!1 &3486025653226795286
@@ -202,7 +203,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &4627382779440375081
 RectTransform:
   m_ObjectHideFlags: 0
