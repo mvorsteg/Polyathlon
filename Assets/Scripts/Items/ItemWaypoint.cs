@@ -32,7 +32,7 @@ public class ItemWaypoint : MonoBehaviour, IWaypointable
         if (!currentClaimers.ContainsKey(npc))
         {
             // Determine if we should go for an item or not
-            if (Random.Range(0f, 1f) < chanceNPCGoesForItem)
+            if (Random.Range(0f, 1f) > chanceNPCGoesForItem)
             {
                 npc.ArriveAtWaypoint(this);
                 return Next.GetPos(npc);
