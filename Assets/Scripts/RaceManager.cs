@@ -33,6 +33,8 @@ public class RaceManager : MonoBehaviour
     public TextMeshProUGUI timeText;
     public GameObject menuText;
 
+    public GameObject dummyUI;
+
     public static float Time { get => instance.time; }
     public static bool IsRaceActive { get => instance.isRaceActive; }
 
@@ -81,6 +83,11 @@ public class RaceManager : MonoBehaviour
                 {
                     Destroy(newPlayer.GetComponentInChildren<AudioListener>());
                 }
+            }
+            // activate dummy camera for 3 player splitscreen
+            if (playerChoices.Count == 3)
+            {
+                dummyUI.SetActive(true);
             }
             realPlayersInRace = playerChoices.Count;            
         }
