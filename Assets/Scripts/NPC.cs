@@ -73,7 +73,10 @@ public class NPC : Racer
     {
         Debug.Log("Equip");
         base.EquipItem(item);
-        StartCoroutine(UseItem());
+        if (item != null)
+        {
+            StartCoroutine(UseItem());
+        }
     }
 
     private IEnumerator UseItem()

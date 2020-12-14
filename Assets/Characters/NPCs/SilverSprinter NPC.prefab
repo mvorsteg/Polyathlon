@@ -884,6 +884,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1134da6cf59f27444a29ef75c6edeb99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  name: 
   movementMode: 0
   movementOptions:
   - {fileID: 5726297956981979252}
@@ -896,6 +897,7 @@ MonoBehaviour:
   dieThreshold: 40
   lastCheckpoint: {fileID: 0}
   nextCheckpoint: {fileID: 0}
+  isFinished: 0
   bikeSound: {fileID: 8300000, guid: 1f34b669aba6ddd46951ef907b3a4bff, type: 3}
   waterSound: {fileID: 8300000, guid: 528e8ba7959525540b0254364defe840, type: 3}
   equipSound: {fileID: 8300000, guid: 71f0f2775339e7548b336659b92e6cdf, type: 3}
@@ -944,7 +946,6 @@ MonoBehaviour:
   maxSpeed: 0
   acceleration: 0
   angularSpeed: 0
-  amt: 1
   bike: {fileID: 7448632334453564673}
   rearWheel: {fileID: 6847966635910868238}
   frontWheel: {fileID: 6608058074190661988}
@@ -957,7 +958,6 @@ MonoBehaviour:
   maxSteeringAngle: 60
   lean: 0.5
   smoothLean: 0.5
-  rotSpeed: 10
   speedModifier: 10
 --- !u!114 &5726297956981979244
 MonoBehaviour:
@@ -1521,6 +1521,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: metalman
+      objectReference: {fileID: 0}
+    - target: {fileID: 8941361650193506246, guid: c8a2090553f198a40b8cc0d8d00de0f2,
+        type: 3}
+      propertyPath: panLevelCustomCurve.m_Curve.Array.data[0].value
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c8a2090553f198a40b8cc0d8d00de0f2, type: 3}
