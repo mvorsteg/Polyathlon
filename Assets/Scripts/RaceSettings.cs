@@ -30,7 +30,7 @@ public class RaceSettings : MonoBehaviour
     private Character[] characters;
     private int numCPUs;
     private List<PlayerChoice> playerChoices;
-    private List<Character> npcChoices;
+    public List<Character> npcChoices;
     
     void Awake()
     {

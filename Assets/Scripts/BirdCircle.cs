@@ -27,6 +27,11 @@ public class BirdCircle : MonoBehaviour
         Racer racer = other.transform.GetComponent<Racer>();
         if (racer != null)
         {
+            bool attack = true;
+            if (racer is NPC)
+            {
+                attack = Random.Range(0, 100) < 50;
+            }
             bird.SetTarget(racer);
         }   
     }

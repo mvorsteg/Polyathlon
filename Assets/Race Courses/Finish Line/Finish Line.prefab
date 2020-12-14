@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5653123338544630755}
   - component: {fileID: 5653123338544630752}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: finish_banner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -93,7 +93,7 @@ GameObject:
   - component: {fileID: 5653123339370661184}
   - component: {fileID: 5653123339370661187}
   - component: {fileID: 5653123339370661186}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Right Pole
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -187,7 +187,7 @@ GameObject:
   - component: {fileID: 5653123339438307403}
   - component: {fileID: 5653123339438307402}
   - component: {fileID: 5653123339438307413}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Left Pole
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -281,7 +281,7 @@ GameObject:
   - component: {fileID: 4638006044071937598}
   - component: {fileID: 1437392357}
   - component: {fileID: 87682669403306263}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Finish Line
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -354,7 +354,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5653123339947330567}
   - component: {fileID: 5653123339947330564}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: finish_banner (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
