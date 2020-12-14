@@ -84,7 +84,8 @@ public class NPC : Racer
         Debug.Log("Use");
         float s = Random.Range(0.2f, 10f);
         yield return new WaitForSeconds(s);
-        item.Use(this);
+        if (item != null)
+            item.Use(this);
     }
 
     /*  called by the RaceManager, makes the NPC start moving

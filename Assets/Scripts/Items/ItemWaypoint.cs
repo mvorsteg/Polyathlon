@@ -70,7 +70,7 @@ public class ItemWaypoint : MonoBehaviour, IWaypointable
         // remove everyone who was gonna go for this item
         foreach(var itemEntry in currentClaimers.Where(kvp => kvp.Value == item).ToList())
         {
-            if (Random.Range(0,1) < chanceNPCWaitsForItem)
+            if (Random.Range(0,1) > chanceNPCWaitsForItem)
             {
                 itemEntry.Key.ArriveAtWaypoint(this);
                 currentClaimers.Remove(itemEntry.Key);

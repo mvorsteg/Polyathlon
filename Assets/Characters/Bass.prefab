@@ -1848,6 +1848,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1083dbdbaad6e2842bec6b23aedd92bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  name: 
   movementMode: 0
   movementOptions:
   - {fileID: 4174475994960663022}
@@ -1929,7 +1930,6 @@ MonoBehaviour:
   maxSpeed: 0
   acceleration: 0
   angularSpeed: 0
-  amt: 1
   bike: {fileID: 4174475994346547038}
   rearWheel: {fileID: 4174475993968544382}
   frontWheel: {fileID: 4174475995215059743}
@@ -1942,7 +1942,6 @@ MonoBehaviour:
   maxSteeringAngle: 60
   lean: 0.5
   smoothLean: 0.5
-  rotSpeed: 10
   speedModifier: 10
 --- !u!114 &4174475994960663030
 MonoBehaviour:
