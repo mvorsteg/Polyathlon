@@ -16,6 +16,7 @@ public class MainMenuManager : MonoBehaviour
 
     public MenuMode currentMenuMode;
     public GameObject openingUI;
+    public GameObject mainCamera;
     public GameObject back;
     public TextMeshProUGUI confirmText;
     public TextMeshProUGUI bottomScreenInfo;
@@ -44,10 +45,13 @@ public class MainMenuManager : MonoBehaviour
     public void JoinPlayer(MainMenuPlayer newPlayer)
     {
         if (openingUI.activeSelf)
+        {
             openingUI.SetActive(false);
             back.SetActive(true);
             bottomScreenInfo.gameObject.SetActive(true);
             currentMenuMode = MenuMode.CharacterSelect;
+            StartCoroutine(CameraSpinAround());
+        }
         players.Add(newPlayer);
         controlSchemes.Add(newPlayer.GetControlScheme());
         newPlayer.SetPlayerNum(players.Count - 1);
@@ -81,6 +85,7 @@ public class MainMenuManager : MonoBehaviour
         {
             openingUI.SetActive(true);
             back.SetActive(false);
+            StartCoroutine(CameraSpinAround());
         }
     }
 
@@ -259,5 +264,19 @@ public class MainMenuManager : MonoBehaviour
         
     }
 
+    private IEnumerator CameraSpinAround()
+    {
+        Vector3 startRot = mainCamera.transform.localEulerAngles;
+        Vector3 endRot = new Vector3(startRot.x, startRot.y + 180f, startRot.z);
+        float elapsedTime = 0f;
+        float duration = 1f;
+        while (elapsedTime < duration)
+        {
+            mainCamera.transform.localEulerAngles = Vector3.Lerp(startRot, endRot, elapsedTime / duration);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+        mainCamera.transform.localEulerAngles = endRot;
+    }
 
 }

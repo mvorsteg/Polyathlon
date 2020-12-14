@@ -26,6 +26,7 @@ public class MainMenuPlayer : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        transform.position += new Vector3(0, 0.36f, 0);
         playerInput = GetComponent<PlayerInput>();
         manager = GameObject.FindObjectsOfType<MainMenuManager>()[0];
         characters = characterList.GetCharacters();
