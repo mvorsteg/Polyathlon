@@ -32,7 +32,7 @@ public class ItemWaypoint : MonoBehaviour, IWaypointable
         if (!currentClaimers.ContainsKey(npc))
         {
             // Determine if we should go for an item or not
-            if (Random.Range(0,1) > chanceNPCGoesForItem)
+            if (Random.Range(0f, 1f) < chanceNPCGoesForItem)
             {
                 npc.ArriveAtWaypoint(this);
                 return Next.GetPos(npc);
@@ -48,7 +48,7 @@ public class ItemWaypoint : MonoBehaviour, IWaypointable
                 // if all items are claimed already, pick one at random
                 if (i >= items.Length)
                 {
-                    i = (int)Mathf.Round(Random.Range(0, items.Length - 1));
+                    i = Random.Range(0, items.Length);
                 }
                 // Claim the item for the NPC
                 currentClaimers.Add(npc, items[i]);
@@ -70,7 +70,7 @@ public class ItemWaypoint : MonoBehaviour, IWaypointable
         // remove everyone who was gonna go for this item
         foreach(var itemEntry in currentClaimers.Where(kvp => kvp.Value == item).ToList())
         {
-            if (Random.Range(0,1) > chanceNPCWaitsForItem)
+            if (Random.Range(0f,1f) > chanceNPCWaitsForItem)
             {
                 // stop waiting for item
                 itemEntry.Key.ArriveAtWaypoint(this);

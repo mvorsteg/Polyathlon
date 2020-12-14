@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -15,9 +16,11 @@ public class Waypoint : MonoBehaviour, IWaypointable
     // If this is the end of the chain, you can add other chains for NPCs to decide to follow
     public WaypointChain[] fork;
     private Color color;
+    private Dictionary<NPC, Vector3> npcDestinations;
 
     private void Awake()
     {
+        npcDestinations = new Dictionary<NPC, Vector3>();
         if (!water) // place the position firmly on the ground
         {
             NavMeshHit hit;
@@ -46,7 +49,14 @@ public class Waypoint : MonoBehaviour, IWaypointable
 
     public Vector3 GetPos(NPC npc)
     {
-        return pos;
+        if (water)
+        {
+            if (!npcDestinations.ContainsKey(npc))
+                npcDestinations[npc] = pos + Random.insideUnitSphere * transform.GetComponent<CapsuleCollider>().radius * 0.9f;
+            return npcDestinations[npc];
+        }
+        else
+            return pos;
     }
 
     public float GetHeight()
