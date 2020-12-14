@@ -4,6 +4,8 @@ using System.Collections;
 public class Racer : MonoBehaviour
 {
     public new string name;
+    public int playerNumber = -1;
+
     public Movement.Mode movementMode;
     public Movement[] movementOptions;
 
