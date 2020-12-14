@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using TMPro;
+
 
 public class RaceManager : MonoBehaviour
 {
@@ -21,13 +23,14 @@ public class RaceManager : MonoBehaviour
     private static bool canLoadMenu = true;
 
     private Racer[] racers;
+    private int racersAlreadyFinished;
     private int realPlayersInRace;
 
     public CheckpointChain chain;
 
     public GameObject resultsText;
-    public Text placeText;
-    public Text timeText;
+    public TextMeshProUGUI placeText;
+    public TextMeshProUGUI timeText;
     public GameObject menuText;
 
     public static float Time { get => instance.time; }
@@ -112,7 +115,10 @@ public class RaceManager : MonoBehaviour
             positions.Clear();
             foreach(Racer r in racers)
             {
-                positions.Add((r, r.nextCheckpoint.seq, Vector3.SqrMagnitude(r.nextCheckpoint.transform.position - r.transform.position)));
+                if (!r.isFinished)
+                {
+                    positions.Add((r, r.nextCheckpoint.seq, Vector3.SqrMagnitude(r.nextCheckpoint.transform.position - r.transform.position)));
+                }
             }
             positions.Sort((a, b) => (b.Item2.CompareTo(a.Item2) == 0 ? a.Item3.CompareTo(b.Item3) : b.Item2.CompareTo(a.Item2)));
 
@@ -132,6 +138,8 @@ public class RaceManager : MonoBehaviour
 
     public static void FinishRace(Racer racer, float extraTime = 0f)
     {
+        Debug.Log("racer " + racer);
+        instance.racersAlreadyFinished++;
         instance.finalPositions.Add((racer, instance.time + extraTime));
         if (racer is PlayerController)
         {
@@ -156,7 +164,7 @@ public class RaceManager : MonoBehaviour
         {
             if (instance.positions[i].Item1 == racer)
             {
-                return i+1;
+                return i + 1 + instance.racersAlreadyFinished;
             }
         }
         return 0;
@@ -164,6 +172,7 @@ public class RaceManager : MonoBehaviour
 
     private IEnumerator DisplayScores()
     {
+        finalPositions.Sort((a, b) => (a.Item2.CompareTo(b.Item2)));
         yield return new WaitForSeconds(2f);
         string names = "";
         string times = "";

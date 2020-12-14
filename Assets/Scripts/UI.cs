@@ -2,13 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 //[RequireComponent(typeof(Racer))]
 public class UI : MonoBehaviour
 {
-    public Text positionText;
-    public Text timeText;
-    public Text centerText;
+    public TextMeshProUGUI positionText;
+    public TextMeshProUGUI timeText;
+    public TextMeshProUGUI centerText;
+    public TextMeshProUGUI itemText;
     public Image itemImage;
 
     public RectTransform scaleTransform;
@@ -140,12 +142,21 @@ public class UI : MonoBehaviour
         {
             // itemImage.sprite = defaultItemSprite;
             itemImage.gameObject.SetActive(false);
+            itemText.gameObject.SetActive(false);
         }
         else
         {
             itemImage.gameObject.SetActive(true);
+            itemText.gameObject.SetActive(true);
             itemImage.sprite = icon;
+            //itemText.text = "Use Item: Left Trigger (Gamepad)\nRight/Left Click (Mouse)";
         }
+    }
+
+    public void ReviveText(bool val)
+    {
+        centerText.gameObject.SetActive(val);
+        centerText.text = "Jump to Revive!";
     }
 
     private IEnumerator StartRace()
