@@ -78,12 +78,12 @@ public class UI : MonoBehaviour
         {
             switch (player)
             {
-                case 1:
+                case 0:
                     scaleTransform.anchorMax = new Vector2(0, 0.5f);
                     scaleTransform.anchorMin = new Vector2(0, 0.5f);
                     scaleTransform.anchoredPosition = new Vector3(0, scaleTransform.sizeDelta.y / 2, 0);
                     break;
-                case 0:
+                case 1:
                     scaleTransform.anchorMax = new Vector2(1, 0.5f);
                     scaleTransform.anchorMin = new Vector2(1, 0.5f);
                     scaleTransform.anchoredPosition = new Vector3(-scaleTransform.sizeDelta.x / 2, scaleTransform.sizeDelta.y / 2, 0);

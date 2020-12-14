@@ -221,7 +221,8 @@ public class Racer : MonoBehaviour
 
     public void DropItem()
     {
-        Vector3 pos = transform.position - characterMesh.transform.forward + 0.5f * characterMesh.transform.up;
+        float back = (movement is Bicycle ? 3f : 1f);
+        Vector3 pos = transform.position - back * characterMesh.transform.forward + 0.5f * characterMesh.transform.up;
         Instantiate(item.Child, pos, Quaternion.identity);
         EquipItem(null);
     }

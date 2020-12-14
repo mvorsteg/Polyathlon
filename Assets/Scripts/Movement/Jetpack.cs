@@ -163,6 +163,7 @@ public class Jetpack : Movement
         audioSource.clip = thrustSound;
         audioSource.loop = true;
         audioSource.Play();
+        // INTERRUPTABLE: if fireJetpack is false, exit
         while(fireJetpack && !racer.IsDead())
         {
             rb.AddForce(jetpack.transform.up * jetpackForce * Time.deltaTime * bonusSpeed);

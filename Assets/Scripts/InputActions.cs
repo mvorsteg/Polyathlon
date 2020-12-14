@@ -489,6 +489,14 @@ public class @InputActions : IInputActionCollection, IDisposable
                     ""interactions"": """"
                 },
                 {
+                    ""name"": ""Jump"",
+                    ""type"": ""Button"",
+                    ""id"": ""a875ebe9-e0c2-43c7-983a-0bae5f117562"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
                     ""name"": ""Item"",
                     ""type"": ""Button"",
                     ""id"": ""16d034a3-e544-4d58-bd27-85c6c57919ac"",
@@ -640,6 +648,50 @@ public class @InputActions : IInputActionCollection, IDisposable
                     ""action"": ""Item"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8228b9a8-a1a2-470b-817a-4e6f64f628c9"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Jump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4c67d356-4a2b-4113-a66a-fd492cb9d9f9"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Jump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a68b1357-3e36-440e-909c-0da17513bb3f"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Jump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6d978f3e-b173-4aba-a64e-f61eb49c45ee"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Jump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -660,6 +712,14 @@ public class @InputActions : IInputActionCollection, IDisposable
                     ""type"": ""PassThrough"",
                     ""id"": ""f821413a-e5c4-442a-9a25-631d38f72d25"",
                     ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Jump"",
+                    ""type"": ""Button"",
+                    ""id"": ""f8a48a85-3d5c-4e1e-abe4-cad5333c83d0"",
+                    ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
                 },
@@ -813,6 +873,50 @@ public class @InputActions : IInputActionCollection, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Item"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1bc36235-bb7b-4dc3-9121-b55538029eff"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Jump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""410bea11-d475-4f8b-86be-331017a14c10"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Jump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""24d4e479-9ab9-433c-8ce9-66af5fd71a35"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Jump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e0a92cba-7078-4b7d-8bb9-11e68f2d4cf6"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Jump"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1781,11 +1885,13 @@ public class @InputActions : IInputActionCollection, IDisposable
         m_Swimming = asset.FindActionMap("Swimming", throwIfNotFound: true);
         m_Swimming_Movement = m_Swimming.FindAction("Movement", throwIfNotFound: true);
         m_Swimming_Look = m_Swimming.FindAction("Look", throwIfNotFound: true);
+        m_Swimming_Jump = m_Swimming.FindAction("Jump", throwIfNotFound: true);
         m_Swimming_Item = m_Swimming.FindAction("Item", throwIfNotFound: true);
         // Biking
         m_Biking = asset.FindActionMap("Biking", throwIfNotFound: true);
         m_Biking_Movement = m_Biking.FindAction("Movement", throwIfNotFound: true);
         m_Biking_Look = m_Biking.FindAction("Look", throwIfNotFound: true);
+        m_Biking_Jump = m_Biking.FindAction("Jump", throwIfNotFound: true);
         m_Biking_Item = m_Biking.FindAction("Item", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
@@ -1977,6 +2083,7 @@ public class @InputActions : IInputActionCollection, IDisposable
     private ISwimmingActions m_SwimmingActionsCallbackInterface;
     private readonly InputAction m_Swimming_Movement;
     private readonly InputAction m_Swimming_Look;
+    private readonly InputAction m_Swimming_Jump;
     private readonly InputAction m_Swimming_Item;
     public struct SwimmingActions
     {
@@ -1984,6 +2091,7 @@ public class @InputActions : IInputActionCollection, IDisposable
         public SwimmingActions(@InputActions wrapper) { m_Wrapper = wrapper; }
         public InputAction @Movement => m_Wrapper.m_Swimming_Movement;
         public InputAction @Look => m_Wrapper.m_Swimming_Look;
+        public InputAction @Jump => m_Wrapper.m_Swimming_Jump;
         public InputAction @Item => m_Wrapper.m_Swimming_Item;
         public InputActionMap Get() { return m_Wrapper.m_Swimming; }
         public void Enable() { Get().Enable(); }
@@ -2000,6 +2108,9 @@ public class @InputActions : IInputActionCollection, IDisposable
                 @Look.started -= m_Wrapper.m_SwimmingActionsCallbackInterface.OnLook;
                 @Look.performed -= m_Wrapper.m_SwimmingActionsCallbackInterface.OnLook;
                 @Look.canceled -= m_Wrapper.m_SwimmingActionsCallbackInterface.OnLook;
+                @Jump.started -= m_Wrapper.m_SwimmingActionsCallbackInterface.OnJump;
+                @Jump.performed -= m_Wrapper.m_SwimmingActionsCallbackInterface.OnJump;
+                @Jump.canceled -= m_Wrapper.m_SwimmingActionsCallbackInterface.OnJump;
                 @Item.started -= m_Wrapper.m_SwimmingActionsCallbackInterface.OnItem;
                 @Item.performed -= m_Wrapper.m_SwimmingActionsCallbackInterface.OnItem;
                 @Item.canceled -= m_Wrapper.m_SwimmingActionsCallbackInterface.OnItem;
@@ -2013,6 +2124,9 @@ public class @InputActions : IInputActionCollection, IDisposable
                 @Look.started += instance.OnLook;
                 @Look.performed += instance.OnLook;
                 @Look.canceled += instance.OnLook;
+                @Jump.started += instance.OnJump;
+                @Jump.performed += instance.OnJump;
+                @Jump.canceled += instance.OnJump;
                 @Item.started += instance.OnItem;
                 @Item.performed += instance.OnItem;
                 @Item.canceled += instance.OnItem;
@@ -2026,6 +2140,7 @@ public class @InputActions : IInputActionCollection, IDisposable
     private IBikingActions m_BikingActionsCallbackInterface;
     private readonly InputAction m_Biking_Movement;
     private readonly InputAction m_Biking_Look;
+    private readonly InputAction m_Biking_Jump;
     private readonly InputAction m_Biking_Item;
     public struct BikingActions
     {
@@ -2033,6 +2148,7 @@ public class @InputActions : IInputActionCollection, IDisposable
         public BikingActions(@InputActions wrapper) { m_Wrapper = wrapper; }
         public InputAction @Movement => m_Wrapper.m_Biking_Movement;
         public InputAction @Look => m_Wrapper.m_Biking_Look;
+        public InputAction @Jump => m_Wrapper.m_Biking_Jump;
         public InputAction @Item => m_Wrapper.m_Biking_Item;
         public InputActionMap Get() { return m_Wrapper.m_Biking; }
         public void Enable() { Get().Enable(); }
@@ -2049,6 +2165,9 @@ public class @InputActions : IInputActionCollection, IDisposable
                 @Look.started -= m_Wrapper.m_BikingActionsCallbackInterface.OnLook;
                 @Look.performed -= m_Wrapper.m_BikingActionsCallbackInterface.OnLook;
                 @Look.canceled -= m_Wrapper.m_BikingActionsCallbackInterface.OnLook;
+                @Jump.started -= m_Wrapper.m_BikingActionsCallbackInterface.OnJump;
+                @Jump.performed -= m_Wrapper.m_BikingActionsCallbackInterface.OnJump;
+                @Jump.canceled -= m_Wrapper.m_BikingActionsCallbackInterface.OnJump;
                 @Item.started -= m_Wrapper.m_BikingActionsCallbackInterface.OnItem;
                 @Item.performed -= m_Wrapper.m_BikingActionsCallbackInterface.OnItem;
                 @Item.canceled -= m_Wrapper.m_BikingActionsCallbackInterface.OnItem;
@@ -2062,6 +2181,9 @@ public class @InputActions : IInputActionCollection, IDisposable
                 @Look.started += instance.OnLook;
                 @Look.performed += instance.OnLook;
                 @Look.canceled += instance.OnLook;
+                @Jump.started += instance.OnJump;
+                @Jump.performed += instance.OnJump;
+                @Jump.canceled += instance.OnJump;
                 @Item.started += instance.OnItem;
                 @Item.performed += instance.OnItem;
                 @Item.canceled += instance.OnItem;
@@ -2341,12 +2463,14 @@ public class @InputActions : IInputActionCollection, IDisposable
     {
         void OnMovement(InputAction.CallbackContext context);
         void OnLook(InputAction.CallbackContext context);
+        void OnJump(InputAction.CallbackContext context);
         void OnItem(InputAction.CallbackContext context);
     }
     public interface IBikingActions
     {
         void OnMovement(InputAction.CallbackContext context);
         void OnLook(InputAction.CallbackContext context);
+        void OnJump(InputAction.CallbackContext context);
         void OnItem(InputAction.CallbackContext context);
     }
     public interface IUIActions
