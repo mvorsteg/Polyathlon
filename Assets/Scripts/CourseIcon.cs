@@ -10,8 +10,10 @@ public class CourseIcon : MonoBehaviour
 
     private int idx = 0;
 
-    private void Start()
+    private void OnEnable()
     {
+        Color c = topImage.material.color;
+        topImage.material.color = new Color(c.r, c.g, c.b, 1);
         StartCoroutine(ShuffleSprites());    
     }
 
@@ -22,11 +24,11 @@ public class CourseIcon : MonoBehaviour
         {
             topImage.sprite = sprites[idx];
             idx = (idx + 1) % sprites.Length;
-            yield return new WaitForSeconds(5f);
+            yield return new WaitForSeconds(4f);
             bottomImage.sprite = sprites[idx];
             elapsedTime = 0;
             Color c = topImage.material.color;
-            while (elapsedTime < 1f)
+            while (elapsedTime < 2f)
             {
                 topImage.material.color = new Color(c.r, c.g, c.b, Mathf.Lerp(1, 0, elapsedTime));
                 elapsedTime += Time.deltaTime;

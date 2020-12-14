@@ -15,7 +15,7 @@ public class MusicSwitch : MonoBehaviour
     {
         if (other.transform.GetComponent<PlayerController>() != null && audioManager.MusicPlaying != musicIndex)
         {
-            StartCoroutine(audioManager.SwitchSong(musicIndex));
+            StartCoroutine(audioManager.SwitchSong(musicIndex, other.transform.GetComponent<PlayerController>()));
         }
     }
 }

@@ -11,9 +11,12 @@ public class NPC : Racer
     protected const float jetpackVerticalForceOffset = 2f;
     protected const float jetpackHorizontalCorrection = 15f;
 
+    protected const float agentSpeed = 5;
 
-    protected override void Start() 
+
+    protected override void Start()
     {
+        
         chain = GameObject.FindWithTag("WaypointChainStart").GetComponent<WaypointChain>();
         agent = GetComponent<NavMeshAgent>();
         nextWaypoint = chain.GetStartingWaypoint();
@@ -25,7 +28,6 @@ public class NPC : Racer
             m.enabled = false;
             m.CameraController = null;
         }
-
         base.Start();
     }
 
@@ -95,6 +97,17 @@ public class NPC : Racer
         yield return new WaitForSeconds(s);
         if (item != null)
             item.Use(this);
+    }
+
+    protected override IEnumerator SpeedBoost(float magnitude, float duration)
+    {
+        movement.BonusSpeed = magnitude;
+        anim.speed = magnitude;
+        agent.speed = agentSpeed * magnitude;
+        yield return new WaitForSeconds(duration);
+        movement.BonusSpeed = 1f;
+        anim.speed = 1f;
+        agent.speed = agentSpeed;
     }
 
     /*  called by the RaceManager, makes the NPC start moving
