@@ -80,6 +80,11 @@ public class Racer : MonoBehaviour
         RaceManager.FinishRace(this, extraTime);
     }
 
+    public virtual void RaceIsOver()
+    {
+        
+    }
+
     private void FixedUpdate() {
         velocityBeforePhysicsUpdate = rb.velocity;
     }

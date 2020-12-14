@@ -18,14 +18,17 @@ public class RaceManager : MonoBehaviour
     private float time;
 
     private bool isRaceActive = false;
+    private static bool canLoadMenu = true;
 
     private Racer[] racers;
     private int realPlayersInRace;
 
     public CheckpointChain chain;
 
+    public GameObject resultsText;
     public Text placeText;
     public Text timeText;
+    public GameObject menuText;
 
     public static float Time { get => instance.time; }
     public static bool IsRaceActive { get => instance.isRaceActive; }
@@ -55,8 +58,8 @@ public class RaceManager : MonoBehaviour
                 if (SceneManager.GetActiveScene().name == "Course 2")
                 {
                     racer.movementMode = Movement.Mode.GetOffTheBoat;
-                    racer.name = npcChoices[i].name;
                 }
+                racer.name = npcChoices[i].name;
             }
             // instantiate the players
             for (int i = 0; i < playerChoices.Count; i++)
@@ -82,6 +85,7 @@ public class RaceManager : MonoBehaviour
         {
             Debug.LogWarning("Where are the RaceSettings?!?!");
         }
+        Destroy(raceSettings.gameObject);
     }
 
     private void Start() 
@@ -93,8 +97,11 @@ public class RaceManager : MonoBehaviour
         }
         positions = new List<(Racer, int, float)>(racers.Length);
         finalPositions = new List<(Racer, float)>(racers.Length);
+        resultsText.SetActive(false);
         timeText.gameObject.SetActive(false);
         placeText.gameObject.SetActive(false);
+        menuText.SetActive(false);
+        canLoadMenu = true;
     }
 
     private void Update()
@@ -167,8 +174,25 @@ public class RaceManager : MonoBehaviour
         }
         placeText.text = names;
         timeText.text = times;
+        resultsText.SetActive(true);
         timeText.gameObject.SetActive(true);
         placeText.gameObject.SetActive(true);
+
+        yield return new WaitForSeconds(2f);
+        menuText.SetActive(true);
+        foreach (Racer r in racers)
+        {
+            r.RaceIsOver();
+        }
+    }
+
+    public static void ReturnToMenu()
+    {
+        if (canLoadMenu)
+        {
+            canLoadMenu = false;
+            SceneManager.LoadScene("Main Menu");
+        }
     }
 
     /*  if it looks stupid but it works, it ain't stupid */

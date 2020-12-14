@@ -141,6 +141,11 @@ public class PlayerController : Racer
                 movement.Jump(false);
         }
     }
+    
+    public void OnFinishAnyKeyPressed(InputAction.CallbackContext ctx)
+    {
+        RaceManager.ReturnToMenu();
+    }
 
 
 
@@ -243,12 +248,19 @@ public class PlayerController : Racer
         base.FinishRace(force);
         // disable all movement controls
         canMove = false;
+        move = Vector2.zero;
+        movement.Jump(false);
        /* inputActions.Running.Disable();
         inputActions.Jetpacking.Disable();
         inputActions.Swimming.Disable();
         inputActions.Biking.Disable(); */
         // display text
         StartCoroutine(ui.FinishRace());
+    }
+
+    public override void RaceIsOver()
+    {
+        playerInput.currentActionMap = playerInput.actions.actionMaps[7];
     }
 
     /*  updates player's movement mode and maxSpeed/locomotion accordingly */
