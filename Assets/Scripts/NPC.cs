@@ -10,7 +10,7 @@ public class NPC : Racer
 
     protected const float jetpackVerticalForceOffset = 2f;
     protected const float jetpackHorizontalCorrection = 15f;
-    
+
 
     protected override void Start() 
     {
@@ -69,6 +69,15 @@ public class NPC : Racer
         }        
     }
 
+    void FixedUpdate()
+    {
+        if (movementMode == Movement.Mode.Running || movementMode == Movement.Mode.Jetpacking && movement.Grounded)
+        {
+            if (movement.BonusSpeed == 0)
+                rb.velocity = Vector3.ClampMagnitude(rb.velocity, 20);
+        }
+    }
+
     public override void EquipItem(Item item)
     {
         Debug.Log("Equip");
@@ -119,7 +128,7 @@ public class NPC : Racer
         // Don't allow a revival until we stop moving on the ground
         yield return new WaitUntil(() => !ragdoll.IsMoving());
         // then wait a bit before getting up...
-        yield return new WaitForSeconds(Random.Range(0.5f, 2));
+        yield return new WaitForSeconds(Random.Range(0.5f, 2f));
         canRevive = true;
         Revive();
     }
@@ -153,7 +162,7 @@ public class NPC : Racer
     {
         if (waypoint.GetFork().Length > 0)
         {
-            nextWaypoint = waypoint.GetFork()[(int)Mathf.Round(Random.Range(0, waypoint.GetFork().Length))].GetStartingWaypoint();
+            nextWaypoint = waypoint.GetFork()[Random.Range(0, waypoint.GetFork().Length)].GetStartingWaypoint();
             if (agent.enabled && agent.isOnNavMesh)
                 agent.SetDestination(nextWaypoint.GetPos(this));
         }

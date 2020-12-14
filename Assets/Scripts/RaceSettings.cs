@@ -87,7 +87,7 @@ public class RaceSettings : MonoBehaviour
             {
                 if (availableCharacters.Count > 0)
                 {
-                    int choiceIndex = (int)Mathf.Round(Random.Range(0, availableCharacters.Count));
+                    int choiceIndex = Random.Range(0, availableCharacters.Count);
                     npcChoices.Add(availableCharacters[choiceIndex]);
                     availableCharacters.RemoveAt(choiceIndex);
                 }
