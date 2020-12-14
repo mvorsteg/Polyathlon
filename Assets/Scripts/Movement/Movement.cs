@@ -90,6 +90,7 @@ public abstract class Movement : MonoBehaviour
 
     protected virtual void OnDisable()
     {
+        Land();
         // Reset these to what they should be by default
         rb.mass = defaultMass;
         rb.drag = defaultDrag;

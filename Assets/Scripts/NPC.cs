@@ -128,7 +128,7 @@ public class NPC : Racer
         // Don't allow a revival until we stop moving on the ground
         yield return new WaitUntil(() => !ragdoll.IsMoving());
         // then wait a bit before getting up...
-        yield return new WaitForSeconds(Random.Range(0.5f, 2f));
+        yield return new WaitForSeconds(Random.Range(1.5f, 3f));
         canRevive = true;
         Revive();
     }
@@ -171,6 +171,10 @@ public class NPC : Racer
             nextWaypoint = waypoint.Next;
             if (agent.enabled && agent.isOnNavMesh)
                 agent.SetDestination(nextWaypoint.GetPos(this));
+        }
+        else // race is over
+        {
+            agent.ResetPath();
         }
     }
 

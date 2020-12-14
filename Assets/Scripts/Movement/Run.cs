@@ -8,6 +8,8 @@ public class Run : Movement
 {
     public float Direction { get => actualVelocity == Vector3.zero ? 0f : Mathf.Abs(Quaternion.LookRotation(actualVelocity, Vector3.up).eulerAngles.y - characterMesh.transform.rotation.eulerAngles.y); }
 
+    private bool preventingJumpLock = false;
+
     protected override void OnEnable() 
     {
         base.OnEnable();
@@ -73,6 +75,10 @@ public class Run : Movement
                 falling = false;
                 Land();
             }
+            else if (Physics.Linecast(transform.position + new Vector3(0, 0.1f, 0), transform.position + new Vector3(0, -0.2f, 0), out hit))
+            {
+                StartCoroutine(PreventJumpLock());
+            }
         }
         // blend speed in animator to match pace of footsteps
         // normal movement (character moves independent of camera)
@@ -81,6 +87,31 @@ public class Run : Movement
     
         anim.SetFloat("speed", speed, dampTime, Time.deltaTime);
         //Debug.Log("velocity" + velocity);
+    }
+
+    // this is a failsafe in case the player presses jump at the instant
+    // that somehow causes them to land without land being called.
+    // Basically if we haven't landed after 4 seconds, we're landing
+    private IEnumerator PreventJumpLock()
+    {
+        if (preventingJumpLock)
+            yield break;
+        else
+        {
+            preventingJumpLock = true;
+            float maxJumpFixTime = 4;
+            float jumpFixTimer = 0;
+            while (jumpFixTimer < maxJumpFixTime && !grounded)
+            {
+                jumpFixTimer += Time.deltaTime;
+                yield return null;
+            }
+            if (jumpFixTimer >= maxJumpFixTime)
+            {
+                grounded = true;
+            }
+            preventingJumpLock = false;
+        }
     }
     
     /* causes the player to jump */

@@ -98,7 +98,7 @@ public class Racer : MonoBehaviour
     public virtual void SetMovementMode(Movement.Mode mode, bool initial = false)
     {
         if (initial || mode != movementMode)
-        { 
+        {
             movementMode = mode;
             if (movement != null)
                 movement.enabled = false;
