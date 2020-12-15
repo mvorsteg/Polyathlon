@@ -78,6 +78,10 @@ public class NPC : Racer
             if (movement.BonusSpeed == 1)
                 rb.velocity = Vector3.ClampMagnitude(rb.velocity, 20);
         }
+        else if (movementMode == Movement.Mode.Biking && movement.BonusSpeed == 1)
+        {
+            rb.velocity = Vector3.ClampMagnitude(rb.velocity, 50);
+        }
     }
 
     public override void EquipItem(Item item)

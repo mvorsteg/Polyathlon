@@ -75,9 +75,9 @@ public class RaceManager : MonoBehaviour
                 newPlayer.transform.position = startingPositions[i + npcChoices.Count].position;
                 newPlayer.transform.rotation = startingPositions[i + npcChoices.Count].rotation;
 
-                Racer racer = newPlayer.GetComponent<Racer>();
-                racer.name = playerChoices[i].character.name;
-                racer.playerNumber = playerChoices[i].playerNumber;
+                PlayerController playerRacer = newPlayer.GetComponent<PlayerController>();
+                playerRacer.name = playerChoices[i].character.name + " (P" + (playerChoices[i].playerNumber + 1) + ")";
+                playerRacer.SetPlayerNumber(playerChoices[i].playerNumber);
 
                 newPlayer.GetComponentInChildren<UI>().SetScale(i, playerChoices.Count);
 
@@ -120,7 +120,7 @@ public class RaceManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKey(KeyCode.Escape))
+        if (!Application.isEditor && Input.GetKey(KeyCode.Escape))
         {
             ReturnToMenu();
         }
@@ -194,10 +194,12 @@ public class RaceManager : MonoBehaviour
         for (int i = 0; i < racers.Length; i++)
         {
             names += (i+1) + (i < 9 ? "    " : "   ") + finalPositions[i].Item1.name;
-            if (racers[i].playerNumber != -1)
+          /*
+            if (racers[i] is PlayerController)
             {
-                names += "(P" + (racers[i].playerNumber + 1) + ")";
+                names += "(P" + (((PlayerController)racers[i]).GetPlayerNumber() + 1) + ")";
             }
+            */
             names += '\n';
             times += UI.FormatTime(finalPositions[i].Item2) + '\n';
         }

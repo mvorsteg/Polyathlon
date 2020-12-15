@@ -7,6 +7,8 @@ public class PlayerController : Racer
     public CameraController cameraController;
     public float gamepadLookSensititvity = 20;
     public float mouseLookSensisitivity = 15;
+    public float arrowKeysLookSensitivity = 20;
+    private float keyboardSchemeSensitivity;
     private Vector2 look;
 
     private InputActions inputActions;
@@ -14,6 +16,7 @@ public class PlayerController : Racer
     private UI ui;
     private bool canMove;
     private bool canLook = true;
+    private int playerNumber = -1;
 
 
     /* -------------- INPUT EVENTS ---------------- */
@@ -35,7 +38,7 @@ public class PlayerController : Racer
         if (canLook)
         {
             if (ctx.performed)
-                look = ctx.ReadValue<Vector2>() * Time.deltaTime * (ctx.control.device is Gamepad ? gamepadLookSensititvity : mouseLookSensisitivity);
+                look = ctx.ReadValue<Vector2>() * (ctx.control.device is Gamepad ? Time.deltaTime * gamepadLookSensititvity : keyboardSchemeSensitivity);
             else if (ctx.canceled)
                 look = Vector2.zero;
         }
@@ -80,7 +83,7 @@ public class PlayerController : Racer
         if (canLook)
         {
             if (ctx.performed)
-                look = ctx.ReadValue<Vector2>() * Time.deltaTime * (ctx.control.device is Gamepad ? gamepadLookSensititvity : mouseLookSensisitivity);
+                look = ctx.ReadValue<Vector2>() * (ctx.control.device is Gamepad ? Time.deltaTime * gamepadLookSensititvity : keyboardSchemeSensitivity);
             else if (ctx.canceled)
                 look = Vector2.zero;
         }
@@ -103,7 +106,7 @@ public class PlayerController : Racer
         if (canLook)
         {
             if (ctx.performed)
-                look = ctx.ReadValue<Vector2>() * Time.deltaTime * (ctx.control.device is Gamepad ? gamepadLookSensititvity : mouseLookSensisitivity);
+                look = ctx.ReadValue<Vector2>() * (ctx.control.device is Gamepad ? Time.deltaTime * gamepadLookSensititvity : keyboardSchemeSensitivity);
             else if (ctx.canceled)
                 look = Vector2.zero;
         }
@@ -126,7 +129,7 @@ public class PlayerController : Racer
         if (canLook)
         {
             if (ctx.performed)
-                look = ctx.ReadValue<Vector2>() * Time.deltaTime * (ctx.control.device is Gamepad ? gamepadLookSensititvity : mouseLookSensisitivity);
+                look = ctx.ReadValue<Vector2>() * (ctx.control.device is Gamepad ? Time.deltaTime * gamepadLookSensititvity : keyboardSchemeSensitivity);
             else if (ctx.canceled)
                 look = Vector2.zero;
         }
@@ -205,6 +208,7 @@ public class PlayerController : Racer
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        keyboardSchemeSensitivity = mouseLookSensisitivity;
     }
 
     protected override void Start() 
@@ -224,8 +228,29 @@ public class PlayerController : Racer
 
     protected override void Update()
     {
+        // when we press an arrow key, change the sensitivity to expect looking with arrow keys
+        if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.DownArrow) ||
+            Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.RightArrow))
+        {
+            keyboardSchemeSensitivity = arrowKeysLookSensitivity;
+        }
+        // when we click the mouse, change the sensitivity to expect looking with mouse movement
+        else if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1))
+        {
+            keyboardSchemeSensitivity = mouseLookSensisitivity;
+        }
         base.Update();
         movement.RotateCamera(look.x, look.y);
+    }
+
+    public void SetPlayerNumber(int newNum)
+    {
+        playerNumber = newNum;
+    }
+
+    public int GetPlayerNumber()
+    {
+        return playerNumber;
     }
 
     protected override void ReviveText()

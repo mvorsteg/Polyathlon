@@ -78,7 +78,8 @@ public class MainMenuPlayer : MonoBehaviour
 
     public void OnConfirmSelections()
     {
-        manager.Confirm(true);
+        if (manager.currentMenuMode == MainMenuManager.MenuMode.CharacterSelect)
+            manager.Confirm(true);
     }
 
     public void OnCancel()

@@ -1849,6 +1849,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   name: 
+  playerNumber: -1
   movementMode: 0
   movementOptions:
   - {fileID: 4174475994960663022}
@@ -1867,7 +1868,8 @@ MonoBehaviour:
   equipSound: {fileID: 8300000, guid: 71f0f2775339e7548b336659b92e6cdf, type: 3}
   cameraController: {fileID: 4174475994182380415}
   gamepadLookSensititvity: 900
-  mouseLookSensisitivity: 70
+  mouseLookSensisitivity: 1.5
+  arrowKeysLookSensitivity: 12
 --- !u!114 &4174475994960663022
 MonoBehaviour:
   m_ObjectHideFlags: 0
