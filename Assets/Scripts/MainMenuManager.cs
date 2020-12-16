@@ -62,6 +62,7 @@ public class MainMenuManager : MonoBehaviour
             StartCoroutine(CameraSpinAround());
         }
         players.Add(newPlayer);
+        Debug.Log("player index: " + newPlayer.GetPlayerIndex());
         controlSchemes.Add(newPlayer.GetControlScheme());
         newPlayer.SetPlayerNum(players.Count - 1);
         // if everyone was ready before, they aren't now

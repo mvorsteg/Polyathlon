@@ -70,7 +70,7 @@ public class RaceManager : MonoBehaviour
             // instantiate the players
             for (int i = 0; i < playerChoices.Count; i++)
             {
-                PlayerInput newPlayer = PlayerInput.Instantiate(playerChoices[i].character.playerObj, playerChoices[i].playerIndex,
+                PlayerInput newPlayer = PlayerInput.Instantiate(playerChoices[i].character.playerObj, playerChoices[i].playerNumber,
                                                                 playerChoices[i].controlScheme, -1, playerChoices[i].inputDevices);
                 newPlayer.transform.position = startingPositions[i + npcChoices.Count].position;
                 newPlayer.transform.rotation = startingPositions[i + npcChoices.Count].rotation;

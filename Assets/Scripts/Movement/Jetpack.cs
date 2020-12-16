@@ -51,6 +51,7 @@ public class Jetpack : Movement
     {
         if (jetpack != null)
             jetpack.SetActive(enabled);
+        fireJetpack = false;
         anim.SetBool("jetpack", enabled);
     }
 
@@ -216,7 +217,7 @@ public class Jetpack : Movement
     }
 
     /*  grounds the player after a jump is complete */
-    protected override void Land()
+    public override void Land()
     {
         grounded = true;
         landable = false;

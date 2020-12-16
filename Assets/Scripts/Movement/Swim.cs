@@ -79,7 +79,7 @@ public class Swim : Movement
     }
 
     /*  grounds the player after a jump is complete */
-    protected override void Land()
+    public override void Land()
     {
         grounded = true;
         anim.SetTrigger("land");

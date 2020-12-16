@@ -106,8 +106,10 @@ public class Run : Movement
                 jumpFixTimer += Time.deltaTime;
                 yield return null;
             }
-            if (jumpFixTimer >= maxJumpFixTime)
+            if (jumpFixTimer >= maxJumpFixTime && rb.velocity.y > -10)
             {
+                Debug.Log("Fixing jump!");
+                falling = false;
                 grounded = true;
             }
             preventingJumpLock = false;
@@ -122,6 +124,7 @@ public class Run : Movement
         {
             if (Physics.Linecast(transform.position + new Vector3(0, 0.1f, 0), transform.position + new Vector3(0, -0.1f, 0)))
             {
+                anim.ResetTrigger("land");
                 rb.AddForce(Vector3.up * jumpForce);
                 grounded = false;
                 anim.SetTrigger("jump");
@@ -130,8 +133,9 @@ public class Run : Movement
     }
 
     /*  grounds the player after a jump is complete */
-    protected override void Land()
+    public override void Land()
     {
+        Debug.Log("Land!!!");
         grounded = true;
         anim.SetTrigger("land");
     }

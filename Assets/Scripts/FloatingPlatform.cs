@@ -18,10 +18,22 @@ public class FloatingPlatform : MonoBehaviour
     private Racer[] racers;
     private Transform target;
     private Rigidbody rb;
+    private GameObject contingencyItems;
+    private bool activated = false;
 
     // Start is called before the first frame update
     void Start()
     {
+        // see if there are contingency items in this scene and disable them if there are
+        // for example, jetpacks
+        try {
+            contingencyItems = GameObject.FindWithTag("ContingencyItems");
+            contingencyItems.SetActive(false);
+        }
+        catch (System.Exception)
+        {
+
+        }
         rb = GetComponent<Rigidbody>();
         
         // Set floatAmplitude and floatSpeed randomly so that each platform has unique motion
@@ -61,6 +73,12 @@ public class FloatingPlatform : MonoBehaviour
                     minDist = dist;
                     target = racers[i].GetHips();
                     targetRb = racers[i].GetComponent<Rigidbody>();
+                    // activate contingency items as soon as someone is targeted
+                    if (!activated && contingencyItems != null)
+                    {
+                        activated = true;
+                        contingencyItems.SetActive(true);
+                    }
                 }
             }
             if (target != null)

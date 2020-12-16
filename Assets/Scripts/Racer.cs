@@ -112,16 +112,22 @@ public class Racer : MonoBehaviour
                     movement = movementOptions[(int)Movement.Mode.Running];
                     break;
                 case Movement.Mode.Jetpacking:
+                    if (!(movement is Jetpack))
+                        movement.Land();
                     movement = movementOptions[(int)Movement.Mode.Jetpacking];
                     audioSource.clip = equipSound;
                     audioSource.Play();
                     break;
                 case Movement.Mode.Swimming:
+                    if (!(movement is Swim))
+                        movement.Land();
                     movement = movementOptions[(int)Movement.Mode.Swimming];
                     audioSource.clip = waterSound;
                     audioSource.Play();
                     break;
                 case Movement.Mode.Biking:
+                    if (!(movement is Bicycle))
+                        movement.Land();
                     movement = movementOptions[(int)Movement.Mode.Biking];
                     audioSource.clip = bikeSound;
                     audioSource.Play();
