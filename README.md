@@ -1,5 +1,5 @@
 # Polyathlon
-CMSC425 Final Project. You can see a video walkthrough of the [gameplay here](https://www.youtube.com/watch?v=_vgwu2P-0-k).
+CMSC425 Final Project. You can see a [video walkthrough of the gameplay here](https://www.youtube.com/watch?v=_vgwu2P-0-k).
 
 ## To Do List for us:
 
