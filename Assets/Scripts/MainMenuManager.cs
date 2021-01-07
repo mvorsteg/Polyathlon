@@ -21,6 +21,7 @@ public class MainMenuManager : MonoBehaviour
     public TextMeshProUGUI confirmText;
     public TextMeshProUGUI bottomScreenInfo;
     public TextMeshProUGUI numCPUsText;
+    public TextMeshProUGUI qualityLevelText;
     public GameObject chooseStage;
     public GameObject[] stageUI;
     private int stageIndex;
@@ -34,12 +35,17 @@ public class MainMenuManager : MonoBehaviour
     private const float distanceBetweenPlayers = 1.3f;
     private const int maxRacers = 12;
 
+    private int currentQualityLevel;
+    private string[] qualityLevels = {"Very Low", "Low", "Medium", "High", "Very High", "Ultra"};
+
     void Awake()
     {
         raceSettings = FindObjectsOfType<RaceSettings>()[0];
         inputManager = GetComponent<PlayerInputManager>();
         players = new List<MainMenuPlayer>();
         controlSchemes = new List<string>();
+        currentQualityLevel = QualitySettings.GetQualityLevel();
+        qualityLevelText.text = "Quality: " + qualityLevels[currentQualityLevel];
     }
 
     void Update()
@@ -53,11 +59,13 @@ public class MainMenuManager : MonoBehaviour
     // Each instantiated player object will call this so that they can be managed
     public void JoinPlayer(MainMenuPlayer newPlayer)
     {
+        // If we're on the opening screen (joining the first player, transition to character select)
         if (openingUI.activeSelf)
         {
             openingUI.SetActive(false);
             back.SetActive(true);
             bottomScreenInfo.gameObject.SetActive(true);
+            qualityLevelText.gameObject.SetActive(true);
             currentMenuMode = MenuMode.CharacterSelect;
             StartCoroutine(CameraSpinAround());
         }
@@ -95,6 +103,7 @@ public class MainMenuManager : MonoBehaviour
         {
             openingUI.SetActive(true);
             back.SetActive(false);
+            qualityLevelText.gameObject.SetActive(false);
             StartCoroutine(CameraSpinAround());
         }
     }
@@ -237,6 +246,18 @@ public class MainMenuManager : MonoBehaviour
             break;
         }
     }
+
+    // Cycles through the quality levels, called by MainMenuPlayers
+    public void CycleQuality()
+    {
+        if (qualityLevelText.gameObject.activeSelf)
+        {
+            currentQualityLevel = (currentQualityLevel + 1) % qualityLevels.Length;
+            qualityLevelText.text = "Quality: " + qualityLevels[currentQualityLevel];
+            QualitySettings.SetQualityLevel(currentQualityLevel);
+        }
+    }
+
 
     // Called by MainMenuPlayers to select things like the number of CPUs and the stage
     public void Increment(Vector2 value)

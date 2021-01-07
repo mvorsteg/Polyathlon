@@ -1277,6 +1277,14 @@ public class @InputActions : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""QualityCycle"",
+                    ""type"": ""Button"",
+                    ""id"": ""e0afb77e-b807-4147-b245-1d66e2501afd"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -1807,6 +1815,28 @@ public class @InputActions : IInputActionCollection, IDisposable
                     ""action"": ""Cancel"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""58519659-cdcb-49fd-8cb9-da901549be2a"",
+                    ""path"": ""<Gamepad>/select"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""QualityCycle"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2a4f9118-ef1c-42d4-96a6-7e844a6cc94e"",
+                    ""path"": ""<Keyboard>/p"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""QualityCycle"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -2170,6 +2200,7 @@ public class @InputActions : IInputActionCollection, IDisposable
         m_UI_TrackedDevicePosition = m_UI.FindAction("TrackedDevicePosition", throwIfNotFound: true);
         m_UI_TrackedDeviceOrientation = m_UI.FindAction("TrackedDeviceOrientation", throwIfNotFound: true);
         m_UI_ConfirmSelections = m_UI.FindAction("ConfirmSelections", throwIfNotFound: true);
+        m_UI_QualityCycle = m_UI.FindAction("QualityCycle", throwIfNotFound: true);
         // Debug
         m_Debug = asset.FindActionMap("Debug", throwIfNotFound: true);
         m_Debug_SlowTime = m_Debug.FindAction("SlowTime", throwIfNotFound: true);
@@ -2470,6 +2501,7 @@ public class @InputActions : IInputActionCollection, IDisposable
     private readonly InputAction m_UI_TrackedDevicePosition;
     private readonly InputAction m_UI_TrackedDeviceOrientation;
     private readonly InputAction m_UI_ConfirmSelections;
+    private readonly InputAction m_UI_QualityCycle;
     public struct UIActions
     {
         private @InputActions m_Wrapper;
@@ -2485,6 +2517,7 @@ public class @InputActions : IInputActionCollection, IDisposable
         public InputAction @TrackedDevicePosition => m_Wrapper.m_UI_TrackedDevicePosition;
         public InputAction @TrackedDeviceOrientation => m_Wrapper.m_UI_TrackedDeviceOrientation;
         public InputAction @ConfirmSelections => m_Wrapper.m_UI_ConfirmSelections;
+        public InputAction @QualityCycle => m_Wrapper.m_UI_QualityCycle;
         public InputActionMap Get() { return m_Wrapper.m_UI; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -2527,6 +2560,9 @@ public class @InputActions : IInputActionCollection, IDisposable
                 @ConfirmSelections.started -= m_Wrapper.m_UIActionsCallbackInterface.OnConfirmSelections;
                 @ConfirmSelections.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnConfirmSelections;
                 @ConfirmSelections.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnConfirmSelections;
+                @QualityCycle.started -= m_Wrapper.m_UIActionsCallbackInterface.OnQualityCycle;
+                @QualityCycle.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnQualityCycle;
+                @QualityCycle.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnQualityCycle;
             }
             m_Wrapper.m_UIActionsCallbackInterface = instance;
             if (instance != null)
@@ -2564,6 +2600,9 @@ public class @InputActions : IInputActionCollection, IDisposable
                 @ConfirmSelections.started += instance.OnConfirmSelections;
                 @ConfirmSelections.performed += instance.OnConfirmSelections;
                 @ConfirmSelections.canceled += instance.OnConfirmSelections;
+                @QualityCycle.started += instance.OnQualityCycle;
+                @QualityCycle.performed += instance.OnQualityCycle;
+                @QualityCycle.canceled += instance.OnQualityCycle;
             }
         }
     }
@@ -2750,6 +2789,7 @@ public class @InputActions : IInputActionCollection, IDisposable
         void OnTrackedDevicePosition(InputAction.CallbackContext context);
         void OnTrackedDeviceOrientation(InputAction.CallbackContext context);
         void OnConfirmSelections(InputAction.CallbackContext context);
+        void OnQualityCycle(InputAction.CallbackContext context);
     }
     public interface IDebugActions
     {

@@ -105,6 +105,11 @@ public class MainMenuPlayer : MonoBehaviour
         }
     }
 
+    public void OnQualityCycle()
+    {
+        manager.CycleQuality();
+    }
+
     // ----------------- END INPUT EVENTS --------------------
 
     // assign a player number to this player, called by MainMenuManager
