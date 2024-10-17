@@ -110,11 +110,16 @@ public class RaceManager : MonoBehaviour
         }
         positions = new List<(Racer, int, float)>(racers.Length);
         finalPositions = new List<(Racer, float)>(racers.Length);
-        resultsText.SetActive(false);
-        timeText.gameObject.SetActive(false);
-        placeText.gameObject.SetActive(false);
-        panel.enabled = false;
-        menuText.SetActive(false);
+        if (resultsText != null)
+            resultsText.SetActive(false);
+        if (timeText != null)
+            timeText.gameObject.SetActive(false);
+        if (placeText != null)
+            placeText.gameObject.SetActive(false);
+        if (panel != null)
+            panel.enabled = false;
+        if (menuText != null)
+            menuText.SetActive(false);
         canLoadMenu = true;
     }
 
@@ -220,9 +225,11 @@ public class RaceManager : MonoBehaviour
 
     public static void ReturnToMenu()
     {
+        Debug.Log("return to main menu please!");
         if (canLoadMenu)
         {
             canLoadMenu = false;
+            Debug.Log("Okay loading main menu!");
             SceneManager.LoadScene("Main Menu");
         }
     }

@@ -13,6 +13,7 @@ public class NPC : Racer
 
     protected const float agentSpeed = 5;
 
+    private bool gliderControlActive = false;
 
     protected override void Start()
     {
@@ -56,6 +57,15 @@ public class NPC : Racer
                 transform.rotation = Quaternion.LookRotation(newDir);
             }
         }
+        else if (movementMode == Movement.Mode.Gliding)
+        {
+            // TODO: Detect if we're gliding and figure out how to pilot the glider
+            if (!movement.Grounded)
+            {
+                if (!gliderControlActive)
+                    StartCoroutine(GliderControl());
+            }
+        }
         else if (movementMode == Movement.Mode.Biking)
         {
             agent.acceleration = Mathf.Lerp(1.2f, 10f, rb.velocity.magnitude / movement.maxSpeed);
@@ -83,6 +93,105 @@ public class NPC : Racer
             rb.velocity = Vector3.ClampMagnitude(rb.velocity, 50);
         }
     }
+
+
+    IEnumerator GliderControl()
+    {
+        gliderControlActive = true;
+        bool landOnHead = Random.Range(0, 2) == 1;
+        float stallSpeed = Random.Range(15f, 25f);
+        bool begunTurning = false;
+        while(!movement.Grounded)
+        {
+            // Roll
+            Vector3 nextWaypointPos = nextWaypoint.GetPos(this);
+            Vector3 desiredDirection = new Vector3(nextWaypointPos.x, 0, nextWaypointPos.z) - new Vector3(transform.position.x, 0, transform.position.z);
+            move = new Vector2(0, 0);
+            // Don't let them start rolling too early or they won't have enough lift and they'll land prematurely
+            if (begunTurning || rb.velocity.magnitude > Mathf.Max(stallSpeed - 5f, 15f))
+            {
+                begunTurning = true;
+                Vector3 velocityDirection = new Vector3(rb.velocity.x, 0, rb.velocity.z).normalized;
+                Vector3 cross = Vector3.Cross(velocityDirection, desiredDirection);
+                Debug.Log("Vector3.right " + Vector3.right + " characterMesh.right " + characterMesh.right);
+                // Target is to the right
+                if (cross.y > 0 && (characterMesh.right.x > 0.3f || characterMesh.right.y > 0))
+                {
+                    move = new Vector2(0.1f, 0f);
+                }
+                // Target is to the left
+                else if (cross.y < 0 && (characterMesh.right.x > 0.3f || characterMesh.right.y < 0))
+                {
+                    move = new Vector2(-0.1f, 0f);
+                }
+            }
+
+            // Pitch
+            float estimatedTimeToLanding = rb.velocity.y / (transform.position.y - nextWaypointPos.y);
+            Vector3 predictedLandingLocation = transform.position + (rb.velocity * estimatedTimeToLanding);
+            float distanceToLanding = Vector3.Distance(transform.position, predictedLandingLocation);
+            float distanceToTarget = Vector3.Distance(transform.position, nextWaypointPos);
+
+            // Also determine whether the target point is already behind us.
+            // When targetAngle is positive, it's ahead, when negative, it's behind
+            float targetAngle = Vector3.SignedAngle(desiredDirection, transform.forward, transform.right);
+            Debug.Log("targetAngle " + targetAngle);
+
+            Debug.Log("Vector3.forward " + Vector3.forward + " characterMesh.forward " + characterMesh.forward);
+            Debug.Log("Vector3.up " + Vector3.up + " characterMesh.up " + characterMesh.up);
+            Debug.Log("distanceToLanding " + distanceToLanding + " distanceToTarget " + distanceToTarget);
+            // We passed it! Land immediately!
+            if (targetAngle >= 90)
+            {
+                // Land on head
+                if (landOnHead) {
+                    if (characterMesh.up.z < 0.9f) {
+                        move += new Vector2(0, 1f);
+                    }
+                } else {
+                    // Land on feet
+                    if (characterMesh.up.z > -0.9f) {
+                        move += new Vector2(0, -1f);
+                    }
+                }
+            }
+            else
+            {
+                Debug.Log("magnitude " + rb.velocity.magnitude);
+                if (distanceToLanding < distanceToTarget)
+                {
+                    if (rb.velocity.magnitude < stallSpeed && characterMesh.up.z < 0.5f)
+                    {
+                        move += new Vector2(0, 0.1f);
+                        Debug.Log("go further by diving");
+                    }
+                    else if (rb.velocity.magnitude > stallSpeed && characterMesh.up.z > -0.5f)
+                    {
+                        move += new Vector2(0, -0.1f);
+                        Debug.Log("go further by pitching up");
+                    }
+                }
+                else if ((distanceToLanding > distanceToTarget && (characterMesh.up.z > -0.5f)))
+                {
+                    
+                    if (rb.velocity.magnitude < stallSpeed && characterMesh.up.z > -0.5f)
+                    {
+                        move += new Vector2(0, -0.1f);
+                        Debug.Log("go shorter by pitching up");
+                    }
+                    else if (rb.velocity.magnitude > stallSpeed && characterMesh.up.z < 0.5f)
+                    {
+                        move += new Vector2(0, 0.1f);
+                        Debug.Log("go shorter by diving");
+                    }
+                }
+            }
+            yield return null;
+        } 
+        move = new Vector2(0,0);
+        gliderControlActive = false;
+    }
+    
 
     public override void EquipItem(Item item)
     {
@@ -125,9 +234,13 @@ public class NPC : Racer
 
     public void Land()
     {
-        if (movementMode == Movement.Mode.Jetpacking)
+        if (movementMode == Movement.Mode.Jetpacking || movementMode == Movement.Mode.Gliding)
         {
             SetNavMeshAgent(true);
+            if (movementMode == Movement.Mode.Gliding)
+            {
+                characterMesh.localEulerAngles = new Vector3(0,0,0);
+            }
         }
     }
 
@@ -177,21 +290,35 @@ public class NPC : Racer
 
     public void ArriveAtWaypoint(IWaypointable waypoint)
     {
-        if (waypoint.GetFork().Length > 0)
+        if (waypoint.GetFork().Length == 0 && waypoint.Next == null)
+        {
+            agent.ResetPath();
+        }
+        else if (waypoint.GetFork().Length > 0)
         {
             nextWaypoint = waypoint.GetFork()[Random.Range(0, waypoint.GetFork().Length)].GetStartingWaypoint();
-            if (agent.enabled && agent.isOnNavMesh)
-                agent.SetDestination(nextWaypoint.GetPos(this));
         }
         else if (waypoint.Next != null)
         {
             nextWaypoint = waypoint.Next;
+        }
+        if (waypoint is JumpOffWaypoint)
+        {
+            SetNavMeshAgent(false);
+            // Some NPCs should be smart and make beelines for target
+            if (Random.Range(0,20) < 2)
+            {
+                Vector3 nextWaypointPos = nextWaypoint.GetPos(this);
+                Vector3 targetDir = (new Vector3(nextWaypointPos.x, 0, nextWaypointPos.z) - new Vector3(transform.position.x, 0, transform.position.z)).normalized;
+                Vector3 newDir = Vector3.RotateTowards(transform.forward, targetDir, 4, 0);
+                transform.rotation = Quaternion.LookRotation(newDir);
+            }
+            movement.Jump(true);
+        }
+        else
+        {
             if (agent.enabled && agent.isOnNavMesh)
                 agent.SetDestination(nextWaypoint.GetPos(this));
-        }
-        else // race is over
-        {
-            agent.ResetPath();
         }
     }
 
@@ -200,7 +327,7 @@ public class NPC : Racer
         agent.enabled = active;
         if (active && agent.isOnNavMesh && RaceManager.IsRaceActive)
         {
-            agent.isStopped = !active;
+            agent.isStopped = false;
             agent.SetDestination(nextWaypoint.GetPos(this));
         }
     }

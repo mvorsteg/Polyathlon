@@ -9,6 +9,7 @@ public abstract class Movement : MonoBehaviour
         //Walking,
         Running,
         Jetpacking,
+        Gliding,
         Swimming,
         Biking,
         GetOffTheBoat,
