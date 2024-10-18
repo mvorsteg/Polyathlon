@@ -31,13 +31,21 @@ public class RaceSettings : MonoBehaviour
     private int numCPUs;
     private List<PlayerChoice> playerChoices;
     public List<Character> npcChoices;
+
+    // Test options for when running the race directly from the race scene instead of from the main menu
+    public bool testSettings = false;
+    public int testCpuQuantity = 11;
+    public GameObject testCharacterGameObject;
     
     void Awake()
     {
         DontDestroyOnLoad(this);
         playerChoices = new List<PlayerChoice>();
         npcChoices = new List<Character>();
-        characters = characterList.GetCharacters();
+        if (characters == null)
+        {
+            characters = characterList.GetCharacters();
+        }
     }
 
     // Called by MainMenuManager
@@ -59,6 +67,11 @@ public class RaceSettings : MonoBehaviour
 
     public List<Character> GetNPCChoices()
     {
+        if (testSettings)
+        {
+            this.numCPUs = testCpuQuantity;
+            AssignNPCChoices();
+        }
         return npcChoices;
     }
 
@@ -76,11 +89,18 @@ public class RaceSettings : MonoBehaviour
         {
             npcChoices = new List<Character>();
             // make a copy of the characters list
+            if (characters == null)
+            {
+                characters = characterList.GetCharacters();
+            }
             List<Character> availableCharacters = characters.ToList();
             // remove all the characters that are taken from the list
-            foreach (PlayerChoice playerChoice in playerChoices)
+            if (playerChoices != null)
             {
-                availableCharacters.Remove(playerChoice.character);
+                foreach (PlayerChoice playerChoice in playerChoices)
+                {
+                    availableCharacters.Remove(playerChoice.character);
+                }
             }
             // choose characters randomly for NPCs, avoiding repetition until we run out of characters
             for (int i = 0; i < numCPUs; i++)

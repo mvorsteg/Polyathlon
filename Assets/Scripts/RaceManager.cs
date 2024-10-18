@@ -39,35 +39,39 @@ public class RaceManager : MonoBehaviour
     public static float Time { get => instance.time; }
     public static bool IsRaceActive { get => instance.isRaceActive; }
 
+    private bool testRun = false;
+
     private void Awake()
     {
         instance = this;    
 
         // race starter code
-        try {
-            raceSettings = GameObject.FindObjectsOfType<RaceSettings>()[0];
-            // get all the starting positions
-            startingPositions = new Transform[startingPositionsParent.childCount];
-            for (int i = 0; i < startingPositionsParent.childCount; i++)
-            {
-                startingPositions[i] = startingPositionsParent.GetChild(i);
-            }
+        raceSettings = GameObject.FindObjectsOfType<RaceSettings>()[0];
+        testRun = raceSettings.testSettings;
+        // get all the starting positions
+        startingPositions = new Transform[startingPositionsParent.childCount];
+        for (int i = 0; i < startingPositionsParent.childCount; i++)
+        {
+            startingPositions[i] = startingPositionsParent.GetChild(i);
+        }
 
-            // Get the racers
-            List<Character> npcChoices = raceSettings.GetNPCChoices();
-            List<RaceSettings.PlayerChoice> playerChoices = raceSettings.GetPlayerChoices();
-            // First instantiate the NPCs
-            for (int i = 0; i < npcChoices.Count; i++)
+        // Get the racers
+        // First instantiate the NPCs
+        List<Character> npcChoices = raceSettings.GetNPCChoices();
+        for (int i = 0; i < npcChoices.Count; i++)
+        {
+            Racer racer = Instantiate(npcChoices[i].npcObj, startingPositions[i].position, startingPositions[i].rotation).GetComponent<Racer>();
+            // Change movement mode of NPCs if necessary
+            if (SceneManager.GetActiveScene().name == "Course 2")
             {
-                Racer racer = Instantiate(npcChoices[i].npcObj, startingPositions[i].position, startingPositions[i].rotation).GetComponent<Racer>();
-                // Change movement mode of NPCs if necessary
-                if (SceneManager.GetActiveScene().name == "Course 2")
-                {
-                    racer.movementMode = Movement.Mode.GetOffTheBoat;
-                }
-                racer.name = npcChoices[i].name;
+                racer.movementMode = Movement.Mode.GetOffTheBoat;
             }
-            // instantiate the players
+            racer.name = npcChoices[i].name;
+        }
+        // Next instantiate the players
+        if (!testRun)
+        {
+            List<RaceSettings.PlayerChoice> playerChoices = raceSettings.GetPlayerChoices();
             for (int i = 0; i < playerChoices.Count; i++)
             {
                 PlayerInput newPlayer = PlayerInput.Instantiate(playerChoices[i].character.playerObj, playerChoices[i].playerNumber,
@@ -92,11 +96,13 @@ public class RaceManager : MonoBehaviour
             {
                 dummyUI.SetActive(true);
             }
-            realPlayersInRace = playerChoices.Count;            
+            realPlayersInRace = playerChoices.Count;
         }
-        catch (System.Exception)
+        else
         {
-            Debug.LogWarning("Where are the RaceSettings?!?!");
+            Transform testPlayer = raceSettings.testCharacterGameObject.transform;
+            testPlayer.position = startingPositions[npcChoices.Count].position;
+            testPlayer.rotation = startingPositions[npcChoices.Count].rotation;
         }
         Destroy(raceSettings.gameObject);
     }
