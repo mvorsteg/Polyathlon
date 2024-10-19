@@ -38,73 +38,89 @@ public class RaceManager : MonoBehaviour
 
     public static float Time { get => instance.time; }
     public static bool IsRaceActive { get => instance.isRaceActive; }
+    public GameObject raceCourseTester;
+    public bool dontAddRacers = false; // use this for non-racing test scenes
 
     private bool testRun = false;
 
     private void Awake()
     {
-        instance = this;    
-
-        // race starter code
-        raceSettings = GameObject.FindObjectsOfType<RaceSettings>()[0];
-        testRun = raceSettings.testSettings;
-        // get all the starting positions
-        startingPositions = new Transform[startingPositionsParent.childCount];
-        for (int i = 0; i < startingPositionsParent.childCount; i++)
+        instance = this;
+        if (!dontAddRacers)
         {
-            startingPositions[i] = startingPositionsParent.GetChild(i);
-        }
+            RaceSettings raceSettings;
 
-        // Get the racers
-        // First instantiate the NPCs
-        List<Character> npcChoices = raceSettings.GetNPCChoices();
-        for (int i = 0; i < npcChoices.Count; i++)
-        {
-            Racer racer = Instantiate(npcChoices[i].npcObj, startingPositions[i].position, startingPositions[i].rotation).GetComponent<Racer>();
-            // Change movement mode of NPCs if necessary
-            if (SceneManager.GetActiveScene().name == "Course 2")
+            // race starter code
+            try
             {
-                racer.movementMode = Movement.Mode.GetOffTheBoat;
+                raceSettings = GameObject.FindObjectsOfType<RaceSettings>()[0];
             }
-            racer.name = npcChoices[i].name;
-        }
-        // Next instantiate the players
-        if (!testRun)
-        {
-            List<RaceSettings.PlayerChoice> playerChoices = raceSettings.GetPlayerChoices();
-            for (int i = 0; i < playerChoices.Count; i++)
+            catch(System.Exception)
             {
-                PlayerInput newPlayer = PlayerInput.Instantiate(playerChoices[i].character.playerObj, playerChoices[i].playerNumber,
-                                                                playerChoices[i].controlScheme, -1, playerChoices[i].inputDevices);
-                newPlayer.transform.position = startingPositions[i + npcChoices.Count].position;
-                newPlayer.transform.rotation = startingPositions[i + npcChoices.Count].rotation;
+                Debug.Log("RaceSettings not found, instantiating a race settings for testing!");
+                raceSettings = Instantiate(raceCourseTester).GetComponentInChildren<RaceSettings>();
+            }
 
-                PlayerController playerRacer = newPlayer.GetComponent<PlayerController>();
-                playerRacer.name = playerChoices[i].character.name + " (P" + (playerChoices[i].playerNumber + 1) + ")";
-                playerRacer.SetPlayerNumber(playerChoices[i].playerNumber);
+            testRun = raceSettings.testSettings;
 
-                newPlayer.GetComponentInChildren<UI>().SetScale(i, playerChoices.Count);
+            // get all the starting positions
+            startingPositions = new Transform[startingPositionsParent.childCount];
+            for (int i = 0; i < startingPositionsParent.childCount; i++)
+            {
+                startingPositions[i] = startingPositionsParent.GetChild(i);
+            }
 
-                // remove excess audio listeners
-                if (i > 0)
+            // Get the racers
+            // First instantiate the NPCs
+            List<Character> npcChoices = raceSettings.GetNPCChoices();
+            for (int i = 0; i < npcChoices.Count; i++)
+            {
+                Racer racer = Instantiate(npcChoices[i].npcObj, startingPositions[i].position, startingPositions[i].rotation).GetComponent<Racer>();
+                // Change movement mode of NPCs if necessary
+                if (SceneManager.GetActiveScene().name == "Course 2")
                 {
-                    Destroy(newPlayer.GetComponentInChildren<AudioListener>());
+                    racer.movementMode = Movement.Mode.GetOffTheBoat;
                 }
+                racer.name = npcChoices[i].name;
             }
-            // activate dummy camera for 3 player splitscreen
-            if (playerChoices.Count == 3)
+            // Next instantiate the players
+            if (!testRun)
             {
-                dummyUI.SetActive(true);
+                List<RaceSettings.PlayerChoice> playerChoices = raceSettings.GetPlayerChoices();
+                for (int i = 0; i < playerChoices.Count; i++)
+                {
+                    PlayerInput newPlayer = PlayerInput.Instantiate(playerChoices[i].character.playerObj, playerChoices[i].playerNumber,
+                                                                    playerChoices[i].controlScheme, -1, playerChoices[i].inputDevices);
+                    newPlayer.transform.position = startingPositions[i + npcChoices.Count].position;
+                    newPlayer.transform.rotation = startingPositions[i + npcChoices.Count].rotation;
+
+                    PlayerController playerRacer = newPlayer.GetComponent<PlayerController>();
+                    playerRacer.name = playerChoices[i].character.name + " (P" + (playerChoices[i].playerNumber + 1) + ")";
+                    playerRacer.SetPlayerNumber(playerChoices[i].playerNumber);
+
+                    newPlayer.GetComponentInChildren<UI>().SetScale(i, playerChoices.Count);
+
+                    // remove excess audio listeners
+                    if (i > 0)
+                    {
+                        Destroy(newPlayer.GetComponentInChildren<AudioListener>());
+                    }
+                }
+                // activate dummy camera for 3 player splitscreen
+                if (playerChoices.Count == 3)
+                {
+                    dummyUI.SetActive(true);
+                }
+                realPlayersInRace = playerChoices.Count;
             }
-            realPlayersInRace = playerChoices.Count;
+            else
+            {
+                Transform testPlayer = raceSettings.testCharacterGameObject.transform;
+                testPlayer.position = startingPositions[npcChoices.Count].position;
+                testPlayer.rotation = startingPositions[npcChoices.Count].rotation;
+            }
+            Destroy(raceSettings.gameObject);
         }
-        else
-        {
-            Transform testPlayer = raceSettings.testCharacterGameObject.transform;
-            testPlayer.position = startingPositions[npcChoices.Count].position;
-            testPlayer.rotation = startingPositions[npcChoices.Count].rotation;
-        }
-        Destroy(raceSettings.gameObject);
     }
 
     private void Start() 

@@ -188,8 +188,9 @@ public class Racer : MonoBehaviour
 
     protected virtual IEnumerator RevivalEnabler()
     {
-        // Don't allow a revival until we stop moving on the ground
+        // Don't allow a revival until one second after we stop moving on the ground
         yield return new WaitUntil(() => !ragdoll.IsMoving());
+        yield return new WaitForSeconds(1);
         canRevive = true;
         ReviveText();
 

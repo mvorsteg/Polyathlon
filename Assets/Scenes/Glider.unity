@@ -1497,6 +1497,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   characterList: {fileID: 11400000, guid: 8cce9d7b8463f0545bf3610d93e71b97, type: 2}
   npcChoices: []
+  testSettings: 0
+  testCpuQuantity: 0
+  testCharacterGameObject: {fileID: 0}
 --- !u!4 &1011308500
 Transform:
   m_ObjectHideFlags: 0
@@ -2312,6 +2315,9 @@ MonoBehaviour:
   panel: {fileID: 0}
   menuText: {fileID: 0}
   dummyUI: {fileID: 0}
+  raceCourseTester: {fileID: 3972031488923505484, guid: e777d02076410da4a8ea600d61cb4bd8,
+    type: 3}
+  dontAddRacers: 1
 --- !u!4 &1316837808
 Transform:
   m_ObjectHideFlags: 0
