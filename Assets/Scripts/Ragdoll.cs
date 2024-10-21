@@ -89,11 +89,6 @@ public class Ragdoll : MonoBehaviour
         if (deadTime <= maxDeadTime)
         {
             // check each rigidbody to see if it's still moving
-            /*foreach (Rigidbody rb in rigidbodies)
-            {
-                if (rb.velocity != Vector3.zero)
-                    return true;
-            }*/
             if (hips.velocity.magnitude > 1)
             {
                 return true;

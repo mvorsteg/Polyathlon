@@ -145,9 +145,44 @@ public class PlayerController : Racer
                 movement.Jump(false);
         }
     }
+
+    // Gliding
+    public void OnGlidingMovement(InputAction.CallbackContext ctx)
+    {
+        if (canMove)
+        {
+            if (ctx.performed)
+                move = ctx.ReadValue<Vector2>();
+            else if (ctx.canceled)
+                move = Vector2.zero;
+        }
+    }
+
+    public void OnGlidingLook(InputAction.CallbackContext ctx)
+    {
+        if (canLook)
+        {
+            if (ctx.performed)
+                look = ctx.ReadValue<Vector2>() * (ctx.control.device is Gamepad ? Time.deltaTime * gamepadLookSensititvity : keyboardSchemeSensitivity);
+            else if (ctx.canceled)
+                look = Vector2.zero;
+        }
+    }
+
+    public void OnGlidingJump(InputAction.CallbackContext ctx)
+    {
+        if (canMove)
+        {
+            if (ctx.performed)
+                movement.Jump(true);
+            else if (ctx.canceled)
+                movement.Jump(false);
+        }
+    }
     
     public void OnFinishAnyKeyPressed(InputAction.CallbackContext ctx)
     {
+        Debug.Log("OnFinishAnyKeyPressed now!");
         RaceManager.ReturnToMenu();
     }
 
@@ -155,53 +190,6 @@ public class PlayerController : Racer
 
     private void Awake() 
     {
-        /* 
-
-        // running
-        inputActions.Running.Movement.performed += ctx => move = ctx.ReadValue<Vector2>();
-        inputActions.Running.Movement.canceled += ctx => move = Vector2.zero;
-
-        inputActions.Running.Look.performed += ctx => look = ctx.ReadValue<Vector2>() * Time.deltaTime * (ctx.control.device is Gamepad ?
-                                                                                            gamepadLookSensititvity : mouseLookSensisitivity);
-        inputActions.Running.Look.canceled += ctx => look = Vector2.zero;
-
-        inputActions.Running.Jump.performed += ctx => movement.Jump(true);
-        inputActions.Running.Jump.canceled += ctx => movement.Jump(false);
-
-        // swimming
-        inputActions.Swimming.Movement.performed += ctx => move = ctx.ReadValue<Vector2>();
-        inputActions.Swimming.Movement.canceled += ctx => move = Vector2.zero;
-
-        inputActions.Swimming.Look.performed += ctx => look = ctx.ReadValue<Vector2>() * Time.deltaTime * (ctx.control.device is Gamepad ?
-                                                                                            gamepadLookSensititvity : mouseLookSensisitivity);
-        inputActions.Swimming.Look.canceled += ctx => look = Vector2.zero;
-
-        // biking
-        inputActions.Biking.Movement.performed += ctx => move = ctx.ReadValue<Vector2>();
-        inputActions.Biking.Movement.canceled += ctx => move = Vector2.zero;
-
-        inputActions.Biking.Look.performed += ctx => look = ctx.ReadValue<Vector2>() * Time.deltaTime * (ctx.control.device is Gamepad ?
-                                                                                            gamepadLookSensititvity : mouseLookSensisitivity);
-        inputActions.Biking.Look.canceled += ctx => look = Vector2.zero;
-
-        // jetpacking
-        inputActions.Jetpacking.Movement.performed += ctx => move = ctx.ReadValue<Vector2>();
-        inputActions.Jetpacking.Movement.canceled += ctx => move = Vector2.zero;
-
-        inputActions.Jetpacking.Look.performed += ctx => look = ctx.ReadValue<Vector2>() * Time.deltaTime * (ctx.control.device is Gamepad ?
-                                                                                            gamepadLookSensititvity : mouseLookSensisitivity);
-        inputActions.Jetpacking.Look.canceled += ctx => look = Vector2.zero;
-
-        inputActions.Jetpacking.Jump.performed += ctx => movement.Jump(true);
-        inputActions.Jetpacking.Jump.canceled += ctx => movement.Jump(false);
-
-        //  Debug actions
-        inputActions.Debug.SlowTime.performed += ctx => SlowTime();
-        
-        //inputActions.Debug.Die.performed += ctx => Revive();
-        inputActions.Debug.Enable();
-        */
-
         playerInput = GetComponent<PlayerInput>();
         //inputActions = new InputActions();
         //inputActions.Debug.Exit.performed += ctx => Application.Quit();
@@ -284,17 +272,14 @@ public class PlayerController : Racer
         canMove = false;
         move = Vector2.zero;
         movement.Jump(false);
-       /* inputActions.Running.Disable();
-        inputActions.Jetpacking.Disable();
-        inputActions.Swimming.Disable();
-        inputActions.Biking.Disable(); */
         // display text
         StartCoroutine(ui.FinishRace());
     }
 
     public override void RaceIsOver()
     {
-        playerInput.currentActionMap = playerInput.actions.actionMaps[7];
+        // Enable FinishLine action map
+        playerInput.currentActionMap = playerInput.actions.actionMaps[8];
     }
 
     /*  updates player's movement mode and maxSpeed/locomotion accordingly */
@@ -303,25 +288,6 @@ public class PlayerController : Racer
         Vector2 movePreserve = move;
         base.SetMovementMode(mode, initial);
         playerInput.currentActionMap = playerInput.actions.actionMaps[(int)mode];
-        /* inputActions.Running.Disable();
-        inputActions.Jetpacking.Disable();
-        inputActions.Swimming.Disable();
-        inputActions.Biking.Disable();
-        switch (mode)
-        {
-            case Movement.Mode.Running:
-                inputActions.Running.Enable();
-                break;
-            case Movement.Mode.Jetpacking:
-                inputActions.Jetpacking.Enable();
-                break;
-            case Movement.Mode.Swimming:
-                inputActions.Swimming.Enable();
-                break;
-            case Movement.Mode.Biking:
-                inputActions.Biking.Enable();
-                break;
-        } */
         move = movePreserve;
     }
 

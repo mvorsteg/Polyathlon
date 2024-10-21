@@ -38,14 +38,31 @@ public class RaceManager : MonoBehaviour
 
     public static float Time { get => instance.time; }
     public static bool IsRaceActive { get => instance.isRaceActive; }
+    public GameObject raceCourseTester;
+    public bool dontAddRacers = false; // use this for non-racing test scenes
+
+    private bool testRun = false;
 
     private void Awake()
     {
-        instance = this;    
+        instance = this;
+        if (!dontAddRacers)
+        {
+            RaceSettings raceSettings;
 
-        // race starter code
-        try {
-            raceSettings = GameObject.FindObjectsOfType<RaceSettings>()[0];
+            // race starter code
+            try
+            {
+                raceSettings = GameObject.FindObjectsOfType<RaceSettings>()[0];
+            }
+            catch(System.Exception)
+            {
+                Debug.Log("RaceSettings not found, instantiating a race settings for testing!");
+                raceSettings = Instantiate(raceCourseTester).GetComponentInChildren<RaceSettings>();
+            }
+
+            testRun = raceSettings.testSettings;
+
             // get all the starting positions
             startingPositions = new Transform[startingPositionsParent.childCount];
             for (int i = 0; i < startingPositionsParent.childCount; i++)
@@ -54,9 +71,8 @@ public class RaceManager : MonoBehaviour
             }
 
             // Get the racers
-            List<Character> npcChoices = raceSettings.GetNPCChoices();
-            List<RaceSettings.PlayerChoice> playerChoices = raceSettings.GetPlayerChoices();
             // First instantiate the NPCs
+            List<Character> npcChoices = raceSettings.GetNPCChoices();
             for (int i = 0; i < npcChoices.Count; i++)
             {
                 Racer racer = Instantiate(npcChoices[i].npcObj, startingPositions[i].position, startingPositions[i].rotation).GetComponent<Racer>();
@@ -67,38 +83,44 @@ public class RaceManager : MonoBehaviour
                 }
                 racer.name = npcChoices[i].name;
             }
-            // instantiate the players
-            for (int i = 0; i < playerChoices.Count; i++)
+            // Next instantiate the players
+            if (!testRun)
             {
-                PlayerInput newPlayer = PlayerInput.Instantiate(playerChoices[i].character.playerObj, playerChoices[i].playerNumber,
-                                                                playerChoices[i].controlScheme, -1, playerChoices[i].inputDevices);
-                newPlayer.transform.position = startingPositions[i + npcChoices.Count].position;
-                newPlayer.transform.rotation = startingPositions[i + npcChoices.Count].rotation;
-
-                PlayerController playerRacer = newPlayer.GetComponent<PlayerController>();
-                playerRacer.name = playerChoices[i].character.name + " (P" + (playerChoices[i].playerNumber + 1) + ")";
-                playerRacer.SetPlayerNumber(playerChoices[i].playerNumber);
-
-                newPlayer.GetComponentInChildren<UI>().SetScale(i, playerChoices.Count);
-
-                // remove excess audio listeners
-                if (i > 0)
+                List<RaceSettings.PlayerChoice> playerChoices = raceSettings.GetPlayerChoices();
+                for (int i = 0; i < playerChoices.Count; i++)
                 {
-                    Destroy(newPlayer.GetComponentInChildren<AudioListener>());
+                    PlayerInput newPlayer = PlayerInput.Instantiate(playerChoices[i].character.playerObj, playerChoices[i].playerNumber,
+                                                                    playerChoices[i].controlScheme, -1, playerChoices[i].inputDevices);
+                    newPlayer.transform.position = startingPositions[i + npcChoices.Count].position;
+                    newPlayer.transform.rotation = startingPositions[i + npcChoices.Count].rotation;
+
+                    PlayerController playerRacer = newPlayer.GetComponent<PlayerController>();
+                    playerRacer.name = playerChoices[i].character.name + " (P" + (playerChoices[i].playerNumber + 1) + ")";
+                    playerRacer.SetPlayerNumber(playerChoices[i].playerNumber);
+
+                    newPlayer.GetComponentInChildren<UI>().SetScale(i, playerChoices.Count);
+
+                    // remove excess audio listeners
+                    if (i > 0)
+                    {
+                        Destroy(newPlayer.GetComponentInChildren<AudioListener>());
+                    }
                 }
+                // activate dummy camera for 3 player splitscreen
+                if (playerChoices.Count == 3)
+                {
+                    dummyUI.SetActive(true);
+                }
+                realPlayersInRace = playerChoices.Count;
             }
-            // activate dummy camera for 3 player splitscreen
-            if (playerChoices.Count == 3)
+            else
             {
-                dummyUI.SetActive(true);
+                Transform testPlayer = raceSettings.testCharacterGameObject.transform;
+                testPlayer.position = startingPositions[npcChoices.Count].position;
+                testPlayer.rotation = startingPositions[npcChoices.Count].rotation;
             }
-            realPlayersInRace = playerChoices.Count;            
+            Destroy(raceSettings.gameObject);
         }
-        catch (System.Exception)
-        {
-            Debug.LogWarning("Where are the RaceSettings?!?!");
-        }
-        Destroy(raceSettings.gameObject);
     }
 
     private void Start() 
@@ -110,11 +132,16 @@ public class RaceManager : MonoBehaviour
         }
         positions = new List<(Racer, int, float)>(racers.Length);
         finalPositions = new List<(Racer, float)>(racers.Length);
-        resultsText.SetActive(false);
-        timeText.gameObject.SetActive(false);
-        placeText.gameObject.SetActive(false);
-        panel.enabled = false;
-        menuText.SetActive(false);
+        if (resultsText != null)
+            resultsText.SetActive(false);
+        if (timeText != null)
+            timeText.gameObject.SetActive(false);
+        if (placeText != null)
+            placeText.gameObject.SetActive(false);
+        if (panel != null)
+            panel.enabled = false;
+        if (menuText != null)
+            menuText.SetActive(false);
         canLoadMenu = true;
     }
 
@@ -220,9 +247,11 @@ public class RaceManager : MonoBehaviour
 
     public static void ReturnToMenu()
     {
+        Debug.Log("return to main menu please!");
         if (canLoadMenu)
         {
             canLoadMenu = false;
+            Debug.Log("Okay loading main menu!");
             SceneManager.LoadScene("Main Menu");
         }
     }

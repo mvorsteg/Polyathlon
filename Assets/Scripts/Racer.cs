@@ -118,6 +118,13 @@ public class Racer : MonoBehaviour
                     audioSource.clip = equipSound;
                     audioSource.Play();
                     break;
+                case Movement.Mode.Gliding:
+                    if (!(movement is Glider))
+                        movement.Land();
+                    movement = movementOptions[(int)Movement.Mode.Gliding];
+                    audioSource.clip = equipSound;
+                    audioSource.Play();
+                    break;
                 case Movement.Mode.Swimming:
                     if (!(movement is Swim))
                         movement.Land();
@@ -139,7 +146,7 @@ public class Racer : MonoBehaviour
             }
             movement.enabled = true;
             animEvents.movement = movement;
-            anim.SetInteger("movement_mode", (int)movementMode % 4);
+            anim.SetInteger("movement_mode", (int)movementMode % 5);
         }
     }
 
@@ -181,8 +188,9 @@ public class Racer : MonoBehaviour
 
     protected virtual IEnumerator RevivalEnabler()
     {
-        // Don't allow a revival until we stop moving on the ground
+        // Don't allow a revival until one second after we stop moving on the ground
         yield return new WaitUntil(() => !ragdoll.IsMoving());
+        yield return new WaitForSeconds(1);
         canRevive = true;
         ReviveText();
 
