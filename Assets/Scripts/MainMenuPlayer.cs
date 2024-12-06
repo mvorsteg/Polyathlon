@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -64,13 +65,16 @@ public class MainMenuPlayer : MonoBehaviour
 
     public void OnSubmit()
     {
+        List<MainMenuManager.MenuMode> confirmables = new List<MainMenuManager.MenuMode> { MainMenuManager.MenuMode.CPUSelect,
+                                                    MainMenuManager.MenuMode.StageSelect,
+                                                    MainMenuManager.MenuMode.ModeSelect};
         if (canConfirm && manager.currentMenuMode == MainMenuManager.MenuMode.CharacterSelect)
         {
             ready = true;
             readyText.text = "Ready!";
             manager.InformReady(true);
         }
-        else if (manager.currentMenuMode == MainMenuManager.MenuMode.CPUSelect || manager.currentMenuMode == MainMenuManager.MenuMode.StageSelect)
+        else if (confirmables.Contains(manager.currentMenuMode))
         {
             manager.Confirm(true);
         }

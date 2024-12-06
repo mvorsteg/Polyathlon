@@ -42,12 +42,20 @@ public class UI : MonoBehaviour
         racer = GetComponentInParent<Racer>();
         SetItemImage(null);
         StartCoroutine(StartRace());
+        
+        if (RaceManager.IsTrainingCourse)
+        {
+            timeText.enabled = false;
+            positionText.enabled = false;
+            itemText.text = "Respawn: Left Trigger (Gamepad)\nRight/Left Click (Mouse)";
+            itemText.gameObject.SetActive(true);
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (!racer.isFinished)
+        if (!racer.isFinished && !RaceManager.IsTrainingCourse)
         {
             int pos = RaceManager.GetPosition(this.racer);
             switch (pos)

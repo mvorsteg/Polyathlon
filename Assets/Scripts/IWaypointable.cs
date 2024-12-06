@@ -6,5 +6,5 @@ public interface IWaypointable
     int Seq { get; set; }
     Vector3 GetPos(NPC npc);
     float GetHeight();
-    WaypointChain[] GetFork();
+    IWaypointable[] GetFork();
 }

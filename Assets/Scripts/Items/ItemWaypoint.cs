@@ -7,7 +7,9 @@ public class ItemWaypoint : MonoBehaviour, IWaypointable
 {
     public float chanceNPCGoesForItem = 1; // 0 means they will not go for an item, 1 means they definitely will
     public float chanceNPCWaitsForItem = 1; // same scale as above, should the NPC wait at the item's spot until it is available?
-    public WaypointChain[] fork;
+    public Waypoint[] waypointFork; // Unity doesn't let you serialize interfaces :(
+    public ItemWaypoint[] itemWaypointFork;
+    public JumpOffWaypoint[] jumpOffWaypointFork;
     public IWaypointable Next { get { return next; } set { next = value; } }
     private IWaypointable next;
     public int Seq { get { return seq; } set { seq = value; } }
@@ -86,8 +88,21 @@ public class ItemWaypoint : MonoBehaviour, IWaypointable
         return 0;
     }
 
-    public WaypointChain[] GetFork()
+    public IWaypointable[] GetFork()
     {
+        IWaypointable[] fork = new IWaypointable[waypointFork.Length + itemWaypointFork.Length + jumpOffWaypointFork.Length];
+        for (int i = 0; i < waypointFork.Length; i++)
+        {
+            fork[i] = waypointFork[i];
+        }
+        for (int i = 0; i < itemWaypointFork.Length; i++)
+        {
+            fork[waypointFork.Length + i] = itemWaypointFork[i];
+        }
+        for (int i = 0; i < jumpOffWaypointFork.Length; i++)
+        {
+            fork[waypointFork.Length + jumpOffWaypointFork.Length + i] = jumpOffWaypointFork[i];
+        }
         return fork;
     }
 }

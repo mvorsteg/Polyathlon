@@ -79,8 +79,13 @@ public class RaceSettings : MonoBehaviour
     {
         this.numCPUs = numCPUs;
         AssignNPCChoices();
-        // load either Course 1 or Course 2
+        // load the appropriate course
         SceneManager.LoadScene("Course " + (courseId + 1));
+    }
+
+    public void EnterTraining(int trainingId)
+    {
+        SceneManager.LoadScene("Training " + (trainingId + 1));
     }
 
     private void AssignNPCChoices()

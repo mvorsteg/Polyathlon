@@ -57,7 +57,11 @@ public class PlayerController : Racer
 
     public void OnUseItem(InputAction.CallbackContext ctx)
     {
-        if (!dead && canMove && item != null)
+        if (RaceManager.IsTrainingCourse)
+        {
+            RaceManager.RespawnPlayer(this);
+        }
+        else if (!dead && canMove && item != null)
         {
             if (ctx.performed)
             {
@@ -186,6 +190,12 @@ public class PlayerController : Racer
         RaceManager.ReturnToMenu();
     }
 
+    // This is only for exiting training while using a gamepad
+    public void OnStartButton(InputAction.CallbackContext ctx)
+    {
+        if (RaceManager.IsTrainingCourse)
+            RaceManager.ReturnToMenu();
+    }
 
 
     private void Awake() 
@@ -299,15 +309,15 @@ public class PlayerController : Racer
         StartCoroutine(cameraController.FollowRagdoll());
     }
 
-    public override void Revive()
+    public override void Revive(bool forceRevive = false)
     {
-        if (dead && canRevive)
+        if (dead && (canRevive || forceRevive))
         {
             // have the camera stop following the ragdoll
             StartCoroutine(cameraController.FollowRagdoll());
         }
         ui.ReviveText(false);
-        base.Revive();
+        base.Revive(forceRevive);
     }
 
     protected override void OnCollisionEnter(Collision other)

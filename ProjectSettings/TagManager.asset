@@ -9,6 +9,9 @@ TagManager:
   - water
   - WaypointChainStart
   - ContingencyItems
+  - lb_bird
+  - FinalWaypoint
+  - DebugTextMesh
   layers:
   - Default
   - TransparentFX

@@ -14,7 +14,7 @@ public class MelonObject : MonoBehaviour
     private void OnCollisionEnter(Collision other)
     {
         Racer racer = other.transform.GetComponent<Racer>();
-        if (racer != null && rb.velocity.magnitude > 5)
+        if (racer != null && other.relativeVelocity.magnitude > 7)
         {
             racer.Die(true);
         }
@@ -30,7 +30,7 @@ public class MelonObject : MonoBehaviour
 
     public IEnumerator Despawn()
     {
-        yield return new WaitForSeconds(60);
+        yield return new WaitForSeconds(90);
         Destroy(gameObject);
     }
 }

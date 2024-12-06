@@ -58,7 +58,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 780e04bf9c6742e4b950d6eb6f9a5c5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  seq: 0
-  next: {fileID: 0}
+  waypointFork: []
+  itemWaypointFork: []
+  jumpOffWaypointFork: []
   pos: {x: 0, y: 0, z: 0}
   height: 5.2525
+  water: 0
+  forceToGround: 0

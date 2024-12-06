@@ -62,6 +62,15 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""StartButton"",
+                    ""type"": ""Button"",
+                    ""id"": ""ccc71fe4-f5be-4c0e-aae3-da6c764f5c8b"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -317,6 +326,17 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
                     ""action"": ""Look"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4443d002-86f8-4844-b01f-b89ea6ee864b"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""StartButton"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -355,6 +375,15 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
                     ""name"": ""Item"",
                     ""type"": ""Button"",
                     ""id"": ""0149fb39-f34a-463f-8640-cd8d2e6e81c6"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""StartButton"",
+                    ""type"": ""Button"",
+                    ""id"": ""54ced5f3-5d98-4ca2-aacb-665c614caed6"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -614,6 +643,17 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
                     ""action"": ""Look"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""213e7814-5adf-460b-aa8b-640c92be5ad9"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""StartButton"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -652,6 +692,15 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
                     ""name"": ""Item"",
                     ""type"": ""Button"",
                     ""id"": ""d0cd7e6e-93be-4877-9a32-25b601e59038"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""StartButton"",
+                    ""type"": ""Button"",
+                    ""id"": ""a96d992e-15df-4205-a7a2-11ed628c787b"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -911,6 +960,17 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
                     ""action"": ""Look"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""de132548-e585-41a0-b116-f593692f8971"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""StartButton"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -949,6 +1009,15 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
                     ""name"": ""Item"",
                     ""type"": ""Button"",
                     ""id"": ""16d034a3-e544-4d58-bd27-85c6c57919ac"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""StartButton"",
+                    ""type"": ""Button"",
+                    ""id"": ""db902f0c-25ce-491b-bd43-d55af91c2799"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -1208,6 +1277,17 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
                     ""action"": ""Look"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e09f18ed-781e-4d02-82b7-19c0a69fa4cf"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""StartButton"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -1246,6 +1326,15 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
                     ""name"": ""Item"",
                     ""type"": ""Button"",
                     ""id"": ""4d3b6522-357e-47ef-98d6-1c4a28657c3a"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""StartButton"",
+                    ""type"": ""Button"",
+                    ""id"": ""dd9cd317-9913-41d4-bcb4-d72986e6f590"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
@@ -1503,6 +1592,17 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
                     ""action"": ""Item"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""663d769d-9d0c-4ce0-b79f-12574ab8186c"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""StartButton"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -2509,30 +2609,35 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
         m_Running_Look = m_Running.FindAction("Look", throwIfNotFound: true);
         m_Running_Jump = m_Running.FindAction("Jump", throwIfNotFound: true);
         m_Running_Item = m_Running.FindAction("Item", throwIfNotFound: true);
+        m_Running_StartButton = m_Running.FindAction("StartButton", throwIfNotFound: true);
         // Jetpacking
         m_Jetpacking = asset.FindActionMap("Jetpacking", throwIfNotFound: true);
         m_Jetpacking_Movement = m_Jetpacking.FindAction("Movement", throwIfNotFound: true);
         m_Jetpacking_Look = m_Jetpacking.FindAction("Look", throwIfNotFound: true);
         m_Jetpacking_Jump = m_Jetpacking.FindAction("Jump", throwIfNotFound: true);
         m_Jetpacking_Item = m_Jetpacking.FindAction("Item", throwIfNotFound: true);
+        m_Jetpacking_StartButton = m_Jetpacking.FindAction("StartButton", throwIfNotFound: true);
         // Gliding
         m_Gliding = asset.FindActionMap("Gliding", throwIfNotFound: true);
         m_Gliding_Movement = m_Gliding.FindAction("Movement", throwIfNotFound: true);
         m_Gliding_Look = m_Gliding.FindAction("Look", throwIfNotFound: true);
         m_Gliding_Jump = m_Gliding.FindAction("Jump", throwIfNotFound: true);
         m_Gliding_Item = m_Gliding.FindAction("Item", throwIfNotFound: true);
+        m_Gliding_StartButton = m_Gliding.FindAction("StartButton", throwIfNotFound: true);
         // Swimming
         m_Swimming = asset.FindActionMap("Swimming", throwIfNotFound: true);
         m_Swimming_Movement = m_Swimming.FindAction("Movement", throwIfNotFound: true);
         m_Swimming_Look = m_Swimming.FindAction("Look", throwIfNotFound: true);
         m_Swimming_Jump = m_Swimming.FindAction("Jump", throwIfNotFound: true);
         m_Swimming_Item = m_Swimming.FindAction("Item", throwIfNotFound: true);
+        m_Swimming_StartButton = m_Swimming.FindAction("StartButton", throwIfNotFound: true);
         // Biking
         m_Biking = asset.FindActionMap("Biking", throwIfNotFound: true);
         m_Biking_Movement = m_Biking.FindAction("Movement", throwIfNotFound: true);
         m_Biking_Look = m_Biking.FindAction("Look", throwIfNotFound: true);
         m_Biking_Jump = m_Biking.FindAction("Jump", throwIfNotFound: true);
         m_Biking_Item = m_Biking.FindAction("Item", throwIfNotFound: true);
+        m_Biking_StartButton = m_Biking.FindAction("StartButton", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -2622,6 +2727,7 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
     private readonly InputAction m_Running_Look;
     private readonly InputAction m_Running_Jump;
     private readonly InputAction m_Running_Item;
+    private readonly InputAction m_Running_StartButton;
     public struct RunningActions
     {
         private @InputActions m_Wrapper;
@@ -2630,6 +2736,7 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
         public InputAction @Look => m_Wrapper.m_Running_Look;
         public InputAction @Jump => m_Wrapper.m_Running_Jump;
         public InputAction @Item => m_Wrapper.m_Running_Item;
+        public InputAction @StartButton => m_Wrapper.m_Running_StartButton;
         public InputActionMap Get() { return m_Wrapper.m_Running; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -2651,6 +2758,9 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
                 @Item.started -= m_Wrapper.m_RunningActionsCallbackInterface.OnItem;
                 @Item.performed -= m_Wrapper.m_RunningActionsCallbackInterface.OnItem;
                 @Item.canceled -= m_Wrapper.m_RunningActionsCallbackInterface.OnItem;
+                @StartButton.started -= m_Wrapper.m_RunningActionsCallbackInterface.OnStartButton;
+                @StartButton.performed -= m_Wrapper.m_RunningActionsCallbackInterface.OnStartButton;
+                @StartButton.canceled -= m_Wrapper.m_RunningActionsCallbackInterface.OnStartButton;
             }
             m_Wrapper.m_RunningActionsCallbackInterface = instance;
             if (instance != null)
@@ -2667,6 +2777,9 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
                 @Item.started += instance.OnItem;
                 @Item.performed += instance.OnItem;
                 @Item.canceled += instance.OnItem;
+                @StartButton.started += instance.OnStartButton;
+                @StartButton.performed += instance.OnStartButton;
+                @StartButton.canceled += instance.OnStartButton;
             }
         }
     }
@@ -2679,6 +2792,7 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
     private readonly InputAction m_Jetpacking_Look;
     private readonly InputAction m_Jetpacking_Jump;
     private readonly InputAction m_Jetpacking_Item;
+    private readonly InputAction m_Jetpacking_StartButton;
     public struct JetpackingActions
     {
         private @InputActions m_Wrapper;
@@ -2687,6 +2801,7 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
         public InputAction @Look => m_Wrapper.m_Jetpacking_Look;
         public InputAction @Jump => m_Wrapper.m_Jetpacking_Jump;
         public InputAction @Item => m_Wrapper.m_Jetpacking_Item;
+        public InputAction @StartButton => m_Wrapper.m_Jetpacking_StartButton;
         public InputActionMap Get() { return m_Wrapper.m_Jetpacking; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -2708,6 +2823,9 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
                 @Item.started -= m_Wrapper.m_JetpackingActionsCallbackInterface.OnItem;
                 @Item.performed -= m_Wrapper.m_JetpackingActionsCallbackInterface.OnItem;
                 @Item.canceled -= m_Wrapper.m_JetpackingActionsCallbackInterface.OnItem;
+                @StartButton.started -= m_Wrapper.m_JetpackingActionsCallbackInterface.OnStartButton;
+                @StartButton.performed -= m_Wrapper.m_JetpackingActionsCallbackInterface.OnStartButton;
+                @StartButton.canceled -= m_Wrapper.m_JetpackingActionsCallbackInterface.OnStartButton;
             }
             m_Wrapper.m_JetpackingActionsCallbackInterface = instance;
             if (instance != null)
@@ -2724,6 +2842,9 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
                 @Item.started += instance.OnItem;
                 @Item.performed += instance.OnItem;
                 @Item.canceled += instance.OnItem;
+                @StartButton.started += instance.OnStartButton;
+                @StartButton.performed += instance.OnStartButton;
+                @StartButton.canceled += instance.OnStartButton;
             }
         }
     }
@@ -2736,6 +2857,7 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
     private readonly InputAction m_Gliding_Look;
     private readonly InputAction m_Gliding_Jump;
     private readonly InputAction m_Gliding_Item;
+    private readonly InputAction m_Gliding_StartButton;
     public struct GlidingActions
     {
         private @InputActions m_Wrapper;
@@ -2744,6 +2866,7 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
         public InputAction @Look => m_Wrapper.m_Gliding_Look;
         public InputAction @Jump => m_Wrapper.m_Gliding_Jump;
         public InputAction @Item => m_Wrapper.m_Gliding_Item;
+        public InputAction @StartButton => m_Wrapper.m_Gliding_StartButton;
         public InputActionMap Get() { return m_Wrapper.m_Gliding; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -2765,6 +2888,9 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
                 @Item.started -= m_Wrapper.m_GlidingActionsCallbackInterface.OnItem;
                 @Item.performed -= m_Wrapper.m_GlidingActionsCallbackInterface.OnItem;
                 @Item.canceled -= m_Wrapper.m_GlidingActionsCallbackInterface.OnItem;
+                @StartButton.started -= m_Wrapper.m_GlidingActionsCallbackInterface.OnStartButton;
+                @StartButton.performed -= m_Wrapper.m_GlidingActionsCallbackInterface.OnStartButton;
+                @StartButton.canceled -= m_Wrapper.m_GlidingActionsCallbackInterface.OnStartButton;
             }
             m_Wrapper.m_GlidingActionsCallbackInterface = instance;
             if (instance != null)
@@ -2781,6 +2907,9 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
                 @Item.started += instance.OnItem;
                 @Item.performed += instance.OnItem;
                 @Item.canceled += instance.OnItem;
+                @StartButton.started += instance.OnStartButton;
+                @StartButton.performed += instance.OnStartButton;
+                @StartButton.canceled += instance.OnStartButton;
             }
         }
     }
@@ -2793,6 +2922,7 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
     private readonly InputAction m_Swimming_Look;
     private readonly InputAction m_Swimming_Jump;
     private readonly InputAction m_Swimming_Item;
+    private readonly InputAction m_Swimming_StartButton;
     public struct SwimmingActions
     {
         private @InputActions m_Wrapper;
@@ -2801,6 +2931,7 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
         public InputAction @Look => m_Wrapper.m_Swimming_Look;
         public InputAction @Jump => m_Wrapper.m_Swimming_Jump;
         public InputAction @Item => m_Wrapper.m_Swimming_Item;
+        public InputAction @StartButton => m_Wrapper.m_Swimming_StartButton;
         public InputActionMap Get() { return m_Wrapper.m_Swimming; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -2822,6 +2953,9 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
                 @Item.started -= m_Wrapper.m_SwimmingActionsCallbackInterface.OnItem;
                 @Item.performed -= m_Wrapper.m_SwimmingActionsCallbackInterface.OnItem;
                 @Item.canceled -= m_Wrapper.m_SwimmingActionsCallbackInterface.OnItem;
+                @StartButton.started -= m_Wrapper.m_SwimmingActionsCallbackInterface.OnStartButton;
+                @StartButton.performed -= m_Wrapper.m_SwimmingActionsCallbackInterface.OnStartButton;
+                @StartButton.canceled -= m_Wrapper.m_SwimmingActionsCallbackInterface.OnStartButton;
             }
             m_Wrapper.m_SwimmingActionsCallbackInterface = instance;
             if (instance != null)
@@ -2838,6 +2972,9 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
                 @Item.started += instance.OnItem;
                 @Item.performed += instance.OnItem;
                 @Item.canceled += instance.OnItem;
+                @StartButton.started += instance.OnStartButton;
+                @StartButton.performed += instance.OnStartButton;
+                @StartButton.canceled += instance.OnStartButton;
             }
         }
     }
@@ -2850,6 +2987,7 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
     private readonly InputAction m_Biking_Look;
     private readonly InputAction m_Biking_Jump;
     private readonly InputAction m_Biking_Item;
+    private readonly InputAction m_Biking_StartButton;
     public struct BikingActions
     {
         private @InputActions m_Wrapper;
@@ -2858,6 +2996,7 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
         public InputAction @Look => m_Wrapper.m_Biking_Look;
         public InputAction @Jump => m_Wrapper.m_Biking_Jump;
         public InputAction @Item => m_Wrapper.m_Biking_Item;
+        public InputAction @StartButton => m_Wrapper.m_Biking_StartButton;
         public InputActionMap Get() { return m_Wrapper.m_Biking; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -2879,6 +3018,9 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
                 @Item.started -= m_Wrapper.m_BikingActionsCallbackInterface.OnItem;
                 @Item.performed -= m_Wrapper.m_BikingActionsCallbackInterface.OnItem;
                 @Item.canceled -= m_Wrapper.m_BikingActionsCallbackInterface.OnItem;
+                @StartButton.started -= m_Wrapper.m_BikingActionsCallbackInterface.OnStartButton;
+                @StartButton.performed -= m_Wrapper.m_BikingActionsCallbackInterface.OnStartButton;
+                @StartButton.canceled -= m_Wrapper.m_BikingActionsCallbackInterface.OnStartButton;
             }
             m_Wrapper.m_BikingActionsCallbackInterface = instance;
             if (instance != null)
@@ -2895,6 +3037,9 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
                 @Item.started += instance.OnItem;
                 @Item.performed += instance.OnItem;
                 @Item.canceled += instance.OnItem;
+                @StartButton.started += instance.OnStartButton;
+                @StartButton.performed += instance.OnStartButton;
+                @StartButton.canceled += instance.OnStartButton;
             }
         }
     }
@@ -3167,6 +3312,7 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
         void OnLook(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
         void OnItem(InputAction.CallbackContext context);
+        void OnStartButton(InputAction.CallbackContext context);
     }
     public interface IJetpackingActions
     {
@@ -3174,6 +3320,7 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
         void OnLook(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
         void OnItem(InputAction.CallbackContext context);
+        void OnStartButton(InputAction.CallbackContext context);
     }
     public interface IGlidingActions
     {
@@ -3181,6 +3328,7 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
         void OnLook(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
         void OnItem(InputAction.CallbackContext context);
+        void OnStartButton(InputAction.CallbackContext context);
     }
     public interface ISwimmingActions
     {
@@ -3188,6 +3336,7 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
         void OnLook(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
         void OnItem(InputAction.CallbackContext context);
+        void OnStartButton(InputAction.CallbackContext context);
     }
     public interface IBikingActions
     {
@@ -3195,6 +3344,7 @@ public partial class @InputActions : IInputActionCollection2, IDisposable
         void OnLook(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
         void OnItem(InputAction.CallbackContext context);
+        void OnStartButton(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

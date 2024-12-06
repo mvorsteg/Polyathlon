@@ -36,6 +36,7 @@ public class Jetpack : Movement
         maxSpeed = runSpeed;
         acceleration = runAcceleration;
         angularSpeed = 120f;
+        smoothSpeed = rb.velocity.magnitude;
 
         SetJetpack(true);
     }
@@ -89,6 +90,8 @@ public class Jetpack : Movement
         {
             if (velocity.magnitude > 0)
             {
+                if (smoothSpeed > maxSpeed)
+                    smoothSpeed = smoothSpeed * Mathf.Max(Vector3.Dot(smoothSpeedDirection, velocity.normalized), 0);
                 rb.velocity = new Vector3(velocity.normalized.x * smoothSpeed, rb.velocity.y, velocity.normalized.z * smoothSpeed);
                 smoothSpeed = Mathf.Lerp(smoothSpeed, maxSpeed * bonusSpeed, Time.deltaTime);
                 // rotate the character mesh if enabled
@@ -222,6 +225,8 @@ public class Jetpack : Movement
         grounded = true;
         landable = false;
         anim.SetTrigger("land");
+        smoothSpeed = new Vector3(rb.velocity.x, 0, rb.velocity.z).magnitude;
+        smoothSpeedDirection = new Vector3(rb.velocity.normalized.x, 0, rb.velocity.normalized.z).normalized;
         if (racer is NPC)
         {
             ((NPC)racer).Land();

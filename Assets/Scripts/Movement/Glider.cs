@@ -32,6 +32,7 @@ public class Glider : Movement
         maxSpeed = runSpeed;
         acceleration = runAcceleration;
         angularSpeed = 120f;
+        smoothSpeed = rb.velocity.magnitude;
 
         SetGlider(true);
     }
@@ -84,6 +85,8 @@ public class Glider : Movement
         {
             if (velocity.magnitude > 0)
             {
+                if (smoothSpeed > maxSpeed)
+                    smoothSpeed = smoothSpeed * Mathf.Max(Vector3.Dot(smoothSpeedDirection, velocity.normalized), 0);
                 rb.velocity = new Vector3(velocity.normalized.x * smoothSpeed, racer is NPC ? 0 : rb.velocity.y, velocity.normalized.z * smoothSpeed);
                 smoothSpeed = Mathf.Lerp(smoothSpeed, maxSpeed * bonusSpeed, Time.deltaTime);
                 // rotate the character mesh if enabled
@@ -100,6 +103,8 @@ public class Glider : Movement
         // if they are flying
         else if (!grounded)
         {
+            anim.SetBool("glide", true);
+            anim.SetTrigger("jump");
             // don't move player, just roll and pitch
             if (forward != 0 || right != 0)
             {
@@ -114,7 +119,6 @@ public class Glider : Movement
                 characterMesh.localEulerAngles = new Vector3(0, characterMesh.localEulerAngles.y, 0);
                 rb.drag = 0;
                 Land();
-                Debug.Log(gameObject.name + "has landed");
             }
         }
         // blend speed in animator to match pace of footsteps
@@ -211,14 +215,39 @@ public class Glider : Movement
         gliding = false;
         rb.drag = 0;
         anim.SetTrigger("land");
+        smoothSpeed = new Vector3(rb.velocity.x, 0, rb.velocity.z).magnitude;
+        smoothSpeedDirection = new Vector3(rb.velocity.normalized.x, 0, rb.velocity.normalized.z).normalized;
         if (racer is NPC)
         {
             ((NPC)racer).Land();
             rb.velocity = Vector3.ClampMagnitude(rb.velocity, maxSpeed);
+            rb.isKinematic = true;
+            rb.isKinematic = false;
+            ((NPC)racer).GoToNearestJetpack();
+            Debug.Log(gameObject.name + " NPC must go to nearest jetpack");
+            StartCoroutine(LostNPCContingency());
         }
         else
         {
             cameraController.ResetXMinMax();
+        }
+    }
+
+    // Some NPCs are truly lost. This should help them.
+    private IEnumerator LostNPCContingency()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(10);
+            if (rb.velocity.magnitude <= 0.01f)
+            {
+                ((NPC)racer).GoToNearestJetpack();
+            } else if (rb.velocity.magnitude > 50f)
+            {
+                rb.isKinematic = true;
+                yield return null;
+                rb.isKinematic = false;
+            }
         }
     }
 }
