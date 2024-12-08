@@ -50,6 +50,8 @@ public class Item : MonoBehaviour
        then reappear after itemRespawnTime seconds */
     protected IEnumerator RespawnItem()
     {
+        yield return null;
+        yield return null;
         available = false;
         child.SetActive(false);
         itemCollider.enabled = false;

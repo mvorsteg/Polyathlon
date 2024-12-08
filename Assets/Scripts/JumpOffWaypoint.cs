@@ -13,7 +13,9 @@ public class JumpOffWaypoint : MonoBehaviour, IWaypointable
     public float height;
     public bool forceToGround = false;
     // If this is the end of the chain, you can add other chains for NPCs to decide to follow
-    public WaypointChain[] fork;
+    public Waypoint[] waypointFork; // Unity doesn't let you serialize interfaces :(
+    public ItemWaypoint[] itemWaypointFork;
+    public JumpOffWaypoint[] jumpOffWaypointFork;
     private Color color;
     private Dictionary<NPC, Vector3> npcDestinations;
     private BoxCollider boxCollider;
@@ -53,15 +55,28 @@ public class JumpOffWaypoint : MonoBehaviour, IWaypointable
         return height;
     }
 
-    public WaypointChain[] GetFork()
+    public IWaypointable[] GetFork()
     {
+        IWaypointable[] fork = new IWaypointable[waypointFork.Length + itemWaypointFork.Length + jumpOffWaypointFork.Length];
+        for (int i = 0; i < waypointFork.Length; i++)
+        {
+            fork[i] = waypointFork[i];
+        }
+        for (int i = 0; i < itemWaypointFork.Length; i++)
+        {
+            fork[waypointFork.Length + i] = itemWaypointFork[i];
+        }
+        for (int i = 0; i < jumpOffWaypointFork.Length; i++)
+        {
+            fork[waypointFork.Length + jumpOffWaypointFork.Length + i] = jumpOffWaypointFork[i];
+        }
         return fork;
     }
 
     private void OnTriggerStay(Collider other) 
     {
         NPC npc = other.GetComponent<NPC>();
-        if (npc != null)    // check to make sure agent is part of this route
+        if (npc != null && npc.movementMode == Movement.Mode.Gliding)    // check to make sure agent is part of this route
         {
             //Debug.Log(other);
             npc.ArriveAtWaypoint(this);

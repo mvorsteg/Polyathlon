@@ -20,6 +20,7 @@ public class Run : Movement
         maxSpeed = runSpeed;
         acceleration = runAcceleration;
         angularSpeed = 120f;
+        smoothSpeed = rb.velocity.magnitude;
     }
 
     /*  moves the player rigidbody */
@@ -70,7 +71,8 @@ public class Run : Movement
         if (!grounded)
         {
             RaycastHit hit;
-            if (falling && Physics.Linecast(transform.position + new Vector3(0, 0.1f, 0), transform.position + new Vector3(0, -0.2f, 0), out hit))
+            float vel = rb.velocity.y;
+            if ((falling || vel < -0.1f) && Physics.Linecast(transform.position + new Vector3(0, 0.1f, 0), transform.position + new Vector3(0, -0.2f, 0), out hit))
             {
                 falling = false;
                 Land();
@@ -120,13 +122,14 @@ public class Run : Movement
     public override void Jump(bool hold)
     {
         base.Jump(hold);
-        if (grounded)
+        if (grounded && hold)
         {
             if (Physics.Linecast(transform.position + new Vector3(0, 0.1f, 0), transform.position + new Vector3(0, -0.1f, 0)))
             {
                 anim.ResetTrigger("land");
                 rb.AddForce(Vector3.up * jumpForce);
                 grounded = false;
+                falling = false;
                 anim.SetTrigger("jump");
             }
         }
@@ -135,7 +138,7 @@ public class Run : Movement
     /*  grounds the player after a jump is complete */
     public override void Land()
     {
-        Debug.Log("Land!!!");
+        Debug.Log(gameObject.name + " has landed!!!");
         grounded = true;
         anim.SetTrigger("land");
     }

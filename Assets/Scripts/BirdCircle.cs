@@ -5,6 +5,7 @@ public class BirdCircle : MonoBehaviour
     private Bird bird;
     private float circleSpeed;  // rotations per second 
     public bool reverse = false;
+    public float percentChanceBirdGoesAfterNPC = 50f;
 
     private void Start()
     {
@@ -30,7 +31,7 @@ public class BirdCircle : MonoBehaviour
             bool attack = true;
             if (racer is NPC)
             {
-                attack = Random.Range(0, 100) < 50;
+                attack = Random.Range(0, 100) < percentChanceBirdGoesAfterNPC;
             }
             bird.SetTarget(racer);
         }   

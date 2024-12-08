@@ -40,6 +40,9 @@ public class RaceManager : MonoBehaviour
     public static bool IsRaceActive { get => instance.isRaceActive; }
     public GameObject raceCourseTester;
     public bool dontAddRacers = false; // use this for non-racing test scenes
+    [SerializeField]
+    private bool isTrainingCourse = false;
+    public static bool IsTrainingCourse { get => instance.isTrainingCourse; } // use this for training scenes
 
     private bool testRun = false;
 
@@ -72,16 +75,20 @@ public class RaceManager : MonoBehaviour
 
             // Get the racers
             // First instantiate the NPCs
-            List<Character> npcChoices = raceSettings.GetNPCChoices();
-            for (int i = 0; i < npcChoices.Count; i++)
+            List<Character> npcChoices = new List<Character>();
+            if (!isTrainingCourse)
             {
-                Racer racer = Instantiate(npcChoices[i].npcObj, startingPositions[i].position, startingPositions[i].rotation).GetComponent<Racer>();
-                // Change movement mode of NPCs if necessary
-                if (SceneManager.GetActiveScene().name == "Course 2")
+                npcChoices = raceSettings.GetNPCChoices();
+                for (int i = 0; i < npcChoices.Count; i++)
                 {
-                    racer.movementMode = Movement.Mode.GetOffTheBoat;
+                    Racer racer = Instantiate(npcChoices[i].npcObj, startingPositions[i].position, startingPositions[i].rotation).GetComponent<Racer>();
+                    // Change movement mode of NPCs if necessary
+                    if (SceneManager.GetActiveScene().name == "Course 2")
+                    {
+                        racer.movementMode = Movement.Mode.GetOffTheBoat;
+                    }
+                    racer.name = npcChoices[i].name;
                 }
-                racer.name = npcChoices[i].name;
             }
             // Next instantiate the players
             if (!testRun)
@@ -126,12 +133,15 @@ public class RaceManager : MonoBehaviour
     private void Start() 
     {
         racers = GameObject.FindObjectsOfType<Racer>();
-        foreach(Racer r in racers)
+        if (!isTrainingCourse)
         {
-            r.nextCheckpoint = chain.GetFirstCheckpoint();
+            foreach(Racer r in racers)
+            {
+                r.nextCheckpoint = chain.GetFirstCheckpoint();
+            }
+            positions = new List<(Racer, int, float)>(racers.Length);
+            finalPositions = new List<(Racer, float)>(racers.Length);
         }
-        positions = new List<(Racer, int, float)>(racers.Length);
-        finalPositions = new List<(Racer, float)>(racers.Length);
         if (resultsText != null)
             resultsText.SetActive(false);
         if (timeText != null)
@@ -152,7 +162,7 @@ public class RaceManager : MonoBehaviour
             ReturnToMenu();
         }
         // update positions of racers (1st, 2nd...)
-        if (isRaceActive)
+        if (isRaceActive && !isTrainingCourse)
         {
             positions.Clear();
             foreach(Racer r in racers)
@@ -167,6 +177,23 @@ public class RaceManager : MonoBehaviour
             // update time
             time += UnityEngine.Time.deltaTime;
         }
+    }
+
+    public static void RespawnPlayer(PlayerController player)
+    {
+        int playerNumber = player.GetPlayerNumber();
+        if (playerNumber == -1)
+        {
+            playerNumber = 0;
+        }
+        player.transform.position = instance.startingPositions[playerNumber].position;
+        player.Land();
+        player.SetMovementMode(Movement.Mode.Running);
+        // Remove velocity
+        player.Revive(true);
+        Rigidbody playerRb = player.transform.GetComponent<Rigidbody>();
+        playerRb.isKinematic = true;
+        playerRb.isKinematic = false;   
     }
 
     public static void StartRace()

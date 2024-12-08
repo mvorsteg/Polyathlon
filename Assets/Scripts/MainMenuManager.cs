@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using TMPro;
+using System;
 
 public class MainMenuManager : MonoBehaviour
 {
@@ -11,7 +12,14 @@ public class MainMenuManager : MonoBehaviour
         Opening,
         CharacterSelect,
         CPUSelect,
+        ModeSelect,
         StageSelect,
+    }
+
+    public enum GameMode
+    {
+        Racing,
+        Training
     }
 
     public MenuMode currentMenuMode;
@@ -20,12 +28,16 @@ public class MainMenuManager : MonoBehaviour
     public GameObject back;
     public TextMeshProUGUI confirmText;
     public TextMeshProUGUI bottomScreenInfo;
+    public TextMeshProUGUI gameModeText;
     public TextMeshProUGUI numCPUsText;
     public TextMeshProUGUI qualityLevelText;
     public GameObject chooseStage;
-    public GameObject[] stageUI;
+    public GameObject chooseTrainingCourse;
+    public GameObject[] raceCoursesUI;
+    public GameObject[] trainingCoursesUI;
+    private GameMode gameMode = GameMode.Racing;
     private int stageIndex;
-    private int numCPUs = 4;
+    private int numCPUs;
     private PlayerInputManager inputManager;
     private RaceSettings raceSettings;
     private List<MainMenuPlayer> players;
@@ -187,42 +199,79 @@ public class MainMenuManager : MonoBehaviour
     // Handles all transitions after the character select screen forwards and backwards
     public void Confirm(bool confirm)
     {
+        Debug.Log("confirm: " + confirm + " currentMenuMode: " + currentMenuMode);
         switch(currentMenuMode)
         {
             case MenuMode.CharacterSelect:
                 if (allReady && confirm)
                 {
+                    // clear current UI
                     foreach(MainMenuPlayer player in players)
                     {
                         player.SetPreviewVisibility(false);
                     }
-                    numCPUsText.gameObject.SetActive(true);
-                    numCPUsText.text = "Number of CPUs: <[" + numCPUs + "]>";
-                    confirmText.gameObject.SetActive(false);
-                    bottomScreenInfo.text = "Press Space on Keyboard or A on Gamepad to confirm!";
-                    currentMenuMode = MenuMode.CPUSelect;
                     inputManager.DisableJoining();
+                    confirmText.gameObject.SetActive(false);
+                    // set new UI
+                    gameModeText.gameObject.SetActive(true);
+                    gameModeText.text = "Choose a Game Mode:\n< " + Enum.GetName(typeof(GameMode), gameMode) + " >";
+                    bottomScreenInfo.text = "Press Space on Keyboard or A on Gamepad to confirm!";
+                    currentMenuMode = MenuMode.ModeSelect;
                 }
             break;
-            case MenuMode.CPUSelect:
+            case MenuMode.ModeSelect:
                 if (confirm)
                 {
-                    numCPUsText.gameObject.SetActive(false);
-                    chooseStage.SetActive(true);
-                    stageUI[stageIndex].SetActive(true);
-                    currentMenuMode = MenuMode.StageSelect;
+                    // clear current UI
+                    gameModeText.gameObject.SetActive(false);
+                    // set new UI
+                    if (gameMode == GameMode.Racing)
+                    {
+                        numCPUsText.gameObject.SetActive(true);
+                        numCPUs = maxRacers - players.Count;
+                        numCPUsText.text = "Number of CPUs: <[" + numCPUs + "]>";
+                        bottomScreenInfo.text = "Press Space on Keyboard or A on Gamepad to confirm!";
+                        currentMenuMode = MenuMode.CPUSelect;
+                    }
+                    else if (gameMode == GameMode.Training)
+                    {
+                        chooseTrainingCourse.SetActive(true);
+                        trainingCoursesUI[stageIndex % trainingCoursesUI.Length].SetActive(true);
+                        currentMenuMode = MenuMode.StageSelect;
+                    }
                 }
                 else
                 {
+                    // clear current UI
+                    gameModeText.gameObject.SetActive(false);
+                    // set new UI
                     foreach(MainMenuPlayer player in players)
                     {
                         player.SetPreviewVisibility(true);
                     }
                     currentMenuMode = MenuMode.CharacterSelect;
-                    numCPUsText.gameObject.SetActive(false);
-                    confirmText.gameObject.SetActive(false);
+                    confirmText.gameObject.SetActive(true);
                     UpdateMessages();
                     inputManager.EnableJoining();
+                }
+            break;
+            case MenuMode.CPUSelect:
+                if (confirm)
+                {
+                    // clear current UI
+                    numCPUsText.gameObject.SetActive(false);
+                    // set new UI
+                    chooseStage.SetActive(true);
+                    raceCoursesUI[stageIndex % raceCoursesUI.Length].SetActive(true);
+                    currentMenuMode = MenuMode.StageSelect;
+                }
+                else
+                {
+                    // clear current UI
+                    numCPUsText.gameObject.SetActive(false);
+                    // set new UI
+                    gameModeText.gameObject.SetActive(true);
+                    currentMenuMode = MenuMode.ModeSelect;
                 }
             break;
             case MenuMode.StageSelect:
@@ -231,15 +280,36 @@ public class MainMenuManager : MonoBehaviour
                     foreach (MainMenuPlayer player in players)
                     {
                         raceSettings.AddPlayerChoice(player.GetPlayerChoice());
-                        raceSettings.EnterRace(numCPUs, stageIndex);
+                        if (gameMode == GameMode.Racing)
+                        {
+                            raceSettings.EnterRace(numCPUs, stageIndex);
+                        }
+                        else if (gameMode == GameMode.Training)
+                        {
+                            raceSettings.EnterTraining(stageIndex);
+                        }
                     }
                 }
                 else
                 {
-                    chooseStage.SetActive(false);
-                    numCPUsText.gameObject.SetActive(true);
-                    stageUI[stageIndex].SetActive(false);
-                    currentMenuMode = MenuMode.CPUSelect;
+                    if (gameMode == GameMode.Racing)
+                    {
+                        // clear current UI
+                        chooseStage.SetActive(false);
+                        // set new UI
+                        raceCoursesUI[stageIndex % raceCoursesUI.Length].SetActive(false);
+                        numCPUsText.gameObject.SetActive(true);
+                        currentMenuMode = MenuMode.CPUSelect;
+                    }
+                    else if (gameMode == GameMode.Training)
+                    {
+                        // clear current UI
+                        chooseTrainingCourse.SetActive(false);
+                        // set new UI
+                        trainingCoursesUI[stageIndex % trainingCoursesUI.Length].SetActive(false);
+                        gameModeText.gameObject.SetActive(true);
+                        currentMenuMode = MenuMode.ModeSelect;
+                    }
                 }
             break;
             default:
@@ -261,7 +331,7 @@ public class MainMenuManager : MonoBehaviour
 
     // Called by MainMenuPlayers to select things like the number of CPUs and the stage
     public void Increment(Vector2 value)
-    {
+    {   
         switch (currentMenuMode)
         {
             case MenuMode.CPUSelect:
@@ -275,7 +345,20 @@ public class MainMenuManager : MonoBehaviour
                 }
                 numCPUsText.text = "Number of CPUs: <[" + numCPUs + "]>";
             break;
+            case MenuMode.ModeSelect:
+                gameMode = (GameMode)(Mathf.Abs(((int)gameMode + value.x) % Enum.GetNames(typeof(GameMode)).Length));
+                gameModeText.text = "Choose a Game Mode:\n< " + Enum.GetName(typeof(GameMode), gameMode) + " >";
+            break;
             case MenuMode.StageSelect:
+                GameObject[] stageUI;
+                if (gameMode == GameMode.Racing)
+                {
+                    stageUI = raceCoursesUI;
+                }
+                else //if (gameMode == GameMode.Training) // uncomment if adding a third mode
+                {
+                    stageUI = trainingCoursesUI;
+                }
                 if (value.x == 1)
                 {
                     stageUI[stageIndex].SetActive(false);

@@ -40,6 +40,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "StartButton",
+                    "type": "Button",
+                    "id": "ccc71fe4-f5be-4c0e-aae3-da6c764f5c8b",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -295,6 +304,17 @@
                     "action": "Look",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "4443d002-86f8-4844-b01f-b89ea6ee864b",
+                    "path": "<Gamepad>/start",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "StartButton",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },
@@ -333,6 +353,15 @@
                     "name": "Item",
                     "type": "Button",
                     "id": "0149fb39-f34a-463f-8640-cd8d2e6e81c6",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "StartButton",
+                    "type": "Button",
+                    "id": "54ced5f3-5d98-4ca2-aacb-665c614caed6",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -592,6 +621,17 @@
                     "action": "Look",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "213e7814-5adf-460b-aa8b-640c92be5ad9",
+                    "path": "<Gamepad>/start",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "StartButton",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },
@@ -630,6 +670,15 @@
                     "name": "Item",
                     "type": "Button",
                     "id": "d0cd7e6e-93be-4877-9a32-25b601e59038",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "StartButton",
+                    "type": "Button",
+                    "id": "a96d992e-15df-4205-a7a2-11ed628c787b",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -889,6 +938,17 @@
                     "action": "Look",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "de132548-e585-41a0-b116-f593692f8971",
+                    "path": "<Gamepad>/start",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "StartButton",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },
@@ -927,6 +987,15 @@
                     "name": "Item",
                     "type": "Button",
                     "id": "16d034a3-e544-4d58-bd27-85c6c57919ac",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "StartButton",
+                    "type": "Button",
+                    "id": "db902f0c-25ce-491b-bd43-d55af91c2799",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -1186,6 +1255,17 @@
                     "action": "Look",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "e09f18ed-781e-4d02-82b7-19c0a69fa4cf",
+                    "path": "<Gamepad>/start",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "StartButton",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },
@@ -1224,6 +1304,15 @@
                     "name": "Item",
                     "type": "Button",
                     "id": "4d3b6522-357e-47ef-98d6-1c4a28657c3a",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "StartButton",
+                    "type": "Button",
+                    "id": "dd9cd317-9913-41d4-bcb4-d72986e6f590",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -1481,6 +1570,17 @@
                     "processors": "",
                     "groups": "Gamepad",
                     "action": "Item",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "663d769d-9d0c-4ce0-b79f-12574ab8186c",
+                    "path": "<Gamepad>/start",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "StartButton",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

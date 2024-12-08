@@ -190,7 +190,7 @@ public class Racer : MonoBehaviour
     {
         // Don't allow a revival until one second after we stop moving on the ground
         yield return new WaitUntil(() => !ragdoll.IsMoving());
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(1.5f);
         canRevive = true;
         ReviveText();
 
@@ -201,9 +201,9 @@ public class Racer : MonoBehaviour
         //do nothing in base class;
     }
 
-    public virtual void Revive()
+    public virtual void Revive(bool forceRevive = false)
     {
-        if (dead && canRevive)
+        if (dead && (canRevive || forceRevive))
         {
             ragdoll.SetRagdoll(false);
             anim.enabled = true;
@@ -256,6 +256,7 @@ public class Racer : MonoBehaviour
         Vector3 pos = transform.position + 2f * characterMesh.transform.forward + up * characterMesh.transform.up;
         GameObject obj = Instantiate(item.Child, pos, Quaternion.identity);
         Rigidbody itemRb = obj.GetComponent<Rigidbody>();
+        itemRb.velocity = rb.velocity;
         itemRb.AddForce(1000 * (characterMesh.transform.forward + 0.1f * transform.up));
         try {
             StartCoroutine(obj.GetComponent<MelonObject>().Despawn());
@@ -294,5 +295,20 @@ public class Racer : MonoBehaviour
     public bool IsDead()
     {
         return dead;
+    }
+
+    public Movement.Mode GetCurrentMovementMode()
+    {
+        return movementMode;
+    }
+
+    public bool isGrounded()
+    {
+        return movement.Grounded;
+    }
+
+    public void Land()
+    {
+        movement.Land();
     }
 }

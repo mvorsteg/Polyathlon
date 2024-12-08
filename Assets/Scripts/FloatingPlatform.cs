@@ -14,6 +14,7 @@ public class FloatingPlatform : MonoBehaviour
     public GameObject projectile;
     public Rigidbody[] propellers;
     public AudioClip cannonFiring;
+    public bool shootAtGroundedPeople = true;
     private AudioSource cannonAudio;
     private Racer[] racers;
     private Transform target;
@@ -68,7 +69,7 @@ public class FloatingPlatform : MonoBehaviour
             for (int i = 0; i < racers.Length; i++)
             {
                 float dist = Vector3.Distance(cannon.position, racers[i].transform.position);
-                if (dist < minDist && racers[i].movementMode == Movement.Mode.Jetpacking)
+                if (dist < minDist && (racers[i].movementMode == Movement.Mode.Jetpacking || racers[i].movementMode == Movement.Mode.Gliding) && ((shootAtGroundedPeople && racers[i].isGrounded()) || !racers[i].isGrounded()))
                 {
                     minDist = dist;
                     target = racers[i].GetHips();

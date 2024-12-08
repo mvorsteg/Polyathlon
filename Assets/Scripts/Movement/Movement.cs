@@ -13,6 +13,7 @@ public abstract class Movement : MonoBehaviour
         Swimming,
         Biking,
         GetOffTheBoat,
+        None,
     }
 
     // constants consist primarily of values for movement speeds
@@ -49,6 +50,7 @@ public abstract class Movement : MonoBehaviour
     // used to smooth out speed transition an animation
     protected float speed = 0;
     protected float smoothSpeed = 0;
+    protected Vector3 smoothSpeedDirection;
     protected const float dampTime = 0.05f; // reduce jittering in animator by providing dampening
 
     protected float bonusSpeed = 1f;

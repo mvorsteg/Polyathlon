@@ -1,6 +1,9 @@
 using UnityEngine;
 using UnityEngine.AI;
+using System.Linq;
 using System.Collections;
+using System.Collections.Generic;
+using TMPro;
 
 public class NPC : Racer
 {
@@ -14,10 +17,10 @@ public class NPC : Racer
     protected const float agentSpeed = 5;
 
     private bool gliderControlActive = false;
+    private bool isGoingToJetpack = false;
 
     protected override void Start()
     {
-        
         chain = GameObject.FindWithTag("WaypointChainStart").GetComponent<WaypointChain>();
         agent = GetComponent<NavMeshAgent>();
         nextWaypoint = chain.GetStartingWaypoint();
@@ -113,7 +116,6 @@ public class NPC : Racer
                 begunTurning = true;
                 Vector3 velocityDirection = new Vector3(rb.velocity.x, 0, rb.velocity.z).normalized;
                 Vector3 cross = Vector3.Cross(velocityDirection, desiredDirection);
-                Debug.Log("Vector3.right " + Vector3.right + " characterMesh.right " + characterMesh.right);
                 // Target is to the right
                 if (cross.y > 0 && (characterMesh.right.x > 0.3f || characterMesh.right.y > 0))
                 {
@@ -135,11 +137,7 @@ public class NPC : Racer
             // Also determine whether the target point is already behind us.
             // When targetAngle is positive, it's ahead, when negative, it's behind
             float targetAngle = Vector3.SignedAngle(desiredDirection, transform.forward, transform.right);
-            Debug.Log("targetAngle " + targetAngle);
 
-            Debug.Log("Vector3.forward " + Vector3.forward + " characterMesh.forward " + characterMesh.forward);
-            Debug.Log("Vector3.up " + Vector3.up + " characterMesh.up " + characterMesh.up);
-            Debug.Log("distanceToLanding " + distanceToLanding + " distanceToTarget " + distanceToTarget);
             // We passed it! Land immediately!
             if (targetAngle >= 90)
             {
@@ -157,18 +155,15 @@ public class NPC : Racer
             }
             else
             {
-                Debug.Log("magnitude " + rb.velocity.magnitude);
                 if (distanceToLanding < distanceToTarget)
                 {
                     if (rb.velocity.magnitude < stallSpeed && characterMesh.up.z < 0.5f)
                     {
                         move += new Vector2(0, 0.1f);
-                        Debug.Log("go further by diving");
                     }
                     else if (rb.velocity.magnitude > stallSpeed && characterMesh.up.z > -0.5f)
                     {
                         move += new Vector2(0, -0.1f);
-                        Debug.Log("go further by pitching up");
                     }
                 }
                 else if ((distanceToLanding > distanceToTarget && (characterMesh.up.z > -0.5f)))
@@ -177,12 +172,10 @@ public class NPC : Racer
                     if (rb.velocity.magnitude < stallSpeed && characterMesh.up.z > -0.5f)
                     {
                         move += new Vector2(0, -0.1f);
-                        Debug.Log("go shorter by pitching up");
                     }
                     else if (rb.velocity.magnitude > stallSpeed && characterMesh.up.z < 0.5f)
                     {
                         move += new Vector2(0, 0.1f);
-                        Debug.Log("go shorter by diving");
                     }
                 }
             }
@@ -195,7 +188,6 @@ public class NPC : Racer
 
     public override void EquipItem(Item item)
     {
-        Debug.Log("Equip");
         base.EquipItem(item);
         if (item != null)
         {
@@ -205,7 +197,6 @@ public class NPC : Racer
 
     private IEnumerator UseItem()
     {
-        Debug.Log("Use");
         float s = Random.Range(0.2f, 10f);
         yield return new WaitForSeconds(s);
         if (item != null)
@@ -227,7 +218,6 @@ public class NPC : Racer
         the NPC will not officially start the race until this is called */
     public override void StartRace()
     {
-        Debug.Log("go");
         base.StartRace();
         SetMovementMode(movementMode, true);
     }
@@ -263,9 +253,9 @@ public class NPC : Racer
         Revive();
     }
 
-    public override void Revive()
+    public override void Revive(bool forceRevive = false)
     {
-        base.Revive();
+        base.Revive(forceRevive);
         if (agent.enabled && agent.isOnNavMesh)
             agent.isStopped = false;
     }
@@ -290,13 +280,18 @@ public class NPC : Racer
 
     public void ArriveAtWaypoint(IWaypointable waypoint)
     {
+        if (((MonoBehaviour)waypoint).gameObject.CompareTag("FinalWaypoint"))
+        {
+            isGoingToJetpack = true;
+        }
         if (waypoint.GetFork().Length == 0 && waypoint.Next == null)
         {
-            agent.ResetPath();
+            if (agent.isOnNavMesh)
+                agent.ResetPath();
         }
         else if (waypoint.GetFork().Length > 0)
         {
-            nextWaypoint = waypoint.GetFork()[Random.Range(0, waypoint.GetFork().Length)].GetStartingWaypoint();
+            nextWaypoint = waypoint.GetFork()[Random.Range(0, waypoint.GetFork().Length)];
         }
         else if (waypoint.Next != null)
         {
@@ -306,7 +301,7 @@ public class NPC : Racer
         {
             SetNavMeshAgent(false);
             // Some NPCs should be smart and make beelines for target
-            if (Random.Range(0,20) < 2)
+            if (Random.Range(0,20) < 5)
             {
                 Vector3 nextWaypointPos = nextWaypoint.GetPos(this);
                 Vector3 targetDir = (new Vector3(nextWaypointPos.x, 0, nextWaypointPos.z) - new Vector3(transform.position.x, 0, transform.position.z)).normalized;
@@ -322,6 +317,66 @@ public class NPC : Racer
         }
     }
 
+    // When you end up not where you'd like to be, the best way out is a jetpack. Or the finish line.
+    public void GoToNearestJetpack()
+    {
+        if (!isGoingToJetpack && !isFinished)
+            StartCoroutine(GoToNearestJetpackOnceOnNavMesh());
+    }
+
+    private IEnumerator GoToNearestJetpackOnceOnNavMesh()
+    {
+        isGoingToJetpack = true;
+        while(!(agent.enabled && agent.isOnNavMesh))
+        {
+            yield return null;
+        }
+        bool success = false;
+
+        while (!success)
+        {
+            // TODO: Change this when upgrading Unity version later to FindObjectsByType
+            var jetpackItems = Object.FindObjectsOfType(typeof(JetpackItem));
+            Dictionary <float, IWaypointable> nearestJetpacks = new Dictionary<float, IWaypointable>();
+            foreach (JetpackItem jetpackItem in jetpackItems)
+            {
+                NavMeshPath path = new NavMeshPath();
+                if (GetPath(path, transform.position, jetpackItem.transform.position, NavMesh.AllAreas))
+                {
+                    float pathLength = GetPathLength(path);
+                    if (pathLength >= 0 && !nearestJetpacks.Keys.Contains(pathLength))
+                        nearestJetpacks.Add(pathLength, jetpackItem.transform.parent.GetComponent<IWaypointable>());
+                }    
+            }
+            GameObject finishWaypoint = GameObject.FindGameObjectWithTag("FinalWaypoint");
+            if (finishWaypoint != null)
+            {
+                NavMeshPath path = new NavMeshPath();
+                if (GetPath(path, transform.position, finishWaypoint.transform.position, NavMesh.AllAreas))
+                {
+                    float pathLength = GetPathLength(path);
+                    if (pathLength >= 0 && !nearestJetpacks.Keys.Contains(pathLength))
+                        nearestJetpacks.Add(pathLength, finishWaypoint.GetComponent<IWaypointable>());
+                }
+            }
+            if (nearestJetpacks.Keys.Count > 0)
+            {
+                float closestDistance = nearestJetpacks.Keys.Min();
+                nextWaypoint = nearestJetpacks[closestDistance];
+                while(!(agent.enabled && agent.isOnNavMesh))
+                {
+                    yield return null;
+                }
+                agent.SetDestination(nextWaypoint.GetPos(this));
+                success = true;
+            } else
+            {
+                yield return null;
+            }
+        }
+        isGoingToJetpack = false;
+    }
+
     protected void SetNavMeshAgent(bool active)
     {
         agent.enabled = active;
@@ -330,5 +385,32 @@ public class NPC : Racer
             agent.isStopped = false;
             agent.SetDestination(nextWaypoint.GetPos(this));
         }
+    }
+
+    // Credit to https://discussions.unity.com/t/getting-the-distance-in-nav-mesh/574818/6
+    public static bool GetPath(NavMeshPath path, Vector3 fromPos, Vector3 toPos, int passableMask)
+    {
+        path.ClearCorners();
+        if (NavMesh.CalculatePath(fromPos, toPos, passableMask, path) == false)
+            return false;
+       
+        return true;
+    }
+       
+    public static float GetPathLength(NavMeshPath path)
+    {
+        float pathLength = 0.0f;
+        if (path.status == NavMeshPathStatus.PathComplete)
+        {
+            for (int i = 1; i < path.corners.Length; ++i)
+            {
+                pathLength += Vector3.Distance(path.corners[i-1], path.corners[i]);
+            }
+        }
+        else
+        {
+            return -1f;
+        }
+        return pathLength;
     }
 }
