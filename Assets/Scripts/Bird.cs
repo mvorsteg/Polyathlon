@@ -59,7 +59,7 @@ public class Bird : MonoBehaviour
         Racer racer = other.gameObject.GetComponent<Racer>();
         if (racer != null)
         {
-            racer.Die(true, Vector3.ClampMagnitude(rb.velocity, 20f));
+            racer.Die(true, Vector3.ClampMagnitude(rb.linearVelocity, 20f));
         }
         target = null;
     }
@@ -77,7 +77,7 @@ public class Bird : MonoBehaviour
             Vector3 newDir = Vector3.RotateTowards(transform.forward, targetDir, rotationSpeed * Time.deltaTime, 0);
             transform.rotation = Quaternion.LookRotation(newDir);
 
-            rb.velocity = transform.forward * speed;
+            rb.linearVelocity = transform.forward * speed;
             
             // if target is too far away, give up
             if (Vector3.Distance(transform.position, target.transform.position) > maxDist)
@@ -102,11 +102,11 @@ public class Bird : MonoBehaviour
             Vector3 newDir = Vector3.RotateTowards(transform.forward, targetDir, rotationSpeed * Time.deltaTime, 0);
             transform.rotation = Quaternion.LookRotation(newDir);
 
-            rb.velocity = transform.forward * speed;
+            rb.linearVelocity = transform.forward * speed;
             yield return null;
         }
         // reset rigidbody stuff
-        rb.velocity = Vector3.zero;
+        rb.linearVelocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
         // lerp to the EXACT correct positon
         float elapsedTime = 0f;

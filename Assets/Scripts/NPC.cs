@@ -53,7 +53,7 @@ public class NPC : Racer
             }
             if (!movement.Grounded)
             {
-                Vector3 targetDir = nextWaypoint.GetPos(this) - transform.position - Vector3.Normalize(rb.velocity) * jetpackHorizontalCorrection;
+                Vector3 targetDir = nextWaypoint.GetPos(this) - transform.position - Vector3.Normalize(rb.linearVelocity) * jetpackHorizontalCorrection;
                 Vector3 newDir = Vector3.RotateTowards(transform.forward, targetDir, 5f * Time.deltaTime, 0);
                 newDir = new Vector3(newDir.x, 0, newDir.z);
                 Debug.DrawRay(transform.position, newDir, Color.red);
@@ -71,7 +71,7 @@ public class NPC : Racer
         }
         else if (movementMode == Movement.Mode.Biking)
         {
-            agent.acceleration = Mathf.Lerp(1.2f, 10f, rb.velocity.magnitude / movement.maxSpeed);
+            agent.acceleration = Mathf.Lerp(1.2f, 10f, rb.linearVelocity.magnitude / movement.maxSpeed);
         }
         else if (movementMode == Movement.Mode.Swimming || movementMode == Movement.Mode.GetOffTheBoat)
         {
@@ -89,11 +89,11 @@ public class NPC : Racer
         if (movementMode == Movement.Mode.Running || movementMode == Movement.Mode.Jetpacking && movement.Grounded)
         {
             if (movement.BonusSpeed == 1)
-                rb.velocity = Vector3.ClampMagnitude(rb.velocity, 20);
+                rb.linearVelocity = Vector3.ClampMagnitude(rb.linearVelocity, 20);
         }
         else if (movementMode == Movement.Mode.Biking && movement.BonusSpeed == 1)
         {
-            rb.velocity = Vector3.ClampMagnitude(rb.velocity, 50);
+            rb.linearVelocity = Vector3.ClampMagnitude(rb.linearVelocity, 50);
         }
     }
 
@@ -111,10 +111,10 @@ public class NPC : Racer
             Vector3 desiredDirection = new Vector3(nextWaypointPos.x, 0, nextWaypointPos.z) - new Vector3(transform.position.x, 0, transform.position.z);
             move = new Vector2(0, 0);
             // Don't let them start rolling too early or they won't have enough lift and they'll land prematurely
-            if (begunTurning || rb.velocity.magnitude > Mathf.Max(stallSpeed - 5f, 15f))
+            if (begunTurning || rb.linearVelocity.magnitude > Mathf.Max(stallSpeed - 5f, 15f))
             {
                 begunTurning = true;
-                Vector3 velocityDirection = new Vector3(rb.velocity.x, 0, rb.velocity.z).normalized;
+                Vector3 velocityDirection = new Vector3(rb.linearVelocity.x, 0, rb.linearVelocity.z).normalized;
                 Vector3 cross = Vector3.Cross(velocityDirection, desiredDirection);
                 // Target is to the right
                 if (cross.y > 0 && (characterMesh.right.x > 0.3f || characterMesh.right.y > 0))
@@ -129,8 +129,8 @@ public class NPC : Racer
             }
 
             // Pitch
-            float estimatedTimeToLanding = rb.velocity.y / (transform.position.y - nextWaypointPos.y);
-            Vector3 predictedLandingLocation = transform.position + (rb.velocity * estimatedTimeToLanding);
+            float estimatedTimeToLanding = rb.linearVelocity.y / (transform.position.y - nextWaypointPos.y);
+            Vector3 predictedLandingLocation = transform.position + (rb.linearVelocity * estimatedTimeToLanding);
             float distanceToLanding = Vector3.Distance(transform.position, predictedLandingLocation);
             float distanceToTarget = Vector3.Distance(transform.position, nextWaypointPos);
 
@@ -157,11 +157,11 @@ public class NPC : Racer
             {
                 if (distanceToLanding < distanceToTarget)
                 {
-                    if (rb.velocity.magnitude < stallSpeed && characterMesh.up.z < 0.5f)
+                    if (rb.linearVelocity.magnitude < stallSpeed && characterMesh.up.z < 0.5f)
                     {
                         move += new Vector2(0, 0.1f);
                     }
-                    else if (rb.velocity.magnitude > stallSpeed && characterMesh.up.z > -0.5f)
+                    else if (rb.linearVelocity.magnitude > stallSpeed && characterMesh.up.z > -0.5f)
                     {
                         move += new Vector2(0, -0.1f);
                     }
@@ -169,11 +169,11 @@ public class NPC : Racer
                 else if ((distanceToLanding > distanceToTarget && (characterMesh.up.z > -0.5f)))
                 {
                     
-                    if (rb.velocity.magnitude < stallSpeed && characterMesh.up.z > -0.5f)
+                    if (rb.linearVelocity.magnitude < stallSpeed && characterMesh.up.z > -0.5f)
                     {
                         move += new Vector2(0, -0.1f);
                     }
-                    else if (rb.velocity.magnitude > stallSpeed && characterMesh.up.z < 0.5f)
+                    else if (rb.linearVelocity.magnitude > stallSpeed && characterMesh.up.z < 0.5f)
                     {
                         move += new Vector2(0, 0.1f);
                     }

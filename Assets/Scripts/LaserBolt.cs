@@ -23,7 +23,7 @@ public class LaserBolt : MonoBehaviour
         audioSource.clip = laserImpact;
         laserChild = transform.GetChild(0);
         rb = GetComponent<Rigidbody>();
-        rb.velocity = transform.forward * speed;
+        rb.linearVelocity = transform.forward * speed;
         StartCoroutine(DestroyIfMissed());
     }
 
@@ -33,10 +33,10 @@ public class LaserBolt : MonoBehaviour
         Racer racer = other.gameObject.GetComponentInParent<Racer>();
         if (racer != null)
         {
-            racer.Die(true, Vector3.ClampMagnitude(rb.velocity, impactVelMax));
+            racer.Die(true, Vector3.ClampMagnitude(rb.linearVelocity, impactVelMax));
         }
         Destroy(laserChild.gameObject);
-        rb.velocity = Vector3.zero;
+        rb.linearVelocity = Vector3.zero;
         StartCoroutine(DestroyAfterPlayingSound());
     }
 

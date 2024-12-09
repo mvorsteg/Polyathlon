@@ -26,13 +26,13 @@ public class Glider : Movement
     {
         base.OnEnable();
         rb.mass = 1;
-        rb.angularDrag = 0;
+        rb.angularDamping = 0;
         rb.constraints = RigidbodyConstraints.FreezeRotation;
 
         maxSpeed = runSpeed;
         acceleration = runAcceleration;
         angularSpeed = 120f;
-        smoothSpeed = rb.velocity.magnitude;
+        smoothSpeed = rb.linearVelocity.magnitude;
 
         SetGlider(true);
     }
@@ -87,7 +87,7 @@ public class Glider : Movement
             {
                 if (smoothSpeed > maxSpeed)
                     smoothSpeed = smoothSpeed * Mathf.Max(Vector3.Dot(smoothSpeedDirection, velocity.normalized), 0);
-                rb.velocity = new Vector3(velocity.normalized.x * smoothSpeed, racer is NPC ? 0 : rb.velocity.y, velocity.normalized.z * smoothSpeed);
+                rb.linearVelocity = new Vector3(velocity.normalized.x * smoothSpeed, racer is NPC ? 0 : rb.linearVelocity.y, velocity.normalized.z * smoothSpeed);
                 smoothSpeed = Mathf.Lerp(smoothSpeed, maxSpeed * bonusSpeed, Time.deltaTime);
                 // rotate the character mesh if enabled
                 
@@ -117,7 +117,7 @@ public class Glider : Movement
             {
                 characterMesh.position = transform.position;
                 characterMesh.localEulerAngles = new Vector3(0, characterMesh.localEulerAngles.y, 0);
-                rb.drag = 0;
+                rb.linearDamping = 0;
                 Land();
             }
         }
@@ -151,7 +151,7 @@ public class Glider : Movement
         lastVelocity = new Vector3(0,0,0);
         grounded = false;
         gliding = true;
-        rb.drag = 0.01f;
+        rb.linearDamping = 0.01f;
         anim.SetTrigger("jump");
     }
 
@@ -169,8 +169,8 @@ public class Glider : Movement
         if (gliding)
         {
             // lift = local forward speed * cos(angle off of the xy plane) * lift factor * cos(roll angle)
-            Vector3 lift = Vector3.Project(rb.velocity, characterMesh.forward) * Mathf.Cos(Vector3.Angle(characterMesh.forward, Vector3.forward)) * liftFactor * Mathf.Cos(Vector3.Angle(characterMesh.right, Vector3.right));
-            Vector3 verticalDragAmount = - Vector3.Project(rb.velocity, characterMesh.up) * dragFactor;
+            Vector3 lift = Vector3.Project(rb.linearVelocity, characterMesh.forward) * Mathf.Cos(Vector3.Angle(characterMesh.forward, Vector3.forward)) * liftFactor * Mathf.Cos(Vector3.Angle(characterMesh.right, Vector3.right));
+            Vector3 verticalDragAmount = - Vector3.Project(rb.linearVelocity, characterMesh.up) * dragFactor;
             if (verticalDragAmount.y < 0)
             {
                 verticalDragAmount *= 2;
@@ -213,14 +213,14 @@ public class Glider : Movement
         grounded = true;
         landable = false;
         gliding = false;
-        rb.drag = 0;
+        rb.linearDamping = 0;
         anim.SetTrigger("land");
-        smoothSpeed = new Vector3(rb.velocity.x, 0, rb.velocity.z).magnitude;
-        smoothSpeedDirection = new Vector3(rb.velocity.normalized.x, 0, rb.velocity.normalized.z).normalized;
+        smoothSpeed = new Vector3(rb.linearVelocity.x, 0, rb.linearVelocity.z).magnitude;
+        smoothSpeedDirection = new Vector3(rb.linearVelocity.normalized.x, 0, rb.linearVelocity.normalized.z).normalized;
         if (racer is NPC)
         {
             ((NPC)racer).Land();
-            rb.velocity = Vector3.ClampMagnitude(rb.velocity, maxSpeed);
+            rb.linearVelocity = Vector3.ClampMagnitude(rb.linearVelocity, maxSpeed);
             rb.isKinematic = true;
             rb.isKinematic = false;
             ((NPC)racer).GoToNearestJetpack();
@@ -239,10 +239,10 @@ public class Glider : Movement
         while (true)
         {
             yield return new WaitForSeconds(10);
-            if (rb.velocity.magnitude <= 0.01f)
+            if (rb.linearVelocity.magnitude <= 0.01f)
             {
                 ((NPC)racer).GoToNearestJetpack();
-            } else if (rb.velocity.magnitude > 50f)
+            } else if (rb.linearVelocity.magnitude > 50f)
             {
                 rb.isKinematic = true;
                 yield return null;

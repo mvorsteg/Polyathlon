@@ -7,10 +7,15 @@ using TMPro;
 //[RequireComponent(typeof(Racer))]
 public class UI : MonoBehaviour
 {
+
     public TextMeshProUGUI positionText;
     public TextMeshProUGUI timeText;
     public TextMeshProUGUI centerText;
     public TextMeshProUGUI itemText;
+    public TextMeshProUGUI speedValueText;
+    public TextMeshProUGUI speedUnitText;
+    [SerializeField]
+    private SpeedUnits speedUnit;
     public Image itemImage;
 
     public RectTransform scaleTransform;
@@ -76,6 +81,8 @@ public class UI : MonoBehaviour
             timeText.text = FormatTime(RaceManager.Time);
         }
 
+        SetSpeed(racer.Speed);
+        SetSpeedUnit(speedUnit);
     }
 
     public void SetScale(int player, int maxPlayers)
@@ -165,6 +172,84 @@ public class UI : MonoBehaviour
     {
         centerText.gameObject.SetActive(val);
         centerText.text = "Jump to Revive!";
+    }
+
+    public void SetSpeedUnit(SpeedUnits unit)
+    {
+        speedUnit = unit;
+        switch (unit)
+        {
+            case SpeedUnits.MilesPerHour:
+            {
+                speedUnitText.text = "MPH";
+            }
+            break;
+            case SpeedUnits.KilometersPerHour:
+            {
+                speedUnitText.text = "KPH";
+            }
+            break;
+            case SpeedUnits.MetersPerSecond:
+            {
+                speedUnitText.text = "M/s";
+            }
+            break;
+            case SpeedUnits.Knots:
+            {
+                speedUnitText.text = "Knots";
+            }
+            break;
+            case SpeedUnits.FurlongsPerFortnite:
+            {
+                speedUnitText.text = "Fur/Ftn";
+            }
+            break;
+            default:
+            {
+                speedUnitText.text = "";
+                Debug.Log("Unknown unit " + unit);
+            }
+            break;
+        }
+    }
+
+    public void SetSpeed(float velocity_mps)
+    {
+        float convertedSpeed;
+        switch (speedUnit)
+        {
+            case SpeedUnits.MilesPerHour:
+            {
+                convertedSpeed = velocity_mps * 2.23694f;
+            }
+            break;
+            case SpeedUnits.KilometersPerHour:
+            {
+                convertedSpeed = velocity_mps * 3.6f;
+            }
+            break;
+            case SpeedUnits.MetersPerSecond:
+            {
+                convertedSpeed = velocity_mps;
+            }
+            break;
+            case SpeedUnits.Knots:
+            {
+                convertedSpeed = velocity_mps * 1.94384f;
+            }
+            break;
+            case SpeedUnits.FurlongsPerFortnite:
+            {
+                convertedSpeed = velocity_mps * 6012.87f;
+            }
+            break;
+            default:
+            {
+                convertedSpeed = velocity_mps;
+            }
+            break;
+        }
+        speedValueText.text = convertedSpeed.ToString("F0");
     }
 
     private IEnumerator StartRace()

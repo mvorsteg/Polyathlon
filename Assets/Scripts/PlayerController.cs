@@ -328,7 +328,7 @@ public class PlayerController : Racer
             float mag;
             if (other.rigidbody != null)    // if the other thing is moving
             {
-                mag = (velocityBeforePhysicsUpdate - other.rigidbody.velocity).magnitude;
+                mag = (velocityBeforePhysicsUpdate - other.rigidbody.linearVelocity).magnitude;
             }
             else    // if the other thing is stationary
             {

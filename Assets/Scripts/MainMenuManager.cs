@@ -47,6 +47,9 @@ public class MainMenuManager : MonoBehaviour
     private const float distanceBetweenPlayers = 1.3f;
     private const int maxRacers = 12;
 
+    private bool isCameraSpinning = false;
+    private Vector3 titleCameraRot, charSelectCameraRot;
+
     private int currentQualityLevel;
     private string[] qualityLevels = {"Very Low", "Low", "Medium", "High", "Very High", "Ultra"};
 
@@ -58,6 +61,8 @@ public class MainMenuManager : MonoBehaviour
         controlSchemes = new List<string>();
         currentQualityLevel = QualitySettings.GetQualityLevel();
         qualityLevelText.text = "Quality: " + qualityLevels[currentQualityLevel];
+        titleCameraRot = Camera.main.transform.localEulerAngles;
+        charSelectCameraRot = new Vector3(titleCameraRot.x, titleCameraRot.y + 180f, titleCameraRot.z);
     }
 
     void Update()
@@ -116,6 +121,7 @@ public class MainMenuManager : MonoBehaviour
             openingUI.SetActive(true);
             back.SetActive(false);
             qualityLevelText.gameObject.SetActive(false);
+            currentMenuMode = MenuMode.Opening;
             StartCoroutine(CameraSpinAround());
         }
     }
@@ -384,9 +390,14 @@ public class MainMenuManager : MonoBehaviour
     private IEnumerator CameraSpinAround()
     {
         Vector3 startRot = mainCamera.transform.localEulerAngles;
-        Vector3 endRot = new Vector3(startRot.x, startRot.y + 180f, startRot.z);
+        Vector3 endRot = currentMenuMode == MenuMode.CharacterSelect ? charSelectCameraRot : titleCameraRot;
+
+        Debug.Log("Starting at " + startRot.y + " ending at " + endRot.y);
+
         float elapsedTime = 0f;
         float duration = 1f;
+
+        isCameraSpinning = true;
         while (elapsedTime < duration)
         {
             mainCamera.transform.localEulerAngles = Vector3.Lerp(startRot, endRot, elapsedTime / duration);
@@ -394,6 +405,8 @@ public class MainMenuManager : MonoBehaviour
             yield return null;
         }
         mainCamera.transform.localEulerAngles = endRot;
+
+        isCameraSpinning = false;
     }
 
 }

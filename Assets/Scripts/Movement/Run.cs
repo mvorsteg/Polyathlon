@@ -14,13 +14,13 @@ public class Run : Movement
     {
         base.OnEnable();
         rb.mass = 1;
-        rb.angularDrag = 0;
+        rb.angularDamping = 0;
         rb.constraints = RigidbodyConstraints.FreezeRotation;
 
         maxSpeed = runSpeed;
         acceleration = runAcceleration;
         angularSpeed = 120f;
-        smoothSpeed = rb.velocity.magnitude;
+        smoothSpeed = rb.linearVelocity.magnitude;
     }
 
     /*  moves the player rigidbody */
@@ -55,7 +55,7 @@ public class Run : Movement
         // moved from update
         if (velocity.magnitude > 0)
         {
-            rb.velocity = new Vector3(velocity.normalized.x * smoothSpeed, rb.velocity.y, velocity.normalized.z * smoothSpeed);
+            rb.linearVelocity = new Vector3(velocity.normalized.x * smoothSpeed, rb.linearVelocity.y, velocity.normalized.z * smoothSpeed);
             smoothSpeed = Mathf.Lerp(smoothSpeed, maxSpeed * bonusSpeed, Time.deltaTime);
             // rotate the character mesh if enabled
             
@@ -71,7 +71,7 @@ public class Run : Movement
         if (!grounded)
         {
             RaycastHit hit;
-            float vel = rb.velocity.y;
+            float vel = rb.linearVelocity.y;
             if ((falling || vel < -0.1f) && Physics.Linecast(transform.position + new Vector3(0, 0.1f, 0), transform.position + new Vector3(0, -0.2f, 0), out hit))
             {
                 falling = false;
@@ -108,7 +108,7 @@ public class Run : Movement
                 jumpFixTimer += Time.deltaTime;
                 yield return null;
             }
-            if (jumpFixTimer >= maxJumpFixTime && rb.velocity.y > -10)
+            if (jumpFixTimer >= maxJumpFixTime && rb.linearVelocity.y > -10)
             {
                 Debug.Log("Fixing jump!");
                 falling = false;

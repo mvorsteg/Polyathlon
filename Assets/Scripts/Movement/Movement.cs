@@ -79,8 +79,8 @@ public abstract class Movement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         defaultMass = rb.mass;
-        defaultDrag = rb.drag;
-        defaultAngularDrag = rb.angularDrag;
+        defaultDrag = rb.linearDamping;
+        defaultAngularDrag = rb.angularDamping;
         defaultConstraints = rb.constraints;
         defaultCenterOfMass = rb.centerOfMass;
         racer = GetComponent<Racer>();
@@ -95,8 +95,8 @@ public abstract class Movement : MonoBehaviour
     {
         // Reset these to what they should be by default
         rb.mass = defaultMass;
-        rb.drag = defaultDrag;
-        rb.angularDrag = defaultAngularDrag;
+        rb.linearDamping = defaultDrag;
+        rb.angularDamping = defaultAngularDrag;
         rb.constraints = defaultConstraints;
         rb.centerOfMass = defaultCenterOfMass;
         characterMesh.localPosition = defaultCharacterMeshPos;

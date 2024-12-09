@@ -69,7 +69,7 @@ public class BikeController : MonoBehaviour
         setRotationAndSpeed(mov);
         RotateMeshes();
         RotateFork();
-        v = rb.velocity.magnitude;
+        v = rb.linearVelocity.magnitude;
         //Debug.Log("rotation: " + rotationValue); 
     }
 
@@ -99,7 +99,7 @@ public class BikeController : MonoBehaviour
 
     void Lean()
     {
-        upDirection = Vector3.Normalize(Vector3.up + transform.right * maxSteeringAngle * relativeLeanAmount * rotationValue* rb.velocity.magnitude / 100);
+        upDirection = Vector3.Normalize(Vector3.up + transform.right * maxSteeringAngle * relativeLeanAmount * rotationValue* rb.linearVelocity.magnitude / 100);
     }
     
 
@@ -108,8 +108,8 @@ public class BikeController : MonoBehaviour
         float motor = maxMotorTorque;
         float steering = maxSteeringAngle * rotationValue;
 
-        leftWheels.localPosition = - Vector3.up * relativeLeanAmount * rotationValue * rb.velocity.magnitude;
-        rightWheels.localPosition = Vector3.up * relativeLeanAmount * rotationValue * rb.velocity.magnitude;
+        leftWheels.localPosition = - Vector3.up * relativeLeanAmount * rotationValue * rb.linearVelocity.magnitude;
+        rightWheels.localPosition = Vector3.up * relativeLeanAmount * rotationValue * rb.linearVelocity.magnitude;
 
         foreach (AxleInfo axleInfo in axleInfos)
         {
@@ -118,7 +118,7 @@ public class BikeController : MonoBehaviour
             {
                 axleInfo.wheel.steerAngle = steering;
             }
-            if (axleInfo.motor && rb.velocity.magnitude < maxSpeed)
+            if (axleInfo.motor && rb.linearVelocity.magnitude < maxSpeed)
             {
                 axleInfo.wheel.motorTorque = motor;
             }
@@ -151,7 +151,7 @@ public class BikeController : MonoBehaviour
     //rotates the meshes
     void RotateObject(GameObject obj, float multiplier)
     {
-        obj.transform.Rotate(Time.deltaTime * rb.velocity.magnitude * (360f / oneRotationSpeed) * multiplier, 0, 0);
+        obj.transform.Rotate(Time.deltaTime * rb.linearVelocity.magnitude * (360f / oneRotationSpeed) * multiplier, 0, 0);
         //obj.transform.Rotate(Time.deltaTime * rotSpeed * (360f / oneRotationSpeed) * multiplier, 0, 0);
     }
 }

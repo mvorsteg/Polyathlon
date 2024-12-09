@@ -61,10 +61,10 @@ public class WaterFloat : MonoBehaviour
 
         // gravity
         Vector3 gravity = Physics.gravity;
-        rb.drag = airDrag;
+        rb.linearDamping = airDrag;
         if (waterLine > Center.y)
         {
-            rb.drag = waterDrag;
+            rb.linearDamping = waterDrag;
             if (attachToSurface)
             {
                 // attach to water surface

@@ -90,7 +90,7 @@ public class FloatingPlatform : MonoBehaviour
                 while (currentAimTime < aimTime)
                 {
                     // Estimate the target's future position by the time the laser reaches them based on their velocity and the laser's speed
-                    Vector3 targetPosition = target.position + targetRb.velocity * Vector3.Distance(target.position, cannon.position) / laserSpeed;
+                    Vector3 targetPosition = target.position + targetRb.linearVelocity * Vector3.Distance(target.position, cannon.position) / laserSpeed;
                     // Calculate where to aim
                     Quaternion direction = Quaternion.Slerp(cannon.rotation, Quaternion.LookRotation(targetPosition - cannon.position), Time.deltaTime * aimSpeed);
                     // Clamp the rotation so that the barrel doesn't clip through the platform

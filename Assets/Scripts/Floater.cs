@@ -34,7 +34,7 @@ public class Floater : MonoBehaviour
             Vector3 gravity = Physics.gravity;
             if (waterHeight > transform.position.y + offset)
             {
-                rb.drag = waterDrag;
+                rb.linearDamping = waterDrag;
                 gravity = -0.5f * Physics.gravity;
             }
             rb.AddForce(gravity * Mathf.Clamp(Mathf.Abs(waterHeight - (transform.position.y + offset)), 0, 1));
@@ -48,11 +48,11 @@ public class Floater : MonoBehaviour
         Debug.Log("enter");
         inWater = true;
         rb.useGravity = false;
-        rb.angularDrag = 10f;
+        rb.angularDamping = 10f;
         waterHeight = height;
 
-        prevDrag = rb.drag;
-        prevAngularDrag = rb.angularDrag;
+        prevDrag = rb.linearDamping;
+        prevAngularDrag = rb.angularDamping;
 
         Racer mov = GetComponent<Racer>();
         if (mov != null)
@@ -68,8 +68,8 @@ public class Floater : MonoBehaviour
 
         inWater = false;
         rb.useGravity = true;
-        rb.drag = prevDrag;
-        rb.angularDrag = prevAngularDrag;
+        rb.linearDamping = prevDrag;
+        rb.angularDamping = prevAngularDrag;
 
 
         Racer mov = GetComponent<Racer>();

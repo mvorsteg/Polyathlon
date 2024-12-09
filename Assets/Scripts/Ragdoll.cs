@@ -3,6 +3,7 @@ using System.Collections;
 
 public class Ragdoll : MonoBehaviour 
 {
+    private bool isEnabled;
     //[SerializeField]
     private Rigidbody[] rigidbodies;
     //[SerializeField]
@@ -15,6 +16,9 @@ public class Ragdoll : MonoBehaviour
         then IsMoving will return false so the game can continue. */
     private float maxDeadTime = 10;
     private float deadTime; // amount of time we've been dead for
+
+    public bool IsEnabled { get => isEnabled; }
+    public float Speed { get => hips.linearVelocity.magnitude; }
 
     private void Awake()
     {
@@ -50,6 +54,7 @@ public class Ragdoll : MonoBehaviour
             deadTime = 0;
             StartCoroutine(CountDeadTime());
         }
+        isEnabled = value;
     }
 
     // Set timesUp to true when we reach maxDeadTime
@@ -69,15 +74,15 @@ public class Ragdoll : MonoBehaviour
         {
             foreach (Rigidbody rb in rigidbodies)
             {
-                rb.velocity = momentum * 0.5f;
+                rb.linearVelocity = momentum * 0.5f;
             }
-            hips.velocity = momentum * 1.5f;
+            hips.linearVelocity = momentum * 1.5f;
         }
         else
         {
             foreach (Rigidbody rb in rigidbodies)
             {
-                rb.velocity = momentum;
+                rb.linearVelocity = momentum;
             }
         }
         
@@ -89,7 +94,7 @@ public class Ragdoll : MonoBehaviour
         if (deadTime <= maxDeadTime)
         {
             // check each rigidbody to see if it's still moving
-            if (hips.velocity.magnitude > 1)
+            if (hips.linearVelocity.magnitude > 1)
             {
                 return true;
             }

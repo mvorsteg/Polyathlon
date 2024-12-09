@@ -60,7 +60,7 @@ public class Motorcycle : MonoBehaviour { //MS Motorcycle test - Marcos Schultz 
         horizontalInput = move.x;
         verticalInput = move.y;
         medRPM = (frontWheel.rpm + rearWheel.rpm) / 2;
-        rbVelocityMagnitude = ms_Rigidbody.velocity.magnitude;
+        rbVelocityMagnitude = ms_Rigidbody.linearVelocity.magnitude;
  
         //motorTorque
         if (medRPM > 0) {

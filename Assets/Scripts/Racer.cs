@@ -40,6 +40,18 @@ public class Racer : MonoBehaviour
     public AudioClip equipSound;
 
 
+    public float Speed
+    { 
+        get 
+        {
+            if (ragdoll.IsEnabled)
+            {
+                return ragdoll.Speed;
+            }
+            return rb.linearVelocity.magnitude;
+        }
+    }
+
     protected virtual void Start() 
     {
         rb = GetComponent<Rigidbody>();
@@ -88,7 +100,7 @@ public class Racer : MonoBehaviour
     }
 
     private void FixedUpdate() {
-        velocityBeforePhysicsUpdate = rb.velocity;
+        velocityBeforePhysicsUpdate = rb.linearVelocity;
     }
 
     public Transform GetHips()
@@ -256,7 +268,7 @@ public class Racer : MonoBehaviour
         Vector3 pos = transform.position + 2f * characterMesh.transform.forward + up * characterMesh.transform.up;
         GameObject obj = Instantiate(item.Child, pos, Quaternion.identity);
         Rigidbody itemRb = obj.GetComponent<Rigidbody>();
-        itemRb.velocity = rb.velocity;
+        itemRb.linearVelocity = rb.linearVelocity;
         itemRb.AddForce(1000 * (characterMesh.transform.forward + 0.1f * transform.up));
         try {
             StartCoroutine(obj.GetComponent<MelonObject>().Despawn());

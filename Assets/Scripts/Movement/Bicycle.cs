@@ -41,7 +41,7 @@ public class Bicycle : Movement
         base.OnEnable();
         bike.SetActive(true);
         //rb.mass = 50;
-        rb.angularDrag = 0;
+        rb.angularDamping = 0;
         rb.constraints = RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotationZ | RigidbodyConstraints.FreezeRotationX;
         rb.centerOfMass = centerOfMass.localPosition;
 
@@ -87,7 +87,7 @@ public class Bicycle : Movement
         // moved from update
         if (velocity.magnitude > 0)
         {
-            rb.velocity = new Vector3(velocity.normalized.x * smoothSpeed, rb.velocity.y, velocity.normalized.z * smoothSpeed);
+            rb.linearVelocity = new Vector3(velocity.normalized.x * smoothSpeed, rb.linearVelocity.y, velocity.normalized.z * smoothSpeed);
             smoothSpeed = Mathf.Lerp(smoothSpeed, maxSpeed * bonusSpeed, Time.deltaTime);    
         }
         else
@@ -95,10 +95,10 @@ public class Bicycle : Movement
             smoothSpeed = Mathf.Lerp(smoothSpeed, 0, Time.deltaTime * 8);
         }
 
-        if (rb.velocity.magnitude > 0.001 && forward != 0)
+        if (rb.linearVelocity.magnitude > 0.001 && forward != 0)
         {
             transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, transform.localEulerAngles.y + (rot * Time.deltaTime), 0);
-            if (rb.velocity.magnitude > 10f)
+            if (rb.linearVelocity.magnitude > 10f)
             if (forward > 0)
             {
                 lean = Mathf.Lerp(lean, 45f, Time.deltaTime);
@@ -153,13 +153,13 @@ public class Bicycle : Movement
 
     void Lean()
     {
-        upDirection = Vector3.Normalize(Vector3.up + transform.right * maxSteeringAngle * lean * rotationValue* rb.velocity.magnitude / 100);
+        upDirection = Vector3.Normalize(Vector3.up + transform.right * maxSteeringAngle * lean * rotationValue* rb.linearVelocity.magnitude / 100);
     }
     
     //rotates the meshes
     private void RotateObject(GameObject obj, float multiplier)
     {
-        obj.transform.Rotate(Time.deltaTime * rb.velocity.magnitude * (360f / oneRotationSpeed) * multiplier, 0, 0);
+        obj.transform.Rotate(Time.deltaTime * rb.linearVelocity.magnitude * (360f / oneRotationSpeed) * multiplier, 0, 0);
         //obj.transform.Rotate(Time.deltaTime * rotSpeed * (360f / oneRotationSpeed) * multiplier, 0, 0);
     }
 

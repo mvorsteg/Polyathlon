@@ -12,7 +12,7 @@ public class Swim : Movement
     {
         base.OnEnable();
         rb.mass = 1;
-        rb.angularDrag = 0.5f;
+        rb.angularDamping = 0.5f;
         rb.constraints = RigidbodyConstraints.FreezeRotation;
 
         maxSpeed = runSpeed;
@@ -55,7 +55,7 @@ public class Swim : Movement
         // moved from update
         if (velocity.magnitude > 0)
             {
-                rb.velocity = new Vector3(velocity.normalized.x * smoothSpeed, rb.velocity.y, velocity.normalized.z * smoothSpeed);
+                rb.linearVelocity = new Vector3(velocity.normalized.x * smoothSpeed, rb.linearVelocity.y, velocity.normalized.z * smoothSpeed);
                 smoothSpeed = Mathf.Lerp(smoothSpeed, maxSpeed * bonusSpeed, Time.deltaTime);
                 // rotate the character mesh if enabled
                 characterMesh.rotation = Quaternion.Lerp(characterMesh.rotation, Quaternion.LookRotation(velocity), Time.deltaTime * rotationSpeed);

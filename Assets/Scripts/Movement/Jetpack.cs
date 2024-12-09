@@ -30,13 +30,13 @@ public class Jetpack : Movement
     {
         base.OnEnable();
         rb.mass = 1;
-        rb.angularDrag = 0;
+        rb.angularDamping = 0;
         rb.constraints = RigidbodyConstraints.FreezeRotation;
 
         maxSpeed = runSpeed;
         acceleration = runAcceleration;
         angularSpeed = 120f;
-        smoothSpeed = rb.velocity.magnitude;
+        smoothSpeed = rb.linearVelocity.magnitude;
 
         SetJetpack(true);
     }
@@ -92,7 +92,7 @@ public class Jetpack : Movement
             {
                 if (smoothSpeed > maxSpeed)
                     smoothSpeed = smoothSpeed * Mathf.Max(Vector3.Dot(smoothSpeedDirection, velocity.normalized), 0);
-                rb.velocity = new Vector3(velocity.normalized.x * smoothSpeed, rb.velocity.y, velocity.normalized.z * smoothSpeed);
+                rb.linearVelocity = new Vector3(velocity.normalized.x * smoothSpeed, rb.linearVelocity.y, velocity.normalized.z * smoothSpeed);
                 smoothSpeed = Mathf.Lerp(smoothSpeed, maxSpeed * bonusSpeed, Time.deltaTime);
                 // rotate the character mesh if enabled
                 
@@ -171,7 +171,7 @@ public class Jetpack : Movement
         while(fireJetpack && !racer.IsDead())
         {
             rb.AddForce(jetpack.transform.up * jetpackForce * Time.deltaTime * bonusSpeed);
-            rb.velocity = Vector3.ClampMagnitude(rb.velocity, jetpackSpeed * bonusSpeed);
+            rb.linearVelocity = Vector3.ClampMagnitude(rb.linearVelocity, jetpackSpeed * bonusSpeed);
             grounded = false;
             anim.SetTrigger("jump");
             yield return null;
@@ -225,8 +225,8 @@ public class Jetpack : Movement
         grounded = true;
         landable = false;
         anim.SetTrigger("land");
-        smoothSpeed = new Vector3(rb.velocity.x, 0, rb.velocity.z).magnitude;
-        smoothSpeedDirection = new Vector3(rb.velocity.normalized.x, 0, rb.velocity.normalized.z).normalized;
+        smoothSpeed = new Vector3(rb.linearVelocity.x, 0, rb.linearVelocity.z).magnitude;
+        smoothSpeedDirection = new Vector3(rb.linearVelocity.normalized.x, 0, rb.linearVelocity.normalized.z).normalized;
         if (racer is NPC)
         {
             ((NPC)racer).Land();
