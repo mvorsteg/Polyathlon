@@ -293,6 +293,8 @@ public class UI : MonoBehaviour
         positionText.gameObject.SetActive(false);
         timeText.gameObject.SetActive(false);
         itemImage.gameObject.SetActive(false);
+        speedUnitText.gameObject.SetActive(false);
+        speedValueText.gameObject.SetActive(false);
         centerText.gameObject.SetActive(true);
         centerText.text = "Finished!";
         centerText.rectTransform.localScale = Vector3.one;
