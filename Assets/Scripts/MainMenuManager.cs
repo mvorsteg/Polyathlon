@@ -77,18 +77,18 @@ public class MainMenuManager : MonoBehaviour
     public void JoinPlayer(MainMenuPlayer newPlayer)
     {
         // If we're on the opening screen (joining the first player, transition to character select)
-        if (openingUI.activeSelf)
-        {
-            openingUI.SetActive(false);
-            back.SetActive(true);
-            bottomScreenInfo.gameObject.SetActive(true);
-            qualityLevelText.gameObject.SetActive(true);
-            currentMenuMode = MenuMode.CharacterSelect;
-            StartCoroutine(CameraSpinAround());
-        }
+        // if (openingUI.activeSelf)
+        // {
+        //     openingUI.SetActive(false);
+        //     back.SetActive(true);
+        //     bottomScreenInfo.gameObject.SetActive(true);
+        //     qualityLevelText.gameObject.SetActive(true);
+        //     currentMenuMode = MenuMode.CharacterSelect;
+        //     StartCoroutine(CameraSpinAround());
+        // }
         players.Add(newPlayer);
         Debug.Log("player index: " + newPlayer.GetPlayerIndex());
-        controlSchemes.Add(newPlayer.GetControlScheme());
+        controlSchemes.Add(newPlayer.GetControlSchemeStr());
         newPlayer.SetPlayerNum(players.Count - 1);
         // if everyone was ready before, they aren't now
         InformReady(false);
