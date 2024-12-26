@@ -5,6 +5,8 @@ public class AllReadyOverlay : MonoBehaviour
 {
     [SerializeField]
     private TextMeshProUGUI text;
+    [SerializeField]
+    private string topText;
 
     public void SetActive(bool enabled)
     {
@@ -22,6 +24,11 @@ public class AllReadyOverlay : MonoBehaviour
         {
             buttonToPress = "A";
         }
-        text.text = string.Format("Everyone is ready!\nPress {0} to continue", buttonToPress);
+        string prependText = topText;
+        if (topText != "")
+        {
+            prependText += '\n';
+        }
+        text.text = string.Format("{0}Press {1} to continue", prependText, buttonToPress);
     }
 }

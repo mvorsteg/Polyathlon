@@ -183,12 +183,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 4605506416973355073}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: efe99acfc998a854781d69da2141f411, type: 3}
+  m_Script: {fileID: 11500000, guid: 1aa521ab812632f45a1dc7237646e44b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  label: {fileID: 7405842914799465115}
   moveDuration_sec: 0.05
-  selectedCharacter: {fileID: 0}
+  selectedEntry: {fileID: 0}
+  label: {fileID: 7405842914799465115}
 --- !u!1 &5235847034382816334
 GameObject:
   m_ObjectHideFlags: 0

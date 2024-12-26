@@ -10,14 +10,15 @@ public class CharSelectUI : BaseMenuUI
 
     public List<CharacterRegistry> characters;
     
-    public CharacterGridEntry entryTemplate;
-    private List<CharacterGridEntry> entries;
+    public GridEntry entryTemplate;
+    private List<GridEntry> entries;
     public Transform entryParent;
-    public PlayerSelector selectorTemplate;
+    public Selector selectorTemplate;
     public Transform selectorParent;
     public Transform playerReadyParent;
     public PlayerReadyIndicator playerReadyTemplate;
-    private Dictionary<MainMenuPlayer, PlayerSelector> selectors;
+    //private Dictionary<MainMenuPlayer, BaseSelector> selectors;
+    private List<Selector> selectors;
     private List<PlayerReadyIndicator> indicators;
     [SerializeField]
     private AllReadyOverlay allReadyOverlay;
@@ -26,8 +27,8 @@ public class CharSelectUI : BaseMenuUI
     {
         base.Awake();
         
-        entries = new List<CharacterGridEntry>();
-        selectors = new Dictionary<MainMenuPlayer, PlayerSelector>();
+        entries = new List<GridEntry>();
+        selectors = new List<Selector>();
         indicators = new List<PlayerReadyIndicator>();
 
         // clear out any children left in scene??
@@ -47,6 +48,11 @@ public class CharSelectUI : BaseMenuUI
 
         for (int i = 0; i < maxLocalPlayers; i++)
         {
+            Selector selector = Instantiate(selectorTemplate, selectorParent);
+            selector.Initialize(i + 1, string.Format("P{0}", i + 1));
+            selector.SetActive(false);
+            selectors.Add(selector);
+
             PlayerReadyIndicator indicator = Instantiate(playerReadyTemplate, playerReadyParent);
             indicator.Initialize(i + 1);
             indicators.Add(indicator);
@@ -57,43 +63,59 @@ public class CharSelectUI : BaseMenuUI
 
     protected override void OnEnable()
     {
-        foreach (PlayerSelector selector in selectors.Values)
+        
+    }
+
+    public override void Reset()
+    {
+        base.Reset();
+        
+        allReadyOverlay.SetActive(false);
+        foreach (Selector selector in selectors)
         {
+            selector.Unlock();
+            selector.SetActive(false);
+        }
+
+        foreach (GridEntry entry in entries)
+        {
+            entry.Reset();
         }
     }
 
     public override void Navigate(MainMenuPlayer player, Vector2 input)
     {
-        if (selectors.TryGetValue(player, out PlayerSelector selector))
+        Selector selector = GetSelectorForPlayer(player);
+        if (selector != null)
         {
-            if (selector.selectedCharacter != null && !selector.Locked)
+            if (selector.selectedEntry != null && !selector.Locked)
             {
                 Selectable nextButton = null;
                 if (input.x > 0)
                 {
-                    nextButton = selector.selectedCharacter.Button.FindSelectableOnRight();
+                    nextButton = selector.selectedEntry.Button.FindSelectableOnRight();
                 }
                 else if (input.x < 0)
                 {
-                    nextButton = selector.selectedCharacter.Button.FindSelectableOnLeft();
+                    nextButton = selector.selectedEntry.Button.FindSelectableOnLeft();
                 }
                 else if (input.y > 0)
                 {
-                    nextButton = selector.selectedCharacter.Button.FindSelectableOnUp();
+                    nextButton = selector.selectedEntry.Button.FindSelectableOnUp();
                 }
                 else if (input.y < 0)
                 {
-                    nextButton = selector.selectedCharacter.Button.FindSelectableOnDown();
+                    nextButton = selector.selectedEntry.Button.FindSelectableOnDown();
                 }
 
                 if (nextButton != null)
                 {
-                    CharacterGridEntry nextEntry = nextButton.GetComponent<CharacterGridEntry>();
+                    GridEntry nextEntry = nextButton.GetComponent<GridEntry>();
                     if (nextEntry != null)
                     {
-                        selector.selectedCharacter.RemoveSelector(selector);
-                        selector.selectedCharacter = nextEntry;
-                        selector.selectedCharacter.AddSelector(selector);
+                        selector.selectedEntry.RemoveSelector(selector);
+                        selector.selectedEntry = nextEntry;
+                        selector.selectedEntry.AddSelector(selector, false);
                     }    
                 }
             }
@@ -102,7 +124,8 @@ public class CharSelectUI : BaseMenuUI
 
     public override void Submit(MainMenuPlayer player)
     {
-        if (selectors.TryGetValue(player, out PlayerSelector selector))
+        Selector selector = GetSelectorForPlayer(player);
+        if (selector != null)
         {
             if (!selector.Locked)
             {
@@ -116,7 +139,8 @@ public class CharSelectUI : BaseMenuUI
 
     public override void Cancel(MainMenuPlayer player)
     {
-        if (selectors.TryGetValue(player, out PlayerSelector selector))
+        Selector selector = GetSelectorForPlayer(player);
+        if (selector != null)
         {
             if (selector.Locked)
             {
@@ -130,6 +154,20 @@ public class CharSelectUI : BaseMenuUI
             }
             
             UpdateReadyOverlay();
+            
+            bool allPlayersLeft = true;
+            foreach (PlayerReadyIndicator indicator in indicators)
+            {
+                if (!indicator.IsFree)
+                {
+                    allPlayersLeft = false;
+                    break;
+                }
+            }
+            if (allPlayersLeft)
+            {
+                mainMenuUI.TransitionToMode(MenuMode.Title);
+            }
         }
     }
 
@@ -146,9 +184,9 @@ public class CharSelectUI : BaseMenuUI
 
     private bool AllSelectorsLocked()
     {
-        foreach (PlayerSelector selector in selectors.Values)
+        foreach (Selector selector in selectors)
         {
-            if (!selector.Locked)
+            if (selector.Active && !selector.Locked)
             {
                 return false;
             }
@@ -161,14 +199,7 @@ public class CharSelectUI : BaseMenuUI
         
         if (AllSelectorsLocked())
         {
-            foreach (MainMenuPlayer player in selectors.Keys)
-            {
-                if (player.PlayerNum == 0)
-                {
-                    allReadyOverlay.SetControlScheme(player.ControlScheme);
-                    break;
-                }
-            }            
+            allReadyOverlay.SetControlScheme(mainMenuUI.PrimaryControlScheme);
             allReadyOverlay.SetActive(true);
         }
         else
@@ -179,8 +210,8 @@ public class CharSelectUI : BaseMenuUI
 
     private void AddCharacter(CharacterRegistry character)
     {
-        CharacterGridEntry entry = Instantiate(entryTemplate, entryParent);
-        entry.Initialize(character.displayName, character.icon);
+        GridEntry entry = Instantiate(entryTemplate, entryParent);
+        entry.Initialize(character.displayName, character.icon, maxLocalPlayers);
         entries.Add(entry);
         if (firstSelectable == null)
         {
@@ -188,52 +219,69 @@ public class CharSelectUI : BaseMenuUI
         }
     }
 
-    private void AssignToUniqueCharacter(PlayerSelector selector)
-    {
-        foreach (CharacterGridEntry entry in entries)
-        {
-            if (entry.PlayerCount == 0)
-            {
-                entry.AddSelector(selector);
-                selector.selectedCharacter = entry;
-                break;
-            }
-        }
-    }
-
     public void AddPlayer(MainMenuPlayer player)
     {
-        if (!selectors.ContainsKey(player))
+        Selector selector = GetSelectorForPlayer(player);
+        if (selector != null)
         {
-            PlayerSelector selector = Instantiate(selectorTemplate, selectorParent);
-            selector.Initialize(player.PlayerNum + 1);
-            selectors[player] = selector;
-
-            
+            selector.SetActive(true);
             if (player.ControlScheme == ControlScheme.Keyboard)
             {
-                foreach (CharacterGridEntry entry in entries)
+                foreach (GridEntry entry in entries)
                 {
-                    entry.SetMouseSelector(selectors[player]);
+                    entry.SetMouseSelector(GetSelectorForPlayer(player));
                 }
+            }
+            
+            // assign to unique character
+            foreach (GridEntry entry in entries)
+            {
+                if (entry.SelectorCount == 0)
+                {
+                    entry.AddSelector(selector, true);
+                    selector.selectedEntry = entry;
+                    break;
+                }
+            
             }
         }
 
-        foreach (PlayerReadyIndicator indicator in indicators)
+        PlayerReadyIndicator indicator = GetIndicatorForPlayer(player);
         {
             if (indicator.IsFree)
             {
                 indicator.AddPlayer(player.ControlScheme);
-                break;
             }
         }
 
-        AssignToUniqueCharacter(selectors[player]);
         UpdateReadyOverlay();
     }
 
     public void RemovePlayer(MainMenuPlayer player)
     {
         UpdateReadyOverlay();
+        Selector selector = GetSelectorForPlayer(player);
+        if (selector != null)
+        {
+            selector.SetActive(false);
+        }
+    }
+
+    private Selector GetSelectorForPlayer(MainMenuPlayer player)
+    {
+        if (player.PlayerNum >= 0 && player.PlayerNum < maxLocalPlayers)
+        {
+            return selectors[player.PlayerNum];
+        }
+        return null;
+    }
+
+    private PlayerReadyIndicator GetIndicatorForPlayer(MainMenuPlayer player)
+    {
+        if (player.PlayerNum >= 0 && player.PlayerNum < maxLocalPlayers)
+        {
+            return indicators[player.PlayerNum];
+        }
+        return null;
     }
 }

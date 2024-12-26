@@ -1,21 +1,26 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class StageSelectUI : BaseMenuUI
 {
     
     public List<StageRegistry> stages;
-    public StageGridEntry entryTemplate;
-    private List<StageGridEntry> entries;
+    public GridEntry entryTemplate;
+    private List<GridEntry> entries;
     public Transform entryParent;
     [SerializeField]
-    private StageSelector selector;
+    private Selector selector;
+    [SerializeField]
+    private AllReadyOverlay allReadyOverlay;
 
     protected override void Awake()
     {
         base.Awake();
 
-        entries = new List<StageGridEntry>();
+        entries = new List<GridEntry>();
+
+        selector.Initialize(0, "");
 
         // clear out any children left in scene??
         foreach (Transform child in entryParent)
@@ -27,6 +32,71 @@ public class StageSelectUI : BaseMenuUI
         {
             AddStage(stage);
         }
+
+        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)entryParent.transform);
+    }
+
+    protected override void OnEnable()
+    {
+        if (mainMenuUI.PrimaryControlScheme == ControlScheme.Keyboard)
+        {
+            foreach (GridEntry entry in entries)
+            {
+                entry.SetMouseSelector(selector);
+            }
+        }
+
+    }
+
+    public override void Reset()
+    {
+        base.Reset();
+        
+
+        if (stages.Count > 0)
+        {
+            entries[0].AddSelector(selector, true);
+            selector.selectedEntry = entries[0];
+        }
+        allReadyOverlay.SetActive(false);
+    }
+
+    public override void Navigate(MainMenuPlayer player, Vector2 input)
+    {
+        if (player.PlayerNum == 0)
+        {
+            if (selector.selectedEntry != null && !selector.Locked)
+            {
+                UnityEngine.UI.Selectable nextButton = null;
+                if (input.x > 0)
+                {
+                    nextButton = selector.selectedEntry.Button.FindSelectableOnRight();
+                }
+                else if (input.x < 0)
+                {
+                    nextButton = selector.selectedEntry.Button.FindSelectableOnLeft();
+                }
+                else if (input.y > 0)
+                {
+                    nextButton = selector.selectedEntry.Button.FindSelectableOnUp();
+                }
+                else if (input.y < 0)
+                {
+                    nextButton = selector.selectedEntry.Button.FindSelectableOnDown();
+                }
+
+                if (nextButton != null)
+                {
+                    GridEntry nextEntry = nextButton.GetComponent<GridEntry>();
+                    if (nextEntry != null)
+                    {
+                        selector.selectedEntry.RemoveSelector(selector);
+                        selector.selectedEntry = nextEntry;
+                        selector.selectedEntry.AddSelector(selector, false);
+                    }    
+                }
+            }
+        }
     }
 
     public override void Submit(MainMenuPlayer player)
@@ -37,7 +107,7 @@ public class StageSelectUI : BaseMenuUI
             {
                 selector.Lock();
                                 
-                //UpdateReadyOverlay();
+                UpdateReadyOverlay();
             }
         }
     }
@@ -49,9 +119,12 @@ public class StageSelectUI : BaseMenuUI
             if (selector.Locked)
             {
                 selector.Unlock();
+                UpdateReadyOverlay();
             }
-            
-            //UpdateReadyOverlay();
+            else
+            {
+                mainMenuUI.TransitionToMode(MenuMode.CharacterSelect);
+            }
         }
     }
 
@@ -64,12 +137,26 @@ public class StageSelectUI : BaseMenuUI
                 mainMenuUI.TransitionToMode(MenuMode.StageSelect);
             }
         }
+    }    
+    
+    private void UpdateReadyOverlay()
+    {
+        
+        if (selector.Locked)
+        {
+            allReadyOverlay.SetControlScheme(mainMenuUI.PrimaryControlScheme);         
+            allReadyOverlay.SetActive(true);
+        }
+        else
+        {
+            allReadyOverlay.SetActive(false);
+        }
     }
 
     private void AddStage(StageRegistry stage)
     {
-        StageGridEntry entry = Instantiate(entryTemplate, entryParent);
-        entry.Initialize(stage.displayName, stage.icon);
+        GridEntry entry = Instantiate(entryTemplate, entryParent);
+        entry.Initialize(stage.displayName, stage.icon, 1);
         entries.Add(entry);
         if (firstSelectable == null)
         {

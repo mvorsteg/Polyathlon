@@ -47,6 +47,7 @@ public class MasterMenuUI : MonoBehaviour
             case MenuMode.CharacterSelect:
             {
                 charSelectUI.gameObject.SetActive(true);
+                charSelectUI.Reset();
                 foreach (MainMenuPlayer player in players)
                 {
                     ((CharSelectUI)charSelectUI).AddPlayer(player);
@@ -57,6 +58,7 @@ public class MasterMenuUI : MonoBehaviour
             case MenuMode.StageSelect:
             {
                 stageSelectUI.gameObject.SetActive(true);
+                stageSelectUI.Reset();
                 currentMenu = stageSelectUI;
             }
             break;
@@ -92,6 +94,16 @@ public class MasterMenuUI : MonoBehaviour
 
     public void Navigate(MainMenuPlayer player, Vector2 input)
     {
+        // make stick input discretely vertical or horizontal
+        if (Mathf.Abs(input.x) > Mathf.Abs(input.y))
+        {
+            input.y = 0;
+        }
+        else
+        {
+            input.x = 0;
+        }
+        
         currentMenu.Navigate(player, input);
     }
 

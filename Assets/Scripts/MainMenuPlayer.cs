@@ -53,7 +53,12 @@ public class MainMenuPlayer : MonoBehaviour
     public void OnNavigate(InputValue value)
     {
         Vector2 vecVal = value.Get<Vector2>();
-        menuUI.Navigate(this, vecVal);
+        if (canCycle)
+        {
+            Debug.Log(string.Format("x:{0}, y:{1}", vecVal.x, vecVal.y));
+            menuUI.Navigate(this, vecVal);
+            StartCoroutine(PreventSpeedyJoysticks());
+        }
         // if (canCycle)
         // {
         //     StartCoroutine(PreventSpeedyJoysticks());

@@ -12,8 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 807692b26704e48489f8caa2888edd75, type: 3}
   m_Name: CowbotCliffs
   m_EditorClassIdentifier: 
-  displayName: CowbotCliffs
+  displayName: Cowbot Cliffs
   subtitle: 
   info: 
   icon: {fileID: 0}
-  model: {fileID: 0}

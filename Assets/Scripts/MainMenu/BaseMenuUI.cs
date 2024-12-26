@@ -36,11 +36,16 @@ public class BaseMenuUI : MonoBehaviour
         else
         {
             EventSystem.current.sendNavigationEvents = false;
-            Debug.Log("NO nav events");
+            //Debug.Log("NO nav events");
         }
     }
 
     protected virtual void OnDisable()
+    {
+
+    }
+
+    public virtual void Reset()
     {
 
     }
@@ -73,6 +78,6 @@ public class BaseMenuUI : MonoBehaviour
 
     public virtual void Confirm(MainMenuPlayer player)
     {
-        
+
     }
 }
