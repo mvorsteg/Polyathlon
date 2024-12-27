@@ -16,4 +16,8 @@ MonoBehaviour:
   subtitle: Terps only move forward
   info: 
   icon: {fileID: 0}
-  model: {fileID: 0}
+  playerObj: {fileID: 411290082333151904, guid: 6ee1be5df435efd4586cbb8a6c0c8e1b,
+    type: 3}
+  npcObj: {fileID: 5726297956981979253, guid: 72a0d9823a97a32439cdb55d099ad6f8, type: 3}
+  previewObj: {fileID: 7391006145443133968, guid: b4ec85ebe552cce43b9f60ba08bb9986,
+    type: 3}

@@ -16,4 +16,8 @@ MonoBehaviour:
   subtitle: From down undah
   info: 
   icon: {fileID: 0}
-  model: {fileID: 0}
+  playerObj: {fileID: 411290082333151904, guid: fefbd061bcf7b1a4fa8666235c69721d,
+    type: 3}
+  npcObj: {fileID: 5726297956981979253, guid: 931877d654ddc6141a0f02816349c128, type: 3}
+  previewObj: {fileID: 6208265770907095726, guid: c09ecc6dde7f64147ab535ff494cdf46,
+    type: 3}

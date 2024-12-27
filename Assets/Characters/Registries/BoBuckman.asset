@@ -16,4 +16,8 @@ MonoBehaviour:
   subtitle: Not related to Buck
   info: 
   icon: {fileID: 0}
-  model: {fileID: 0}
+  playerObj: {fileID: 8244711337795581057, guid: c338ac1b65c348141a865dd6fa08ae8a,
+    type: 3}
+  npcObj: {fileID: 5726297956981979253, guid: 4b7494b9b0d227a4faaa8c49f0f022f2, type: 3}
+  previewObj: {fileID: 6908085716926845471, guid: 0b928052c13542449b8895b510343b22,
+    type: 3}

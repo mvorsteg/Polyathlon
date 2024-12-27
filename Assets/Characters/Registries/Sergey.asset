@@ -16,4 +16,8 @@ MonoBehaviour:
   subtitle: For the motherland
   info: 
   icon: {fileID: 0}
-  model: {fileID: 0}
+  playerObj: {fileID: 411290082333151904, guid: 781d1427de15b4b46967b1986a086ad1,
+    type: 3}
+  npcObj: {fileID: 5726297956981979253, guid: 7e267d6feb8c0b646b20bed92674b5c8, type: 3}
+  previewObj: {fileID: 6877081354341892973, guid: 30bf4819dee88a0419769314b01e528d,
+    type: 3}

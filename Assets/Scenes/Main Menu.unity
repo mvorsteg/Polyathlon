@@ -1138,19 +1138,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   firstSelectable: {fileID: 0}
   maxLocalPlayers: 4
-  characters:
-  - {fileID: 11400000, guid: be13371e872caf64c8c3ce23c9b1cdb2, type: 2}
-  - {fileID: 11400000, guid: bbf232c59f7fd13498a7b147be0cbc57, type: 2}
-  - {fileID: 11400000, guid: f44be275b6c4f1241bc9537585332d8e, type: 2}
-  - {fileID: 11400000, guid: 96b82027cd2ef704b9eb0273ce658ac1, type: 2}
-  - {fileID: 11400000, guid: 5258a861680fa3248b1d9f2736d607e9, type: 2}
-  - {fileID: 11400000, guid: f64490bf31765d346b9c8925cba9c5f6, type: 2}
-  - {fileID: 11400000, guid: 7658555fce4f21349ade8681f5bcfc23, type: 2}
-  - {fileID: 11400000, guid: abe5e6e9c9e0e964b9f4d97ceff028ea, type: 2}
-  - {fileID: 11400000, guid: 9b636fcf4039ff74183ef18363a6cc73, type: 2}
-  - {fileID: 11400000, guid: e21d030907b12d54e8d648711ecc192d, type: 2}
-  - {fileID: 11400000, guid: ee0cb52f5c1b7bc479a765eda24598c4, type: 2}
-  - {fileID: 11400000, guid: d431ac49dc4bfdf4ea8262decf6ffea0, type: 2}
+  characterList: {fileID: 11400000, guid: 8cce9d7b8463f0545bf3610d93e71b97, type: 2}
   entryTemplate: {fileID: -1642807551822451036, guid: d7405b828950fae41bf5d963367ca36e,
     type: 3}
   entryParent: {fileID: 467336680}
@@ -3113,11 +3101,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8077b59a2762f6645bd92f6573e27109, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mode: 0
   characterList: {fileID: 11400000, guid: 8cce9d7b8463f0545bf3610d93e71b97, type: 2}
   npcChoices: []
   testSettings: 0
   testCpuQuantity: 11
   testCharacterGameObject: {fileID: 0}
+  selectedStage: {fileID: 0}
+  preloadedStages: []
+  numRaces: 0
+  raceSelection: 0
+  cpuDifficulty: 0
+  numCPUs: 0
 --- !u!4 &529936677
 Transform:
   m_ObjectHideFlags: 0
@@ -7979,23 +7974,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c08bf4bcce48d64b8e8883795e60892, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentMenuMode: 0
-  openingUI: {fileID: 1203354224}
-  mainCamera: {fileID: 309280132}
-  back: {fileID: 821286442}
-  confirmText: {fileID: 964330380}
-  bottomScreenInfo: {fileID: 1548827878}
-  gameModeText: {fileID: 971676450}
-  numCPUsText: {fileID: 641953162}
-  qualityLevelText: {fileID: 383840810}
-  chooseStage: {fileID: 1823703603}
-  chooseTrainingCourse: {fileID: 1320607253}
-  raceCoursesUI:
-  - {fileID: 438527482}
-  - {fileID: 1692192887}
-  - {fileID: 1221103538}
-  trainingCoursesUI:
-  - {fileID: 1258021424}
 --- !u!114 &1551285604
 MonoBehaviour:
   m_ObjectHideFlags: 0

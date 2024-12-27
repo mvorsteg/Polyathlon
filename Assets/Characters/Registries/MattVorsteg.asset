@@ -16,4 +16,8 @@ MonoBehaviour:
   subtitle: I'm just tryna be walking
   info: 
   icon: {fileID: 0}
-  model: {fileID: 0}
+  playerObj: {fileID: 411290082333151904, guid: e836cb44d2d9d27418f5927f3c3cddef,
+    type: 3}
+  npcObj: {fileID: 5726297956981979253, guid: ec5a3a349ac817d44b8b22565580166d, type: 3}
+  previewObj: {fileID: 7980382004344233561, guid: a857bf3443ddd56448a06017a9a23dcf,
+    type: 3}

@@ -16,4 +16,8 @@ MonoBehaviour:
   subtitle: That's real obscure
   info: 
   icon: {fileID: 0}
-  model: {fileID: 0}
+  playerObj: {fileID: 411290082333151904, guid: 31118e0b69736aa4d8c925bea280d540,
+    type: 3}
+  npcObj: {fileID: 5726297956981979253, guid: 4eb682a4dc4bae94baa1dd95993bf1a6, type: 3}
+  previewObj: {fileID: 4713012211943290316, guid: 850fe302612420b47b5841900d23f09a,
+    type: 3}

@@ -16,4 +16,8 @@ MonoBehaviour:
   subtitle: Silver going for gold
   info: 
   icon: {fileID: 0}
-  model: {fileID: 0}
+  playerObj: {fileID: 411290082333151904, guid: e5414e52ea96a9741ba1ce3e8b2b8542,
+    type: 3}
+  npcObj: {fileID: 5726297956981979253, guid: 04cc180a28d4b054eb6584fd01600e50, type: 3}
+  previewObj: {fileID: 7746803501532714720, guid: 8a58a162f32a63e45b0379fa05ae4c3d,
+    type: 3}

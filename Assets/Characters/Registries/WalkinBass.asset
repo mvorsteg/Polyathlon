@@ -16,4 +16,8 @@ MonoBehaviour:
   subtitle: Taking some giant steps
   info: 
   icon: {fileID: 0}
-  model: {fileID: 0}
+  playerObj: {fileID: 4174475994960663023, guid: 113940e493890484e98d276e9f003284,
+    type: 3}
+  npcObj: {fileID: 5726297956981979253, guid: adc6d66ea3e3ff94985e5685788f48cc, type: 3}
+  previewObj: {fileID: 8326714970321871924, guid: aa4ff41ca58440c4183e6e1b66a8b4ba,
+    type: 3}

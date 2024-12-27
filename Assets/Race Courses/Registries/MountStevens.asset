@@ -16,4 +16,4 @@ MonoBehaviour:
   subtitle: 
   info: 
   icon: {fileID: 0}
-  model: {fileID: 0}
+  scene: {fileID: 102900000, guid: 7f9ae931d96b9144f90f40d0e1b008c8, type: 3}
