@@ -10,6 +10,7 @@ public class GridEntry : MonoBehaviour, IPointerEnterHandler
     protected TextMeshProUGUI nameText;
     [SerializeField]
     protected Image thumbnail;
+    protected ScriptableObject registry;
     protected List<RectTransform> targets;
     [SerializeField]
     protected Transform targetParent;
@@ -19,6 +20,7 @@ public class GridEntry : MonoBehaviour, IPointerEnterHandler
 
     public Selectable Button { get => button; }
     public int SelectorCount { get => currentSelectors.Count; }
+    public ScriptableObject Registry { get => registry; }
 
     protected virtual void Awake()
     {
@@ -36,8 +38,9 @@ public class GridEntry : MonoBehaviour, IPointerEnterHandler
         }
     }
 
-    public virtual void Initialize(string name, Sprite image, int maxTargets)
+    public virtual void Initialize(ScriptableObject registry, string name, Sprite image, int maxTargets)
     {
+        this.registry = registry;
         nameText.text = name;
         thumbnail.sprite = image;
 

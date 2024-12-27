@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -123,7 +124,14 @@ public class StageSelectUI : BaseMenuUI
             }
             else
             {
-                mainMenuUI.TransitionToMode(MenuMode.CharacterSelect);
+                if (raceSettings.mode == GameMode.Racing)
+                {
+                    mainMenuUI.TransitionToMode(MenuMode.RaceSettings);
+                }
+                else if (raceSettings.mode == GameMode.Training)
+                {
+                    mainMenuUI.TransitionToMode(MenuMode.CharacterSelect);
+                }
             }
         }
     }
@@ -134,7 +142,8 @@ public class StageSelectUI : BaseMenuUI
         {
             if (selector.Locked)
             {
-                mainMenuUI.TransitionToMode(MenuMode.StageSelect);
+                raceSettings.SetSelectedStage((StageRegistry)selector.selectedEntry.Registry);
+                raceSettings.StartRace();
             }
         }
     }    
@@ -156,11 +165,38 @@ public class StageSelectUI : BaseMenuUI
     private void AddStage(StageRegistry stage)
     {
         GridEntry entry = Instantiate(entryTemplate, entryParent);
-        entry.Initialize(stage.displayName, stage.icon, 1);
+        entry.Initialize(stage, stage.displayName, stage.icon, 1);
         entries.Add(entry);
         if (firstSelectable == null)
         {
             firstSelectable = entry.Button;
         }
+    }
+
+    public List<StageRegistry> GetNStages(int n, bool random)
+    {
+        List<StageRegistry> registries = new List<StageRegistry>();
+        List<StageRegistry> tempRegistries = new List<StageRegistry>();
+        while (registries.Count < n)
+        {
+            tempRegistries.Clear();
+            foreach (StageRegistry registry in stages)
+            {
+                tempRegistries.Add(registry);
+            }
+            if (random)
+            {
+                tempRegistries = ListUtility.FisherYatesShuffle(tempRegistries);
+            }
+            foreach (StageRegistry registry in tempRegistries)
+            {
+                registries.Add(registry);
+                if (registries.Count == n)
+                {
+                    break;
+                }
+            }
+        }
+        return registries;
     }
 }

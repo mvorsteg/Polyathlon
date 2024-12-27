@@ -8,6 +8,7 @@ public class BaseMenuUI : MonoBehaviour
     protected MasterMenuUI mainMenuUI;
     [SerializeField]
     protected Selectable firstSelectable;
+    protected RaceSettings raceSettings;
     protected bool usingKeyboardMouse;
     
     private bool receivedFirstNavEvent;
@@ -15,6 +16,7 @@ public class BaseMenuUI : MonoBehaviour
     protected virtual void Awake()
     {
         mainMenuUI = GetComponentInParent<MasterMenuUI>();
+        raceSettings = FindFirstObjectByType<RaceSettings>();
     }
     protected virtual void Start()
     {

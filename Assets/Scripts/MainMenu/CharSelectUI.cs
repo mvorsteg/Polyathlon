@@ -8,7 +8,8 @@ public class CharSelectUI : BaseMenuUI
 {
     public int maxLocalPlayers = 4;
 
-    public List<CharacterRegistry> characters;
+    [SerializeField]
+    private CharacterList characterList;
     
     public GridEntry entryTemplate;
     private List<GridEntry> entries;
@@ -19,17 +20,18 @@ public class CharSelectUI : BaseMenuUI
     public PlayerReadyIndicator playerReadyTemplate;
     //private Dictionary<MainMenuPlayer, BaseSelector> selectors;
     private List<Selector> selectors;
+    private List<MainMenuPlayer> players;
     private List<PlayerReadyIndicator> indicators;
     [SerializeField]
     private AllReadyOverlay allReadyOverlay;
-
     protected override void Awake()
     {
         base.Awake();
         
         entries = new List<GridEntry>();
-        selectors = new List<Selector>();
-        indicators = new List<PlayerReadyIndicator>();
+        selectors = new List<Selector>(maxLocalPlayers);
+        players = new List<MainMenuPlayer>(maxLocalPlayers);
+        indicators = new List<PlayerReadyIndicator>(maxLocalPlayers);
 
         // clear out any children left in scene??
         foreach (Transform child in entryParent)
@@ -41,7 +43,7 @@ public class CharSelectUI : BaseMenuUI
             Destroy(child.gameObject);
         }
 
-        foreach (CharacterRegistry character in characters)
+        foreach (CharacterRegistry character in characterList.GetCharacters())
         {
             AddCharacter(character);
         }
@@ -49,13 +51,15 @@ public class CharSelectUI : BaseMenuUI
         for (int i = 0; i < maxLocalPlayers; i++)
         {
             Selector selector = Instantiate(selectorTemplate, selectorParent);
-            selector.Initialize(i + 1, string.Format("P{0}", i + 1));
+            selector.Initialize(i, string.Format("P{0}", i + 1));
             selector.SetActive(false);
             selectors.Add(selector);
 
             PlayerReadyIndicator indicator = Instantiate(playerReadyTemplate, playerReadyParent);
             indicator.Initialize(i + 1);
             indicators.Add(indicator);
+
+            players.Add(null);
         }
             
         allReadyOverlay.SetActive(false);
@@ -63,7 +67,7 @@ public class CharSelectUI : BaseMenuUI
 
     protected override void OnEnable()
     {
-        
+
     }
 
     public override void Reset()
@@ -177,7 +181,25 @@ public class CharSelectUI : BaseMenuUI
         {
             if (AllSelectorsLocked())
             {
-                mainMenuUI.TransitionToMode(MenuMode.StageSelect);
+                for (int i = 0; i < maxLocalPlayers; i++)
+                {
+                    if (selectors[i].Active && players[i] != null)
+                    {
+                        raceSettings.AddPlayerChoice(selectors[i].SelectorIndex,
+                                                     (CharacterRegistry)selectors[i].selectedEntry.Registry,
+                                                     players[i].ControlScheme,
+                                                     players[i].InputDevices);
+                    }
+                }
+
+                if (raceSettings.mode == GameMode.Racing)
+                {
+                    mainMenuUI.TransitionToMode(MenuMode.RaceSettings);
+                }
+                else if (raceSettings.mode == GameMode.Training)
+                {
+                    mainMenuUI.TransitionToMode(MenuMode.TrainingSelect);
+                }
             }
         }
     }
@@ -211,7 +233,7 @@ public class CharSelectUI : BaseMenuUI
     private void AddCharacter(CharacterRegistry character)
     {
         GridEntry entry = Instantiate(entryTemplate, entryParent);
-        entry.Initialize(character.displayName, character.icon, maxLocalPlayers);
+        entry.Initialize(character, character.displayName, character.icon, maxLocalPlayers);
         entries.Add(entry);
         if (firstSelectable == null)
         {
@@ -221,49 +243,60 @@ public class CharSelectUI : BaseMenuUI
 
     public void AddPlayer(MainMenuPlayer player)
     {
-        Selector selector = GetSelectorForPlayer(player);
-        if (selector != null)
+        if (players[player.PlayerNum] == null)
         {
-            selector.SetActive(true);
-            if (player.ControlScheme == ControlScheme.Keyboard)
+            players[player.PlayerNum] = player;
+
+            Selector selector = GetSelectorForPlayer(player);
+            if (selector != null)
             {
+                selector.SetActive(true);
+                if (player.ControlScheme == ControlScheme.Keyboard)
+                {
+                    foreach (GridEntry entry in entries)
+                    {
+                        entry.SetMouseSelector(GetSelectorForPlayer(player));
+                    }
+                }
+                
+                // assign to unique character
                 foreach (GridEntry entry in entries)
                 {
-                    entry.SetMouseSelector(GetSelectorForPlayer(player));
+                    if (entry.SelectorCount == 0)
+                    {
+                        entry.AddSelector(selector, true);
+                        selector.selectedEntry = entry;
+                        break;
+                    }
+                
                 }
             }
-            
-            // assign to unique character
-            foreach (GridEntry entry in entries)
+
+            PlayerReadyIndicator indicator = GetIndicatorForPlayer(player);
             {
-                if (entry.SelectorCount == 0)
+                if (indicator.IsFree)
                 {
-                    entry.AddSelector(selector, true);
-                    selector.selectedEntry = entry;
-                    break;
+                    indicator.AddPlayer(player.ControlScheme);
                 }
-            
             }
-        }
 
-        PlayerReadyIndicator indicator = GetIndicatorForPlayer(player);
-        {
-            if (indicator.IsFree)
-            {
-                indicator.AddPlayer(player.ControlScheme);
-            }
+            UpdateReadyOverlay();
         }
-
-        UpdateReadyOverlay();
     }
 
     public void RemovePlayer(MainMenuPlayer player)
     {
-        UpdateReadyOverlay();
-        Selector selector = GetSelectorForPlayer(player);
-        if (selector != null)
+        if (players[player.PlayerNum] != null)
         {
-            selector.SetActive(false);
+            players[player.PlayerNum] = null;
+            
+
+            UpdateReadyOverlay();
+            Selector selector = GetSelectorForPlayer(player);
+            if (selector != null)
+            {
+                selector.SetActive(false);
+            }
         }
     }
 

@@ -56,7 +56,7 @@ public class RaceManager : MonoBehaviour
             // race starter code
             try
             {
-                raceSettings = GameObject.FindObjectsOfType<RaceSettings>()[0];
+                raceSettings = FindAnyObjectByType<RaceSettings>();
             }
             catch(System.Exception)
             {
@@ -75,7 +75,7 @@ public class RaceManager : MonoBehaviour
 
             // Get the racers
             // First instantiate the NPCs
-            List<Character> npcChoices = new List<Character>();
+            List<CharacterRegistry> npcChoices = new List<CharacterRegistry>();
             if (!isTrainingCourse)
             {
                 npcChoices = raceSettings.GetNPCChoices();
@@ -93,11 +93,11 @@ public class RaceManager : MonoBehaviour
             // Next instantiate the players
             if (!testRun)
             {
-                List<RaceSettings.PlayerChoice> playerChoices = raceSettings.GetPlayerChoices();
+                List<RaceSettings.PlayerChoice> playerChoices = raceSettings.PlayerChoices;
                 for (int i = 0; i < playerChoices.Count; i++)
                 {
                     PlayerInput newPlayer = PlayerInput.Instantiate(playerChoices[i].character.playerObj, playerChoices[i].playerNumber,
-                                                                    playerChoices[i].controlScheme, -1, playerChoices[i].inputDevices);
+                                                                    playerChoices[i].controlScheme.ToString(), -1, playerChoices[i].inputDevices);
                     newPlayer.transform.position = startingPositions[i + npcChoices.Count].position;
                     newPlayer.transform.rotation = startingPositions[i + npcChoices.Count].rotation;
 
@@ -132,7 +132,7 @@ public class RaceManager : MonoBehaviour
 
     private void Start() 
     {
-        racers = GameObject.FindObjectsOfType<Racer>();
+        racers = FindObjectsByType<Racer>(FindObjectsSortMode.None);
         if (!isTrainingCourse)
         {
             foreach(Racer r in racers)

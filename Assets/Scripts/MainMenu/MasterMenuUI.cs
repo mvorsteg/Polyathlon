@@ -11,7 +11,11 @@ public class MasterMenuUI : MonoBehaviour
     [SerializeField]
     private BaseMenuUI charSelectUI;
     [SerializeField]
+    private BaseMenuUI raceSettingsUI;
+    [SerializeField]
     private BaseMenuUI stageSelectUI;
+    [SerializeField]
+    private BaseMenuUI trainingSelectUI;
     [SerializeField]
     private BaseMenuUI settingsUI;
     
@@ -33,7 +37,9 @@ public class MasterMenuUI : MonoBehaviour
     {
         titleUI.gameObject.SetActive(false);
         charSelectUI.gameObject.SetActive(false);
+        raceSettingsUI.gameObject.SetActive(false);
         stageSelectUI.gameObject.SetActive(false);
+        trainingSelectUI.gameObject.SetActive(false);
 
         currentMode = newMode;
         switch (newMode)
@@ -55,11 +61,25 @@ public class MasterMenuUI : MonoBehaviour
                 currentMenu = charSelectUI;
             }
             break;
+            case MenuMode.RaceSettings:
+            {
+                raceSettingsUI.gameObject.SetActive(true);
+                raceSettingsUI.Reset();
+                currentMenu = raceSettingsUI;
+            }
+            break;
             case MenuMode.StageSelect:
             {
                 stageSelectUI.gameObject.SetActive(true);
                 stageSelectUI.Reset();
                 currentMenu = stageSelectUI;
+            }
+            break;
+            case MenuMode.TrainingSelect:
+            {
+                trainingSelectUI.gameObject.SetActive(true);
+                trainingSelectUI.Reset();
+                currentMenu = trainingSelectUI;
             }
             break;
             case MenuMode.Settings:

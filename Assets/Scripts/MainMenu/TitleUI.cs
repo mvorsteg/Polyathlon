@@ -33,6 +33,12 @@ public class TitleUI : BaseMenuUI
 
     public void OnPlayClicked()
     {
+        raceSettings.mode = GameMode.Racing;
+        mainMenuUI.TransitionToMode(MenuMode.CharacterSelect);
+    }
+    public void OnTrainingClicked()
+    {
+        raceSettings.mode = GameMode.Training;
         mainMenuUI.TransitionToMode(MenuMode.CharacterSelect);
     }
 
