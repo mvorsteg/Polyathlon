@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class Spinner : Selectable
@@ -15,6 +16,8 @@ public class Spinner : Selectable
 
     public bool wrapAround = false;
     public bool automaticSize = true;
+
+    public UnityEvent onValueChanged;
 
     public string Value { get => values[index]; }
 
@@ -87,6 +90,25 @@ public class Spinner : Selectable
         }
 
         text.text = values[index];
+
+        if (onValueChanged != null)
+        {
+            onValueChanged.Invoke();
+        }
+    }
+
+    public void SkipToValue(string value)
+    {
+        for (int i = 0; i < values.Count; i++)
+        {
+            if (values[i] == value)
+            {
+                index = i;
+                text.text = values[index];
+                onValueChanged.Invoke();
+                break;
+            }
+        }
     }
 
     private void LimitSelectionArrows()

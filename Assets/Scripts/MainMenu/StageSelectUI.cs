@@ -124,14 +124,7 @@ public class StageSelectUI : BaseMenuUI
             }
             else
             {
-                if (raceSettings.mode == GameMode.Racing)
-                {
-                    mainMenuUI.TransitionToMode(MenuMode.RaceSettings);
-                }
-                else if (raceSettings.mode == GameMode.Training)
-                {
-                    mainMenuUI.TransitionToMode(MenuMode.CharacterSelect);
-                }
+                mainMenuUI.TransitionToPreviousMode();
             }
         }
     }

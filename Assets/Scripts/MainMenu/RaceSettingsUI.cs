@@ -94,6 +94,10 @@ public class RaceSettingsUI : BaseMenuUI
             {
                 allReadyOverlay.SetActive(false);
             }
+            else
+            {
+                mainMenuUI.TransitionToPreviousMode();
+            }
         }
     }
 

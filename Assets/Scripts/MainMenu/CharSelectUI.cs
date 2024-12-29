@@ -81,9 +81,23 @@ public class CharSelectUI : BaseMenuUI
             selector.SetActive(false);
         }
 
+        foreach (PlayerReadyIndicator indicator in indicators)
+        {
+            indicator.RemovePlayer();
+        }
+
         foreach (GridEntry entry in entries)
         {
             entry.Reset();
+        }
+
+        for (int i = 0; i < maxLocalPlayers; i++)
+        {
+            players[i] = null;
+        }
+        for (int i = 0; i < Mathf.Min(mainMenuUI.players.Count, maxLocalPlayers); i++)
+        {
+            AddPlayer(mainMenuUI.players[i]);
         }
     }
 
@@ -170,7 +184,7 @@ public class CharSelectUI : BaseMenuUI
             }
             if (allPlayersLeft)
             {
-                mainMenuUI.TransitionToMode(MenuMode.Title);
+                mainMenuUI.TransitionToPreviousMode();
             }
         }
     }

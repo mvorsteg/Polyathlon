@@ -75,7 +75,7 @@ public class BaseMenuUI : MonoBehaviour
 
     public virtual void Cancel(MainMenuPlayer player)
     {
-        
+        mainMenuUI.TransitionToPreviousMode();
     }
 
     public virtual void Confirm(MainMenuPlayer player)

@@ -5,6 +5,7 @@ public class MasterMenuUI : MonoBehaviour
 {
     private MenuMode currentMode;
     private BaseMenuUI currentMenu;
+    private Stack<MenuMode> previousMenus;
     
     [SerializeField]
     private BaseMenuUI titleUI;
@@ -29,6 +30,9 @@ public class MasterMenuUI : MonoBehaviour
     /// </summary>
     private void Awake()
     {
+        previousMenus = new Stack<MenuMode>();
+
+        currentMode = MenuMode.Invalid;
         TransitionToMode(MenuMode.Title);
     }
 
@@ -40,54 +44,67 @@ public class MasterMenuUI : MonoBehaviour
         raceSettingsUI.gameObject.SetActive(false);
         stageSelectUI.gameObject.SetActive(false);
         trainingSelectUI.gameObject.SetActive(false);
+        settingsUI.gameObject.SetActive(false);
+
+        if (currentMode != MenuMode.Invalid)
+        {
+            previousMenus.Push(currentMode);
+        }
 
         currentMode = newMode;
         switch (newMode)
         {
             case MenuMode.Title:
             {
-                titleUI.gameObject.SetActive(true);
                 currentMenu = titleUI;
             }
             break;
             case MenuMode.CharacterSelect:
             {
-                charSelectUI.gameObject.SetActive(true);
-                charSelectUI.Reset();
-                foreach (MainMenuPlayer player in players)
-                {
-                    ((CharSelectUI)charSelectUI).AddPlayer(player);
-                }
                 currentMenu = charSelectUI;
             }
             break;
             case MenuMode.RaceSettings:
             {
-                raceSettingsUI.gameObject.SetActive(true);
-                raceSettingsUI.Reset();
                 currentMenu = raceSettingsUI;
             }
             break;
             case MenuMode.StageSelect:
             {
-                stageSelectUI.gameObject.SetActive(true);
-                stageSelectUI.Reset();
                 currentMenu = stageSelectUI;
             }
             break;
             case MenuMode.TrainingSelect:
             {
-                trainingSelectUI.gameObject.SetActive(true);
-                trainingSelectUI.Reset();
                 currentMenu = trainingSelectUI;
             }
             break;
             case MenuMode.Settings:
             {
-                settingsUI.gameObject.SetActive(true);
                 currentMenu = settingsUI;
             }
             break;
+        }
+
+        currentMenu.gameObject.SetActive(true);
+        currentMenu.Reset();
+        
+        if (currentMenu is CharSelectUI charMenu)
+        {
+            foreach (MainMenuPlayer player in players)
+            {
+                charMenu.AddPlayer(player);
+            }
+        }
+    }
+
+    public void TransitionToPreviousMode()
+    {
+        if (previousMenus.Count > 0)
+        {
+            MenuMode prevMode = previousMenus.Pop();
+            currentMode = MenuMode.Invalid;
+            TransitionToMode(prevMode);
         }
     }
 

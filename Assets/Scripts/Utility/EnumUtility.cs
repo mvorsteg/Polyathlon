@@ -1,5 +1,7 @@
 using System;
 using System.ComponentModel;
+using System.Linq;
+using System.Reflection;
 
 public class EnumUtility
 {
@@ -28,6 +30,21 @@ public class EnumUtility
                 }
             }
         }
+        result = default;
+        return false;
+    }
+
+    public static bool TryGetDescriptionFromValue<T>(T value, out string result)
+    {
+        FieldInfo fi = value.GetType().GetField(value.ToString());
+        DescriptionAttribute[] attributes = fi.GetCustomAttributes(typeof(DescriptionAttribute), false) as DescriptionAttribute[];
+
+        if (attributes != null && attributes.Any())
+        {
+            result = attributes.First().Description;
+            return true;
+        }
+
         result = default;
         return false;
     }

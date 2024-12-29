@@ -7,4 +7,5 @@ public enum MenuMode
     StageSelect,
     TrainingSelect,
     Settings,
+    Invalid,
 }

@@ -274,6 +274,7 @@ public class RaceManager : MonoBehaviour
 
     public static void ReturnToMenu()
     {
+        //if (raceSettings)
         Debug.Log("return to main menu please!");
         if (canLoadMenu)
         {
