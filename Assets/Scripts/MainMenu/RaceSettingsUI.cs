@@ -15,6 +15,10 @@ public class RaceSettingsUI : BaseMenuUI
     protected override void Awake()
     {
         base.Awake();
+
+        raceSelectSpinner.FillWithEnum<RaceSelection>();
+        cpuDiffSpinner.FillWithEnum<CPUDifficulty>();
+        cpuDiffSpinner.SkipToValue(CPUDifficulty.Normal.ToString());
     }
 
     public override void Reset()
@@ -31,27 +35,30 @@ public class RaceSettingsUI : BaseMenuUI
 
     public override void Navigate(MainMenuPlayer player, Vector2 input)
     {
-        base.Navigate(player, input);
-
-        if (input.x != 0 && player.PlayerNum == 0)
+        if (player.PlayerNum == 0)
         {
-            if (EventSystem.current.currentSelectedGameObject == raceNumSpinner.gameObject)
+            base.Navigate(player, input);
+
+            if (input.x != 0 && player.PlayerNum == 0)
             {
-                raceNumSpinner.Navigate(input.x > 0);
+                if (EventSystem.current.currentSelectedGameObject == raceNumSpinner.gameObject)
+                {
+                    raceNumSpinner.Navigate(input.x > 0);
+                }
+                else if (EventSystem.current.currentSelectedGameObject == raceSelectSpinner.gameObject)
+                {
+                    raceSelectSpinner.Navigate(input.x > 0);
+                }
+                else if (EventSystem.current.currentSelectedGameObject == cpuDiffSpinner.gameObject)
+                {
+                    cpuDiffSpinner.Navigate(input.x > 0);
+                }
+                else if (EventSystem.current.currentSelectedGameObject == cpuNumSpinner.gameObject)
+                {
+                    cpuNumSpinner.Navigate(input.x > 0);
+                }
             }
-            else if (EventSystem.current.currentSelectedGameObject == raceSelectSpinner.gameObject)
-            {
-                raceSelectSpinner.Navigate(input.x > 0);
             }
-            else if (EventSystem.current.currentSelectedGameObject == cpuDiffSpinner.gameObject)
-            {
-                cpuDiffSpinner.Navigate(input.x > 0);
-            }
-            else if (EventSystem.current.currentSelectedGameObject == cpuNumSpinner.gameObject)
-            {
-                cpuNumSpinner.Navigate(input.x > 0);
-            }
-        }
     }
 
     public void ApplySettings()
@@ -86,30 +93,34 @@ public class RaceSettingsUI : BaseMenuUI
 
     public override void Cancel(MainMenuPlayer player)
     {
-        base.Cancel(player);
-        
         if (player.PlayerNum == 0)
-        {
-            if (allReadyOverlay.isActiveAndEnabled)
+        {            
+            if (player.PlayerNum == 0)
             {
-                allReadyOverlay.SetActive(false);
-            }
-            else
-            {
-                mainMenuUI.TransitionToPreviousMode();
+                if (allReadyOverlay.isActiveAndEnabled)
+                {
+                    allReadyOverlay.SetActive(false);
+                }
+                else
+                {
+                    mainMenuUI.TransitionToPreviousMode();
+                }
             }
         }
     }
 
     public override void Submit(MainMenuPlayer player)
     {
-        base.Submit(player);
-
         if (player.PlayerNum == 0)
         {
-            if (allReadyOverlay.isActiveAndEnabled)
+            base.Submit(player);
+
+            if (player.PlayerNum == 0)
             {
-                raceSettings.StartRace();
+                if (allReadyOverlay.isActiveAndEnabled)
+                {
+                    raceSettings.StartRace();
+                }
             }
         }
     }

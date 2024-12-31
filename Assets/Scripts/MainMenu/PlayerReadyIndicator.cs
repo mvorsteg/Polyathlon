@@ -11,7 +11,7 @@ public class PlayerReadyIndicator : MonoBehaviour
 
     public bool IsFree { get; private set; }
 
-    private const string PRE_JOINED_TEXT = "Press any key to join";
+    private const string PRE_JOINED_TEXT = "Press Space/Start to join";
 
     public void Initialize(int playerIdx)
     {
@@ -48,6 +48,6 @@ public class PlayerReadyIndicator : MonoBehaviour
 
     private string GetNotReadyText()
     {
-        return string.Format("Press {0} to ready up", scheme == ControlScheme.Keyboard ? "Enter" : "A");
+        return string.Format("Press {0} to ready up", scheme == ControlScheme.Keyboard ? "Space" : "A");
     }
 }

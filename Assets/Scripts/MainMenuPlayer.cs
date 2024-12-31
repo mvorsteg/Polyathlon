@@ -12,7 +12,6 @@ public class MainMenuPlayer : MonoBehaviour
     public TextMeshPro playerNumText;
     public TextMeshPro readyText;
     private PlayerInput playerInput;
-    private int playerNum; // player num is indexed to 0
     private MasterMenuUI menuUI;
     private MainMenuManager manager;
     private CharacterRegistry[] characters;
@@ -22,7 +21,7 @@ public class MainMenuPlayer : MonoBehaviour
     private string unreadyMessage; // displayed when the player hasn't said they're ready
     private ControlScheme controlScheme;
     
-    public int PlayerNum { get => playerNum; }
+    public int PlayerNum { get; set; }
     public ControlScheme ControlScheme { get => controlScheme; }
     public InputDevice[] InputDevices { get => playerInput.devices.ToArray(); }
     private void Awake()
@@ -33,17 +32,21 @@ public class MainMenuPlayer : MonoBehaviour
         menuUI = FindFirstObjectByType<MasterMenuUI>();
     }
 
-    void Start()
+    private void Start()
     {
         transform.position += new Vector3(0, 0.36f, 0);
         canCycle = true;
         controlScheme = ((InputControlScheme)playerInput.user.controlScheme).name == "Gamepad" ? ControlScheme.Gamepad : ControlScheme.Keyboard;
         unreadyMessage = (controlScheme == ControlScheme.Gamepad ? "Ready? Press A!" : "Ready? Press Space!");
         readyText.text = unreadyMessage;
-        manager.JoinPlayer(this);
         menuUI.AddPlayer(this, controlScheme );
     }
 
+    public void Exit()
+    {
+        menuUI.RemovePlayer(this);
+        Destroy(this.gameObject);
+    }
 
     // ----------------- INPUT EVENTS --------------------
     public void OnNavigate(InputValue value)
@@ -130,13 +133,6 @@ public class MainMenuPlayer : MonoBehaviour
 
     // ----------------- END INPUT EVENTS --------------------
 
-    // assign a player number to this player, called by MainMenuManager
-    public void SetPlayerNum(int num)
-    {
-        playerNum = num;
-        playerNumText.text = "Player " + (playerNum + 1);
-    }
-
     public void SetPreviewVisibility(bool visible)
     {
         currentCharPreview.SetActive(visible);
@@ -152,7 +148,7 @@ public class MainMenuPlayer : MonoBehaviour
 
     public RaceSettings.PlayerChoice GetPlayerChoice()
     {
-        return new RaceSettings.PlayerChoice(playerNum, characters[characterIndex], controlScheme, playerInput.devices.ToArray());
+        return new RaceSettings.PlayerChoice(PlayerNum, characters[characterIndex], controlScheme, playerInput.devices.ToArray());
     }
 
     // Joysticks on gamepads are gonna trigger CycleCharacer way too fast

@@ -23,6 +23,8 @@ public class MasterMenuUI : MonoBehaviour
     private bool inputSchemeRegistered = false;
     public List<MainMenuPlayer> players;
 
+    private RaceSettings raceSettings;
+
     public ControlScheme PrimaryControlScheme { get; private set; }
 
     /// <summary>
@@ -31,11 +33,25 @@ public class MasterMenuUI : MonoBehaviour
     private void Awake()
     {
         previousMenus = new Stack<MenuMode>();
+        raceSettings = FindAnyObjectByType<RaceSettings>();
+
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
 
         currentMode = MenuMode.Invalid;
-        TransitionToMode(MenuMode.Title);
     }
 
+    private void Start()
+    {
+        if (RaceSettings.instance.IsMidRace)
+        {
+            TransitionToMode(MenuMode.StageSelect);
+        }
+        else
+        {
+            TransitionToMode(MenuMode.Title);
+        }
+    }
 
     public void TransitionToMode(MenuMode newMode)
     {
@@ -88,14 +104,6 @@ public class MasterMenuUI : MonoBehaviour
 
         currentMenu.gameObject.SetActive(true);
         currentMenu.Reset();
-        
-        if (currentMenu is CharSelectUI charMenu)
-        {
-            foreach (MainMenuPlayer player in players)
-            {
-                charMenu.AddPlayer(player);
-            }
-        }
     }
 
     public void TransitionToPreviousMode()
@@ -121,12 +129,38 @@ public class MasterMenuUI : MonoBehaviour
 
     public void AddPlayer(MainMenuPlayer player, ControlScheme scheme)
     {
+        player.PlayerNum = GetNextPlayerNum();
+
         AnyKeyPressed(scheme);
         players.Add(player);
         if (currentMode == MenuMode.CharacterSelect)
         {
             ((CharSelectUI)charSelectUI).AddPlayer(player);
         }
+    }
+
+    public void RemovePlayer(MainMenuPlayer player)
+    {
+        players.Remove(player);
+    }
+
+    private int GetNextPlayerNum()
+    {
+        HashSet<int> takenNums = new HashSet<int>();
+        foreach (MainMenuPlayer player in players)
+        {
+            takenNums.Add(player.PlayerNum);
+        }
+        for (int i = 0; i < takenNums.Count + 1; i++)
+        {
+            if (!takenNums.Contains(i))
+            {
+                return i;
+            }
+        }
+        // should never hit this
+        Debug.Log("Somehow ended up missing valid player num lol");
+        return players.Count + 1;
     }
 
     public void Navigate(MainMenuPlayer player, Vector2 input)

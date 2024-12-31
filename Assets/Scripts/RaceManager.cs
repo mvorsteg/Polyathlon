@@ -51,8 +51,6 @@ public class RaceManager : MonoBehaviour
         instance = this;
         if (!dontAddRacers)
         {
-            RaceSettings raceSettings;
-
             // race starter code
             try
             {
@@ -126,7 +124,7 @@ public class RaceManager : MonoBehaviour
                 testPlayer.position = startingPositions[npcChoices.Count].position;
                 testPlayer.rotation = startingPositions[npcChoices.Count].rotation;
             }
-            Destroy(raceSettings.gameObject);
+            //Destroy(raceSettings.gameObject);
         }
     }
 
@@ -274,13 +272,24 @@ public class RaceManager : MonoBehaviour
 
     public static void ReturnToMenu()
     {
-        //if (raceSettings)
-        Debug.Log("return to main menu please!");
-        if (canLoadMenu)
+        if (IsRaceActive)
         {
-            canLoadMenu = false;
-            Debug.Log("Okay loading main menu!");
-            SceneManager.LoadScene("Main Menu");
+            instance.isRaceActive = false;
+            if (instance.raceSettings.HasNextRace)
+            {
+                instance.raceSettings.StartNextRace();
+            }
+            else
+            {
+                instance.raceSettings.EndRace();
+                Debug.Log("return to main menu please!");
+                if (canLoadMenu)
+                {
+                    canLoadMenu = false;
+                    Debug.Log("Okay loading main menu!");
+                    SceneManager.LoadScene("Main Menu");
+                }
+            }
         }
     }
 

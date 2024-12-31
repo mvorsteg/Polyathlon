@@ -2,12 +2,13 @@ using System;
 using System.ComponentModel;
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class SettingsUI : BaseMenuUI
 {
     [SerializeField]
-    private Spinner unitsSpinner;
+    private Spinner unitsSpinner, qualitySpinner;
     [SerializeField]
     private Slider masterVolSlider, sfxVolSlider, musicVolSlider;
 
@@ -21,10 +22,21 @@ public class SettingsUI : BaseMenuUI
     {
         base.Awake();
         
-        if (EnumUtility.TryGetDescriptionFromValue((SpeedUnits)PlayerPrefs.GetInt(PlayerPrefsKeys.SPEED_UNITS, 0), out string description))
+        unitsSpinner.FillWithEnum<SpeedUnits>();
+        SpeedUnits units = (SpeedUnits)PlayerPrefs.GetInt(PlayerPrefsKeys.SPEED_UNITS, 0);
+        if (EnumUtility.TryGetDescriptionFromValue(units, out string description))
         {
             unitsSpinner.SkipToValue(description);
         }
+
+        qualitySpinner.FillWithEnum<QualityLevel>();
+        QualityLevel quality = (QualityLevel)PlayerPrefs.GetInt(PlayerPrefsKeys.QUALITY_LEVEL, 0);
+        if (EnumUtility.TryGetDescriptionFromValue(quality, out description))
+        {
+            qualitySpinner.SkipToValue(description);
+            QualitySettings.SetQualityLevel((int)quality);
+        }
+
         masterVolSlider.value = PlayerPrefs.GetFloat(PlayerPrefsKeys.MASTER_VOL, 1f);
         sfxVolSlider.value = PlayerPrefs.GetFloat(PlayerPrefsKeys.SOUNDS_VOL, 1f);
         musicVolSlider.value = PlayerPrefs.GetFloat(PlayerPrefsKeys.MUSIC_VOL, 1f);
@@ -32,6 +44,26 @@ public class SettingsUI : BaseMenuUI
         mixer.SetFloat("masterVol", masterVolSlider.value);
         mixer.SetFloat("musicVol", musicVolSlider.value);
         mixer.SetFloat("soundsVol", sfxVolSlider.value);
+    }
+
+    public override void Navigate(MainMenuPlayer player, Vector2 input)
+    {
+        if (player.PlayerNum == 0)
+        {
+            base.Navigate(player, input);
+
+            if (input.x != 0 && player.PlayerNum == 0)
+            {
+                if (EventSystem.current.currentSelectedGameObject == unitsSpinner.gameObject)
+                {
+                    unitsSpinner.Navigate(input.x > 0);
+                }
+                else if (EventSystem.current.currentSelectedGameObject == qualitySpinner.gameObject)
+                {
+                    qualitySpinner.Navigate(input.x > 0);
+                }
+            }
+        }
     }
 
     public void OnUnitsChanged()
@@ -44,6 +76,15 @@ public class SettingsUI : BaseMenuUI
             {
                 ui.SetSpeedUnit(units);
             }
+        }
+    }
+
+    public void OnQualityChanged()
+    {
+        if (EnumUtility.TryGetValueFromDescription(qualitySpinner.Value, out QualityLevel level))
+        {   
+            PlayerPrefs.SetInt(PlayerPrefsKeys.QUALITY_LEVEL, (int)level);
+            QualitySettings.SetQualityLevel((int)level);
         }
     }
 

@@ -36,19 +36,7 @@ public class MainMenuManager : MonoBehaviour
     // Each instantiated player object will call this so that they can be managed
     public void JoinPlayer(MainMenuPlayer newPlayer)
     {
-        // If we're on the opening screen (joining the first player, transition to character select)
-        // if (openingUI.activeSelf)
-        // {
-        //     openingUI.SetActive(false);
-        //     back.SetActive(true);
-        //     bottomScreenInfo.gameObject.SetActive(true);
-        //     qualityLevelText.gameObject.SetActive(true);
-        //     currentMenuMode = MenuMode.CharacterSelect;
-        //     StartCoroutine(CameraSpinAround());
-        // }
-        players.Add(newPlayer);
-        Debug.Log("player index: " + newPlayer.PlayerNum);
-        newPlayer.SetPlayerNum(players.Count - 1);
+
     }
 
     // Called when a player quits

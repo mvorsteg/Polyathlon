@@ -99,6 +99,8 @@ public class CharSelectUI : BaseMenuUI
         {
             AddPlayer(mainMenuUI.players[i]);
         }
+
+        raceSettings.ClearPlayerChoices();
     }
 
     public override void Navigate(MainMenuPlayer player, Vector2 input)
@@ -309,8 +311,14 @@ public class CharSelectUI : BaseMenuUI
             Selector selector = GetSelectorForPlayer(player);
             if (selector != null)
             {
+                if (selector.selectedEntry != null)
+                {
+                    selector.selectedEntry.RemoveSelector(selector);
+                }
                 selector.SetActive(false);
             }
+
+            player.Exit();
         }
     }
 

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -107,6 +108,21 @@ public class Spinner : Selectable
                 text.text = values[index];
                 onValueChanged.Invoke();
                 break;
+            }
+        }
+    }
+
+    public void FillWithEnum<T> ()
+    {
+        foreach (T t in Enum.GetValues(typeof(T)))
+        {
+            if (EnumUtility.TryGetDescriptionFromValue(t, out string desc))
+            {
+                AddValue(desc);
+            }
+            else
+            {
+                AddValue(t.ToString());
             }
         }
     }

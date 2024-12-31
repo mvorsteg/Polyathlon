@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -42,12 +43,26 @@ public class RaceSettings : MonoBehaviour
     public RaceSelection raceSelection;
     public CPUDifficulty cpuDifficulty;
     public int numCPUs;
+    public string mainMenuSceneName;
 
     public List<PlayerChoice> PlayerChoices { get; private set; }
+
+    public bool HasNextRace { get => currRaceIdx < numRaces - 1; }
+    public bool IsMidRace { get; protected set; }
     
+    public static RaceSettings instance;
+
     void Awake()
     {
-        DontDestroyOnLoad(this);
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(this);
+        }
+        else
+        {
+            Destroy(this.gameObject);
+        }
         PlayerChoices = new List<PlayerChoice>();
         npcChoices = new List<CharacterRegistry>();
         if (characters == null)
@@ -95,6 +110,7 @@ public class RaceSettings : MonoBehaviour
         {
             this.preloadedStages.Add(registry);
         }
+        selectedStage = preloadedStages[0];
     }
 
     public void SetRaceParams(int numRaces, RaceSelection raceSelection, CPUDifficulty cpuDifficulty, int numCPUs)
@@ -108,7 +124,38 @@ public class RaceSettings : MonoBehaviour
 
     public void StartRace()
     {
-        SceneManager.LoadScene(selectedStage.scene.name);
+        if (IsMidRace)
+        {
+            currRaceIdx++;
+        }
+        else
+        {
+            currRaceIdx = 0;
+            IsMidRace = true;
+        }
+        SceneManager.LoadScene(selectedStage.sceneName);
+    }
+
+    public void EndRace()
+    {
+        IsMidRace = false;
+    }
+
+    public void StartNextRace()
+    {
+        currRaceIdx++;
+        if (raceSelection == RaceSelection.InOrder || raceSelection == RaceSelection.Random)
+        {
+            if (currRaceIdx < preloadedStages.Count)
+            {
+                selectedStage = preloadedStages[currRaceIdx];
+                SceneManager.LoadScene(selectedStage.sceneName);
+            }
+        }
+        else if (raceSelection == RaceSelection.P1Choose)
+        {
+            SceneManager.LoadScene(mainMenuSceneName);
+        }
     }
 
     private void AssignNPCChoices()

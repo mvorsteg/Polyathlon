@@ -16,4 +16,4 @@ MonoBehaviour:
   subtitle: 
   info: 
   icon: {fileID: 0}
-  scene: {fileID: 102900000, guid: fc0fcb2a66e5dbf4d8992c8419bf54d9, type: 3}
+  sceneName: Training 1

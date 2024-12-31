@@ -11,6 +11,6 @@ public class StageRegistry : ScriptableObject
     public string subtitle;
     public string info;
     public Sprite icon;
-    public SceneAsset scene;
+    public string sceneName;
 
 }
