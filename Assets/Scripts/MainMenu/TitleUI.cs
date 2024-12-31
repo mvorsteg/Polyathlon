@@ -1,3 +1,4 @@
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -49,6 +50,13 @@ public class TitleUI : BaseMenuUI
 
     public void OnQuitClicked()
     {
+#if UNITY_EDITOR
+        if(EditorApplication.isPlaying)
+        {
+            EditorApplication.isPlaying = false;
+        }
+#else
         Application.Quit();
+#endif
     }
 }
