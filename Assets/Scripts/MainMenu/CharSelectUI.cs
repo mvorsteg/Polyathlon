@@ -193,7 +193,7 @@ public class CharSelectUI : BaseMenuUI
 
     public override void Confirm(MainMenuPlayer player)
     {
-        if (player.PlayerNum == 0)
+        if (player.IsPrimary())
         {
             if (AllSelectorsLocked())
             {

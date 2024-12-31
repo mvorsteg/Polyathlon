@@ -130,6 +130,9 @@ public class RaceSettings : MonoBehaviour
         }
         else
         {
+            // reassign player choice numbers in case p1 dropped out in select screen
+            FlattenIDs();
+
             currRaceIdx = 0;
             IsMidRace = true;
         }
@@ -191,6 +194,25 @@ public class RaceSettings : MonoBehaviour
                     npcChoices.Add(characters[(int)Mathf.Round(Random.Range(0, characters.Length))]);
                 }
             }
+        }
+    }
+
+    private void FlattenIDs()
+    {
+        List<int> foundIDs = new List<int>();
+        Dictionary<int, int> newIDs = new Dictionary<int, int>();
+        foreach (PlayerChoice pc in PlayerChoices)
+        {
+            foundIDs.Add(pc.playerNumber);
+        }
+        foundIDs.Sort();
+        for (int i = 0; i < foundIDs.Count; i++)
+        {
+            newIDs[foundIDs[i]] = i;
+        }
+        foreach (PlayerChoice pc in PlayerChoices)
+        {
+            pc.playerNumber = newIDs[pc.playerNumber];
         }
     }
 

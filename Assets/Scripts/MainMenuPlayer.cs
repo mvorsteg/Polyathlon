@@ -13,7 +13,6 @@ public class MainMenuPlayer : MonoBehaviour
     public TextMeshPro readyText;
     private PlayerInput playerInput;
     private MasterMenuUI menuUI;
-    private MainMenuManager manager;
     private CharacterRegistry[] characters;
     private int characterIndex;
     private GameObject currentCharPreview;
@@ -28,7 +27,6 @@ public class MainMenuPlayer : MonoBehaviour
     {
         
         playerInput = GetComponent<PlayerInput>();
-        manager = FindAnyObjectByType<MainMenuManager>();
         menuUI = FindFirstObjectByType<MasterMenuUI>();
     }
 
@@ -58,71 +56,21 @@ public class MainMenuPlayer : MonoBehaviour
             menuUI.Navigate(this, vecVal);
             StartCoroutine(PreventSpeedyJoysticks());
         }
-        // if (canCycle)
-        // {
-        //     StartCoroutine(PreventSpeedyJoysticks());
-        //     if (!ready)
-        //     {
-        //         if (vecVal.x == 1)
-        //         {
-        //             CycleCharacter(true);
-        //         }
-        //         else if (vecVal.x == -1)
-        //         {
-        //             CycleCharacter(false);
-        //         }
-        //     }
-        //     manager.Increment(vecVal);
-        // }
     }
 
     public void OnSubmit()
     {
-        // List<MainMenuManager.MenuMode> confirmables = new List<MainMenuManager.MenuMode> { MainMenuManager.MenuMode.CPUSelect,
-        //                                             MainMenuManager.MenuMode.StageSelect,
-        //                                             MainMenuManager.MenuMode.ModeSelect};
-        // if (canConfirm && manager.currentMenuMode == MainMenuManager.MenuMode.CharacterSelect)
-        // {
-        //     ready = true;
-        //     readyText.text = "Ready!";
-        //     manager.InformReady(true);
-        // }
-        // else if (confirmables.Contains(manager.currentMenuMode))
-        // {
-        //     manager.Confirm(true);
-        // }
         menuUI.Submit(this);
     }
 
     public void OnConfirmSelections()
     {
-        // if (manager.currentMenuMode == MainMenuManager.MenuMode.CharacterSelect)
-        //     manager.Confirm(true);
         menuUI.Confirm(this);
     }
 
     public void OnCancel()
     {
         menuUI.Cancel(this);
-        // if (manager.currentMenuMode == MainMenuManager.MenuMode.CharacterSelect)
-        // {
-        //     if (canConfirm && ready)
-        //     {
-        //         ready = false;
-        //         readyText.text = unreadyMessage;
-        //         manager.InformReady(false);
-        //     }
-        //     else if (canConfirm) // if we hadn't already readied, then delete this player
-        //     {
-        //         // Inform the manager that we quit
-        //         manager.UnjoinPlayer(playerNum);
-        //         Destroy(gameObject);
-        //     }
-        // }
-        // else
-        // {
-        //     manager.Confirm(false);
-        // }
     }
 
     public void OnAnyKey()
@@ -133,17 +81,18 @@ public class MainMenuPlayer : MonoBehaviour
 
     // ----------------- END INPUT EVENTS --------------------
 
-    public void SetPreviewVisibility(bool visible)
-    {
-        currentCharPreview.SetActive(visible);
-        nameText.gameObject.SetActive(visible);
-        playerNumText.gameObject.SetActive(visible);
-        readyText.gameObject.SetActive(visible);
-    }
-
     public int GetPlayerIndex()
     {
         return playerInput.playerIndex;
+    }
+
+    public bool IsPrimary()
+    {
+        if (PlayerNum == 0)
+        {
+            return true;
+        }
+        return menuUI.IsLowestRemainingPlayer(PlayerNum);
     }
 
     public RaceSettings.PlayerChoice GetPlayerChoice()

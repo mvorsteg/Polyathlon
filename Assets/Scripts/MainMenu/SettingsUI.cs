@@ -48,11 +48,11 @@ public class SettingsUI : BaseMenuUI
 
     public override void Navigate(MainMenuPlayer player, Vector2 input)
     {
-        if (player.PlayerNum == 0)
+        if (player.IsPrimary())
         {
             base.Navigate(player, input);
 
-            if (input.x != 0 && player.PlayerNum == 0)
+            if (input.x != 0)
             {
                 if (EventSystem.current.currentSelectedGameObject == unitsSpinner.gameObject)
                 {

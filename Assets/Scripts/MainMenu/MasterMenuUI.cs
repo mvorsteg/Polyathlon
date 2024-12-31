@@ -163,6 +163,18 @@ public class MasterMenuUI : MonoBehaviour
         return players.Count + 1;
     }
 
+    public bool IsLowestRemainingPlayer(int playerNum)
+    {
+        foreach (MainMenuPlayer player in players)
+        {
+            if (player.PlayerNum < playerNum)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
     public void Navigate(MainMenuPlayer player, Vector2 input)
     {
         // make stick input discretely vertical or horizontal

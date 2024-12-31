@@ -35,11 +35,11 @@ public class RaceSettingsUI : BaseMenuUI
 
     public override void Navigate(MainMenuPlayer player, Vector2 input)
     {
-        if (player.PlayerNum == 0)
+        if (player.IsPrimary())
         {
             base.Navigate(player, input);
 
-            if (input.x != 0 && player.PlayerNum == 0)
+            if (input.x != 0 && player.IsPrimary())
             {
                 if (EventSystem.current.currentSelectedGameObject == raceNumSpinner.gameObject)
                 {
@@ -93,34 +93,28 @@ public class RaceSettingsUI : BaseMenuUI
 
     public override void Cancel(MainMenuPlayer player)
     {
-        if (player.PlayerNum == 0)
-        {            
-            if (player.PlayerNum == 0)
+        if (player.IsPrimary())
+        {
+            if (allReadyOverlay.isActiveAndEnabled)
             {
-                if (allReadyOverlay.isActiveAndEnabled)
-                {
-                    allReadyOverlay.SetActive(false);
-                }
-                else
-                {
-                    mainMenuUI.TransitionToPreviousMode();
-                }
+                allReadyOverlay.SetActive(false);
+            }
+            else
+            {
+                mainMenuUI.TransitionToPreviousMode();
             }
         }
     }
 
     public override void Submit(MainMenuPlayer player)
     {
-        if (player.PlayerNum == 0)
+        if (player.IsPrimary())
         {
             base.Submit(player);
 
-            if (player.PlayerNum == 0)
+            if (allReadyOverlay.isActiveAndEnabled)
             {
-                if (allReadyOverlay.isActiveAndEnabled)
-                {
-                    raceSettings.StartRace();
-                }
+                raceSettings.StartRace();
             }
         }
     }

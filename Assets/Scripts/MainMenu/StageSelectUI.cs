@@ -64,7 +64,7 @@ public class StageSelectUI : BaseMenuUI
 
     public override void Navigate(MainMenuPlayer player, Vector2 input)
     {
-        if (player.PlayerNum == 0)
+        if (player.IsPrimary())
         {
             if (selector.selectedEntry != null && !selector.Locked)
             {
@@ -102,7 +102,7 @@ public class StageSelectUI : BaseMenuUI
 
     public override void Submit(MainMenuPlayer player)
     {
-        if (player.PlayerNum == 0)
+        if (player.IsPrimary())
         {
             if (!selector.Locked)
             {
@@ -115,7 +115,7 @@ public class StageSelectUI : BaseMenuUI
 
     public override void Cancel(MainMenuPlayer player)
     {
-        if (player.PlayerNum == 0)
+        if (player.IsPrimary())
         {
             if (selector.Locked)
             {
@@ -131,7 +131,7 @@ public class StageSelectUI : BaseMenuUI
 
     public override void Confirm(MainMenuPlayer player)
     {
-        if (player.PlayerNum == 0)
+        if (player.IsPrimary())
         {
             if (selector.Locked)
             {
