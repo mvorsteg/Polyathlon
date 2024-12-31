@@ -9,6 +9,7 @@ public class Selector : MonoBehaviour
     [SerializeField]
     protected float moveDuration_sec = 0.05f;
     protected bool isMoving = false;
+    private Coroutine activeCoroutine = null; 
 
     public GridEntry selectedEntry;
     protected RectTransform target;
@@ -17,6 +18,7 @@ public class Selector : MonoBehaviour
     public int SelectorIndex { get; protected set; }
     public bool Locked { get; protected set; }
     public bool Active { get => gameObject.activeInHierarchy; }
+    public bool Moving { get => isMoving; }
 
     public void Initialize(int selectorIndex, string labelText)
     {
@@ -40,12 +42,18 @@ public class Selector : MonoBehaviour
         {
             isMoving = true;
             target = newTarget;
-            StartCoroutine(MoveToTargetCoroutine());
+            activeCoroutine = StartCoroutine(MoveToTargetCoroutine());
         }
     }
 
-    public void WarpToTarget(Transform newTarget)
+    public void InterruptMove()
     {
+        if (activeCoroutine != null)
+        {
+            StopCoroutine(activeCoroutine);
+            isMoving = false;
+            activeCoroutine = null;
+        }
     }
 
     public void Lock()
@@ -73,5 +81,6 @@ public class Selector : MonoBehaviour
         }
         transform.position = target.position;
         isMoving = false;
+        activeCoroutine = null;
     }
 }

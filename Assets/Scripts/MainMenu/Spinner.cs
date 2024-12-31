@@ -1,11 +1,13 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class Spinner : Selectable
+public class Spinner : Selectable, IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField]
     private Image leftArrow, rightArrow;
@@ -14,6 +16,7 @@ public class Spinner : Selectable
     [SerializeField]
     private List<string> values;
     private int index = 0;
+    private List<SpinnerArrow> arrows;
 
     public bool wrapAround = false;
     public bool automaticSize = true;
@@ -22,8 +25,12 @@ public class Spinner : Selectable
 
     public string Value { get => values[index]; }
 
+
+
     protected override void Awake()
     {
+        arrows = GetComponentsInChildren<SpinnerArrow>().ToList();
+
         if (automaticSize)
         {
             float maxWidth = text.rectTransform.sizeDelta.x;
@@ -125,6 +132,33 @@ public class Spinner : Selectable
                 AddValue(t.ToString());
             }
         }
+    }
+
+    public override void OnPointerEnter(PointerEventData eventData)
+    {
+        animator.SetBool("SelfSelected", true);
+    }
+
+    public override void OnPointerExit(PointerEventData eventData)
+    {
+        animator.SetBool("SelfSelected", false);
+    }
+
+    public void SpinnerArrowSelected()
+    {
+        animator.SetBool("ChildSelected", true);
+    }
+
+    public void SpinnerArrowDeselected()
+    {
+        foreach (SpinnerArrow arrow in arrows)
+        {
+            if (arrow.Selected)
+            {
+                return;
+            }
+        }
+        animator.SetBool("ChildSelected", false);
     }
 
     private void LimitSelectionArrows()

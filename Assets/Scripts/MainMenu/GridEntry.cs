@@ -84,6 +84,8 @@ public class GridEntry : MonoBehaviour, IPointerEnterHandler
     {
         if (mouseSelector != null)
         {
+            mouseSelector.InterruptMove();
+
             if (mouseSelector.selectedEntry != this && !mouseSelector.Locked)
             {
                 mouseSelector.selectedEntry.RemoveSelector(mouseSelector);
