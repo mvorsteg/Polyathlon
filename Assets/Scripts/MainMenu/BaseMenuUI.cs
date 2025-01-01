@@ -38,6 +38,7 @@ public class BaseMenuUI : MonoBehaviour
         else
         {
             EventSystem.current.sendNavigationEvents = false;
+            EventSystem.current.SetSelectedGameObject(null);
             //Debug.Log("NO nav events");
         }
     }
@@ -49,7 +50,6 @@ public class BaseMenuUI : MonoBehaviour
 
     public virtual void Reset()
     {
-
     }
 
     public virtual void Navigate(MainMenuPlayer player, Vector2 input)

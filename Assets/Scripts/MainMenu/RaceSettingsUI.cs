@@ -23,12 +23,15 @@ public class RaceSettingsUI : BaseMenuUI
 
     public override void Reset()
     {
+        base.Reset();
+        
         int maxCPURacers = maxTotalRacers - raceSettings.PlayerChoices.Count;
         cpuNumSpinner.ClearValues();
         for (int i = 1; i <= maxCPURacers; i++)
         {
             cpuNumSpinner.AddValue(i.ToString());
         }
+        cpuNumSpinner.SkipToValue((maxCPURacers).ToString());
         
         allReadyOverlay.SetActive(false);
     }

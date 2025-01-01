@@ -32,7 +32,7 @@ public class RaceManager : MonoBehaviour
     public TextMeshProUGUI placeText;
     public TextMeshProUGUI timeText;
     public Image panel;
-    public GameObject menuText;
+    public TextMeshProUGUI menuText;
 
     public GameObject dummyUI;
 
@@ -52,11 +52,8 @@ public class RaceManager : MonoBehaviour
         if (!dontAddRacers)
         {
             // race starter code
-            try
-            {
-                raceSettings = FindAnyObjectByType<RaceSettings>();
-            }
-            catch(System.Exception)
+            raceSettings = FindAnyObjectByType<RaceSettings>();
+            if (raceSettings == null)
             {
                 Debug.Log("RaceSettings not found, instantiating a race settings for testing!");
                 raceSettings = Instantiate(raceCourseTester).GetComponentInChildren<RaceSettings>();
@@ -85,7 +82,7 @@ public class RaceManager : MonoBehaviour
                     {
                         racer.movementMode = Movement.Mode.GetOffTheBoat;
                     }
-                    racer.name = npcChoices[i].name;
+                    racer.name = npcChoices[i].displayName;
                 }
             }
             // Next instantiate the players
@@ -123,6 +120,7 @@ public class RaceManager : MonoBehaviour
                 Transform testPlayer = raceSettings.testCharacterGameObject.transform;
                 testPlayer.position = startingPositions[npcChoices.Count].position;
                 testPlayer.rotation = startingPositions[npcChoices.Count].rotation;
+                realPlayersInRace = 1;
             }
             //Destroy(raceSettings.gameObject);
         }
@@ -149,7 +147,7 @@ public class RaceManager : MonoBehaviour
         if (panel != null)
             panel.enabled = false;
         if (menuText != null)
-            menuText.SetActive(false);
+            menuText.gameObject.SetActive(false);
         canLoadMenu = true;
     }
 
@@ -263,7 +261,17 @@ public class RaceManager : MonoBehaviour
         panel.enabled = true;
 
         yield return new WaitForSeconds(2f);
-        menuText.SetActive(true);
+        
+        menuText.gameObject.SetActive(true);
+        if (raceSettings.HasNextRace)
+        {
+            menuText.text = "Press any button to continue to next race";
+        }
+        else
+        {
+            menuText.text = "Press any button to return to menu";
+        }
+        
         foreach (Racer r in racers)
         {
             r.RaceIsOver();

@@ -22,7 +22,7 @@ public class AllReadyOverlay : MonoBehaviour
         }
         else if (scheme == ControlScheme.Gamepad)
         {
-            buttonToPress = "A";
+            buttonToPress = "Start";
         }
         string prependText = topText;
         if (topText != "")

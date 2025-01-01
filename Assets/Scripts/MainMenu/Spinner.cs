@@ -134,6 +134,18 @@ public class Spinner : Selectable, IPointerEnterHandler, IPointerExitHandler
         }
     }
 
+    public override void OnSelect(BaseEventData eventData)
+    {
+        base.OnSelect(eventData);
+        animator.SetBool("SelfSelected", true);
+    }
+
+    public override void OnDeselect(BaseEventData eventData)
+    {
+        base.OnSelect(eventData);
+        animator.SetBool("SelfSelected", false);
+    }
+
     public override void OnPointerEnter(PointerEventData eventData)
     {
         animator.SetBool("SelfSelected", true);
