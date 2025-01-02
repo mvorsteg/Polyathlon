@@ -97,7 +97,7 @@ public class RaceManager : MonoBehaviour
                     newPlayer.transform.rotation = startingPositions[i + npcChoices.Count].rotation;
 
                     PlayerController playerRacer = newPlayer.GetComponent<PlayerController>();
-                    playerRacer.name = playerChoices[i].character.name + " (P" + (playerChoices[i].playerNumber + 1) + ")";
+                    playerRacer.name = playerChoices[i].character.displayName + " (P" + (playerChoices[i].playerNumber + 1) + ")";
                     playerRacer.SetPlayerNumber(playerChoices[i].playerNumber);
 
                     newPlayer.GetComponentInChildren<UI>().SetScale(i, playerChoices.Count);

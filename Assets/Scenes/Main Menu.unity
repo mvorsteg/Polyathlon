@@ -3681,7 +3681,7 @@ MonoBehaviour:
   raceSelection: 0
   cpuDifficulty: 0
   numCPUs: 0
-  mainMenuSceneName: 
+  mainMenuSceneName: Main Menu
 --- !u!4 &529936677
 Transform:
   m_ObjectHideFlags: 0
