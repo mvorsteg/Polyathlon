@@ -28,6 +28,11 @@ public class ExportCamera : MonoBehaviour
         OnPostRender();
     }
 
+    public void TakeSnapshot()
+    {
+        
+    }
+
     private void OnPostRender()
     {
         if(mRenderTexture != null)

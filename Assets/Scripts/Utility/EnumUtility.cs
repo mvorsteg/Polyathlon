@@ -48,4 +48,12 @@ public class EnumUtility
         result = default;
         return false;
     }
+
+    public static T NextValue<T>(T value) where T : Enum
+    {
+        T[] vals = (T[])Enum.GetValues(typeof(T));
+        int idx = Array.IndexOf(vals, value) + 1;
+        idx %= vals.Length;
+        return vals[idx];
+    }
 }
