@@ -15,5 +15,5 @@ MonoBehaviour:
   displayName: Polyopolis
   subtitle: 
   info: 
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 3d01642b6e7901d46a1828e0a4c8c8f2, type: 3}
   sceneName: Course 1

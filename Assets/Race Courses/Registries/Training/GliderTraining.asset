@@ -15,5 +15,5 @@ MonoBehaviour:
   displayName: Glider Training
   subtitle: 
   info: 
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 31d5f74e8d8d89b46b91e3100dbffa45, type: 3}
   sceneName: Training 1

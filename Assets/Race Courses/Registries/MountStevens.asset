@@ -15,5 +15,5 @@ MonoBehaviour:
   displayName: Mt. Stevens
   subtitle: 
   info: 
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 292c6474999edab4b966c1203625b195, type: 3}
   sceneName: Course 2
