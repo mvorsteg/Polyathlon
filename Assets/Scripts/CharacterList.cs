@@ -6,9 +6,9 @@ using UnityEngine;
 public class CharacterList : ScriptableObject
 {
     [SerializeField]
-    private Character[] characters;
+    private CharacterRegistry[] characters;
 
-    public Character[] GetCharacters()
+    public CharacterRegistry[] GetCharacters()
     {
         return characters;
     }

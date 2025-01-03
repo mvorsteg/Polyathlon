@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -10,38 +11,60 @@ public class RaceSettings : MonoBehaviour
     public class PlayerChoice
     {
         public int playerNumber;
-        public Character character;
-        public int playerIndex;
-        public string controlScheme;
+        public CharacterRegistry character;
+        public ControlScheme controlScheme;
         public InputDevice[] inputDevices;
 
         // constructor
-        public PlayerChoice(int playerNumber, Character character, int playerIndex, string controlScheme, InputDevice[] inputDevices)
+        public PlayerChoice(int playerNumber, CharacterRegistry character, ControlScheme controlScheme, InputDevice[] inputDevices)
         {
             this.playerNumber = playerNumber;
             this.character = character;
-            this.playerIndex = playerIndex;
             this.controlScheme = controlScheme;
             this.inputDevices = inputDevices;
         }
     }
 
+    public GameMode mode;
+
     public CharacterList characterList;
-    private Character[] characters;
-    private int numCPUs;
-    private List<PlayerChoice> playerChoices;
-    public List<Character> npcChoices;
+    private CharacterRegistry[] characters;
+    public List<CharacterRegistry> npcChoices;
 
     // Test options for when running the race directly from the race scene instead of from the main menu
     public bool testSettings = false;
     public int testCpuQuantity = 11;
     public GameObject testCharacterGameObject;
+
+    public StageRegistry selectedStage;
+    public List<StageRegistry> preloadedStages;
+    public int numRaces;
+    private int currRaceIdx = 0;
+    public RaceSelection raceSelection;
+    public CPUDifficulty cpuDifficulty;
+    public int numCPUs;
+    public string mainMenuSceneName;
+
+    public List<PlayerChoice> PlayerChoices { get; private set; }
+
+    public bool HasNextRace { get => currRaceIdx < numRaces - 1; }
+    public bool IsMidRace { get; protected set; }
     
+    public static RaceSettings instance;
+
     void Awake()
     {
-        DontDestroyOnLoad(this);
-        playerChoices = new List<PlayerChoice>();
-        npcChoices = new List<Character>();
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(this);
+        }
+        else
+        {
+            Destroy(this.gameObject);
+        }
+        PlayerChoices = new List<PlayerChoice>();
+        npcChoices = new List<CharacterRegistry>();
         if (characters == null)
         {
             characters = characterList.GetCharacters();
@@ -49,23 +72,23 @@ public class RaceSettings : MonoBehaviour
     }
 
     // Called by MainMenuManager
-    public void AddPlayerChoice(int newPlayerNum, Character newCharacter, int newPlayerIndex, string newControlScheme, InputDevice[] newInput)
+    public void AddPlayerChoice(int newPlayerNum, CharacterRegistry newCharacter, ControlScheme newControlScheme, InputDevice[] newInput)
     {
-        playerChoices.Add(new PlayerChoice(newPlayerNum, newCharacter, newPlayerIndex, newControlScheme, newInput));
+        PlayerChoices.Add(new PlayerChoice(newPlayerNum, newCharacter, newControlScheme, newInput));
     }
 
     // overload taking a premade PlayerChoice object
     public void AddPlayerChoice(PlayerChoice newPlayerChoice)
     {
-        playerChoices.Add(newPlayerChoice);
+        PlayerChoices.Add(newPlayerChoice);
     }
 
-    public List<PlayerChoice> GetPlayerChoices()
+    public void ClearPlayerChoices()
     {
-        return playerChoices;
+        PlayerChoices.Clear();
     }
 
-    public List<Character> GetNPCChoices()
+    public List<CharacterRegistry> GetNPCChoices()
     {
         if (testSettings)
         {
@@ -75,34 +98,84 @@ public class RaceSettings : MonoBehaviour
         return npcChoices;
     }
 
-    public void EnterRace(int numCPUs, int courseId)
+    public void SetSelectedStage(StageRegistry selectedStage)
     {
-        this.numCPUs = numCPUs;
-        AssignNPCChoices();
-        // load the appropriate course
-        SceneManager.LoadScene("Course " + (courseId + 1));
+        this.selectedStage = selectedStage;
+    }
+    
+    public void PreloadStages(List<StageRegistry> preloadedStages)
+    {
+        this.preloadedStages.Clear();
+        foreach (StageRegistry registry in preloadedStages)
+        {
+            this.preloadedStages.Add(registry);
+        }
+        selectedStage = preloadedStages[0];
     }
 
-    public void EnterTraining(int trainingId)
+    public void SetRaceParams(int numRaces, RaceSelection raceSelection, CPUDifficulty cpuDifficulty, int numCPUs)
     {
-        SceneManager.LoadScene("Training " + (trainingId + 1));
+        this.numRaces = numRaces;
+        this.raceSelection = raceSelection;
+        this.cpuDifficulty = cpuDifficulty;
+        this.numCPUs = numCPUs;
+        AssignNPCChoices();
+    }
+
+    public void StartRace()
+    {
+        if (IsMidRace)
+        {
+            currRaceIdx++;
+        }
+        else
+        {
+            // reassign player choice numbers in case p1 dropped out in select screen
+            FlattenIDs();
+
+            currRaceIdx = 0;
+            IsMidRace = true;
+        }
+        SceneManager.LoadScene(selectedStage.sceneName);
+    }
+
+    public void EndRace()
+    {
+        IsMidRace = false;
+    }
+
+    public void StartNextRace()
+    {
+        currRaceIdx++;
+        if (raceSelection == RaceSelection.InOrder || raceSelection == RaceSelection.Random)
+        {
+            if (currRaceIdx < preloadedStages.Count)
+            {
+                selectedStage = preloadedStages[currRaceIdx];
+                SceneManager.LoadScene(selectedStage.sceneName);
+            }
+        }
+        else if (raceSelection == RaceSelection.P1Choose)
+        {
+            SceneManager.LoadScene(mainMenuSceneName);
+        }
     }
 
     private void AssignNPCChoices()
     {
         if (numCPUs > 0)
         {
-            npcChoices = new List<Character>();
+            npcChoices = new List<CharacterRegistry>();
             // make a copy of the characters list
             if (characters == null)
             {
                 characters = characterList.GetCharacters();
             }
-            List<Character> availableCharacters = characters.ToList();
+            List<CharacterRegistry> availableCharacters = characters.ToList();
             // remove all the characters that are taken from the list
-            if (playerChoices != null)
+            if (PlayerChoices != null)
             {
-                foreach (PlayerChoice playerChoice in playerChoices)
+                foreach (PlayerChoice playerChoice in PlayerChoices)
                 {
                     availableCharacters.Remove(playerChoice.character);
                 }
@@ -121,6 +194,25 @@ public class RaceSettings : MonoBehaviour
                     npcChoices.Add(characters[(int)Mathf.Round(Random.Range(0, characters.Length))]);
                 }
             }
+        }
+    }
+
+    private void FlattenIDs()
+    {
+        List<int> foundIDs = new List<int>();
+        Dictionary<int, int> newIDs = new Dictionary<int, int>();
+        foreach (PlayerChoice pc in PlayerChoices)
+        {
+            foundIDs.Add(pc.playerNumber);
+        }
+        foundIDs.Sort();
+        for (int i = 0; i < foundIDs.Count; i++)
+        {
+            newIDs[foundIDs[i]] = i;
+        }
+        foreach (PlayerChoice pc in PlayerChoices)
+        {
+            pc.playerNumber = newIDs[pc.playerNumber];
         }
     }
 

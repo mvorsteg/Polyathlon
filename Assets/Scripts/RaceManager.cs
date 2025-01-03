@@ -32,7 +32,7 @@ public class RaceManager : MonoBehaviour
     public TextMeshProUGUI placeText;
     public TextMeshProUGUI timeText;
     public Image panel;
-    public GameObject menuText;
+    public TextMeshProUGUI menuText;
 
     public GameObject dummyUI;
 
@@ -51,14 +51,9 @@ public class RaceManager : MonoBehaviour
         instance = this;
         if (!dontAddRacers)
         {
-            RaceSettings raceSettings;
-
             // race starter code
-            try
-            {
-                raceSettings = GameObject.FindObjectsOfType<RaceSettings>()[0];
-            }
-            catch(System.Exception)
+            raceSettings = FindAnyObjectByType<RaceSettings>();
+            if (raceSettings == null)
             {
                 Debug.Log("RaceSettings not found, instantiating a race settings for testing!");
                 raceSettings = Instantiate(raceCourseTester).GetComponentInChildren<RaceSettings>();
@@ -75,7 +70,7 @@ public class RaceManager : MonoBehaviour
 
             // Get the racers
             // First instantiate the NPCs
-            List<Character> npcChoices = new List<Character>();
+            List<CharacterRegistry> npcChoices = new List<CharacterRegistry>();
             if (!isTrainingCourse)
             {
                 npcChoices = raceSettings.GetNPCChoices();
@@ -87,22 +82,22 @@ public class RaceManager : MonoBehaviour
                     {
                         racer.movementMode = Movement.Mode.GetOffTheBoat;
                     }
-                    racer.name = npcChoices[i].name;
+                    racer.name = npcChoices[i].displayName;
                 }
             }
             // Next instantiate the players
             if (!testRun)
             {
-                List<RaceSettings.PlayerChoice> playerChoices = raceSettings.GetPlayerChoices();
+                List<RaceSettings.PlayerChoice> playerChoices = raceSettings.PlayerChoices;
                 for (int i = 0; i < playerChoices.Count; i++)
                 {
                     PlayerInput newPlayer = PlayerInput.Instantiate(playerChoices[i].character.playerObj, playerChoices[i].playerNumber,
-                                                                    playerChoices[i].controlScheme, -1, playerChoices[i].inputDevices);
+                                                                    playerChoices[i].controlScheme.ToString(), -1, playerChoices[i].inputDevices);
                     newPlayer.transform.position = startingPositions[i + npcChoices.Count].position;
                     newPlayer.transform.rotation = startingPositions[i + npcChoices.Count].rotation;
 
                     PlayerController playerRacer = newPlayer.GetComponent<PlayerController>();
-                    playerRacer.name = playerChoices[i].character.name + " (P" + (playerChoices[i].playerNumber + 1) + ")";
+                    playerRacer.name = playerChoices[i].character.displayName + " (P" + (playerChoices[i].playerNumber + 1) + ")";
                     playerRacer.SetPlayerNumber(playerChoices[i].playerNumber);
 
                     newPlayer.GetComponentInChildren<UI>().SetScale(i, playerChoices.Count);
@@ -125,14 +120,15 @@ public class RaceManager : MonoBehaviour
                 Transform testPlayer = raceSettings.testCharacterGameObject.transform;
                 testPlayer.position = startingPositions[npcChoices.Count].position;
                 testPlayer.rotation = startingPositions[npcChoices.Count].rotation;
+                realPlayersInRace = 1;
             }
-            Destroy(raceSettings.gameObject);
+            //Destroy(raceSettings.gameObject);
         }
     }
 
     private void Start() 
     {
-        racers = GameObject.FindObjectsOfType<Racer>();
+        racers = FindObjectsByType<Racer>(FindObjectsSortMode.None);
         if (!isTrainingCourse)
         {
             foreach(Racer r in racers)
@@ -151,7 +147,7 @@ public class RaceManager : MonoBehaviour
         if (panel != null)
             panel.enabled = false;
         if (menuText != null)
-            menuText.SetActive(false);
+            menuText.gameObject.SetActive(false);
         canLoadMenu = true;
     }
 
@@ -265,7 +261,17 @@ public class RaceManager : MonoBehaviour
         panel.enabled = true;
 
         yield return new WaitForSeconds(2f);
-        menuText.SetActive(true);
+        
+        menuText.gameObject.SetActive(true);
+        if (raceSettings.HasNextRace)
+        {
+            menuText.text = "Press any button to continue to next race";
+        }
+        else
+        {
+            menuText.text = "Press any button to return to menu";
+        }
+        
         foreach (Racer r in racers)
         {
             r.RaceIsOver();
@@ -274,12 +280,24 @@ public class RaceManager : MonoBehaviour
 
     public static void ReturnToMenu()
     {
-        Debug.Log("return to main menu please!");
-        if (canLoadMenu)
+        if (IsRaceActive)
         {
-            canLoadMenu = false;
-            Debug.Log("Okay loading main menu!");
-            SceneManager.LoadScene("Main Menu");
+            instance.isRaceActive = false;
+            if (instance.raceSettings.HasNextRace)
+            {
+                instance.raceSettings.StartNextRace();
+            }
+            else
+            {
+                instance.raceSettings.EndRace();
+                Debug.Log("return to main menu please!");
+                if (canLoadMenu)
+                {
+                    canLoadMenu = false;
+                    Debug.Log("Okay loading main menu!");
+                    SceneManager.LoadScene("Main Menu");
+                }
+            }
         }
     }
 

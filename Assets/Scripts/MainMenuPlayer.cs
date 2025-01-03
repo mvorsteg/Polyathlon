@@ -12,154 +12,92 @@ public class MainMenuPlayer : MonoBehaviour
     public TextMeshPro playerNumText;
     public TextMeshPro readyText;
     private PlayerInput playerInput;
-    private int playerNum; // player num is indexed to 0
-    private MainMenuManager manager;
-    private Character[] characters;
+    private MasterMenuUI menuUI;
+    private CharacterRegistry[] characters;
     private int characterIndex;
     private GameObject currentCharPreview;
     private bool canCycle = false;
-    private bool canConfirm = false;
-    private bool ready;
     private string unreadyMessage; // displayed when the player hasn't said they're ready
-    private string controlScheme; // gamepad or keyboard
+    private ControlScheme controlScheme;
     
-
-    // Start is called before the first frame update
-    void Start()
+    public int PlayerNum { get; set; }
+    public ControlScheme ControlScheme { get => controlScheme; }
+    public InputDevice[] InputDevices { get => playerInput.devices.ToArray(); }
+    private void Awake()
     {
-        transform.position += new Vector3(0, 0.36f, 0);
+        
         playerInput = GetComponent<PlayerInput>();
-        manager = GameObject.FindObjectsOfType<MainMenuManager>()[0];
-        characters = characterList.GetCharacters();
-        canCycle = true;
-        controlScheme = ((InputControlScheme)playerInput.user.controlScheme).name;
-        unreadyMessage = (controlScheme == "Gamepad" ? "Ready? Press A!" : "Ready? Press Space!");
-        readyText.text = unreadyMessage;
-        canConfirm = true;
-        SelectCharacter();
-        manager.JoinPlayer(this);
+        menuUI = FindFirstObjectByType<MasterMenuUI>();
     }
 
+    private void Start()
+    {
+        transform.position += new Vector3(0, 0.36f, 0);
+        canCycle = true;
+        controlScheme = ((InputControlScheme)playerInput.user.controlScheme).name == "Gamepad" ? ControlScheme.Gamepad : ControlScheme.Keyboard;
+        unreadyMessage = (controlScheme == ControlScheme.Gamepad ? "Ready? Press A!" : "Ready? Press Space!");
+        readyText.text = unreadyMessage;
+        menuUI.AddPlayer(this, controlScheme );
+    }
+
+    public void Exit()
+    {
+        menuUI.RemovePlayer(this);
+        Destroy(this.gameObject);
+    }
 
     // ----------------- INPUT EVENTS --------------------
     public void OnNavigate(InputValue value)
     {
+        Vector2 vecVal = value.Get<Vector2>();
         if (canCycle)
         {
+            Debug.Log(string.Format("x:{0}, y:{1}", vecVal.x, vecVal.y));
+            menuUI.Navigate(this, vecVal);
             StartCoroutine(PreventSpeedyJoysticks());
-            Vector2 vecVal = value.Get<Vector2>();
-            if (!ready)
-            {
-                if (vecVal.x == 1)
-                {
-                    CycleCharacter(true);
-                }
-                else if (vecVal.x == -1)
-                {
-                    CycleCharacter(false);
-                }
-            }
-            manager.Increment(vecVal);
         }
     }
 
     public void OnSubmit()
     {
-        List<MainMenuManager.MenuMode> confirmables = new List<MainMenuManager.MenuMode> { MainMenuManager.MenuMode.CPUSelect,
-                                                    MainMenuManager.MenuMode.StageSelect,
-                                                    MainMenuManager.MenuMode.ModeSelect};
-        if (canConfirm && manager.currentMenuMode == MainMenuManager.MenuMode.CharacterSelect)
-        {
-            ready = true;
-            readyText.text = "Ready!";
-            manager.InformReady(true);
-        }
-        else if (confirmables.Contains(manager.currentMenuMode))
-        {
-            manager.Confirm(true);
-        }
+        menuUI.Submit(this);
     }
 
     public void OnConfirmSelections()
     {
-        if (manager.currentMenuMode == MainMenuManager.MenuMode.CharacterSelect)
-            manager.Confirm(true);
+        menuUI.Confirm(this);
     }
 
     public void OnCancel()
     {
-        if (manager.currentMenuMode == MainMenuManager.MenuMode.CharacterSelect)
-        {
-            if (canConfirm && ready)
-            {
-                ready = false;
-                readyText.text = unreadyMessage;
-                manager.InformReady(false);
-            }
-            else if (canConfirm) // if we hadn't already readied, then delete this player
-            {
-                // Inform the manager that we quit
-                manager.UnjoinPlayer(playerNum);
-                Destroy(gameObject);
-            }
-        }
-        else
-        {
-            manager.Confirm(false);
-        }
+        menuUI.Cancel(this);
     }
 
-    public void OnQualityCycle()
+    public void OnAnyKey()
     {
-        manager.CycleQuality();
+        //Debug.Log("AnyKey");
+        //menuUI.AnyKeyPressed();
     }
 
     // ----------------- END INPUT EVENTS --------------------
-
-    // assign a player number to this player, called by MainMenuManager
-    public void SetPlayerNum(int num)
-    {
-        playerNum = num;
-        playerNumText.text = "Player " + (playerNum + 1);
-    }
-
-    public void SetPreviewVisibility(bool visible)
-    {
-        currentCharPreview.SetActive(visible);
-        nameText.gameObject.SetActive(visible);
-        playerNumText.gameObject.SetActive(visible);
-        readyText.gameObject.SetActive(visible);
-    }
-
-    public int GetPlayerNum()
-    {
-        return playerNum;
-    }
 
     public int GetPlayerIndex()
     {
         return playerInput.playerIndex;
     }
 
-    public bool IsReady()
+    public bool IsPrimary()
     {
-        return ready;
-    }
-
-    public string GetControlScheme()
-    {
-        return controlScheme;
-    }
-
-    public Character GetCharacter()
-    {
-        return characters[characterIndex];
+        if (PlayerNum == 0)
+        {
+            return true;
+        }
+        return menuUI.IsLowestRemainingPlayer(PlayerNum);
     }
 
     public RaceSettings.PlayerChoice GetPlayerChoice()
     {
-        return new RaceSettings.PlayerChoice(playerNum, characters[characterIndex],
-                    playerInput.playerIndex, controlScheme, playerInput.devices.ToArray());
+        return new RaceSettings.PlayerChoice(PlayerNum, characters[characterIndex], controlScheme, playerInput.devices.ToArray());
     }
 
     // Joysticks on gamepads are gonna trigger CycleCharacer way too fast
@@ -169,32 +107,5 @@ public class MainMenuPlayer : MonoBehaviour
         canCycle = false;
         yield return new WaitForSeconds(0.18f);
         canCycle = true;
-    }
-
-    // Cycle through the characters we have
-    private void CycleCharacter(bool forward)
-    {
-        // Determine how to move our index
-        if (forward)
-        {
-            characterIndex = (characterIndex + 1) % (characters.Length);
-        }
-        else
-        {
-            if (characterIndex - 1 >= 0)
-                characterIndex--;
-            else
-                characterIndex = characters.Length - 1;
-        }
-        // remove the old character preview and instantiate a new one
-        Destroy(currentCharPreview);
-        SelectCharacter();
-    }
-
-    // Selects the character based on the current characterIndex and updates the name
-    private void SelectCharacter()
-    {
-        currentCharPreview = Instantiate(characters[characterIndex].previewObj, transform.position, Quaternion.Euler(0, 180, 0), this.transform);
-        nameText.text = characters[characterIndex].name;
     }
 }
