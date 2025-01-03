@@ -15,7 +15,7 @@ MonoBehaviour:
   displayName: Matt Vorsteg
   subtitle: I'm just tryna be walking
   info: 
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 3aaa0943573fa6340a508a33ca08c9a1, type: 3}
   playerObj: {fileID: 411290082333151904, guid: e836cb44d2d9d27418f5927f3c3cddef,
     type: 3}
   npcObj: {fileID: 5726297956981979253, guid: ec5a3a349ac817d44b8b22565580166d, type: 3}

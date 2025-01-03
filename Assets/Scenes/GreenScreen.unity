@@ -1828,10 +1828,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   snapCam: {fileID: 461642806}
   ui: {fileID: 1283846994}
+  animationController: {fileID: 738630996}
   movementSpeed: 1
   rotationSpeed: 30
   cameraTransform: {fileID: 155372359}
-  targetTransform: {fileID: 170170206}
+  targetTransformParent: {fileID: 1285500476}
 --- !u!4 &738630995
 Transform:
   m_ObjectHideFlags: 0
@@ -1859,7 +1860,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01aff90db587ee04388f365e98dcbf77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 170170206}
   ui: {fileID: 1283846994}
   poseController: {fileID: 9100000, guid: 155f7bc412d85744eb8b713db7cc278b, type: 2}
 --- !u!1 &769887620
@@ -2146,7 +2146,7 @@ PrefabInstance:
     - target: {fileID: 7980382004344233561, guid: a857bf3443ddd56448a06017a9a23dcf,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2902,7 +2902,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1285500476}
   m_Layer: 0
-  m_Name: Characters
+  m_Name: Target
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2988,7 +2988,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 0
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
@@ -3295,7 +3295,7 @@ PrefabInstance:
     - target: {fileID: 5626441515505511883, guid: cda20b932e8cfde47b627abf798dcc58,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

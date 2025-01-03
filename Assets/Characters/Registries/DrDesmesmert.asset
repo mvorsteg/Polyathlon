@@ -15,7 +15,7 @@ MonoBehaviour:
   displayName: Dr. Desmesmert
   subtitle: From down undah
   info: 
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: b749570b033c57f4bab06994c8e946d4, type: 3}
   playerObj: {fileID: 411290082333151904, guid: fefbd061bcf7b1a4fa8666235c69721d,
     type: 3}
   npcObj: {fileID: 5726297956981979253, guid: 931877d654ddc6141a0f02816349c128, type: 3}

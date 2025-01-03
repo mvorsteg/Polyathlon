@@ -15,7 +15,7 @@ MonoBehaviour:
   displayName: The Silver Sprinter
   subtitle: Silver going for gold
   info: 
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 3c55642bd9fe45040a90fab20c5580e4, type: 3}
   playerObj: {fileID: 411290082333151904, guid: e5414e52ea96a9741ba1ce3e8b2b8542,
     type: 3}
   npcObj: {fileID: 5726297956981979253, guid: 04cc180a28d4b054eb6584fd01600e50, type: 3}

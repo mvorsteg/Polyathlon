@@ -15,7 +15,7 @@ MonoBehaviour:
   displayName: Cowbot
   subtitle: Robots need milk too
   info: 
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 4d0a223a08a16984885aae404d313699, type: 3}
   playerObj: {fileID: 411290082333151904, guid: 9acadf4bf46cec3419502d95f1037e60,
     type: 3}
   npcObj: {fileID: 5726297956981979253, guid: e939743a968905541b0fc0ffcf36d601, type: 3}

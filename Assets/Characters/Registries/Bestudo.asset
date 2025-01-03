@@ -15,7 +15,7 @@ MonoBehaviour:
   displayName: Bestudo
   subtitle: Terps only move forward
   info: 
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 1a5db26b9048be24fb0d7d4e2ff64f3b, type: 3}
   playerObj: {fileID: 411290082333151904, guid: 6ee1be5df435efd4586cbb8a6c0c8e1b,
     type: 3}
   npcObj: {fileID: 5726297956981979253, guid: 72a0d9823a97a32439cdb55d099ad6f8, type: 3}

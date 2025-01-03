@@ -11,12 +11,15 @@ public class GreenscreenController : MonoBehaviour
     private SnapshotCamera snapCam;
     [SerializeField]
     private GreenScreenUI ui;
+    [SerializeField]
+    private GreenScreenAnimationController animationController;
 
     private Vector3 moveInput;
 
     public float movementSpeed = 1f, rotationSpeed = 30f;
     [SerializeField]
-    private Transform cameraTransform, targetTransform;
+    private Transform cameraTransform, targetTransformParent;
+    private Transform targetTransform;
     private Vector3 startingCameraPos, startingTargetPos;
     private Quaternion startingCameraRot, startingTargetRot;
 
@@ -35,6 +38,15 @@ public class GreenscreenController : MonoBehaviour
         inputActions.Greeenscreen.SwapControl.performed += ctx => ToggleMode();
         inputActions.Greeenscreen.SwapTarget.performed += ctx => ToggleTarget();
 
+        foreach (Transform t in targetTransformParent)
+        {
+            if (t.gameObject.activeInHierarchy)
+            {
+                targetTransform = t;
+                break;
+            }
+        }
+
         startingCameraPos = cameraTransform.position;
         startingCameraRot = cameraTransform.rotation;
         startingTargetPos = targetTransform.position;
@@ -44,7 +56,14 @@ public class GreenscreenController : MonoBehaviour
         targetMode = TargetMode.Camera;
         ui.SetMode(controlMode);
         ui.SetTargetMode(targetMode);
+    }
 
+    private void Start()
+    {
+        if (targetTransform.TryGetComponent(out Animator targetAnimator))
+        {
+            animationController.Initialize(targetAnimator);
+        }
     }
 
     private void OnEnable()

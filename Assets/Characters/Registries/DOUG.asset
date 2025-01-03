@@ -15,7 +15,7 @@ MonoBehaviour:
   displayName: DOUG
   subtitle: Faster than escape velocity
   info: 
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 8888cf9b8befbd24ead25884ff64af3f, type: 3}
   playerObj: {fileID: 411290082333151904, guid: b792ad72c8c7dae48aa9791d007e4bdb,
     type: 3}
   npcObj: {fileID: 5726297956981979253, guid: 291669b636b9cde439a642d753d146ad, type: 3}

@@ -5,8 +5,6 @@ using UnityEngine.Playables;
 public class GreenScreenAnimationController : MonoBehaviour
 {
     [SerializeField]
-    private Transform target;
-    [SerializeField]
     private GreenScreenUI ui;
 
     private Animator animator;
@@ -21,17 +19,9 @@ public class GreenScreenAnimationController : MonoBehaviour
         allAnimations = new List<AnimationClip>();
     }
 
-    private void Start()
+    public void Initialize(Animator targetAnimator)
     {
-        if (target.TryGetComponent<Animator>(out Animator animator))
-        {
-            LoadAnimator(animator);
-        }    
-    }
-
-    public void LoadAnimator(Animator animator)
-    {
-        this.animator = animator;
+        animator = targetAnimator;
 
         // foreach (AnimationClip clip in animator.runtimeAnimatorController.animationClips)
         // {

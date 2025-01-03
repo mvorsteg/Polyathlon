@@ -15,7 +15,7 @@ MonoBehaviour:
   displayName: Matt Graber
   subtitle: That's real obscure
   info: 
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: b807ecebe16e94843852849fdbf4f4d1, type: 3}
   playerObj: {fileID: 411290082333151904, guid: 31118e0b69736aa4d8c925bea280d540,
     type: 3}
   npcObj: {fileID: 5726297956981979253, guid: 4eb682a4dc4bae94baa1dd95993bf1a6, type: 3}

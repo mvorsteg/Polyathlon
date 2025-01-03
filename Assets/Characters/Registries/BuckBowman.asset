@@ -15,7 +15,7 @@ MonoBehaviour:
   displayName: Buck Bowman
   subtitle: Unrelated to Bo
   info: 
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: 3aeb1e8924418a547a348004fcbb9146, type: 3}
   playerObj: {fileID: 8244711337795581057, guid: e3a9d80cc43a09349a3722ae3f3b213f,
     type: 3}
   npcObj: {fileID: 5726297956981979253, guid: 2f643fc1fabbe7042b6a3e7ad9023a4e, type: 3}
