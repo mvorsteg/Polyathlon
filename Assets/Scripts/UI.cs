@@ -39,6 +39,8 @@ public class UI : MonoBehaviour
         isPrimaryUI = !isPrimaryTaken;
         isPrimaryUI = true; // solve this bug later its 4:04 AM
         isPrimaryTaken = true;
+
+        SetSpeedUnit((SpeedUnits)PlayerPrefs.GetInt(PlayerPrefsKeys.SPEED_UNITS, 0));
     }
 
     // Start is called before the first frame update
@@ -82,7 +84,6 @@ public class UI : MonoBehaviour
         }
 
         SetSpeed(racer.Speed);
-        SetSpeedUnit(speedUnit);
     }
 
     public void SetScale(int player, int maxPlayers)

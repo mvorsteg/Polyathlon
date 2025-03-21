@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2a40e3f4f0116f4abe46a2d1213d432, type: 3}
+  m_Name: Cowbot
+  m_EditorClassIdentifier: 
+  displayName: Cowbot
+  subtitle: Robots need milk too
+  info: 
+  icon: {fileID: 21300000, guid: 4d0a223a08a16984885aae404d313699, type: 3}
+  playerObj: {fileID: 411290082333151904, guid: 9acadf4bf46cec3419502d95f1037e60,
+    type: 3}
+  npcObj: {fileID: 5726297956981979253, guid: e939743a968905541b0fc0ffcf36d601, type: 3}
+  previewObj: {fileID: 1955606547528251518, guid: f0bbc810402d7f741be50948da9a45a1,
+    type: 3}
