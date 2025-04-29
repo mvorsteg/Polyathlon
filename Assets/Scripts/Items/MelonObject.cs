@@ -1,22 +1,39 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class MelonObject : MonoBehaviour 
 {
-    private Rigidbody rb;
+    protected Rigidbody rb;
+    protected AudioSource audioSource;
+    public Rigidbody target;
+    public Rigidbody source;
+    
+    [SerializeField]
+    protected List<AudioClip> impactSounds;
 
-    private void Start() 
+    protected virtual void Awake() 
     {
         rb = GetComponent<Rigidbody>();
+        audioSource = GetComponent<AudioSource>();
+    }
+    protected virtual void Start()
+    {
+        StartCoroutine(Despawn());
     }
 
     /*  if you hit somebody, they die */
-    private void OnCollisionEnter(Collision other)
+    protected virtual void OnCollisionEnter(Collision other)
     {
         Racer racer = other.transform.GetComponent<Racer>();
         if (racer != null && other.relativeVelocity.magnitude > 7)
         {
-            racer.Die(true);
+            racer.Die(true);        
+            if (impactSounds.Count > 0)
+            {
+                AudioClip clip = impactSounds[Random.Range(0, impactSounds.Count)];
+                audioSource.PlayOneShot(clip);
+            }
         }
         else
         {

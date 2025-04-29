@@ -42,7 +42,10 @@ public class RaceManager : MonoBehaviour
     public bool dontAddRacers = false; // use this for non-racing test scenes
     [SerializeField]
     private bool isTrainingCourse = false;
+    [SerializeField]
+    private bool respawnOnUse = false;
     public static bool IsTrainingCourse { get => instance.isTrainingCourse; } // use this for training scenes
+    public static bool RespawnOnUse { get => instance.respawnOnUse; } // use this for training scenes
 
     private bool testRun = false;
 
@@ -310,5 +313,39 @@ public class RaceManager : MonoBehaviour
             chosen = instance.racers[Random.Range(0, instance.racers.Length)];
         }
         return chosen;
+    }
+
+    public static Racer GetClosestRacerAheadOfThisOne(Racer racer)
+    {
+        Racer closestRacer = null;
+        float closestDist = float.MaxValue;
+        foreach (Racer otherRacer in instance.racers)
+        {
+            if (otherRacer != racer && (IsTrainingCourse || otherRacer.place < racer.place))
+            {
+                float dist = Vector3.Distance(racer.transform.position, otherRacer.transform.position);
+                if (dist < closestDist)
+                {
+                    closestRacer = otherRacer;
+                    closestDist = dist;
+                }
+            }
+        }
+        return closestRacer;
+    }
+
+    public static Racer GetHighestRacerOtherThanThisOne(Racer racer)
+    {
+        Racer highestRacer = null;
+        int highestPlace = int.MinValue;
+        foreach (Racer otherRacer in instance.racers)
+        {
+            if (otherRacer != racer && otherRacer.place < highestPlace)
+            {
+                highestRacer = otherRacer;
+                highestPlace = otherRacer.place;
+            }
+        }
+        return highestRacer;
     }
 }

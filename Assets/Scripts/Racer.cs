@@ -52,17 +52,20 @@ public class Racer : MonoBehaviour
         }
     }
 
-    protected virtual void Start() 
+    protected virtual void Awake()
     {
         rb = GetComponent<Rigidbody>();
         ragdoll = characterMesh.GetComponent<Ragdoll>();
-        ragdoll.SetRagdoll(false);
         anim = characterMesh.GetComponent<Animator>();
         animEvents = characterMesh.GetComponent<PlayerAnimationEvents>();
         //animOverride = GetComponent<AnimatorOverrideController>();
         audioSource = characterMesh.GetComponent<AudioSource>();
+    }
+
+    protected virtual void Start() 
+    {
+        ragdoll.SetRagdoll(false);
         SetMovementMode(movementMode, true);
-        
     } 
 
     protected virtual void Update()
@@ -99,7 +102,7 @@ public class Racer : MonoBehaviour
         
     }
 
-    private void FixedUpdate() {
+    protected virtual void FixedUpdate() {
         velocityBeforePhysicsUpdate = rb.linearVelocity;
     }
 
@@ -262,21 +265,29 @@ public class Racer : MonoBehaviour
         EquipItem(null);
     }
 
-    public void ThrowItem()
+    public void ThrowItem(Transform target)
     {
-        float up = (movement is Bicycle ? 5f : 1.5f);
-        Vector3 pos = transform.position + 2f * characterMesh.transform.forward + up * characterMesh.transform.up;
-        GameObject obj = Instantiate(item.Child, pos, Quaternion.identity);
-        Rigidbody itemRb = obj.GetComponent<Rigidbody>();
-        itemRb.linearVelocity = rb.linearVelocity;
-        itemRb.AddForce(1000 * (characterMesh.transform.forward + 0.1f * transform.up));
-        try {
-            StartCoroutine(obj.GetComponent<MelonObject>().Despawn());
-        }
-        catch {
+        // float up = movement is Bicycle ? 5f : 1.5f;
+        // Vector3 pos = transform.position + 2f * characterMesh.transform.forward + up * characterMesh.transform.up;
+        // GameObject obj = Instantiate(item.Child, pos, Quaternion.identity);
+        // Rigidbody itemRb = obj.GetComponent<Rigidbody>();
+        // itemRb.linearVelocity = rb.linearVelocity;
+        // itemRb.AddForce(1000 * (characterMesh.transform.forward + 0.1f * transform.up));
+        // try {
+        //     MelonObject melon = obj.GetComponent<MelonObject>();
+        //     melon.target = target;
+        //     StartCoroutine(melon.Despawn());
+        // }
+        // catch {
             
-        }
-        EquipItem(null);
+        // }
+        // EquipItem(null);
+    }
+
+    public Vector3 GetItemSpawnPos()
+    {
+        float up = movement is Bicycle ? 5f : 1.5f;
+        return transform.position + 2f * characterMesh.transform.forward + up * characterMesh.transform.up;
     }
 
     /*  plays a miscellaneus animation that is NOT defined in the animation controller */
@@ -285,6 +296,11 @@ public class Racer : MonoBehaviour
         animOverride["miscAnimation"] = clip;
         anim.runtimeAnimatorController = animOverride;
         anim.SetTrigger("misc");
+    }
+
+    public void PlayMiscSound(AudioClip clip)
+    {
+        audioSource.PlayOneShot(clip);
     }
 
     private void OnTriggerEnter(Collider other)

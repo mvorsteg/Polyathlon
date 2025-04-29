@@ -19,11 +19,26 @@ public class NPC : Racer
     private bool gliderControlActive = false;
     private bool isGoingToJetpack = false;
 
+    protected override void Awake()
+    {
+        base.Awake();
+        
+        agent = GetComponent<NavMeshAgent>();
+    }
+
     protected override void Start()
     {
-        chain = GameObject.FindWithTag("WaypointChainStart").GetComponent<WaypointChain>();
-        agent = GetComponent<NavMeshAgent>();
-        nextWaypoint = chain.GetStartingWaypoint();
+        base.Start();
+
+        GameObject chainObj = GameObject.FindWithTag("WaypointChainStart");
+        if (chainObj != null)
+        {
+            chain = chainObj.GetComponent<WaypointChain>();
+        }
+        if (chain != null)
+        {
+            nextWaypoint = chain.GetStartingWaypoint();
+        }
         SetNavMeshAgent(false);
         
         //agent.updatePosition = false;

@@ -15,6 +15,11 @@ public class CameraController : MonoBehaviour
 
     private Quaternion cameraRotation;
     private Vector3 cameraOffset;
+    [SerializeField]
+    private float zoomedOutFOV = 75f;
+    private float zoomTime = 0.25f;
+    [SerializeField] 
+    private new Camera camera;
 
     private int invert = -1;
     private float sensitivity = 0.10f;
@@ -23,12 +28,14 @@ public class CameraController : MonoBehaviour
     private float xMax;
 
     private bool following = false;
+    private float defaultFOV;
 
     void Start()
     {
         cameraRotation = transform.localRotation;
         cameraOffset = cameraTransform.localPosition;
         characterHips = player.GetComponent<Racer>().GetHips();
+        defaultFOV = camera.fieldOfView;
         ResetXMinMax();
     }
  
@@ -87,5 +94,26 @@ public class CameraController : MonoBehaviour
         }
         //Debug.Log("End!");
         transform.localPosition = new Vector3(0, 1.5f, 0);
+    }
+
+    public void SetZoom(bool zoomOut)
+    {
+        StartCoroutine(ZoomCoroutine(zoomOut));
+    }
+
+    private IEnumerator ZoomCoroutine(bool zoomOut)
+    {
+        float startFOV = camera.fieldOfView;
+        float endFOV = zoomOut ? zoomedOutFOV : defaultFOV;
+
+        float elapsedTime = 0f;
+        while (elapsedTime < zoomTime)
+        {
+            elapsedTime += Time.deltaTime;
+            camera.fieldOfView = Mathf.Lerp(startFOV, endFOV, elapsedTime / zoomTime);
+            yield return null;
+        }
+
+        camera.fieldOfView = endFOV;
     }
 }

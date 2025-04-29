@@ -25,12 +25,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8244711337794774317}
+  serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: -0.47242498, z: 0.34942627}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8244711338787630867}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &8244711337794774318
 MeshFilter:
@@ -51,10 +52,15 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -79,6 +85,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &8244711337795581057
 GameObject:
   m_ObjectHideFlags: 0
@@ -114,16 +121,18 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8244711337795581057}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4759885026470699848}
   - {fileID: 8244711339647602192}
   - {fileID: 8244711339753046579}
   - {fileID: 8397002884507944229}
+  - {fileID: 5346799969093126076}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &8244711337795581060
 Rigidbody:
@@ -132,10 +141,21 @@ Rigidbody:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8244711337795581057}
-  serializedVersion: 2
+  serializedVersion: 4
   m_Mass: 1
   m_Drag: 0
   m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
@@ -149,8 +169,17 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8244711337795581057}
   m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
   m_IsTrigger: 0
+  m_ProvidesContacts: 0
   m_Enabled: 1
+  serializedVersion: 2
   m_Radius: 0.25
   m_Height: 1.8686018
   m_Direction: 1
@@ -166,6 +195,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -419,6 +449,7 @@ MonoBehaviour:
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 8244711337795581059}
+        m_TargetAssemblyTypeName: 
         m_MethodName: OnRunningMovement
         m_Mode: 0
         m_Arguments:
@@ -430,10 +461,11 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
     m_ActionId: af720142-01e4-43bb-a8a8-3725b582fe55
-    m_ActionName: Running/Movement[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d,/XInputControllerWindows/leftStick]
+    m_ActionName: 'Running/Movement[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d,/XInputControllerWindows/leftStick]'
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 8244711337795581059}
+        m_TargetAssemblyTypeName: 
         m_MethodName: OnRunningLook
         m_Mode: 0
         m_Arguments:
@@ -445,10 +477,11 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
     m_ActionId: 28dfa16e-9758-4310-8265-3ef6cc506c06
-    m_ActionName: Running/Look[/Mouse/delta,/XInputControllerWindows/rightStick]
+    m_ActionName: 'Running/Look[/Mouse/delta,/XInputControllerWindows/rightStick]'
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 8244711337795581059}
+        m_TargetAssemblyTypeName: 
         m_MethodName: OnRunningJump
         m_Mode: 0
         m_Arguments:
@@ -460,10 +493,11 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
     m_ActionId: f70547e9-a07e-4ba0-b39b-eac63638aff3
-    m_ActionName: Running/Jump[/Keyboard/space,/XInputControllerWindows/buttonSouth,/XInputControllerWindows/rightShoulder,/XInputControllerWindows/rightTrigger]
+    m_ActionName: 'Running/Jump[/Keyboard/space,/XInputControllerWindows/buttonSouth,/XInputControllerWindows/rightShoulder,/XInputControllerWindows/rightTrigger]'
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 8244711337795581059}
+        m_TargetAssemblyTypeName: 
         m_MethodName: OnSwimmingMovement
         m_Mode: 0
         m_Arguments:
@@ -475,10 +509,11 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
     m_ActionId: aa76ede9-503b-4214-8054-ee5c598d8d69
-    m_ActionName: Swimming/Movement[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d,/XInputControllerWindows/leftStick]
+    m_ActionName: 'Swimming/Movement[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d,/XInputControllerWindows/leftStick]'
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 8244711337795581059}
+        m_TargetAssemblyTypeName: 
         m_MethodName: OnSwimmingLook
         m_Mode: 0
         m_Arguments:
@@ -490,10 +525,11 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
     m_ActionId: dc2077f4-76d7-4b2b-af80-fe480d983995
-    m_ActionName: Swimming/Look[/Mouse/delta,/XInputControllerWindows/rightStick]
+    m_ActionName: 'Swimming/Look[/Mouse/delta,/XInputControllerWindows/rightStick]'
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 8244711337795581059}
+        m_TargetAssemblyTypeName: 
         m_MethodName: OnBikingMovement
         m_Mode: 0
         m_Arguments:
@@ -505,10 +541,11 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
     m_ActionId: 1b71e55b-6f7c-411b-9ff6-dfee60f8c157
-    m_ActionName: Biking/Movement[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d,/XInputControllerWindows/leftStick]
+    m_ActionName: 'Biking/Movement[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d,/XInputControllerWindows/leftStick]'
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 8244711337795581059}
+        m_TargetAssemblyTypeName: 
         m_MethodName: OnBikingLook
         m_Mode: 0
         m_Arguments:
@@ -520,10 +557,11 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
     m_ActionId: f821413a-e5c4-442a-9a25-631d38f72d25
-    m_ActionName: Biking/Look[/Mouse/delta,/XInputControllerWindows/rightStick]
+    m_ActionName: 'Biking/Look[/Mouse/delta,/XInputControllerWindows/rightStick]'
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 8244711337795581059}
+        m_TargetAssemblyTypeName: 
         m_MethodName: OnJetpackingMovement
         m_Mode: 0
         m_Arguments:
@@ -535,10 +573,11 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
     m_ActionId: 007b87fc-44d8-42b7-aa9e-9ed20e045433
-    m_ActionName: Jetpacking/Movement[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d,/XInputControllerWindows/leftStick]
+    m_ActionName: 'Jetpacking/Movement[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d,/XInputControllerWindows/leftStick]'
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 8244711337795581059}
+        m_TargetAssemblyTypeName: 
         m_MethodName: OnJetpackingLook
         m_Mode: 0
         m_Arguments:
@@ -550,10 +589,11 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
     m_ActionId: 39edf10f-15e6-4ee5-9cdb-c4d1a7ef07e0
-    m_ActionName: Jetpacking/Look[/Mouse/delta,/XInputControllerWindows/rightStick]
+    m_ActionName: 'Jetpacking/Look[/Mouse/delta,/XInputControllerWindows/rightStick]'
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 8244711337795581059}
+        m_TargetAssemblyTypeName: 
         m_MethodName: OnJetpackingJump
         m_Mode: 0
         m_Arguments:
@@ -565,30 +605,31 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
     m_ActionId: e28d79d8-fa6f-432a-a85d-0a83b7757a64
-    m_ActionName: Jetpacking/Jump[/Keyboard/space,/XInputControllerWindows/buttonSouth,/XInputControllerWindows/rightShoulder,/XInputControllerWindows/rightTrigger]
+    m_ActionName: 'Jetpacking/Jump[/Keyboard/space,/XInputControllerWindows/buttonSouth,/XInputControllerWindows/rightShoulder,/XInputControllerWindows/rightTrigger]'
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: d2437af0-ae33-453f-b64c-9f16c35f1fd9
-    m_ActionName: Debug/SlowTime[/Keyboard/1]
+    m_ActionName: 'Debug/SlowTime[/Keyboard/1]'
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: b2043a1e-4252-4bec-afc1-6c92eb7096df
-    m_ActionName: Debug/Die[/Keyboard/r]
+    m_ActionName: 'Debug/Die[/Keyboard/r]'
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: 53c2239e-87c3-4e71-8351-c7e5e802ad56
-    m_ActionName: Debug/Exit[/Keyboard/escape]
+    m_ActionName: 'Debug/Exit[/Keyboard/escape]'
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: 5a1044ce-5bf2-4ffc-93c1-6bd0907ffc6a
-    m_ActionName: Driving/Steer[/Mouse/position/x]
+    m_ActionName: 'Driving/Steer[/Mouse/position/x]'
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: 499eaa70-296c-4cf6-a4b7-f81b58326225
-    m_ActionName: Driving/Accelerate[/Keyboard/anyKey]
+    m_ActionName: 'Driving/Accelerate[/Keyboard/anyKey]'
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 8244711337795581059}
+        m_TargetAssemblyTypeName: 
         m_MethodName: OnUseItem
         m_Mode: 0
         m_Arguments:
@@ -600,39 +641,39 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
     m_ActionId: ef2691be-aa54-4186-98f5-2335b106b0cd
-    m_ActionName: Running/Item[/Mouse/leftButton,/Mouse/rightButton,/Keyboard/e]
+    m_ActionName: 'Running/Item[/Mouse/leftButton,/Mouse/rightButton,/Keyboard/e]'
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: 914ccaad-d1b6-448a-aa17-bfed0d50f096
-    m_ActionName: UI/Navigate[/XInputControllerWindows/leftStick/up,/XInputControllerWindows/leftStick/up,/XInputControllerWindows/leftStick/up,/XInputControllerWindows/rightStick/up,/XInputControllerWindows/rightStick/up,/XInputControllerWindows/rightStick/up,/XInputControllerWindows/leftStick/down,/XInputControllerWindows/leftStick/down,/XInputControllerWindows/leftStick/down,/XInputControllerWindows/rightStick/down,/XInputControllerWindows/rightStick/down,/XInputControllerWindows/rightStick/down,/XInputControllerWindows/leftStick/left,/XInputControllerWindows/leftStick/left,/XInputControllerWindows/leftStick/left,/XInputControllerWindows/rightStick/left,/XInputControllerWindows/rightStick/left,/XInputControllerWindows/rightStick/left,/XInputControllerWindows/leftStick/right,/XInputControllerWindows/leftStick/right,/XInputControllerWindows/leftStick/right,/XInputControllerWindows/rightStick/right,/XInputControllerWindows/rightStick/right,/XInputControllerWindows/rightStick/right,/XInputControllerWindows/dpad,/XInputControllerWindows/dpad,/XInputControllerWindows/dpad,/Keyboard/w,/Keyboard/upArrow,/Keyboard/s,/Keyboard/downArrow,/Keyboard/a,/Keyboard/leftArrow,/Keyboard/d,/Keyboard/rightArrow]
+    m_ActionName: 'UI/Navigate[/XInputControllerWindows/leftStick/up,/XInputControllerWindows/leftStick/up,/XInputControllerWindows/leftStick/up,/XInputControllerWindows/rightStick/up,/XInputControllerWindows/rightStick/up,/XInputControllerWindows/rightStick/up,/XInputControllerWindows/leftStick/down,/XInputControllerWindows/leftStick/down,/XInputControllerWindows/leftStick/down,/XInputControllerWindows/rightStick/down,/XInputControllerWindows/rightStick/down,/XInputControllerWindows/rightStick/down,/XInputControllerWindows/leftStick/left,/XInputControllerWindows/leftStick/left,/XInputControllerWindows/leftStick/left,/XInputControllerWindows/rightStick/left,/XInputControllerWindows/rightStick/left,/XInputControllerWindows/rightStick/left,/XInputControllerWindows/leftStick/right,/XInputControllerWindows/leftStick/right,/XInputControllerWindows/leftStick/right,/XInputControllerWindows/rightStick/right,/XInputControllerWindows/rightStick/right,/XInputControllerWindows/rightStick/right,/XInputControllerWindows/dpad,/XInputControllerWindows/dpad,/XInputControllerWindows/dpad,/Keyboard/w,/Keyboard/upArrow,/Keyboard/s,/Keyboard/downArrow,/Keyboard/a,/Keyboard/leftArrow,/Keyboard/d,/Keyboard/rightArrow]'
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: 7dcf2fc1-0ad9-46fd-b0f5-a32d540b489b
-    m_ActionName: UI/Submit[/Keyboard/enter,/XInputControllerWindows/buttonSouth,/XInputControllerWindows/buttonSouth,/XInputControllerWindows/buttonSouth,/Keyboard/space,/Keyboard/e,/Mouse/leftButton]
+    m_ActionName: 'UI/Submit[/Keyboard/enter,/XInputControllerWindows/buttonSouth,/XInputControllerWindows/buttonSouth,/XInputControllerWindows/buttonSouth,/Keyboard/space,/Keyboard/e,/Mouse/leftButton]'
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: 055a5e64-a438-4358-970d-0829493f3ff6
-    m_ActionName: UI/Cancel[/Keyboard/escape,/XInputControllerWindows/buttonEast,/XInputControllerWindows/buttonEast,/XInputControllerWindows/buttonEast,/Keyboard/q,/Keyboard/backspace,/Mouse/rightButton]
+    m_ActionName: 'UI/Cancel[/Keyboard/escape,/XInputControllerWindows/buttonEast,/XInputControllerWindows/buttonEast,/XInputControllerWindows/buttonEast,/Keyboard/q,/Keyboard/backspace,/Mouse/rightButton]'
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: a3f75cd4-c236-401e-9fc0-22cf2ecd3ef6
-    m_ActionName: UI/Point[/Mouse/position]
+    m_ActionName: 'UI/Point[/Mouse/position]'
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: 1c758e42-a50f-4694-9a42-12b3244d6e55
-    m_ActionName: UI/Click[/Mouse/leftButton]
+    m_ActionName: 'UI/Click[/Mouse/leftButton]'
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: 8ac85c0e-811a-403e-97f4-519340a535f2
-    m_ActionName: UI/ScrollWheel[/Mouse/scroll]
+    m_ActionName: 'UI/ScrollWheel[/Mouse/scroll]'
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: abc1d2fe-217b-43fa-bceb-23d0fd6d8d87
-    m_ActionName: UI/MiddleClick[/Mouse/middleButton]
+    m_ActionName: 'UI/MiddleClick[/Mouse/middleButton]'
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: 34112baf-96d7-4181-93fc-baa935940ed0
-    m_ActionName: UI/RightClick[/Mouse/rightButton]
+    m_ActionName: 'UI/RightClick[/Mouse/rightButton]'
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: ce628d20-1a34-4599-ac11-feb69ce70ec6
@@ -644,10 +685,11 @@ MonoBehaviour:
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: 4d046d82-dee9-4aad-9911-0d2d4b95e0d1
-    m_ActionName: UI/ConfirmSelections[/XInputControllerWindows/start,/XInputControllerWindows/start,/XInputControllerWindows/start,/Keyboard/enter]
+    m_ActionName: 'UI/ConfirmSelections[/XInputControllerWindows/start,/XInputControllerWindows/start,/XInputControllerWindows/start,/Keyboard/enter]'
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 8244711337795581059}
+        m_TargetAssemblyTypeName: 
         m_MethodName: OnUseItem
         m_Mode: 0
         m_Arguments:
@@ -659,10 +701,11 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
     m_ActionId: 0149fb39-f34a-463f-8640-cd8d2e6e81c6
-    m_ActionName: Jetpacking/Item[/Mouse/leftButton,/Mouse/rightButton,/Keyboard/e,/XInputControllerWindows/leftTrigger,/XInputControllerWindows/leftShoulder]
+    m_ActionName: 'Jetpacking/Item[/Mouse/leftButton,/Mouse/rightButton,/Keyboard/e,/XInputControllerWindows/leftTrigger,/XInputControllerWindows/leftShoulder]'
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 8244711337795581059}
+        m_TargetAssemblyTypeName: 
         m_MethodName: OnUseItem
         m_Mode: 0
         m_Arguments:
@@ -674,10 +717,11 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
     m_ActionId: 16d034a3-e544-4d58-bd27-85c6c57919ac
-    m_ActionName: Swimming/Item[/Mouse/leftButton,/Mouse/rightButton,/Keyboard/e,/XInputControllerWindows/leftTrigger,/XInputControllerWindows/leftShoulder]
+    m_ActionName: 'Swimming/Item[/Mouse/leftButton,/Mouse/rightButton,/Keyboard/e,/XInputControllerWindows/leftTrigger,/XInputControllerWindows/leftShoulder]'
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 8244711337795581059}
+        m_TargetAssemblyTypeName: 
         m_MethodName: OnUseItem
         m_Mode: 0
         m_Arguments:
@@ -689,10 +733,11 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
     m_ActionId: 4d3b6522-357e-47ef-98d6-1c4a28657c3a
-    m_ActionName: Biking/Item[/Mouse/leftButton,/Mouse/rightButton,/Keyboard/e,/XInputControllerWindows/leftTrigger,/XInputControllerWindows/leftShoulder]
+    m_ActionName: 'Biking/Item[/Mouse/leftButton,/Mouse/rightButton,/Keyboard/e,/XInputControllerWindows/leftTrigger,/XInputControllerWindows/leftShoulder]'
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 8244711337795581059}
+        m_TargetAssemblyTypeName: 
         m_MethodName: OnFinishAnyKeyPressed
         m_Mode: 0
         m_Arguments:
@@ -704,10 +749,11 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
     m_ActionId: 1e61b774-894f-42a1-86e4-e7450cf49769
-    m_ActionName: FinishLine/AnyButton[/Keyboard/anyKey,/XInputControllerWindows/buttonEast,/XInputControllerWindows/buttonEast,/XInputControllerWindows/buttonNorth,/XInputControllerWindows/buttonNorth,/XInputControllerWindows/buttonSouth,/XInputControllerWindows/buttonSouth,/XInputControllerWindows/buttonWest,/XInputControllerWindows/buttonWest,/XInputControllerWindows/dpad/down,/XInputControllerWindows/dpad/down,/XInputControllerWindows/dpad/left,/XInputControllerWindows/dpad/left,/XInputControllerWindows/dpad/right,/XInputControllerWindows/dpad/right,/XInputControllerWindows/dpad/up,/XInputControllerWindows/dpad/up,/XInputControllerWindows/leftShoulder,/XInputControllerWindows/leftShoulder,/XInputControllerWindows/leftTrigger,/XInputControllerWindows/leftTrigger,/XInputControllerWindows/rightShoulder,/XInputControllerWindows/rightShoulder,/XInputControllerWindows/rightTrigger,/XInputControllerWindows/rightTrigger,/XInputControllerWindows/select,/XInputControllerWindows/select,/XInputControllerWindows/start,/XInputControllerWindows/start]
+    m_ActionName: 'FinishLine/AnyButton[/Keyboard/anyKey,/XInputControllerWindows/buttonEast,/XInputControllerWindows/buttonEast,/XInputControllerWindows/buttonNorth,/XInputControllerWindows/buttonNorth,/XInputControllerWindows/buttonSouth,/XInputControllerWindows/buttonSouth,/XInputControllerWindows/buttonWest,/XInputControllerWindows/buttonWest,/XInputControllerWindows/dpad/down,/XInputControllerWindows/dpad/down,/XInputControllerWindows/dpad/left,/XInputControllerWindows/dpad/left,/XInputControllerWindows/dpad/right,/XInputControllerWindows/dpad/right,/XInputControllerWindows/dpad/up,/XInputControllerWindows/dpad/up,/XInputControllerWindows/leftShoulder,/XInputControllerWindows/leftShoulder,/XInputControllerWindows/leftTrigger,/XInputControllerWindows/leftTrigger,/XInputControllerWindows/rightShoulder,/XInputControllerWindows/rightShoulder,/XInputControllerWindows/rightTrigger,/XInputControllerWindows/rightTrigger,/XInputControllerWindows/select,/XInputControllerWindows/select,/XInputControllerWindows/start,/XInputControllerWindows/start]'
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 8244711337795581059}
+        m_TargetAssemblyTypeName: 
         m_MethodName: OnRunningJump
         m_Mode: 0
         m_Arguments:
@@ -719,10 +765,11 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
     m_ActionId: a875ebe9-e0c2-43c7-983a-0bae5f117562
-    m_ActionName: Swimming/Jump[/Keyboard/space,/XInputControllerWindows/buttonSouth,/XInputControllerWindows/buttonSouth,/XInputControllerWindows/rightShoulder,/XInputControllerWindows/rightShoulder,/XInputControllerWindows/rightTrigger,/XInputControllerWindows/rightTrigger]
+    m_ActionName: 'Swimming/Jump[/Keyboard/space,/XInputControllerWindows/buttonSouth,/XInputControllerWindows/buttonSouth,/XInputControllerWindows/rightShoulder,/XInputControllerWindows/rightShoulder,/XInputControllerWindows/rightTrigger,/XInputControllerWindows/rightTrigger]'
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 8244711337795581059}
+        m_TargetAssemblyTypeName: 
         m_MethodName: OnRunningJump
         m_Mode: 0
         m_Arguments:
@@ -734,10 +781,11 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
     m_ActionId: f8a48a85-3d5c-4e1e-abe4-cad5333c83d0
-    m_ActionName: Biking/Jump[/Keyboard/space,/XInputControllerWindows/buttonSouth,/XInputControllerWindows/buttonSouth,/XInputControllerWindows/rightShoulder,/XInputControllerWindows/rightShoulder,/XInputControllerWindows/rightTrigger,/XInputControllerWindows/rightTrigger]
+    m_ActionName: 'Biking/Jump[/Keyboard/space,/XInputControllerWindows/buttonSouth,/XInputControllerWindows/buttonSouth,/XInputControllerWindows/rightShoulder,/XInputControllerWindows/rightShoulder,/XInputControllerWindows/rightTrigger,/XInputControllerWindows/rightTrigger]'
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 8244711337795581059}
+        m_TargetAssemblyTypeName: 
         m_MethodName: OnGlidingMovement
         m_Mode: 0
         m_Arguments:
@@ -749,10 +797,11 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
     m_ActionId: aaecb924-26d1-44cb-bae1-31260c43c112
-    m_ActionName: Gliding/Movement[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]
+    m_ActionName: 'Gliding/Movement[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]'
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 8244711337795581059}
+        m_TargetAssemblyTypeName: 
         m_MethodName: OnGlidingLook
         m_Mode: 0
         m_Arguments:
@@ -764,10 +813,11 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
     m_ActionId: 41d9a18c-c54d-47c7-bf00-da9ded5c4cd6
-    m_ActionName: Gliding/Look[/Mouse/delta,/Keyboard/upArrow,/Keyboard/downArrow,/Keyboard/leftArrow,/Keyboard/rightArrow]
+    m_ActionName: 'Gliding/Look[/Mouse/delta,/Keyboard/upArrow,/Keyboard/downArrow,/Keyboard/leftArrow,/Keyboard/rightArrow]'
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 8244711337795581059}
+        m_TargetAssemblyTypeName: 
         m_MethodName: OnGlidingJump
         m_Mode: 0
         m_Arguments:
@@ -779,10 +829,11 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
     m_ActionId: 8cce56db-f7ec-4877-b0d2-286b6f4518b3
-    m_ActionName: Gliding/Jump[/Keyboard/space]
+    m_ActionName: 'Gliding/Jump[/Keyboard/space]'
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 8244711337795581059}
+        m_TargetAssemblyTypeName: 
         m_MethodName: OnUseItem
         m_Mode: 0
         m_Arguments:
@@ -794,14 +845,15 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
     m_ActionId: d0cd7e6e-93be-4877-9a32-25b601e59038
-    m_ActionName: Gliding/Item[/Mouse/leftButton,/Mouse/rightButton,/Keyboard/e]
+    m_ActionName: 'Gliding/Item[/Mouse/leftButton,/Mouse/rightButton,/Keyboard/e]'
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: e0afb77e-b807-4147-b245-1d66e2501afd
-    m_ActionName: UI/QualityCycle[/Keyboard/p]
+    m_ActionName: 'UI/QualityCycle[/Keyboard/p]'
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 8244711337795581059}
+        m_TargetAssemblyTypeName: 
         m_MethodName: OnStartButton
         m_Mode: 0
         m_Arguments:
@@ -813,10 +865,11 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
     m_ActionId: ccc71fe4-f5be-4c0e-aae3-da6c764f5c8b
-    m_ActionName: Running/StartButton[/XInputControllerWindows/start]
+    m_ActionName: 'Running/StartButton[/XInputControllerWindows/start]'
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 8244711337795581059}
+        m_TargetAssemblyTypeName: 
         m_MethodName: OnStartButton
         m_Mode: 0
         m_Arguments:
@@ -828,10 +881,11 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
     m_ActionId: 54ced5f3-5d98-4ca2-aacb-665c614caed6
-    m_ActionName: Jetpacking/StartButton[/XInputControllerWindows/start]
+    m_ActionName: 'Jetpacking/StartButton[/XInputControllerWindows/start]'
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 8244711337795581059}
+        m_TargetAssemblyTypeName: 
         m_MethodName: OnStartButton
         m_Mode: 0
         m_Arguments:
@@ -843,10 +897,11 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
     m_ActionId: a96d992e-15df-4205-a7a2-11ed628c787b
-    m_ActionName: Gliding/StartButton[/XInputControllerWindows/start]
+    m_ActionName: 'Gliding/StartButton[/XInputControllerWindows/start]'
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 8244711337795581059}
+        m_TargetAssemblyTypeName: 
         m_MethodName: OnStartButton
         m_Mode: 0
         m_Arguments:
@@ -858,10 +913,11 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
     m_ActionId: db902f0c-25ce-491b-bd43-d55af91c2799
-    m_ActionName: Swimming/StartButton[/XInputControllerWindows/start]
+    m_ActionName: 'Swimming/StartButton[/XInputControllerWindows/start]'
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 8244711337795581059}
+        m_TargetAssemblyTypeName: 
         m_MethodName: OnStartButton
         m_Mode: 0
         m_Arguments:
@@ -873,7 +929,31 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
     m_ActionId: dd9cd317-9913-41d4-bcb4-d72986e6f590
-    m_ActionName: Biking/StartButton[/XInputControllerWindows/start]
+    m_ActionName: 'Biking/StartButton[/XInputControllerWindows/start]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: cb62c28c-9c87-4522-8171-0269db036339
+    m_ActionName: 'UI/AnyKey[/Keyboard/anyKey]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: e99a6ccd-f999-40e9-be17-843e55038031
+    m_ActionName: 'Greeenscreen/Move[/Keyboard/e,/Keyboard/q,/Keyboard/a,/Keyboard/d,/Keyboard/w,/Keyboard/s]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: bdb34a0f-8848-43dc-8268-af7016ccb30e
+    m_ActionName: 'Greeenscreen/TakeSnapshot[/Keyboard/enter]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 3d8207c7-4bf9-41c6-a660-ea85417013f7
+    m_ActionName: 'Greeenscreen/Scrub[/Keyboard/leftArrow,/Keyboard/rightArrow]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: eb5198b9-1fa4-419f-a9e9-1eceb9c280cb
+    m_ActionName: 'Greeenscreen/SwapTarget[/Keyboard/1]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 75d58191-eca0-4021-b788-0b5c5f1b87a3
+    m_ActionName: 'Greeenscreen/SwapControl[/Keyboard/2]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Running
@@ -925,12 +1005,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8244711338096261888}
+  serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8244711338464207041}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &8244711338096261892
 MeshFilter:
@@ -951,10 +1032,15 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -979,6 +1065,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &8244711338194129135
 GameObject:
   m_ObjectHideFlags: 0
@@ -1004,12 +1091,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8244711338194129135}
+  serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071067}
   m_LocalPosition: {x: -0.00049877167, y: 0.65418863, z: -0.2750492}
   m_LocalScale: {x: 0.01, y: 0.009999998, z: 0.009999998}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8244711338614865520}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &8244711338194129120
 MeshFilter:
@@ -1030,10 +1118,15 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -1058,6 +1151,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &8244711338464207054
 GameObject:
   m_ObjectHideFlags: 0
@@ -1081,9 +1175,11 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8244711338464207054}
+  serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8244711338096261891}
   - {fileID: 8244711339232506368}
@@ -1095,7 +1191,6 @@ Transform:
   - {fileID: 8244711338787630867}
   - {fileID: 8244711339644969735}
   m_Father: {fileID: 8244711339753046579}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8244711338612584002
 GameObject:
@@ -1122,12 +1217,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8244711338612584002}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0.12516819, y: -0.00023914337, z: -0.20602621}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8244711338771119430}
-  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &8244711338612584007
 MeshFilter:
@@ -1148,10 +1244,15 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -1176,6 +1277,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &8244711338614865521
 GameObject:
   m_ObjectHideFlags: 0
@@ -1201,13 +1303,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8244711338614865521}
+  serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: -0.6568737, z: 0.2684803}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8244711338194129134}
   m_Father: {fileID: 8244711339232506368}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &8244711338614865522
 MeshFilter:
@@ -1228,10 +1331,15 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -1256,6 +1364,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &8244711338771119431
 GameObject:
   m_ObjectHideFlags: 0
@@ -1281,14 +1390,15 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8244711338771119431}
+  serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0.45803213, z: 0.0007019043}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8244711338800676381}
   - {fileID: 8244711338612584005}
   m_Father: {fileID: 8244711338464207041}
-  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &8244711338771119448
 MeshFilter:
@@ -1309,10 +1419,15 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -1337,6 +1452,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &8244711338780130796
 GameObject:
   m_ObjectHideFlags: 0
@@ -1362,12 +1478,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8244711338780130796}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -5}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8244711339647602192}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!20 &8244711338780130785
 Camera:
@@ -1383,9 +1500,17 @@ Camera:
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
+  m_Iso: 200
+  m_ShutterSpeed: 0.005
+  m_Aperture: 16
+  m_FocusDistance: 10
+  m_FocalLength: 50
+  m_BladeCount: 5
+  m_Curvature: {x: 2, y: 11}
+  m_BarrelClipping: 0.25
+  m_Anamorphism: 0
   m_SensorSize: {x: 36, y: 24}
   m_LensShift: {x: 0, y: 0}
-  m_FocalLength: 50
   m_NormalizedViewPortRect:
     serializedVersion: 2
     x: 0
@@ -1445,13 +1570,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8244711338787630864}
+  serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0.47242498, z: -0.6109638}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8244711337794774316}
   m_Father: {fileID: 8244711338464207041}
-  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &8244711338787630869
 MeshFilter:
@@ -1472,10 +1598,15 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -1500,6 +1631,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &8244711338800676378
 GameObject:
   m_ObjectHideFlags: 0
@@ -1525,12 +1657,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8244711338800676378}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -0.08624926, y: 0.00023899077, z: 0.20602626}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8244711338771119430}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &8244711338800676383
 MeshFilter:
@@ -1551,10 +1684,15 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -1579,6 +1717,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &8244711339095994309
 GameObject:
   m_ObjectHideFlags: 0
@@ -1604,12 +1743,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8244711339095994309}
+  serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 1.104, z: -0.222}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8244711338464207041}
-  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &8244711339095994310
 MeshFilter:
@@ -1630,10 +1770,15 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -1658,6 +1803,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &8244711339148083934
 GameObject:
   m_ObjectHideFlags: 0
@@ -1683,12 +1829,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8244711339148083934}
+  serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0.07105827, y: 0.4580319, z: 0.0007019043}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8244711338464207041}
-  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &8244711339148083923
 MeshFilter:
@@ -1709,10 +1856,15 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -1737,6 +1889,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &8244711339224973439
 GameObject:
   m_ObjectHideFlags: 0
@@ -1762,12 +1915,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8244711339224973439}
+  serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0.10184097, y: 0.4754784, z: -0.6106329}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8244711338464207041}
-  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &8244711339224973424
 MeshFilter:
@@ -1788,10 +1942,15 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -1816,6 +1975,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &8244711339232506383
 GameObject:
   m_ObjectHideFlags: 0
@@ -1841,13 +2001,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8244711339232506383}
+  serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 1.1292982, z: 0.61112213}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8244711338614865520}
   m_Father: {fileID: 8244711338464207041}
-  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &8244711339232506369
 MeshFilter:
@@ -1868,10 +2029,15 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -1896,6 +2062,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &8244711339287926592
 GameObject:
   m_ObjectHideFlags: 0
@@ -1921,12 +2088,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8244711339287926592}
+  serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0.072206974, y: 0.4423175, z: 0.0029907227}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8244711338464207041}
-  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &8244711339287926597
 MeshFilter:
@@ -1947,10 +2115,15 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -1975,6 +2148,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &8244711339644969732
 GameObject:
   m_ObjectHideFlags: 0
@@ -1998,12 +2172,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8244711339644969732}
+  serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0.058999956, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8244711338464207041}
-  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8244711339647602206
 GameObject:
@@ -2029,13 +2204,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8244711339647602206}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 1.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8244711338780130799}
   m_Father: {fileID: 8244711337795581063}
-  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8244711339647602193
 MonoBehaviour:
@@ -2055,6 +2231,8 @@ MonoBehaviour:
   layerMask:
     serializedVersion: 2
     m_Bits: 1587
+  zoomedOutFOV: 75
+  camera: {fileID: 0}
 --- !u!1 &8244711339753046576
 GameObject:
   m_ObjectHideFlags: 0
@@ -2079,13 +2257,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8244711339753046576}
+  serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8244711338464207041}
   m_Father: {fileID: 8244711337795581063}
-  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!136 &3130986685506528791
 CapsuleCollider:
@@ -2095,8 +2274,17 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8244711339753046576}
   m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
   m_IsTrigger: 0
+  m_ProvidesContacts: 0
   m_Enabled: 1
+  serializedVersion: 2
   m_Radius: 0.3806839
   m_Height: 1.9509583
   m_Direction: 2
@@ -2106,6 +2294,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 8244711337795581063}
     m_Modifications:
     - target: {fileID: 6094957954013825189, guid: 85f80155dabc3cb42899cef7f43aaa21,
@@ -2169,10 +2358,17 @@ PrefabInstance:
       value: Beau Buckman
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 4877596993200197450, guid: 85f80155dabc3cb42899cef7f43aaa21,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7535929928808608140}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 85f80155dabc3cb42899cef7f43aaa21, type: 3}
---- !u!4 &6137163150306649255 stripped
+--- !u!4 &1035494740087456732 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: 4877596993200197450, guid: 85f80155dabc3cb42899cef7f43aaa21,
+  m_CorrespondingSourceObject: {fileID: 1785098066284636209, guid: 85f80155dabc3cb42899cef7f43aaa21,
     type: 3}
   m_PrefabInstance: {fileID: 1628932803432492013}
   m_PrefabAsset: {fileID: 0}
@@ -2182,23 +2378,153 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1628932803432492013}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &1035494740087456732 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1785098066284636209, guid: 85f80155dabc3cb42899cef7f43aaa21,
-    type: 3}
-  m_PrefabInstance: {fileID: 1628932803432492013}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &4759885026470699848 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6094957954013825189, guid: 85f80155dabc3cb42899cef7f43aaa21,
     type: 3}
   m_PrefabInstance: {fileID: 1628932803432492013}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &6137163150306649255 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4877596993200197450, guid: 85f80155dabc3cb42899cef7f43aaa21,
+    type: 3}
+  m_PrefabInstance: {fileID: 1628932803432492013}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &2835512742570420833
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 8244711337795581063}
+    m_Modifications:
+    - target: {fileID: 3280244004702961378, guid: 2de82fdb6e1ca5a4e9a18467566d9ee5,
+        type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 8244711338780130785}
+    - target: {fileID: 7755940526432489326, guid: 2de82fdb6e1ca5a4e9a18467566d9ee5,
+        type: 3}
+      propertyPath: m_Name
+      value: VFX
+      objectReference: {fileID: 0}
+    - target: {fileID: 7884226173693947357, guid: 2de82fdb6e1ca5a4e9a18467566d9ee5,
+        type: 3}
+      propertyPath: m_Pivot.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7884226173693947357, guid: 2de82fdb6e1ca5a4e9a18467566d9ee5,
+        type: 3}
+      propertyPath: m_Pivot.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7884226173693947357, guid: 2de82fdb6e1ca5a4e9a18467566d9ee5,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7884226173693947357, guid: 2de82fdb6e1ca5a4e9a18467566d9ee5,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7884226173693947357, guid: 2de82fdb6e1ca5a4e9a18467566d9ee5,
+        type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7884226173693947357, guid: 2de82fdb6e1ca5a4e9a18467566d9ee5,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7884226173693947357, guid: 2de82fdb6e1ca5a4e9a18467566d9ee5,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7884226173693947357, guid: 2de82fdb6e1ca5a4e9a18467566d9ee5,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7884226173693947357, guid: 2de82fdb6e1ca5a4e9a18467566d9ee5,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7884226173693947357, guid: 2de82fdb6e1ca5a4e9a18467566d9ee5,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7884226173693947357, guid: 2de82fdb6e1ca5a4e9a18467566d9ee5,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7884226173693947357, guid: 2de82fdb6e1ca5a4e9a18467566d9ee5,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7884226173693947357, guid: 2de82fdb6e1ca5a4e9a18467566d9ee5,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7884226173693947357, guid: 2de82fdb6e1ca5a4e9a18467566d9ee5,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7884226173693947357, guid: 2de82fdb6e1ca5a4e9a18467566d9ee5,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7884226173693947357, guid: 2de82fdb6e1ca5a4e9a18467566d9ee5,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7884226173693947357, guid: 2de82fdb6e1ca5a4e9a18467566d9ee5,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7884226173693947357, guid: 2de82fdb6e1ca5a4e9a18467566d9ee5,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7884226173693947357, guid: 2de82fdb6e1ca5a4e9a18467566d9ee5,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7884226173693947357, guid: 2de82fdb6e1ca5a4e9a18467566d9ee5,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 2de82fdb6e1ca5a4e9a18467566d9ee5, type: 3}
+--- !u!224 &5346799969093126076 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 7884226173693947357, guid: 2de82fdb6e1ca5a4e9a18467566d9ee5,
+    type: 3}
+  m_PrefabInstance: {fileID: 2835512742570420833}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8953805450237485438
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 8244711337795581063}
     m_Modifications:
     - target: {fileID: 633436605127484506, guid: 370b3844169253345bb455bc48ccf436,
@@ -2326,6 +2652,71 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1332530023784947077, guid: 370b3844169253345bb455bc48ccf436,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1332530023784947077, guid: 370b3844169253345bb455bc48ccf436,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1332530023784947077, guid: 370b3844169253345bb455bc48ccf436,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1332530023784947077, guid: 370b3844169253345bb455bc48ccf436,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1332530023784947077, guid: 370b3844169253345bb455bc48ccf436,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1332530023784947077, guid: 370b3844169253345bb455bc48ccf436,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5295057972630974289, guid: 370b3844169253345bb455bc48ccf436,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5295057972630974289, guid: 370b3844169253345bb455bc48ccf436,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5295057972630974289, guid: 370b3844169253345bb455bc48ccf436,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5295057972630974289, guid: 370b3844169253345bb455bc48ccf436,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5295057972630974289, guid: 370b3844169253345bb455bc48ccf436,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5295057972630974289, guid: 370b3844169253345bb455bc48ccf436,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6414606068596098939, guid: 370b3844169253345bb455bc48ccf436,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8158774215174382864, guid: 370b3844169253345bb455bc48ccf436,
         type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -2342,6 +2733,9 @@ PrefabInstance:
       value: -96.56787
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 370b3844169253345bb455bc48ccf436, type: 3}
 --- !u!224 &8397002884507944229 stripped
 RectTransform:
@@ -2354,6 +2748,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 6137163150306649255}
     m_Modifications:
     - target: {fileID: 1684698878278103201, guid: c1a7b57f67ffe8f438bf7533802ed56a,
@@ -2422,10 +2817,19 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c1a7b57f67ffe8f438bf7533802ed56a, type: 3}
 --- !u!1 &5844753342171291460 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3380229496202944105, guid: c1a7b57f67ffe8f438bf7533802ed56a,
+    type: 3}
+  m_PrefabInstance: {fileID: 9220065684788920621}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &7535929928808608140 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1684698878278103201, guid: c1a7b57f67ffe8f438bf7533802ed56a,
     type: 3}
   m_PrefabInstance: {fileID: 9220065684788920621}
   m_PrefabAsset: {fileID: 0}
