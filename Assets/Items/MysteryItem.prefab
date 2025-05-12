@@ -57,6 +57,8 @@ MonoBehaviour:
   - {fileID: 3221625452017113945, guid: cd3e5c0d9eee8fa478734f53aa9a8288, type: 3}
   - {fileID: 6423417147724116086, guid: 1648598ea5bc0604d82c098c15732d40, type: 3}
   - {fileID: 6423417147724116086, guid: dd6c7c0bc0cdaca4eb4671a9297bc785, type: 3}
+  - {fileID: -210101328667819825, guid: 63a4e9b0293193540a79f0d9977237cf, type: 3}
+  - {fileID: 3665018412899956864, guid: 06563509c052b6a428834b8bec33fb3b, type: 3}
   lift: 0.4
   liftTime: 3
   animationCurve:
