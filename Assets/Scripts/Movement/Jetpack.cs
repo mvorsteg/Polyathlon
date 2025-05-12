@@ -222,7 +222,8 @@ public class Jetpack : Movement
     /*  grounds the player after a jump is complete */
     public override void Land()
     {
-        grounded = true;
+        base.Land();
+        
         landable = false;
         anim.SetTrigger("land");
         smoothSpeed = new Vector3(rb.linearVelocity.x, 0, rb.linearVelocity.z).magnitude;

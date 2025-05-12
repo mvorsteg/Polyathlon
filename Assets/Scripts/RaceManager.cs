@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -36,6 +37,8 @@ public class RaceManager : MonoBehaviour
 
     public GameObject dummyUI;
 
+    private GameObject contingencyItems;
+
     public static float Time { get => instance.time; }
     public static bool IsRaceActive { get => instance.isRaceActive; }
     public GameObject raceCourseTester;
@@ -52,6 +55,7 @@ public class RaceManager : MonoBehaviour
     private void Awake()
     {
         instance = this;
+        
         if (!dontAddRacers)
         {
             // race starter code
@@ -132,14 +136,15 @@ public class RaceManager : MonoBehaviour
     private void Start() 
     {
         racers = FindObjectsByType<Racer>(FindObjectsSortMode.None);
+        positions = new List<(Racer, int, float)>(racers.Length);
+        finalPositions = new List<(Racer, float)>(racers.Length);
+        
         if (!isTrainingCourse)
         {
             foreach(Racer r in racers)
             {
                 r.nextCheckpoint = chain.GetFirstCheckpoint();
             }
-            positions = new List<(Racer, int, float)>(racers.Length);
-            finalPositions = new List<(Racer, float)>(racers.Length);
         }
         if (resultsText != null)
             resultsText.SetActive(false);
@@ -152,6 +157,12 @@ public class RaceManager : MonoBehaviour
         if (menuText != null)
             menuText.gameObject.SetActive(false);
         canLoadMenu = true;
+
+        
+        // see if there are contingency items in this scene and disable them if there are
+        // for example, jetpacks
+        contingencyItems = GameObject.FindWithTag("ContingencyItems");
+        ActivateContingencyItems(false);
     }
 
     private void Update()
@@ -304,6 +315,15 @@ public class RaceManager : MonoBehaviour
         }
     }
 
+    public static void ActivateContingencyItems(bool value)
+    {
+        // activate contingency items as soon as someone is targeted
+        if (instance.contingencyItems != null)
+        {
+            instance.contingencyItems.SetActive(value);
+        }
+    }
+
     /*  if it looks stupid but it works, it ain't stupid */
     public static Racer GetRacerOtherThanThisOne(Racer racer)
     {
@@ -321,7 +341,9 @@ public class RaceManager : MonoBehaviour
         float closestDist = float.MaxValue;
         foreach (Racer otherRacer in instance.racers)
         {
-            if (otherRacer != racer && (IsTrainingCourse || otherRacer.place < racer.place))
+            int myPlace = GetPosition(racer);
+            int otherPlace = GetPosition(otherRacer);
+            if (otherRacer != racer && (IsTrainingCourse || otherPlace < myPlace))
             {
                 float dist = Vector3.Distance(racer.transform.position, otherRacer.transform.position);
                 if (dist < closestDist)
@@ -334,18 +356,53 @@ public class RaceManager : MonoBehaviour
         return closestRacer;
     }
 
+    public static Racer GetClosestRacer(Vector3 position)
+    {
+        Racer closestRacer = null;
+        float closestDist = float.MaxValue;
+        foreach (Racer otherRacer in instance.racers)
+        {
+            float dist = Vector3.Distance(position, otherRacer.transform.position);
+            if (dist < closestDist)
+            {
+                closestRacer = otherRacer;
+                closestDist = dist;
+            }
+        }
+        return closestRacer;
+    }
+
     public static Racer GetHighestRacerOtherThanThisOne(Racer racer)
     {
         Racer highestRacer = null;
         int highestPlace = int.MinValue;
         foreach (Racer otherRacer in instance.racers)
         {
-            if (otherRacer != racer && otherRacer.place < highestPlace)
+            int place = GetPosition(otherRacer);
+            if (otherRacer != racer && place < highestPlace)
             {
                 highestRacer = otherRacer;
-                highestPlace = otherRacer.place;
+                highestPlace = place;
             }
         }
         return highestRacer;
+    }
+
+    public static IEnumerable<Racer> GetRacersSortedByDistance(Vector3 refPosition)
+    {
+        // Dictionary<float, Racer> distancesAndRacers = new Dictionary<float, Racer>();
+        // foreach (Racer racer in instance.racers)
+        // {
+        //     float dist = Vector3.Distance(racer.transform.position, refPosition);
+
+        // }
+        List<Racer> sortedRacers = new List<Racer>();
+        foreach (Racer racer in instance.racers)
+        {
+            sortedRacers.Add(racer);
+        }
+        sortedRacers.Sort((x, y) => Vector3.Distance(x.transform.position, refPosition).CompareTo(Vector3.Distance(y.transform.position, refPosition)));
+        
+        return sortedRacers;
     }
 }

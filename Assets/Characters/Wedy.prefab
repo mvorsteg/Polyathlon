@@ -1,5 +1,37 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &151422088748011157
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7732829093447206060}
+  m_Layer: 10
+  m_Name: BackpackMount
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7732829093447206060
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 151422088748011157}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0.0000000037252894, y: -8.867572e-12, z: -1.15370796e-10,
+    w: 1}
+  m_LocalPosition: {x: -0, y: 0.107, z: -0.125}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6327231325009057018}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &411290081934538446
 GameObject:
   m_ObjectHideFlags: 0
@@ -3211,6 +3243,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 4818894700479046914}
+    - targetCorrespondingSourceObject: {fileID: 5943596449745776798, guid: 9ba9355e1357e9c4caec6020898b7bb5,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7732829093447206060}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 5626441515505511883, guid: 9ba9355e1357e9c4caec6020898b7bb5,
         type: 3}
@@ -4825,6 +4861,11 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 411290082489981888}
+    - target: {fileID: 4509535882284363597, guid: 2de82fdb6e1ca5a4e9a18467566d9ee5,
+        type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 3943170816534077982}
     - target: {fileID: 7755940526432489326, guid: 2de82fdb6e1ca5a4e9a18467566d9ee5,
         type: 3}
       propertyPath: m_Name

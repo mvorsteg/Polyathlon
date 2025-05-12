@@ -210,7 +210,8 @@ public class Glider : Movement
     /*  grounds the player after a jump is complete */
     public override void Land()
     {
-        grounded = true;
+        base.Land();
+        
         landable = false;
         gliding = false;
         rb.linearDamping = 0;

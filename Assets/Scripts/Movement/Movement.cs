@@ -68,6 +68,7 @@ public abstract class Movement : MonoBehaviour
     // used to determine when jumping can occur
     protected bool grounded = true;
     protected bool falling = false;
+    protected bool launched = false;
     
     public Vector3 Velocity { get => actualVelocity; set => velocity = value; }
     public bool Falling { get => falling; set => falling = value; } 
@@ -126,10 +127,22 @@ public abstract class Movement : MonoBehaviour
         racer.Revive();
     }
 
+    public virtual void Launch(Vector3 force)
+    {
+        launched = true;
+        rb.AddForce(force);
+    }
+
     /*  grounds the player after a jump is complete */
     public virtual void Land()
     {
-
+        grounded = true;
+        if (launched)
+        {
+            launched = false;
+            rb.linearVelocity = rb.linearVelocity.normalized * maxSpeed;
+        }
+        
     }
 
 

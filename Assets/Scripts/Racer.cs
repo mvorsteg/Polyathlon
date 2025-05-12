@@ -11,6 +11,7 @@ public class Racer : MonoBehaviour
 
     public Transform characterMesh;
     public Transform hips;
+    public Transform backpackMount;
 
     protected Item item;
     
@@ -71,7 +72,11 @@ public class Racer : MonoBehaviour
     protected virtual void Update()
     {
         if (!dead && RaceManager.IsRaceActive)
+        {
             movement.AddMovement(move.x, move.y);
+        }
+
+        Debug.DrawRay(transform.position, rb.linearVelocity.normalized * 3f, Color.green);
     }
 
     public virtual void StartRace()
@@ -201,6 +206,19 @@ public class Racer : MonoBehaviour
         StartCoroutine(RevivalEnabler());
     }
 
+    public virtual void ApplyJumpSplosion(Vector3 force)
+    {
+        switch (movementMode)
+        {
+            case Movement.Mode.Running:
+            {
+                movement.Jump(true);
+                movement.Launch(force);
+            }
+            break;
+        }
+    }
+
     protected virtual IEnumerator RevivalEnabler()
     {
         // Don't allow a revival until one second after we stop moving on the ground
@@ -208,7 +226,6 @@ public class Racer : MonoBehaviour
         yield return new WaitForSeconds(1.5f);
         canRevive = true;
         ReviveText();
-
     }
 
     protected virtual void ReviveText()
@@ -245,7 +262,6 @@ public class Racer : MonoBehaviour
     public void SpeedBoost()
     {
         StartCoroutine(SpeedBoost(2f, 5f));
-        EquipItem(null);
     }
 
     protected virtual IEnumerator SpeedBoost(float magnitude, float duration)

@@ -11,5 +11,6 @@ public class SpiedieItem : Item
     {
         racer.SpeedBoost();
         racer.PlayMiscSound(soundWhenUsed);
+        racer.EquipItem(null);
     }
 }
