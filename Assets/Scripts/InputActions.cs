@@ -2500,6 +2500,24 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""NextChar"",
+                    ""type"": ""Button"",
+                    ""id"": ""cb38bc19-e2bb-4936-a65b-b4c514ba1521"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""PrevChar"",
+                    ""type"": ""Button"",
+                    ""id"": ""74fb1003-5667-4873-9b79-c13a13ee12e4"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -2533,6 +2551,28 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Exit"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""49133641-7fbd-4489-ad9d-336b59b4eeeb"",
+                    ""path"": ""<Keyboard>/pageUp"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""NextChar"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2b7447ef-cb68-451f-8d5a-dd46b4d5b908"",
+                    ""path"": ""<Keyboard>/pageDown"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""PrevChar"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -3050,6 +3090,8 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         m_Debug_SlowTime = m_Debug.FindAction("SlowTime", throwIfNotFound: true);
         m_Debug_Die = m_Debug.FindAction("Die", throwIfNotFound: true);
         m_Debug_Exit = m_Debug.FindAction("Exit", throwIfNotFound: true);
+        m_Debug_NextChar = m_Debug.FindAction("NextChar", throwIfNotFound: true);
+        m_Debug_PrevChar = m_Debug.FindAction("PrevChar", throwIfNotFound: true);
         // Driving
         m_Driving = asset.FindActionMap("Driving", throwIfNotFound: true);
         m_Driving_Steer = m_Driving.FindAction("Steer", throwIfNotFound: true);
@@ -3674,6 +3716,8 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Debug_SlowTime;
     private readonly InputAction m_Debug_Die;
     private readonly InputAction m_Debug_Exit;
+    private readonly InputAction m_Debug_NextChar;
+    private readonly InputAction m_Debug_PrevChar;
     public struct DebugActions
     {
         private @InputActions m_Wrapper;
@@ -3681,6 +3725,8 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         public InputAction @SlowTime => m_Wrapper.m_Debug_SlowTime;
         public InputAction @Die => m_Wrapper.m_Debug_Die;
         public InputAction @Exit => m_Wrapper.m_Debug_Exit;
+        public InputAction @NextChar => m_Wrapper.m_Debug_NextChar;
+        public InputAction @PrevChar => m_Wrapper.m_Debug_PrevChar;
         public InputActionMap Get() { return m_Wrapper.m_Debug; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -3699,6 +3745,12 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @Exit.started += instance.OnExit;
             @Exit.performed += instance.OnExit;
             @Exit.canceled += instance.OnExit;
+            @NextChar.started += instance.OnNextChar;
+            @NextChar.performed += instance.OnNextChar;
+            @NextChar.canceled += instance.OnNextChar;
+            @PrevChar.started += instance.OnPrevChar;
+            @PrevChar.performed += instance.OnPrevChar;
+            @PrevChar.canceled += instance.OnPrevChar;
         }
 
         private void UnregisterCallbacks(IDebugActions instance)
@@ -3712,6 +3764,12 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @Exit.started -= instance.OnExit;
             @Exit.performed -= instance.OnExit;
             @Exit.canceled -= instance.OnExit;
+            @NextChar.started -= instance.OnNextChar;
+            @NextChar.performed -= instance.OnNextChar;
+            @NextChar.canceled -= instance.OnNextChar;
+            @PrevChar.started -= instance.OnPrevChar;
+            @PrevChar.performed -= instance.OnPrevChar;
+            @PrevChar.canceled -= instance.OnPrevChar;
         }
 
         public void RemoveCallbacks(IDebugActions instance)
@@ -3986,6 +4044,8 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         void OnSlowTime(InputAction.CallbackContext context);
         void OnDie(InputAction.CallbackContext context);
         void OnExit(InputAction.CallbackContext context);
+        void OnNextChar(InputAction.CallbackContext context);
+        void OnPrevChar(InputAction.CallbackContext context);
     }
     public interface IDrivingActions
     {

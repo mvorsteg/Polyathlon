@@ -2474,7 +2474,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemRespawnTime: 3
   consumable: 1
-  icon: {fileID: 21300000, guid: 19caf4c5475b2464fa4dbc4615993ca8, type: 3}
+  icon: {fileID: 21300000, guid: 4717186f184ebbd4b9f494e305d10460, type: 3}
   soundWhenUsed: {fileID: 0}
   child: {fileID: 874501438729854698}
 --- !u!114 &-8127840516003674183

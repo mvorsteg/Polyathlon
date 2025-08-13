@@ -307,6 +307,11 @@ public class PlayerController : Racer
         move = movePreserve;
     }
 
+    public void EnableDebugControls()
+    {
+        playerInput.actions.FindActionMap("Debug").Enable();
+    }
+
     protected override IEnumerator SpeedBoost(float magnitude, float duration)
     {
         vfx.SetSpeedLines(true);
