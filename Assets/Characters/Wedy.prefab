@@ -602,7 +602,7 @@ MonoBehaviour:
   - {fileID: 411290082333151928}
   characterMesh: {fileID: 4678043975615648533}
   hips: {fileID: 917488548753732481}
-  backpackMount: {fileID: 0}
+  backpackMount: {fileID: 7732829093447206060}
   place: 0
   dieThreshold: 40
   lastCheckpoint: {fileID: 0}
@@ -1254,6 +1254,14 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 75d58191-eca0-4021-b788-0b5c5f1b87a3
     m_ActionName: 'Greeenscreen/SwapControl[/Keyboard/2]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: cb38bc19-e2bb-4936-a65b-b4c514ba1521
+    m_ActionName: 'Debug/NextChar[/Keyboard/pageUp]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 74fb1003-5667-4873-9b79-c13a13ee12e4
+    m_ActionName: 'Debug/PrevChar[/Keyboard/pageDown]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Running

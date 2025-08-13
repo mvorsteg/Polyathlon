@@ -10,14 +10,13 @@
 /[Ll]ogs/
 /[Mm]emoryCaptures/
 
-<<<<<<< HEAD
 /[Aa]ssets/EasyRoads3D/html/
 /[Aa]ssets/[Pp]rivate/
-=======
 /[Aa]ssets/Imports/EasyRoads3D/html/
 /[Aa]ssets/Imports/Paid/
 /[Aa]ssets/Imports/Paid.meta
->>>>>>> 143b3751e572b12e00c57012329b6135e0a56336
+
+/[Uu]ser[Ss]ettings/
 
 # Asset meta data should only be ignored when the corresponding asset is also ignored
 !/[Aa]ssets/**/*.meta
@@ -68,6 +67,3 @@ sysinfo.txt
 crashlytics-build.properties
 
 debug.log
-UserSettings/EditorUserSettings.asset
-UserSettings/Layouts/CurrentMaximizeLayout.dwlt
-UserSettings/Layouts/default-6000.dwlt
