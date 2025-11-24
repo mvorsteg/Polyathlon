@@ -13,7 +13,7 @@ public class BackSentryItem : Item
         //if (!used)
         {
             //used = true;
-            BackSentryObject sentryObj = Instantiate(Child, racer.backpackMount).GetComponent<BackSentryObject>();
+            BackSentryObject sentryObj = racer.BackpackMount.backSentry;
             //sentryObj.target = RaceManager.GetClosestRacerAheadOfThisOne(racer);
             sentryObj.Initialize(racer);
 

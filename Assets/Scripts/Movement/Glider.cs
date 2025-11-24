@@ -6,9 +6,6 @@ using UnityEngine;
 [RequireComponent(typeof(CapsuleCollider))]
 public class Glider : Movement
 {
-
-    public GameObject glider;
-    public Transform characterHips;
     public float liftFactor = 10f;
     public float rollSpeed = 10f;
     public float pitchSpeed = 10f;
@@ -46,8 +43,14 @@ public class Glider : Movement
 
     public virtual void SetGlider(bool enabled)
     {
-        if (glider != null)
-            glider.SetActive(enabled);
+        if (enabled)
+        {
+            racer.BackpackMount.Equip(BackpackOptions.Glider);
+        }
+        else
+        {
+            racer.BackpackMount.Unequip(BackpackOptions.Glider);
+        }
         anim.SetBool("glide", enabled);
     }
 
@@ -108,8 +111,8 @@ public class Glider : Movement
             // don't move player, just roll and pitch
             if (forward != 0 || right != 0)
             {
-                characterMesh.RotateAround(characterHips.position, characterHips.right, pitchSpeed * right * Time.deltaTime);
-                characterMesh.RotateAround(characterHips.position, characterHips.up, rollSpeed * - forward * Time.deltaTime);
+                characterMesh.RotateAround(racer.hips.position, racer.hips.right, pitchSpeed * right * Time.deltaTime);
+                characterMesh.RotateAround(racer.hips.position, racer.hips.up, rollSpeed * - forward * Time.deltaTime);
             }
             RaycastHit hit;
             // allow exception to NPC from landable rule because their navmesh gets messed up otherwise

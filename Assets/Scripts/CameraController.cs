@@ -8,9 +8,8 @@ public class CameraController : MonoBehaviour
     const float defaultXMin = -40f;
     const float defaultXMax = 60f;
 
-    public Transform player;
+    private Transform characterHips;
     public Transform cameraTransform;
-    public Transform characterHips;
     public LayerMask layerMask; // probably want to ignore other players and lasers.
 
     private Quaternion cameraRotation;
@@ -34,7 +33,11 @@ public class CameraController : MonoBehaviour
     {
         cameraRotation = transform.localRotation;
         cameraOffset = cameraTransform.localPosition;
-        characterHips = player.GetComponent<Racer>().GetHips();
+        Racer player = GetComponentInParent<Racer>();
+        if (player != null)
+        {
+            characterHips = player.GetHips();
+        }
         defaultFOV = camera.fieldOfView;
         ResetXMinMax();
     }

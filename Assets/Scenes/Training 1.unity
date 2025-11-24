@@ -1555,6 +1555,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1967870424101688397, guid: bdfdda6e7e86ad24587445e5aa662c0f,
         type: 3}
+      propertyPath: respawnOnUse
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1967870424101688397, guid: bdfdda6e7e86ad24587445e5aa662c0f,
+        type: 3}
       propertyPath: dontAddRacers
       value: 0
       objectReference: {fileID: 0}

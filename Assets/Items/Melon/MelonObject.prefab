@@ -99,6 +99,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 0}
+  source: {fileID: 0}
+  throwSounds:
+  - {fileID: 8300000, guid: adabc970462c4144aaaaf802c8ed0d1a, type: 3}
+  - {fileID: 8300000, guid: d20b17156147f834285ca9ad341282da, type: 3}
   impactSounds:
   - {fileID: 8300000, guid: e58e8eea6fba87c4c86d09bfc70ee463, type: 3}
   - {fileID: 8300000, guid: 0c0218c3abbbbe541a5ba6a9e0da6aae, type: 3}

@@ -10,6 +10,9 @@ public class MelonObject : MonoBehaviour
     public Rigidbody source;
     
     [SerializeField]
+    protected List<AudioClip> throwSounds;
+    
+    [SerializeField]
     protected List<AudioClip> impactSounds;
 
     protected virtual void Awake() 
@@ -20,6 +23,11 @@ public class MelonObject : MonoBehaviour
     protected virtual void Start()
     {
         StartCoroutine(Despawn());
+        if (throwSounds.Count > 0)
+        {
+            AudioClip clip = throwSounds[Random.Range(0, throwSounds.Count)];
+            audioSource.PlayOneShot(clip);
+        }
     }
 
     /*  if you hit somebody, they die */

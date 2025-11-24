@@ -11,7 +11,6 @@ public class Racer : MonoBehaviour
 
     public Transform characterMesh;
     public Transform hips;
-    public Transform backpackMount;
 
     protected Item item;
     
@@ -20,6 +19,7 @@ public class Racer : MonoBehaviour
 
     protected Movement movement;
     protected Ragdoll ragdoll;
+    protected BackpackMount backpackMount;
     protected Rigidbody rb;
     protected Animator anim;
     protected AudioSource audioSource;
@@ -40,10 +40,11 @@ public class Racer : MonoBehaviour
     public AudioClip waterSound;
     public AudioClip equipSound;
 
+    public BackpackMount BackpackMount { get => backpackMount; }
 
     public float Speed
-    { 
-        get 
+    {
+        get
         {
             if (ragdoll.IsEnabled)
             {
@@ -56,11 +57,13 @@ public class Racer : MonoBehaviour
     protected virtual void Awake()
     {
         rb = GetComponent<Rigidbody>();
-        ragdoll = characterMesh.GetComponent<Ragdoll>();
+        ragdoll = GetComponentInChildren<Ragdoll>();
         anim = characterMesh.GetComponent<Animator>();
-        animEvents = characterMesh.GetComponent<PlayerAnimationEvents>();
+        animEvents = GetComponentInChildren<PlayerAnimationEvents>();
+
         //animOverride = GetComponent<AnimatorOverrideController>();
-        audioSource = characterMesh.GetComponent<AudioSource>();
+        audioSource = GetComponentInChildren<AudioSource>();
+        backpackMount = GetComponentInChildren<BackpackMount>();
     }
 
     protected virtual void Start() 
