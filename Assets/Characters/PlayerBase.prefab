@@ -1090,6 +1090,12 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: da035f00bd980f34a90a606b59b3dbb2, type: 3}
+--- !u!20 &84457364481031826 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 6156198436851047728, guid: da035f00bd980f34a90a606b59b3dbb2,
+    type: 3}
+  m_PrefabInstance: {fileID: 6071758682022798242}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &84457365482884450 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6156198438130757312, guid: da035f00bd980f34a90a606b59b3dbb2,
@@ -1132,6 +1138,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: VFX
       objectReference: {fileID: 0}
+    - target: {fileID: 7785471539622730386, guid: 2de82fdb6e1ca5a4e9a18467566d9ee5,
+        type: 3}
+      propertyPath: playerCam
+      value: 
+      objectReference: {fileID: 84457364481031826}
+    - target: {fileID: 7785471539622730386, guid: 2de82fdb6e1ca5a4e9a18467566d9ee5,
+        type: 3}
+      propertyPath: cameraSpaceCanvas
+      value: 
+      objectReference: {fileID: 2539661979881494388}
+    - target: {fileID: 7785471539622730386, guid: 2de82fdb6e1ca5a4e9a18467566d9ee5,
+        type: 3}
+      propertyPath: screenOverlayCanvas
+      value: 
+      objectReference: {fileID: 6841916318978251799}
     - target: {fileID: 7884226173693947357, guid: 2de82fdb6e1ca5a4e9a18467566d9ee5,
         type: 3}
       propertyPath: m_Pivot.x
@@ -1240,6 +1261,18 @@ PrefabInstance:
 --- !u!224 &718279922784106784 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 7884226173693947357, guid: 2de82fdb6e1ca5a4e9a18467566d9ee5,
+    type: 3}
+  m_PrefabInstance: {fileID: 7250146851499414781}
+  m_PrefabAsset: {fileID: 0}
+--- !u!224 &2539661979881494388 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 5161973151804736393, guid: 2de82fdb6e1ca5a4e9a18467566d9ee5,
+    type: 3}
+  m_PrefabInstance: {fileID: 7250146851499414781}
+  m_PrefabAsset: {fileID: 0}
+--- !u!224 &6841916318978251799 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 4210562746249349354, guid: 2de82fdb6e1ca5a4e9a18467566d9ee5,
     type: 3}
   m_PrefabInstance: {fileID: 7250146851499414781}
   m_PrefabAsset: {fileID: 0}

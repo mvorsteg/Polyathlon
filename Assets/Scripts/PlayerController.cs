@@ -312,6 +312,11 @@ public class PlayerController : Racer
         playerInput.actions.FindActionMap("Debug").Enable();
     }
 
+    public override void SetTarget(Transform target)
+    {
+        vfx.SetTarget(target);
+    }
+
     protected override IEnumerator SpeedBoost(float magnitude, float duration)
     {
         vfx.SetSpeedLines(true);

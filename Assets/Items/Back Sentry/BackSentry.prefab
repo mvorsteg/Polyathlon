@@ -51,6 +51,8 @@ MonoBehaviour:
   cannon: {fileID: 7295733299381465002}
   numberOfShots: 3
   waitTimeWhenFinished: 0.5
+  equipSounds:
+  - {fileID: 8300000, guid: 3cd1d6994e00f83438c484d32bd07a4b, type: 3}
 --- !u!114 &7295733299381465002
 MonoBehaviour:
   m_ObjectHideFlags: 0

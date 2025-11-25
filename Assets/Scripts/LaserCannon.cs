@@ -53,7 +53,12 @@ public class LaserCannon : MonoBehaviour
                     {
                         RaceManager.ActivateContingencyItems(true);
                     }
+                    if (owner != null)
+                    {
+                        owner.SetTarget(target);
+                    }
                     break;
+
                 }
             }
         }
@@ -98,16 +103,18 @@ public class LaserCannon : MonoBehaviour
                 // Determine how long to aim for before firing the cannon
                 float aimTime = Random.Range(1, 6);
                 float currentAimTime = 0;
+                Quaternion directionToTarget = cannon.rotation;
                 while (currentAimTime < aimTime)
                 {
                     // Estimate the target's future position by the time the laser reaches them based on their velocity and the laser's speed
                     Vector3 targetPosition = target.transform.position + target.GetComponent<Rigidbody>().linearVelocity * Vector3.Distance(target.transform.position, cannon.position) / laserSpeed;
                     // Calculate where to aim
-                    Quaternion direction = Quaternion.Slerp(cannon.rotation, Quaternion.LookRotation(targetPosition - cannon.position), Time.deltaTime * aimSpeed);
+                    directionToTarget = Quaternion.LookRotation(targetPosition - cannon.position);
+                    Quaternion cannonDirection = Quaternion.Slerp(cannon.rotation, Quaternion.LookRotation(targetPosition - cannon.position), Time.deltaTime * aimSpeed);
                     // Clamp the rotation so that the barrel doesn't clip through the platform
-                    if (direction.eulerAngles.x < 240 || direction.eulerAngles.x > 325)
+                    if (cannonDirection.eulerAngles.x < 240 || cannonDirection.eulerAngles.x > 325)
                     {
-                        cannon.rotation = direction;
+                        cannon.rotation = cannonDirection;
                     }
                     currentAimTime += Time.deltaTime;
                     
@@ -117,10 +124,14 @@ public class LaserCannon : MonoBehaviour
                 }
                 // Fire the cannon
                 cannonAudio.PlayOneShot(cannonFiring);
-                LaserBolt laser = Instantiate(projectile, 2 * cannon.forward + cannon.position, cannon.rotation).GetComponent<LaserBolt>();
+                LaserBolt laser = Instantiate(projectile, 2 * cannon.forward + cannon.position, directionToTarget).GetComponent<LaserBolt>();
                 laser.Initialize(laserSpeed, owner);
             }
             yield return null;
+        }
+        if (owner != null)
+        {
+            owner.SetTarget(null);
         }
     }
 

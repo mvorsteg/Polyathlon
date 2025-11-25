@@ -5,18 +5,52 @@ using UnityEngine.UI;
 
 public class VFX : MonoBehaviour
 {
+    [SerializeField] private RectTransform screenOverlayCanvas;
+    [SerializeField] private RectTransform cameraSpaceCanvas;
+    [SerializeField] private Camera playerCam;
     public GameObject speedLinesObj;
     public Image damageImage;
     public float damageFadeTime = 1f;
 
+    [SerializeField] private GameObject targetLockObj;
+    private Transform target;
+    private bool targeting;
+
     private void Start()
     {
         SetSpeedLines(false);   
+        SetTarget(null);
+    }
+
+    private void Update()
+    {
+        if (target != null && targeting)
+        {
+            Vector3 viewportPos = playerCam.WorldToViewportPoint(target.position);
+            Vector3 finalPosition = new Vector3(viewportPos.x * screenOverlayCanvas.sizeDelta.x, viewportPos.y * screenOverlayCanvas.sizeDelta.y, 0);
+
+            targetLockObj.transform.position = finalPosition;
+        }
     }
 
     public void SetSpeedLines(bool enable)
     {
         speedLinesObj.SetActive(enable);
+    }
+
+    public void SetTarget(Transform target)
+    {
+        this.target = target;
+        if (target == null)
+        {
+            targeting = false;
+            targetLockObj.SetActive(false);
+        }   
+        else
+        {
+            targeting = true;
+            targetLockObj.SetActive(true);
+        }
     }
 
     public void ShowDamage()

@@ -276,6 +276,11 @@ public class Racer : MonoBehaviour
         anim.speed = 1f;
     }
 
+    public virtual void SetTarget(Transform target)
+    {
+        // overridden in subclass
+    }
+
     public void DropItem()
     {
         float back = (movement is Bicycle ? 3f : 1f);
