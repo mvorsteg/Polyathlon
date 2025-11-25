@@ -48,6 +48,11 @@ public class TitleUI : BaseMenuUI
         mainMenuUI.TransitionToMode(MenuMode.Settings);
     }
 
+    public void OnCreditsClicked()
+    {
+        mainMenuUI.TransitionToMode(MenuMode.Credits);
+    }
+
     public void OnQuitClicked()
     {
 #if UNITY_EDITOR

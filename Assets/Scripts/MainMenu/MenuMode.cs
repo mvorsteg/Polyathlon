@@ -7,5 +7,6 @@ public enum MenuMode
     StageSelect,
     TrainingSelect,
     Settings,
+    Credits,
     Invalid,
 }
