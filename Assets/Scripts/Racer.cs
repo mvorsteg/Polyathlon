@@ -19,6 +19,7 @@ public class Racer : MonoBehaviour
 
     protected Movement movement;
     protected Ragdoll ragdoll;
+    protected BackpackMount backpackMount;
     protected Rigidbody rb;
     protected Animator anim;
     protected AudioSource audioSource;
@@ -39,10 +40,11 @@ public class Racer : MonoBehaviour
     public AudioClip waterSound;
     public AudioClip equipSound;
 
+    public BackpackMount BackpackMount { get => backpackMount; }
 
     public float Speed
-    { 
-        get 
+    {
+        get
         {
             if (ragdoll.IsEnabled)
             {
@@ -52,23 +54,32 @@ public class Racer : MonoBehaviour
         }
     }
 
-    protected virtual void Start() 
+    protected virtual void Awake()
     {
         rb = GetComponent<Rigidbody>();
-        ragdoll = characterMesh.GetComponent<Ragdoll>();
-        ragdoll.SetRagdoll(false);
+        ragdoll = GetComponentInChildren<Ragdoll>();
         anim = characterMesh.GetComponent<Animator>();
-        animEvents = characterMesh.GetComponent<PlayerAnimationEvents>();
+        animEvents = GetComponentInChildren<PlayerAnimationEvents>();
+
         //animOverride = GetComponent<AnimatorOverrideController>();
-        audioSource = characterMesh.GetComponent<AudioSource>();
+        audioSource = GetComponentInChildren<AudioSource>();
+        backpackMount = GetComponentInChildren<BackpackMount>();
+    }
+
+    protected virtual void Start() 
+    {
+        ragdoll.SetRagdoll(false);
         SetMovementMode(movementMode, true);
-        
     } 
 
     protected virtual void Update()
     {
         if (!dead && RaceManager.IsRaceActive)
+        {
             movement.AddMovement(move.x, move.y);
+        }
+
+        Debug.DrawRay(transform.position, rb.linearVelocity.normalized * 3f, Color.green);
     }
 
     public virtual void StartRace()
@@ -99,7 +110,7 @@ public class Racer : MonoBehaviour
         
     }
 
-    private void FixedUpdate() {
+    protected virtual void FixedUpdate() {
         velocityBeforePhysicsUpdate = rb.linearVelocity;
     }
 
@@ -198,6 +209,19 @@ public class Racer : MonoBehaviour
         StartCoroutine(RevivalEnabler());
     }
 
+    public virtual void ApplyJumpSplosion(Vector3 force)
+    {
+        switch (movementMode)
+        {
+            case Movement.Mode.Running:
+            {
+                movement.Jump(true);
+                movement.Launch(force);
+            }
+            break;
+        }
+    }
+
     protected virtual IEnumerator RevivalEnabler()
     {
         // Don't allow a revival until one second after we stop moving on the ground
@@ -205,7 +229,6 @@ public class Racer : MonoBehaviour
         yield return new WaitForSeconds(1.5f);
         canRevive = true;
         ReviveText();
-
     }
 
     protected virtual void ReviveText()
@@ -242,7 +265,6 @@ public class Racer : MonoBehaviour
     public void SpeedBoost()
     {
         StartCoroutine(SpeedBoost(2f, 5f));
-        EquipItem(null);
     }
 
     protected virtual IEnumerator SpeedBoost(float magnitude, float duration)
@@ -254,6 +276,11 @@ public class Racer : MonoBehaviour
         anim.speed = 1f;
     }
 
+    public virtual void SetTarget(Transform target)
+    {
+        // overridden in subclass
+    }
+
     public void DropItem()
     {
         float back = (movement is Bicycle ? 3f : 1f);
@@ -262,21 +289,29 @@ public class Racer : MonoBehaviour
         EquipItem(null);
     }
 
-    public void ThrowItem()
+    public void ThrowItem(Transform target)
     {
-        float up = (movement is Bicycle ? 5f : 1.5f);
-        Vector3 pos = transform.position + 2f * characterMesh.transform.forward + up * characterMesh.transform.up;
-        GameObject obj = Instantiate(item.Child, pos, Quaternion.identity);
-        Rigidbody itemRb = obj.GetComponent<Rigidbody>();
-        itemRb.linearVelocity = rb.linearVelocity;
-        itemRb.AddForce(1000 * (characterMesh.transform.forward + 0.1f * transform.up));
-        try {
-            StartCoroutine(obj.GetComponent<MelonObject>().Despawn());
-        }
-        catch {
+        // float up = movement is Bicycle ? 5f : 1.5f;
+        // Vector3 pos = transform.position + 2f * characterMesh.transform.forward + up * characterMesh.transform.up;
+        // GameObject obj = Instantiate(item.Child, pos, Quaternion.identity);
+        // Rigidbody itemRb = obj.GetComponent<Rigidbody>();
+        // itemRb.linearVelocity = rb.linearVelocity;
+        // itemRb.AddForce(1000 * (characterMesh.transform.forward + 0.1f * transform.up));
+        // try {
+        //     MelonObject melon = obj.GetComponent<MelonObject>();
+        //     melon.target = target;
+        //     StartCoroutine(melon.Despawn());
+        // }
+        // catch {
             
-        }
-        EquipItem(null);
+        // }
+        // EquipItem(null);
+    }
+
+    public Vector3 GetItemSpawnPos()
+    {
+        float up = movement is Bicycle ? 5f : 1.5f;
+        return transform.position + 2f * characterMesh.transform.forward + up * characterMesh.transform.up;
     }
 
     /*  plays a miscellaneus animation that is NOT defined in the animation controller */
@@ -285,6 +320,11 @@ public class Racer : MonoBehaviour
         animOverride["miscAnimation"] = clip;
         anim.runtimeAnimatorController = animOverride;
         anim.SetTrigger("misc");
+    }
+
+    public void PlayMiscSound(AudioClip clip)
+    {
+        audioSource.PlayOneShot(clip);
     }
 
     private void OnTriggerEnter(Collider other)

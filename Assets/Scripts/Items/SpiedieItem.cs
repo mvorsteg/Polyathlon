@@ -10,5 +10,7 @@ public class SpiedieItem : Item
     public override void Use(Racer racer)
     {
         racer.SpeedBoost();
+        racer.PlayMiscSound(soundWhenUsed);
+        racer.EquipItem(null);
     }
 }

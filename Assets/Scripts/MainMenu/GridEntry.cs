@@ -47,7 +47,8 @@ public class GridEntry : MonoBehaviour, IPointerEnterHandler
         for (int i = 0; i < maxTargets; i++)
         {
             GameObject newTarget = new GameObject(string.Format("Target {0}", i), typeof(RectTransform));
-            newTarget.transform.parent = targetParent;
+            //newTarget.transform.parent = targetParent;
+            newTarget.transform.SetParent(targetParent, false);
             if (newTarget.TryGetComponent(out RectTransform rt))
             {
                 targets.Add(rt);

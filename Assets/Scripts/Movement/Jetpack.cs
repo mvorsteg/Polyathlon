@@ -6,8 +6,6 @@ using UnityEngine;
 [RequireComponent(typeof(CapsuleCollider))]
 public class Jetpack : Movement
 {
-
-    public GameObject jetpack;
     public AudioClip thrustSound;
 
     protected ParticleSystem[] jetpackExhaust;
@@ -21,7 +19,7 @@ public class Jetpack : Movement
 
     private void Start()
     {
-        jetpackExhaust = jetpack.transform.GetComponentsInChildren<ParticleSystem>();    
+        jetpackExhaust = racer.BackpackMount.jetpack.transform.GetComponentsInChildren<ParticleSystem>();    
         audioSource = GetComponent<AudioSource>();
     }
 
@@ -50,8 +48,14 @@ public class Jetpack : Movement
 
     public virtual void SetJetpack(bool enabled)
     {
-        if (jetpack != null)
-            jetpack.SetActive(enabled);
+        if (enabled)
+        {
+            racer.BackpackMount.Equip(BackpackOptions.Jetpack);
+        }
+        else
+        {
+            racer.BackpackMount.Unequip(BackpackOptions.Jetpack);
+        }
         fireJetpack = false;
         anim.SetBool("jetpack", enabled);
     }
@@ -171,7 +175,7 @@ public class Jetpack : Movement
         // INTERRUPTABLE: if fireJetpack is false, exit
         while(fireJetpack && !racer.IsDead())
         {
-            rb.AddForce(jetpack.transform.up * jetpackForce * Time.deltaTime * bonusSpeed);
+            rb.AddForce(racer.BackpackMount.jetpack.transform.transform.up * jetpackForce * Time.deltaTime * bonusSpeed);
             rb.linearVelocity = Vector3.ClampMagnitude(rb.linearVelocity, jetpackSpeed * bonusSpeed);
             grounded = false;
             anim.SetTrigger("jump");
@@ -223,7 +227,8 @@ public class Jetpack : Movement
     /*  grounds the player after a jump is complete */
     public override void Land()
     {
-        grounded = true;
+        base.Land();
+        
         landable = false;
         // anim.SetTrigger("land");
         smoothSpeed = new Vector3(rb.linearVelocity.x, 0, rb.linearVelocity.z).magnitude;

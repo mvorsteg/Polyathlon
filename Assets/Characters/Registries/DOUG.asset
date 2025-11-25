@@ -16,8 +16,8 @@ MonoBehaviour:
   subtitle: Faster than escape velocity
   info: 
   icon: {fileID: 21300000, guid: 8888cf9b8befbd24ead25884ff64af3f, type: 3}
-  playerObj: {fileID: 411290082333151904, guid: b792ad72c8c7dae48aa9791d007e4bdb,
+  playerObj: {fileID: 2932940715433677652, guid: 573fe3e8f7ca9be41a4bfa179aa6928e,
     type: 3}
-  npcObj: {fileID: 5726297956981979253, guid: 291669b636b9cde439a642d753d146ad, type: 3}
+  npcObj: {fileID: 3571234533370028093, guid: 806c17af72673ad499d167716483d6d4, type: 3}
   previewObj: {fileID: 2950068046219622941, guid: 328a1197c4ce3a34db1c0dffcd3f291a,
     type: 3}
