@@ -130,6 +130,7 @@ public class Glider : Movement
         speed = Mathf.SmoothStep(speed, actualVelocity.magnitude, Time.deltaTime * 20);
     
         anim.SetFloat("speed", speed, dampTime, Time.deltaTime);
+        anim.SetBool("grounded", grounded);
         
     }
     
@@ -150,7 +151,7 @@ public class Glider : Movement
 
     private void BeginGliding()
     {
-        anim.ResetTrigger("land");
+        // anim.ResetTrigger("land");
         lastVelocity = new Vector3(0,0,0);
         grounded = false;
         gliding = true;
@@ -218,7 +219,7 @@ public class Glider : Movement
         landable = false;
         gliding = false;
         rb.linearDamping = 0;
-        anim.SetTrigger("land");
+        // anim.SetTrigger("land");
         smoothSpeed = new Vector3(rb.linearVelocity.x, 0, rb.linearVelocity.z).magnitude;
         smoothSpeedDirection = new Vector3(rb.linearVelocity.normalized.x, 0, rb.linearVelocity.normalized.z).normalized;
         if (racer is NPC)
@@ -253,5 +254,11 @@ public class Glider : Movement
                 rb.isKinematic = false;
             }
         }
+    }
+    
+    protected override void LateUpdate()
+    {
+        // Prevent short glider flights from happening twice due to a lingering trigger
+        anim.ResetTrigger("jump");
     }
 }

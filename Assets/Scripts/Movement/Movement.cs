@@ -148,8 +148,6 @@ public abstract class Movement : MonoBehaviour
 
     protected virtual void LateUpdate()
     {
-        //Debug.Log(falling);
-        // Prevent short jumps or jetpack flights from happening twice due to a lingering trigger
-        anim.ResetTrigger("jump");
+
     }
 }

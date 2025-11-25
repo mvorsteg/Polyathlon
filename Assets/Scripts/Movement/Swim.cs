@@ -54,21 +54,22 @@ public class Swim : Movement
 
         // moved from update
         if (velocity.magnitude > 0)
-            {
-                rb.linearVelocity = new Vector3(velocity.normalized.x * smoothSpeed, rb.linearVelocity.y, velocity.normalized.z * smoothSpeed);
-                smoothSpeed = Mathf.Lerp(smoothSpeed, maxSpeed * bonusSpeed, Time.deltaTime);
-                // rotate the character mesh if enabled
-                characterMesh.rotation = Quaternion.Lerp(characterMesh.rotation, Quaternion.LookRotation(velocity), Time.deltaTime * rotationSpeed);
-            }
-            else
-            {
-                smoothSpeed = Mathf.Lerp(smoothSpeed, 0, Time.deltaTime*8);
-            }
-            
-            // blend speed in animator to match pace of footsteps
-            // normal movement (character moves independent of camera)
-            speed = Mathf.SmoothStep(speed, actualVelocity.magnitude, Time.deltaTime * 20);
-            anim.SetFloat("speed", speed, dampTime, Time.deltaTime);
+        {
+            rb.linearVelocity = new Vector3(velocity.normalized.x * smoothSpeed, rb.linearVelocity.y, velocity.normalized.z * smoothSpeed);
+            smoothSpeed = Mathf.Lerp(smoothSpeed, maxSpeed * bonusSpeed, Time.deltaTime);
+            // rotate the character mesh if enabled
+            characterMesh.rotation = Quaternion.Lerp(characterMesh.rotation, Quaternion.LookRotation(velocity), Time.deltaTime * rotationSpeed);
+        }
+        else
+        {
+            smoothSpeed = Mathf.Lerp(smoothSpeed, 0, Time.deltaTime*8);
+        }
+        
+        // blend speed in animator to match pace of footsteps
+        // normal movement (character moves independent of camera)
+        speed = Mathf.SmoothStep(speed, actualVelocity.magnitude, Time.deltaTime * 20);
+        anim.SetFloat("speed", speed, dampTime, Time.deltaTime);
+        anim.SetBool("grounded", grounded);
     }
 
     
@@ -82,7 +83,5 @@ public class Swim : Movement
     public override void Land()
     {
         base.Land();
-        
-        anim.SetTrigger("land");
     }
 }

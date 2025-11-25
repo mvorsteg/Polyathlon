@@ -9,7 +9,6 @@ public class Run : Movement
     public float Direction { get => actualVelocity == Vector3.zero ? 0f : Mathf.Abs(Quaternion.LookRotation(actualVelocity, Vector3.up).eulerAngles.y - characterMesh.transform.rotation.eulerAngles.y); }
 
     private bool preventingJumpLock = false;
-
     protected override void OnEnable() 
     {
         base.OnEnable();
@@ -91,6 +90,7 @@ public class Run : Movement
         speed = Mathf.SmoothStep(speed, actualVelocity.magnitude, Time.deltaTime * 20);
     
         anim.SetFloat("speed", speed, dampTime, Time.deltaTime);
+        anim.SetBool("grounded", grounded);
         //Debug.Log("velocity" + velocity);
     }
 
@@ -129,7 +129,8 @@ public class Run : Movement
         {
             if (Physics.Linecast(transform.position + new Vector3(0, 0.1f, 0), transform.position + new Vector3(0, -0.1f, 0)))
             {
-                anim.ResetTrigger("land");
+                // anim.ResetTrigger("land");       
+
                 rb.AddForce(Vector3.up * jumpForce);
                 grounded = false;
                 falling = false;
@@ -144,6 +145,5 @@ public class Run : Movement
         base.Land();
 
         Debug.Log(gameObject.name + " has landed!!!");
-        anim.SetTrigger("land");
     }
 }
