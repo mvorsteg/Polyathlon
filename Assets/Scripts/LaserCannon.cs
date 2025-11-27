@@ -23,6 +23,7 @@ public class LaserCannon : MonoBehaviour
 
     [SerializeField] protected float laserSpeed = 120f;
     [SerializeField] protected float aimSpeed = 6f;
+    [SerializeField] protected float laserInstantiationOffsetFactor = 2f;
 
     private Vector3 targetPos;
 
@@ -126,7 +127,7 @@ public class LaserCannon : MonoBehaviour
                 }
                 // Fire the cannon
                 cannonAudio.PlayOneShot(cannonFiring);
-                LaserBolt laser = Instantiate(projectile, 2 * cannon.forward + cannon.position, directionToTarget).GetComponent<LaserBolt>();
+                LaserBolt laser = Instantiate(projectile, laserInstantiationOffsetFactor * cannon.forward + cannon.position, directionToTarget).GetComponent<LaserBolt>();
                 laser.Initialize(laserSpeed, owner);
             }
             yield return null;

@@ -34,19 +34,25 @@ public class LaserBolt : MonoBehaviour
     }
 
     // Kill the racer if we hit them
-    void OnCollisionEnter(Collision other)
+    void OnTriggerEnter(Collider other)
     {
         Racer racer = other.gameObject.GetComponentInParent<Racer>();
-        if (owner != null && racer != owner)
+        if (owner == null || (owner != null && racer != owner))
         {
             if (racer != null)
             {
                 racer.Die(true, Vector3.ClampMagnitude(rb.linearVelocity, impactVelMax));
+                Destroy(laserChild.gameObject);
+                rb.linearVelocity = Vector3.zero;
+                StartCoroutine(DestroyAfterPlayingSound());
             }
         }
-        Destroy(laserChild.gameObject);
-        rb.linearVelocity = Vector3.zero;
-        StartCoroutine(DestroyAfterPlayingSound());
+        if ((owner == null || owner != racer) && !other.isTrigger)
+        {
+            Destroy(laserChild.gameObject);
+            rb.linearVelocity = Vector3.zero;
+            StartCoroutine(DestroyAfterPlayingSound());
+        }
     }
 
     // Make sure the laser impact sound effect plays before we destory this
