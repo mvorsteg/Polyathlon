@@ -94,8 +94,10 @@ public class LaserCannon : MonoBehaviour
 
     public IEnumerator AimAndShootCoroutine(int numberOfShots)
     {
+        // including this to avoid race condition with racers list being instantiated
+        yield return null;
         for (int i = 0; i < numberOfShots || numberOfShots == -1; i++)
-        {
+        { 
             SelectTarget();
 
             if (target != null)
@@ -117,7 +119,7 @@ public class LaserCannon : MonoBehaviour
                         cannon.rotation = cannonDirection;
                     }
                     currentAimTime += Time.deltaTime;
-                    
+
                     Debug.DrawRay(2 * cannon.forward + cannon.position, cannon.forward * 50f, Color.red);
                     targetPos = targetPosition;
                     yield return null;
@@ -128,7 +130,7 @@ public class LaserCannon : MonoBehaviour
                 laser.Initialize(laserSpeed, owner);
             }
             yield return null;
-        }
+            }
         if (owner != null)
         {
             owner.SetTarget(null);
