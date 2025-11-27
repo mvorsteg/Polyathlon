@@ -94,7 +94,7 @@ public class LaserCannon : MonoBehaviour
 
     public IEnumerator AimAndShootCoroutine(int numberOfShots)
     {
-        for (int i = 0; i < numberOfShots; i++)
+        for (int i = 0; i < numberOfShots || numberOfShots == -1; i++)
         {
             SelectTarget();
 

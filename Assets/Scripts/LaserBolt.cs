@@ -43,10 +43,10 @@ public class LaserBolt : MonoBehaviour
             {
                 racer.Die(true, Vector3.ClampMagnitude(rb.linearVelocity, impactVelMax));
             }
-            Destroy(laserChild.gameObject);
-            rb.linearVelocity = Vector3.zero;
-            StartCoroutine(DestroyAfterPlayingSound());
         }
+        Destroy(laserChild.gameObject);
+        rb.linearVelocity = Vector3.zero;
+        StartCoroutine(DestroyAfterPlayingSound());
     }
 
     // Make sure the laser impact sound effect plays before we destory this

@@ -11,13 +11,7 @@ public class FloatingPlatform : MonoBehaviour
     float floatSpeed;
     
     public LaserCannon cannon;
-    public GameObject projectile;
     public Rigidbody[] propellers;
-    public AudioClip cannonFiring;
-    public bool shootAtGroundedPeople = true;
-    private AudioSource cannonAudio;
-    private Racer[] racers;
-    private Transform target;
     private Rigidbody rb;
     private bool activated = false;
 
@@ -37,7 +31,6 @@ public class FloatingPlatform : MonoBehaviour
         // (just set it as inactive if you wanna use this platform for peaceful purposes)
         if (cannon.gameObject.activeSelf)
         {
-            cannonAudio = cannon.GetComponent<AudioSource>();
             cannon.AimAndShoot(-1);
         }
     }

@@ -184,7 +184,6 @@ GameObject:
   - component: {fileID: 6469746845556076005}
   - component: {fileID: 2091692687344103846}
   - component: {fileID: 1082266860267768448}
-  - component: {fileID: 1983338508111063241}
   m_Layer: 9
   m_Name: FloatingPlatform
   m_TagString: Untagged
@@ -223,16 +222,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7204ffb2fc3a9048895bbed335f99b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cannon: {fileID: 5701212948523808297}
-  projectile: {fileID: 6639927415436989509, guid: b69a797d9ef2069498f75293a8e13a4f,
-    type: 3}
+  cannon: {fileID: 6360141600959007602}
   propellers:
   - {fileID: 3249932901391367304}
   - {fileID: 1418196578201775383}
   - {fileID: 1596469138608670255}
   - {fileID: 5690788000100304400}
-  cannonFiring: {fileID: 8300000, guid: 63c711644f858ef4db1849863b8a5364, type: 3}
-  shootAtGroundedPeople: 1
 --- !u!54 &2091692687344103846
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -357,24 +352,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &1983338508111063241
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3395362051903732706}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ca61f205f0620db439a426f96cbd421d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  owner: {fileID: 0}
-  cannon: {fileID: 8674597007237709384}
-  projectile: {fileID: 6639927415436989509, guid: b69a797d9ef2069498f75293a8e13a4f,
-    type: 3}
-  cannonFiring: {fileID: 8300000, guid: 63c711644f858ef4db1849863b8a5364, type: 3}
-  shootAtGroundedPeople: 1
 --- !u!1 &5775306952977344568
 GameObject:
   m_ObjectHideFlags: 0
@@ -384,7 +361,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5701212948523808297}
-  - component: {fileID: 2309109536358332283}
+  - component: {fileID: 7043237027142967402}
+  - component: {fileID: 6360141600959007602}
   m_Layer: 9
   m_Name: CannonMount
   m_TagString: Untagged
@@ -408,7 +386,7 @@ Transform:
   - {fileID: 8674597007237709384}
   m_Father: {fileID: 1118065098600109132}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!82 &2309109536358332283
+--- !u!82 &7043237027142967402
 AudioSource:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -505,6 +483,26 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &6360141600959007602
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5775306952977344568}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca61f205f0620db439a426f96cbd421d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  owner: {fileID: 0}
+  cannon: {fileID: 5701212948523808297}
+  projectile: {fileID: 6639927415436989509, guid: b69a797d9ef2069498f75293a8e13a4f,
+    type: 3}
+  cannonFiring: {fileID: 8300000, guid: 63c711644f858ef4db1849863b8a5364, type: 3}
+  targetMode: 2
+  laserSpeed: 120
+  aimSpeed: 6
 --- !u!1 &8750930968621334063
 GameObject:
   m_ObjectHideFlags: 0
