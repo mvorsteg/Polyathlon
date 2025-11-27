@@ -5,6 +5,7 @@ public class MysteryItem : Item
     public Item[] items;
     public float lift = 1f;
     public float liftTime = 3f;
+    private Transform parentTransform;
     public AnimationCurve animationCurve;
     public float rotationRate = 30f;
 
@@ -19,13 +20,14 @@ public class MysteryItem : Item
     protected override void Start()
     {
         base.Start();
-        startingY = transform.position.y;
+        startingY = transform.localPosition.y;
+        parentTransform = transform.parent;
     }
 
     private void Update()
     {
         transform.Rotate(Vector3.up, rotationRate * Time.deltaTime);
-        transform.position = new Vector3(transform.position.x, startingY + lift * animationCurve.Evaluate(Time.time % animationCurve.keys[animationCurve.length - 1].time), transform.position.z);
+        transform.position = new Vector3(transform.position.x, (parentTransform == null ? startingY : parentTransform.position.y + startingY) + lift * animationCurve.Evaluate(Time.time % animationCurve.keys[animationCurve.length - 1].time), transform.position.z);
     }
 
 }

@@ -130,7 +130,7 @@ public class LaserCannon : MonoBehaviour
                 laser.Initialize(laserSpeed, owner);
             }
             yield return null;
-            }
+        }
         if (owner != null)
         {
             owner.SetTarget(null);
