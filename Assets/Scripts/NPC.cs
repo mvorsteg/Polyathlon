@@ -101,14 +101,17 @@ public class NPC : Racer
 
     void FixedUpdate()
     {
-        if (movementMode == Movement.Mode.Running || movementMode == Movement.Mode.Jetpacking && movement.Grounded)
+        if (!rb.isKinematic)
         {
-            if (movement.BonusSpeed == 1)
-                rb.linearVelocity = Vector3.ClampMagnitude(rb.linearVelocity, 20);
-        }
-        else if (movementMode == Movement.Mode.Biking && movement.BonusSpeed == 1)
-        {
-            rb.linearVelocity = Vector3.ClampMagnitude(rb.linearVelocity, 50);
+            if (movementMode == Movement.Mode.Running || movementMode == Movement.Mode.Jetpacking && movement.Grounded)
+            {
+                if (movement.BonusSpeed == 1)
+                    rb.linearVelocity = Vector3.ClampMagnitude(rb.linearVelocity, 20);
+            }
+            else if (movementMode == Movement.Mode.Biking && movement.BonusSpeed == 1)
+            {
+                rb.linearVelocity = Vector3.ClampMagnitude(rb.linearVelocity, 50);
+            }
         }
     }
 
