@@ -53,6 +53,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: BoNPC
       objectReference: {fileID: 0}
+    - target: {fileID: 4754766360082052859, guid: 5f47ec8bf7d64724baf16ec7c97d3b41,
+        type: 3}
+      propertyPath: panLevelCustomCurve.m_Curve.Array.data[0].value
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4754766360082052862, guid: 5f47ec8bf7d64724baf16ec7c97d3b41,
         type: 3}
       propertyPath: m_LocalPosition.x

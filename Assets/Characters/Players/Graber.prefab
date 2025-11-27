@@ -13,6 +13,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Graber
       objectReference: {fileID: 0}
+    - target: {fileID: 411290082333151907, guid: b876125315b763f439a49a003d6689be,
+        type: 3}
+      propertyPath: panLevelCustomCurve.m_Curve.Array.data[0].value
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 411290082333151910, guid: b876125315b763f439a49a003d6689be,
         type: 3}
       propertyPath: m_LocalPosition.x
