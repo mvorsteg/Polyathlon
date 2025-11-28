@@ -8,6 +8,31 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 3366922123594277427}
     m_Modifications:
+    - target: {fileID: 1156466255325393563, guid: cda20b932e8cfde47b627abf798dcc58,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2093991230673338252, guid: cda20b932e8cfde47b627abf798dcc58,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2093991230673338252, guid: cda20b932e8cfde47b627abf798dcc58,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.414
+      objectReference: {fileID: 0}
+    - target: {fileID: 2093991230673338252, guid: cda20b932e8cfde47b627abf798dcc58,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.081
+      objectReference: {fileID: 0}
+    - target: {fileID: 2632043419390415172, guid: cda20b932e8cfde47b627abf798dcc58,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4998698800173758321, guid: cda20b932e8cfde47b627abf798dcc58,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -62,6 +87,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PixelGirlPreview
+      objectReference: {fileID: 0}
+    - target: {fileID: 7396117633272939803, guid: cda20b932e8cfde47b627abf798dcc58,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

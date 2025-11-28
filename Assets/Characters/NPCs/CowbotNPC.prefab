@@ -221,6 +221,31 @@ PrefabInstance:
       propertyPath: m_Name
       value: cowbotPreview
       objectReference: {fileID: 0}
+    - target: {fileID: 2586987372788840211, guid: f0bbc810402d7f741be50948da9a45a1,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6146865301836660883, guid: f0bbc810402d7f741be50948da9a45a1,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6362956718012517764, guid: f0bbc810402d7f741be50948da9a45a1,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.301
+      objectReference: {fileID: 0}
+    - target: {fileID: 6362956718012517764, guid: f0bbc810402d7f741be50948da9a45a1,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.067
+      objectReference: {fileID: 0}
+    - target: {fileID: 7044895395078005580, guid: f0bbc810402d7f741be50948da9a45a1,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

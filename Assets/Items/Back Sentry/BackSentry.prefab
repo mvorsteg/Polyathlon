@@ -71,7 +71,7 @@ MonoBehaviour:
     type: 3}
   cannonFiring: {fileID: 8300000, guid: 63c711644f858ef4db1849863b8a5364, type: 3}
   targetMode: 0
-  laserSpeed: 20
+  laserSpeed: 50
   aimSpeed: 120
   laserInstantiationOffsetFactor: 0.5
 --- !u!82 &6284291033623986858
