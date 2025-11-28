@@ -27,9 +27,17 @@ public class VFX : MonoBehaviour
         if (target != null && targeting)
         {
             Vector3 viewportPos = playerCam.WorldToViewportPoint(target.position);
-            Vector3 finalPosition = new Vector3(viewportPos.x * screenOverlayCanvas.sizeDelta.x, viewportPos.y * screenOverlayCanvas.sizeDelta.y, 0);
-
-            targetLockObj.transform.position = finalPosition;
+            // if viewportPos.z is negative, then the target is not visible in the frame of the camera
+            if (viewportPos.z >= 0)
+            {
+                targetLockObj.SetActive(true);
+                Vector3 finalPosition = new Vector3(viewportPos.x * screenOverlayCanvas.sizeDelta.x, viewportPos.y * screenOverlayCanvas.sizeDelta.y, 0);
+                targetLockObj.transform.position = finalPosition;
+            }
+            else
+            {
+                targetLockObj.SetActive(false);
+            }
         }
     }
 
