@@ -238,6 +238,12 @@ public class Glider : Movement
         }
     }
 
+    public override void ApplyJumpSplosion(Vector3 force)
+    {
+        Launch(force);
+        Jump(true);
+    }
+
     // Some NPCs are truly lost. This should help them.
     private IEnumerator LostNPCContingency()
     {

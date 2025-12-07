@@ -146,4 +146,10 @@ public class Run : Movement
 
         Debug.Log(gameObject.name + " has landed!!!");
     }
+
+    public override void ApplyJumpSplosion(Vector3 force)
+    {
+        Jump(true);
+        Launch(force);
+    }
 }

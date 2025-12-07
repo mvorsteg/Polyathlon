@@ -34,7 +34,7 @@ public class JumpSplosionItem : Item
             otherRacer.Die(true, force);
         }
 
-        Vector3 playerForceV3 = racer.characterMesh.forward * playerForce;
+        Vector3 playerForceV3 = racer.Forward * playerForce;
         playerForceV3 = Quaternion.AngleAxis(-playerLift, racer.characterMesh.right) * playerForceV3;
         Debug.DrawRay(racer.transform.position, playerForceV3, Color.blue, 5f);
         //racer.Die(true, playerForceV3);

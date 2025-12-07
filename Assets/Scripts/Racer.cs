@@ -41,6 +41,7 @@ public class Racer : MonoBehaviour
     public AudioClip equipSound;
 
     public BackpackMount BackpackMount { get => backpackMount; }
+    public Vector3 Forward { get => movement.Forward; } 
 
     public float Speed
     {
@@ -211,15 +212,28 @@ public class Racer : MonoBehaviour
 
     public virtual void ApplyJumpSplosion(Vector3 force)
     {
-        switch (movementMode)
-        {
-            case Movement.Mode.Running:
-            {
-                movement.Jump(true);
-                movement.Launch(force);
-            }
-            break;
-        }
+        movement.ApplyJumpSplosion(force);
+        // switch (movementMode)
+        // {
+        //     case Movement.Mode.Running:
+        //     {
+        //         movement.Jump(true);
+        //         movement.Launch(force);
+        //     }
+        //     break;
+        //     case Movement.Mode.Biking:
+        //     {
+        //         force += 300f*Vector3.up;
+        //         movement.Launch(force);
+        //     }
+        //     break;
+        //     case Movement.Mode.Jetpacking:
+        //     {
+        //         //.movement.Jump(true);
+        //         movement.Launch(force);
+        //     }
+        //     break;
+        // }
     }
 
     protected virtual IEnumerator RevivalEnabler()

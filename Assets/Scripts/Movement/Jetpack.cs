@@ -17,6 +17,10 @@ public class Jetpack : Movement
     private bool landable = false; // lets us know if we're allowed to call Land()
     private bool countingDownLandable = false; // prevents PreventFalseLanding() coroutine from being started if its running
 
+    [SerializeField] private float launchDuration = 0.8f;
+    [SerializeField] private float launchCooldown = 0.8f;
+    private float launchElapsedTime = 0f;
+
     private void Start()
     {
         jetpackExhaust = racer.BackpackMount.jetpack.transform.GetComponentsInChildren<ParticleSystem>();    
@@ -65,28 +69,49 @@ public class Jetpack : Movement
     {
         base.AddMovement(forward, right);
 
-        Vector3 translation = Vector3.zero;
-        // for npcs
-        if (cameraController == null)
+        // keep track of how long we have been launched for
+        // if we pass the predefined threshold, un-launch
+        if (launched)
         {
-            translation += right * transform.forward;
-            translation += forward * transform.right;    
+            launchElapsedTime += Time.deltaTime;
+            if (launchElapsedTime >= launchDuration + launchCooldown)
+            {
+                launched = false;
+                Jump(false);
+            }
         }
-        // for players
+
+        // if we're actually launched, turn jetpack on
+        if (launched)
+        {
+            Jump(true);
+        }
+        // otherwise, normal movement
         else
         {
-            translation += right * cameraController.transform.forward;
-            translation += forward * cameraController.transform.right;
-        }
-        
-        translation.y = 0;
-        if (translation.magnitude > 0)
-        {
-            velocity = translation;
-        }
-        else
-        {
-            velocity = Vector3.zero;
+            Vector3 translation = Vector3.zero;
+            // for npcs
+            if (cameraController == null)
+            {
+                translation += right * transform.forward;
+                translation += forward * transform.right;    
+            }
+            // for players
+            else
+            {
+                translation += right * cameraController.transform.forward;
+                translation += forward * cameraController.transform.right;
+            }
+            
+            translation.y = 0;
+            if (translation.magnitude > 0)
+            {
+                velocity = translation;
+            }
+            else
+            {
+                velocity = Vector3.zero;
+            }
         }
 
         // if not flying
@@ -176,7 +201,18 @@ public class Jetpack : Movement
         while(fireJetpack && !racer.IsDead())
         {
             rb.AddForce(racer.BackpackMount.jetpack.transform.transform.up * jetpackForce * Time.deltaTime * bonusSpeed);
-            rb.linearVelocity = Vector3.ClampMagnitude(rb.linearVelocity, jetpackSpeed * bonusSpeed);
+            Vector3 clampedVelocity = Vector3.ClampMagnitude(rb.linearVelocity, jetpackSpeed * bonusSpeed);
+            if (launched)
+            {
+                if (launchElapsedTime > launchDuration)
+                {
+                    rb.linearVelocity = Vector3.Lerp(rb.linearVelocity, clampedVelocity, (launchElapsedTime - launchDuration) / launchCooldown);
+                }
+            }
+            else
+            {
+                rb.linearVelocity = clampedVelocity;
+            }
             grounded = false;
             anim.SetTrigger("jump");
             yield return null;
@@ -202,6 +238,11 @@ public class Jetpack : Movement
         yield return new WaitForSeconds(0.2f);
         landable = true;
         countingDownLandable = false;
+    }
+
+    public override void Launch(Vector3 force)
+    {
+        base.Launch(force);
     }
 
     public void SetParticles(bool fire)
@@ -241,6 +282,13 @@ public class Jetpack : Movement
         {
             cameraController.ResetXMinMax();
         }
+    }
+
+    public override void ApplyJumpSplosion(Vector3 force)
+    {
+        Launch(force);
+        // jetpack doesn't force the racer to land before regaining control
+        launchElapsedTime = 0f;
     }
 
     protected override void LateUpdate()

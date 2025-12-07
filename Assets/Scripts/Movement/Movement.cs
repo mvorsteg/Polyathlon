@@ -75,6 +75,7 @@ public abstract class Movement : MonoBehaviour
     public bool Grounded { get => grounded; set => grounded = value; }
     public float BonusSpeed { get => bonusSpeed; set => bonusSpeed = value; }
     public CameraController CameraController { get => cameraController; set => cameraController = value; }
+    public virtual Vector3 Forward { get => characterMesh.forward; }
 
     protected virtual void OnEnable()
     {
@@ -145,6 +146,7 @@ public abstract class Movement : MonoBehaviour
         
     }
 
+    public abstract void ApplyJumpSplosion(Vector3 force);
 
     protected virtual void LateUpdate()
     {

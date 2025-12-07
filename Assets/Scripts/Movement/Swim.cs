@@ -84,4 +84,12 @@ public class Swim : Movement
     {
         base.Land();
     }
+
+    public override void ApplyJumpSplosion(Vector3 force)
+    {
+        // i have no idea what would happen if you do this when swimming
+        // add some lift maybe? 
+        force += Vector3.up * 300f;
+        Launch(force);
+    }
 }
