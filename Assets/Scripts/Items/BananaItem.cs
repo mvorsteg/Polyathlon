@@ -9,6 +9,7 @@ public class BananaItem : Item
 
     public override void Use(Racer racer)
     {
-        racer.DropItem();
+        Instantiate(Child, racer.ItemDropPoint, Quaternion.identity);
+        racer.EquipItem(null);
     }
 }

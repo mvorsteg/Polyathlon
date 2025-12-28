@@ -34,6 +34,7 @@ public abstract class Movement : MonoBehaviour
     public float maxSpeed;
     public float acceleration;
     public float angularSpeed;
+    public Transform itemDropPoint;
 
     protected CameraController cameraController;
 
@@ -76,7 +77,7 @@ public abstract class Movement : MonoBehaviour
     public float BonusSpeed { get => bonusSpeed; set => bonusSpeed = value; }
     public CameraController CameraController { get => cameraController; set => cameraController = value; }
     public virtual Vector3 Forward { get => characterMesh.forward; }
-
+    public virtual Vector3 ItemDropPoint { get => itemDropPoint.position; }
     protected virtual void OnEnable()
     {
         rb = GetComponent<Rigidbody>();

@@ -41,7 +41,8 @@ public class Racer : MonoBehaviour
     public AudioClip equipSound;
 
     public BackpackMount BackpackMount { get => backpackMount; }
-    public Vector3 Forward { get => movement.Forward; } 
+    public Vector3 Forward { get => movement.Forward; }
+    public Vector3 ItemDropPoint { get => movement.ItemDropPoint; }
 
     public float Speed
     {
@@ -297,10 +298,11 @@ public class Racer : MonoBehaviour
 
     public void DropItem()
     {
-        float back = (movement is Bicycle ? 3f : 1f);
-        Vector3 pos = transform.position - back * characterMesh.transform.forward + 0.5f * characterMesh.transform.up;
-        Instantiate(item.Child, pos, Quaternion.identity);
-        EquipItem(null);
+        // float back = (movement is Bicycle ? 3f : 1f);
+        // Vector3 pos = transform.position - back * characterMesh.transform.forward + 0.5f * characterMesh.transform.up;
+        // Instantiate(item.Child, pos, Quaternion.identity);
+        // Debug.Break();
+        // EquipItem(null);
     }
 
     public void ThrowItem(Transform target)

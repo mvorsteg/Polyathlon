@@ -244,6 +244,7 @@ MonoBehaviour:
   maxSpeed: 0
   acceleration: 0
   angularSpeed: 0
+  itemDropPoint: {fileID: 0}
 --- !u!114 &664463851632276183
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -259,7 +260,10 @@ MonoBehaviour:
   maxSpeed: 2
   acceleration: 1
   angularSpeed: 0
+  itemDropPoint: {fileID: 0}
   thrustSound: {fileID: 8300000, guid: 891d8623a26a972409aebacf22875004, type: 3}
+  launchDuration: 0.8
+  launchCooldown: 0.8
 --- !u!114 &411290082333151911
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -275,6 +279,7 @@ MonoBehaviour:
   maxSpeed: 0
   acceleration: 0
   angularSpeed: 0
+  itemDropPoint: {fileID: 0}
 --- !u!114 &411290082333151928
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -290,6 +295,7 @@ MonoBehaviour:
   maxSpeed: 0
   acceleration: 0
   angularSpeed: 0
+  itemDropPoint: {fileID: 0}
   bike: {fileID: 411290083597394961}
   rearWheel: {fileID: 411290083488516401}
   frontWheel: {fileID: 411290082585942096}
@@ -871,10 +877,42 @@ MonoBehaviour:
   maxSpeed: 0
   acceleration: 0
   angularSpeed: 0
+  itemDropPoint: {fileID: 0}
   liftFactor: 50
   rollSpeed: 100
   pitchSpeed: 100
   dragFactor: 55
+--- !u!1 &4550237746107024480
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 604755934139341179}
+  m_Layer: 10
+  m_Name: BikeItemDropPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &604755934139341179
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4550237746107024480}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.5, z: -1.115}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 411290083597394962}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8342745868706712469
 GameObject:
   m_ObjectHideFlags: 0
@@ -977,7 +1015,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 969994428076657338, guid: 401b792dcf7438f498fb56ce351f6154,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 604755934139341179}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 401b792dcf7438f498fb56ce351f6154, type: 3}
 --- !u!1 &411290082498927462 stripped

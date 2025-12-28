@@ -325,6 +325,10 @@ public class RaceManager : MonoBehaviour
     }
 
     /*  if it looks stupid but it works, it ain't stupid */
+    public static IEnumerable<Racer> GetListOfRacers()
+    {
+        return instance.racers;
+    }
     public static Racer GetRacerOtherThanThisOne(Racer racer)
     {
         Racer chosen = racer;

@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4137236545153364176
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3970420341720679664}
+  m_Layer: 0
+  m_Name: ItemDropPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3970420341720679664
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4137236545153364176}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.5, z: -1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4271615716468532566}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &4864569664678861784
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -90,7 +121,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 8702572456894152334, guid: aa4ff41ca58440c4183e6e1b66a8b4ba,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3970420341720679664}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: aa4ff41ca58440c4183e6e1b66a8b4ba, type: 3}
 --- !u!4 &973966115393187178 stripped
@@ -113,11 +148,21 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -806804065813373411, guid: b876125315b763f439a49a003d6689be,
+        type: 3}
+      propertyPath: itemDropPoint
+      value: 
+      objectReference: {fileID: 3970420341720679664}
     - target: {fileID: 411290082333151904, guid: b876125315b763f439a49a003d6689be,
         type: 3}
       propertyPath: m_Name
       value: WalkinBass
       objectReference: {fileID: 0}
+    - target: {fileID: 411290082333151905, guid: b876125315b763f439a49a003d6689be,
+        type: 3}
+      propertyPath: itemDropPoint
+      value: 
+      objectReference: {fileID: 3970420341720679664}
     - target: {fileID: 411290082333151907, guid: b876125315b763f439a49a003d6689be,
         type: 3}
       propertyPath: panLevelCustomCurve.m_Curve.Array.data[0].value
@@ -173,6 +218,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 411290082333151911, guid: b876125315b763f439a49a003d6689be,
+        type: 3}
+      propertyPath: itemDropPoint
+      value: 
+      objectReference: {fileID: 3970420341720679664}
+    - target: {fileID: 411290082333151928, guid: b876125315b763f439a49a003d6689be,
+        type: 3}
+      propertyPath: itemDropPoint
+      value: 
+      objectReference: {fileID: 8746024728947695285}
+    - target: {fileID: 664463851632276183, guid: b876125315b763f439a49a003d6689be,
+        type: 3}
+      propertyPath: itemDropPoint
+      value: 
+      objectReference: {fileID: 3970420341720679664}
     - target: {fileID: 2899345986483626238, guid: b876125315b763f439a49a003d6689be,
         type: 3}
       propertyPath: m_SizeDelta.x
@@ -260,6 +320,12 @@ PrefabInstance:
 --- !u!4 &8408690343431705960 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 411290082333151910, guid: b876125315b763f439a49a003d6689be,
+    type: 3}
+  m_PrefabInstance: {fileID: 8143802760083195854}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &8746024728947695285 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 604755934139341179, guid: b876125315b763f439a49a003d6689be,
     type: 3}
   m_PrefabInstance: {fileID: 8143802760083195854}
   m_PrefabAsset: {fileID: 0}
