@@ -48,8 +48,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemRespawnTime: 3
   consumable: 1
-  icon: {fileID: 21300000, guid: 6d9292850ab70f94a8e7acc5d23d44c7, type: 3}
-  soundWhenUsed: {fileID: 0}
+  icon: {fileID: 21300000, guid: efdf71dd9950e4f4f893f46240285968, type: 3}
+  soundWhenUsed: {fileID: 8300000, guid: a3897dbfb7579a64bb8aae36890e9e09, type: 3}
   child: {fileID: 7181557990940297333}
 --- !u!65 &5682231023013949087
 BoxCollider:

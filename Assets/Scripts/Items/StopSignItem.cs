@@ -19,5 +19,8 @@ public class StopSignItem : Item
         racer.EquipItem(null);
 
         obj.Initialize(racer, racer.movementMode == Movement.Mode.Jetpacking || racer.movementMode == Movement.Mode.Gliding);
+        
+        racer.PlayMiscSound(soundWhenUsed);
+        racer.EquipItem(null);
     }
 }

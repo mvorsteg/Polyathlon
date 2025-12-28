@@ -10,6 +10,7 @@ public class BananaItem : Item
     public override void Use(Racer racer)
     {
         Instantiate(Child, racer.ItemDropPoint, Quaternion.identity);
+        racer.PlayMiscSound(soundWhenUsed);
         racer.EquipItem(null);
     }
 }
