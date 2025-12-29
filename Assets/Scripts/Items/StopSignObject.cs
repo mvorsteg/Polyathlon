@@ -16,10 +16,8 @@ public class StopSignObject : MonoBehaviour
     [SerializeField]
     protected float maxStretchRate = 10f;
     [SerializeField]
-    protected float maxXOffset = 2f;
-    protected float maxXOffsetMultiplier = 2f;
-    [SerializeField]
-    protected float maxDistToTarget = 10f;
+    protected float maxXZDistToTargetGrounded = 10f;
+    protected float maxXZDistToTargetDynamic = 25f;
     [SerializeField]
     protected float killForce = 300f;
 
@@ -35,6 +33,7 @@ public class StopSignObject : MonoBehaviour
     [SerializeField]
     protected bool dynamicHeight = false;
     protected float offsetFromGround;
+    protected Vector3 forwardVector;
     
     private void Awake()
     {
@@ -54,21 +53,26 @@ public class StopSignObject : MonoBehaviour
     public void Initialize(Racer owner, bool dynamicHeight)
     {
         this.dynamicHeight = dynamicHeight;
+        forwardVector = owner.Forward;
     }
 
     private void Update()
     {            
         float minDist = Mathf.Infinity;
+        float maxXZDistToTarget = dynamicHeight ? maxXZDistToTargetDynamic : maxXZDistToTargetGrounded;
         Racer target = null;
         Vector3 targetRelativeOffset = Vector3.zero;
 
         foreach (Racer racer in RaceManager.GetListOfRacers())
         {
             Vector3 relativeOffset = transform.InverseTransformPoint(racer.transform.position);
+            relativeOffset.y = 0;
             if (relativeOffset.z < 0)
-            {
-                float sqDist = relativeOffset.sqrMagnitude;
-                if (sqDist < minDist && sqDist <= maxDistToTarget * maxDistToTarget)
+            {            
+                Vector3 distanceToTarget = racer.hips.transform.position - transform.position;
+                distanceToTarget.y = 0;
+                float sqDist = distanceToTarget.sqrMagnitude;
+                if (sqDist < minDist && sqDist <= maxXZDistToTarget * maxXZDistToTarget)
                 {
                     minDist = sqDist;
                     target = racer;
@@ -93,15 +97,14 @@ public class StopSignObject : MonoBehaviour
                 float requiredDistance = xyDirToTarget.magnitude;
                 pole.localScale = new Vector3(1f, requiredDistance, 1f);
                 stopSignCenter.localPosition = new Vector3(0f, requiredDistance, 0f);
-
-                Debug.DrawRay(transform.position, xyDirToTarget, Color.green);
             }
-            Debug.DrawRay(transform.position, worldDirectionToTarget, Color.red);
         }
             
-        transform.up = Vector3.Lerp(transform.up, desiredUpVector, Time.deltaTime * maxRotationRate);
+        Quaternion desiredRotation = Quaternion.LookRotation(forwardVector, desiredUpVector);
+        transform.rotation = Quaternion.Lerp(transform.rotation, desiredRotation, Time.deltaTime * maxRotationRate);
         pole.localScale = Vector3.Lerp(pole.localScale, desiredLocalScale, Time.deltaTime * maxStretchRate);
         stopSignCenter.localPosition = Vector3.Lerp(stopSignCenter.localPosition, desiredStopSignPos, Time.deltaTime * maxStretchRate);
+
     }
 
     public void CollisionDetected(Collision other)

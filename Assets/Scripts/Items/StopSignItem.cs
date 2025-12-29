@@ -15,11 +15,12 @@ public class StopSignItem : Item
             groundDropPoint = hit.point;
         }
 
-        StopSignObject obj = Instantiate(Child, groundDropPoint, Quaternion.identity).GetComponent<StopSignObject>();
+        Quaternion rot = Quaternion.LookRotation(racer.Forward);
+        StopSignObject obj = Instantiate(Child, groundDropPoint, rot).GetComponent<StopSignObject>();
         racer.EquipItem(null);
 
         obj.Initialize(racer, racer.movementMode == Movement.Mode.Jetpacking || racer.movementMode == Movement.Mode.Gliding);
-        
+
         racer.PlayMiscSound(soundWhenUsed);
         racer.EquipItem(null);
     }
