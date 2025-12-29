@@ -325,7 +325,7 @@ public class RaceManager : MonoBehaviour
     }
 
     /*  if it looks stupid but it works, it ain't stupid */
-    public static IEnumerable<Racer> GetListOfRacers()
+    public static IList<Racer> GetListOfRacers()
     {
         return instance.racers;
     }

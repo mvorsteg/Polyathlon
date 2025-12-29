@@ -2,7 +2,8 @@ using UnityEngine;
 
 public class MysteryItem : Item
 {
-    public Item[] items;
+    public LootTable lootTable;
+    public ItemRegistry singleItemDrop;
     public float lift = 1f;
     public float liftTime = 3f;
     private Transform parentTransform;
@@ -14,7 +15,20 @@ public class MysteryItem : Item
     public override void Pickup(Racer racer)
     {
         base.Pickup(racer);
-        items[Random.Range(0, items.Length)].Pickup(racer);
+        int place = RaceManager.GetPosition(racer);
+        int numRacers = RaceManager.GetListOfRacers().Count;
+        int distanceFromLast = (numRacers - 1) - (place - 1);
+
+        float percentWinning = (float)distanceFromLast / numRacers;
+        if (lootTable != null)
+        {
+            ItemRegistry item = lootTable.GetItem(percentWinning);
+            item.itemPrefab.Pickup(racer);
+        }
+        else if (singleItemDrop != null)
+        {
+            singleItemDrop.itemPrefab.Pickup(racer);
+        }
     }
 
     protected override void Start()

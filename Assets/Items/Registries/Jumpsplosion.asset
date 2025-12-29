@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 058292084b1651e4d8b603128a414e17, type: 3}
+  m_Name: Jumpsplosion
+  m_EditorClassIdentifier: 
+  displayName: Jumpsplosion
+  description: 
+  icon: {fileID: 21300000, guid: 24d56da78b0043c42aa9d14410506d9d, type: 3}
+  itemPrefab: {fileID: -210101328667819825, guid: 63a4e9b0293193540a79f0d9977237cf,
+    type: 3}
