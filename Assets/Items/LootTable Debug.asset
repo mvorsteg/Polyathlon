@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: afb203845dc904941b107a54ce80ad0e, type: 3}
-  m_Name: LootTable
+  m_Name: LootTable Debug
   m_EditorClassIdentifier: 
   entries:
   - item: {fileID: 11400000, guid: 34d75ee5a8aebee4dbda5b1fa8985f29, type: 2}
@@ -18,8 +18,8 @@ MonoBehaviour:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
-        time: 0.001072742
-        value: 0.9666474
+        time: 0.00078201294
+        value: 0.34166718
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -27,8 +27,8 @@ MonoBehaviour:
         inWeight: 0
         outWeight: 0
       - serializedVersion: 3
-        time: 0.2542854
-        value: 0.6762925
+        time: 0.21344522
+        value: 0.912012
         inSlope: -4.9985
         outSlope: -4.9985
         tangentMode: 0
@@ -106,7 +106,7 @@ MonoBehaviour:
       m_PreInfinity: 1
       m_PostInfinity: 2
       m_RotationOrder: 4
-  - item: {fileID: 11400000, guid: cdc489649f586304d8783099bc49f859, type: 2}
+  - item: {fileID: 11400000, guid: 1abd334ac0195674ea8ee0198d754e68, type: 2}
     dropChance:
       serializedVersion: 2
       m_Curve:
@@ -129,8 +129,8 @@ MonoBehaviour:
         inWeight: 0.33333334
         outWeight: 0.20389305
       - serializedVersion: 3
-        time: 0.7171631
-        value: 0.080841064
+        time: 0.7191162
+        value: 0
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -138,8 +138,8 @@ MonoBehaviour:
         inWeight: 0
         outWeight: 0
       - serializedVersion: 3
-        time: 0.9941406
-        value: 0.06021118
+        time: 1
+        value: 0
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -155,7 +155,7 @@ MonoBehaviour:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0.032318115
+        value: 0
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -183,7 +183,7 @@ MonoBehaviour:
       m_PreInfinity: 1
       m_PostInfinity: 2
       m_RotationOrder: 4
-  - item: {fileID: 11400000, guid: 913cdd4eb7e34af4eacaabb764607236, type: 2}
+  - item: {fileID: 11400000, guid: 1abd334ac0195674ea8ee0198d754e68, type: 2}
     dropChance:
       serializedVersion: 2
       m_Curve:
@@ -217,7 +217,7 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-  - item: {fileID: 11400000, guid: 3586603df3e24c94087957ed5646a699, type: 2}
+  - item: {fileID: 11400000, guid: 1abd334ac0195674ea8ee0198d754e68, type: 2}
     dropChance:
       serializedVersion: 2
       m_Curve:
@@ -231,14 +231,14 @@ MonoBehaviour:
         inWeight: 0
         outWeight: 0
       - serializedVersion: 3
-        time: 0.50582886
-        value: 0.12628174
-        inSlope: -0.6438266
-        outSlope: -0.6438266
+        time: 0.5
+        value: 0
+        inSlope: 0
+        outSlope: 0
         tangentMode: 0
         weightedMode: 0
         inWeight: 0
-        outWeight: 0.12766793
+        outWeight: 0.21716511
       - serializedVersion: 3
         time: 0.99871826
         value: 0
@@ -251,7 +251,7 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-  - item: {fileID: 11400000, guid: 89c64604f78073942b33c49e27b45241, type: 2}
+  - item: {fileID: 11400000, guid: 1abd334ac0195674ea8ee0198d754e68, type: 2}
     dropChance:
       serializedVersion: 2
       m_Curve:
@@ -274,8 +274,8 @@ MonoBehaviour:
         inWeight: 0
         outWeight: 0.058660645
       - serializedVersion: 3
-        time: 0.6991732
-        value: 0.093170166
+        time: 0.7050326
+        value: 0
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -283,8 +283,8 @@ MonoBehaviour:
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
-        time: 0.9918823
-        value: 0.05908203
+        time: 0.99871826
+        value: 0
         inSlope: 0
         outSlope: 0
         tangentMode: 0

@@ -445,7 +445,7 @@ MonoBehaviour:
   maxRotationDeg: 45
   maxRotationRate: 5
   maxStretchRate: 0.1
-  maxXZDistToTarget: 20
+  maxXZDistToTargetGrounded: 10
   killForce: 5
   stopSignCenter: {fileID: 5007082297676094878}
   post: {fileID: 1312206239752779046}
@@ -524,7 +524,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
