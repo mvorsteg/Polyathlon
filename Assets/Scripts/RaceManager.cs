@@ -49,6 +49,7 @@ public class RaceManager : MonoBehaviour
     private bool respawnOnUse = false;
     public static bool IsTrainingCourse { get => instance.isTrainingCourse; } // use this for training scenes
     public static bool RespawnOnUse { get => instance.respawnOnUse; } // use this for training scenes
+    public static LootTable CurrLootTable { get => instance.raceSettings.lootTable; }
 
     private bool testRun = false;
 

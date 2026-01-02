@@ -19,6 +19,11 @@ public class MysteryItem : Item
         int numRacers = RaceManager.GetListOfRacers().Count;
         int distanceFromLast = (numRacers - 1) - (place - 1);
 
+        if (lootTable == null)
+        {
+            lootTable = RaceManager.CurrLootTable;
+        }
+
         float percentWinning = (float)distanceFromLast / numRacers;
         if (lootTable != null)
         {

@@ -41,6 +41,7 @@ public class RaceSettings : MonoBehaviour
     public int numRaces;
     private int currRaceIdx = 0;
     public RaceSelection raceSelection;
+    public LootTable lootTable;
     public CPUDifficulty cpuDifficulty;
     public int numCPUs;
     public string mainMenuSceneName;
@@ -113,10 +114,11 @@ public class RaceSettings : MonoBehaviour
         selectedStage = preloadedStages[0];
     }
 
-    public void SetRaceParams(int numRaces, RaceSelection raceSelection, CPUDifficulty cpuDifficulty, int numCPUs)
+    public void SetRaceParams(int numRaces, RaceSelection raceSelection, LootTable lootTable, CPUDifficulty cpuDifficulty, int numCPUs)
     {
         this.numRaces = numRaces;
         this.raceSelection = raceSelection;
+        this.lootTable = lootTable;
         this.cpuDifficulty = cpuDifficulty;
         this.numCPUs = numCPUs;
         AssignNPCChoices();

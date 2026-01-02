@@ -5,11 +5,13 @@ using UnityEngine.EventSystems;
 public class RaceSettingsUI : BaseMenuUI
 {
     [SerializeField]
-    private Spinner raceNumSpinner, raceSelectSpinner, cpuDiffSpinner, cpuNumSpinner;
+    private Spinner raceNumSpinner, raceSelectSpinner, itemTypeSpinner, cpuDiffSpinner, cpuNumSpinner;
     [SerializeField]
     private AllReadyOverlay allReadyOverlay;
     [SerializeField]
     private StageSelectUI stageSelectUI;
+    [SerializeField]
+    private LootTable balancedItems, aggressiveItems, strategicItems;
     public int maxTotalRacers = 12;
 
     protected override void Awake()
@@ -17,6 +19,7 @@ public class RaceSettingsUI : BaseMenuUI
         base.Awake();
 
         raceSelectSpinner.FillWithEnum<RaceSelection>();
+        itemTypeSpinner.FillWithEnum<ItemDistribution>();
         cpuDiffSpinner.FillWithEnum<CPUDifficulty>();
         cpuDiffSpinner.SkipToValue(CPUDifficulty.Normal.ToString());
     }
@@ -70,9 +73,35 @@ public class RaceSettingsUI : BaseMenuUI
             //Enum.TryParse(raceSelectSpinner.Value, out RaceSelection raceSelection) &&
             EnumUtility.TryGetValueFromDescription(raceSelectSpinner.Value, out RaceSelection raceSelection) &&
             Enum.TryParse(cpuDiffSpinner.Value, out CPUDifficulty cpuDifficulty) &&
+            Enum.TryParse(itemTypeSpinner.Value, out ItemDistribution itemDistribution) &&
             int.TryParse(cpuNumSpinner.Value, out int numCPUs))
             {
-                raceSettings.SetRaceParams(numRaces, raceSelection, cpuDifficulty, numCPUs);
+                LootTable lootTable;
+                switch (itemDistribution)
+                {
+                    case ItemDistribution.Balanced:
+                        {
+                            lootTable = balancedItems;
+                        }
+                        break;
+                    case ItemDistribution.Aggressive:
+                        {
+                            lootTable = aggressiveItems;
+                        }
+                        break;
+                    case ItemDistribution.Strategic:
+                        {
+                            lootTable = strategicItems;
+                        }
+                        break;
+                    default:
+                        {
+                            lootTable = balancedItems;
+                        }
+                        break;
+                }
+
+                raceSettings.SetRaceParams(numRaces, raceSelection, lootTable, cpuDifficulty, numCPUs);
                 
                 if (raceSelection == RaceSelection.Random)
                 {
