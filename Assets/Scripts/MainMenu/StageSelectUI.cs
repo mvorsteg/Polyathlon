@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class StageSelectUI : BaseMenuUI
 {
     
-    public List<StageRegistry> stages;
+    public StageList stages;
     public GridEntry entryTemplate;
     private List<GridEntry> entries;
     public Transform entryParent;
@@ -29,7 +29,7 @@ public class StageSelectUI : BaseMenuUI
             Destroy(child.gameObject);
         }
 
-        foreach (StageRegistry stage in stages)
+        foreach (StageRegistry stage in stages.stages)
         {
             AddStage(stage);
         }
@@ -54,7 +54,7 @@ public class StageSelectUI : BaseMenuUI
         base.Reset();
         
 
-        if (stages.Count > 0)
+        if (stages.stages.Count > 0)
         {
             entries[0].AddSelector(selector, true);
             selector.selectedEntry = entries[0];
@@ -173,7 +173,7 @@ public class StageSelectUI : BaseMenuUI
         while (registries.Count < n)
         {
             tempRegistries.Clear();
-            foreach (StageRegistry registry in stages)
+            foreach (StageRegistry registry in stages.stages)
             {
                 tempRegistries.Add(registry);
             }

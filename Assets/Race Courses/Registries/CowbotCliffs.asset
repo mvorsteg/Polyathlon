@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   displayName: Cowbot Cliffs
   subtitle: 
-  info: 
+  info: This course takes you jumping off a steep cliff with a hang glider, soaring
+    down to the finish line. Be careful not to stall out or crash!
   icon: {fileID: 21300000, guid: 65cd23cc096f0a54986ccc61c9939bf1, type: 3}
+  screenshots: []
   sceneName: Course 3

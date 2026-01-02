@@ -13,7 +13,9 @@ MonoBehaviour:
   m_Name: Back Sentry
   m_EditorClassIdentifier: 
   displayName: Back Sentry
-  description: 
+  description: Equips the user with a backpack which will automatically lock onto
+    3 opponents and shoot lasers at them
   icon: {fileID: 21300000, guid: 1879af6ce52d2da488ae244ba49feb7c, type: 3}
+  screenshots: []
   itemPrefab: {fileID: 3665018412899956864, guid: 06563509c052b6a428834b8bec33fb3b,
     type: 3}

@@ -13,7 +13,10 @@ MonoBehaviour:
   m_Name: Propelon
   m_EditorClassIdentifier: 
   displayName: Propelon
-  description: 
+  description: A self-propelled melon that will automatically seek out and hit the
+    nearest target. Be sure to use it in an open area, or else it might hit an obstacle
+    instead of its intended target
   icon: {fileID: 21300000, guid: 99b250aade777884ca0a619fbf6c16c7, type: 3}
+  screenshots: []
   itemPrefab: {fileID: 6423417147724116086, guid: 1648598ea5bc0604d82c098c15732d40,
     type: 3}

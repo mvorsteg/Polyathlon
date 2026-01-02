@@ -16,6 +16,7 @@ MonoBehaviour:
   subtitle: It's her athlon
   info: 
   icon: {fileID: 21300000, guid: 05af39becc3e9b543bce9dc08510ddc4, type: 3}
+  screenshots: []
   playerObj: {fileID: 8772761477247295532, guid: 2382e88df05e92747b9fa2f02a91f09c,
     type: 3}
   npcObj: {fileID: 3366922123594277429, guid: f2ecb2e6044e86a4a91d75084f96c56a, type: 3}

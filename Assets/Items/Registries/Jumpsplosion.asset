@@ -13,7 +13,10 @@ MonoBehaviour:
   m_Name: Jumpsplosion
   m_EditorClassIdentifier: 
   displayName: Jumpsplosion
-  description: 
+  description: Creates a large explosion around the user, launching the user with
+    a big jump and speed boost, as well as knocking down any opponents that are standing
+    too close to the blast
   icon: {fileID: 21300000, guid: 24d56da78b0043c42aa9d14410506d9d, type: 3}
+  screenshots: []
   itemPrefab: {fileID: -210101328667819825, guid: 63a4e9b0293193540a79f0d9977237cf,
     type: 3}

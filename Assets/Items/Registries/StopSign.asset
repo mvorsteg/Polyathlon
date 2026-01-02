@@ -13,7 +13,9 @@ MonoBehaviour:
   m_Name: StopSign
   m_EditorClassIdentifier: 
   displayName: Stop Sign
-  description: 
+  description: Places an EVIL stop sign down that will angle itself to try and cut
+    off anyone running near it, and knocking down anyone who makes contact
   icon: {fileID: 21300000, guid: d4464f357e0f1ca42990bfbc159c4cd0, type: 3}
+  screenshots: []
   itemPrefab: {fileID: 5084527405241591629, guid: 9664df34cc40d0e4f920e6a6058f46d9,
     type: 3}

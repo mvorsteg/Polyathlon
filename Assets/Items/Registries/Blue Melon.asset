@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: Blue Melon
   m_EditorClassIdentifier: 
   displayName: Blue Melon
-  description: 
+  description: Like the propelon, but always targets the player in 1st place
   icon: {fileID: 21300000, guid: 4717186f184ebbd4b9f494e305d10460, type: 3}
+  screenshots: []
   itemPrefab: {fileID: 6423417147724116086, guid: dd6c7c0bc0cdaca4eb4671a9297bc785,
     type: 3}

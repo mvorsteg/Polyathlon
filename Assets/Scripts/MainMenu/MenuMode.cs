@@ -7,6 +7,7 @@ public enum MenuMode
     StageSelect,
     TrainingSelect,
     Settings,
+    Polypedia,
     Credits,
     Invalid,
 }

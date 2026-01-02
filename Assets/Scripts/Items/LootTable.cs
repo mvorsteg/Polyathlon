@@ -14,6 +14,16 @@ public class LootTable : ScriptableObject
     [SerializeField]
     private List<LootTableEntry> entries;
 
+    public List<ItemRegistry> GetAllItems()
+    {
+        List<ItemRegistry> items = new List<ItemRegistry>();
+        foreach (LootTableEntry entry in entries)
+        {
+            items.Add(entry.item);
+        }    
+        return items;
+    }
+
     public ItemRegistry GetItem(float percentWinning)
     {
         float totalWeight = 0f;

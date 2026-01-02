@@ -12,8 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 058292084b1651e4d8b603128a414e17, type: 3}
   m_Name: TrafficCone
   m_EditorClassIdentifier: 
-  displayName: TrafficCone
-  description: 
+  displayName: Traffic Cone
+  description: Places a basic traffic cone down that can trip opponents and cause
+    them to fall down. Disappears after it trips 1 opponent
   icon: {fileID: 21300000, guid: efdf71dd9950e4f4f893f46240285968, type: 3}
+  screenshots: []
   itemPrefab: {fileID: 5682231023013949073, guid: 5a398831659d4894cb51ce8dbd260059,
     type: 3}
