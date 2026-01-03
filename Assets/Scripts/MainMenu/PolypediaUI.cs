@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -40,12 +41,19 @@ public class PolypediaUI : BaseMenuUI
     [SerializeField]
     protected TextMeshProUGUI detailsTitleText, detailsDescriptionText;
     [SerializeField]
-    protected Image detailsIcon;
+    protected Image detailsIcon, detailsIconFade;
     protected PolypediaState currState;
 
     protected List<GridEntry> currentEntries;
 
     protected int currentDetailIdx = -1;
+    [SerializeField]
+    protected float timePerSlide = 5f;
+    [SerializeField]
+    protected float slideTransitionTime = 0.5f;
+    protected float timeUntilSwitch = 0f;
+    protected int currDetailSlideIdx = 0;
+    protected List<Sprite> detailSlides;
 
     protected override void Awake()
     {
@@ -53,6 +61,20 @@ public class PolypediaUI : BaseMenuUI
         currState = PolypediaState.TypeView;
         selector.Initialize(0, "");
         currentEntries = new List<GridEntry>();
+        detailSlides = new List<Sprite>();
+    }
+
+    protected void Update()
+    {
+        if (currState == PolypediaState.DetailsView)
+        {
+            timeUntilSwitch -= Time.deltaTime;
+            if (timeUntilSwitch <= 0)
+            {
+                StartCoroutine(NextDetailSlide());
+                timeUntilSwitch = timePerSlide;
+            }
+        }
     }
 
     public override void Reset()
@@ -106,16 +128,6 @@ public class PolypediaUI : BaseMenuUI
                 }
                 break;
         } 
-    }
-
-    public void LeftArrowClicked()
-    {
-        
-    }
-
-    public void RightArrowClicked()
-    {
-        
     }
 
     public override void Navigate(MainMenuPlayer player, Vector2 input)
@@ -267,17 +279,28 @@ public class PolypediaUI : BaseMenuUI
     {
         SetState(PolypediaState.DetailsView);  
 
+        detailSlides.Clear();
+        currDetailSlideIdx = 0;
+
         detailsTitleText.text = entry.DisplayName;
         detailsDescriptionText.text = entry.Description;
         if (entry.Slides.Count > 0)
         {
-            detailsIcon.sprite = entry.Slides[0];
+            foreach(Sprite slide in entry.Slides)
+            {
+                detailSlides.Add(slide);
+            }
         }
         else
         {
             detailsIcon.sprite = entry.Thumbnail;
+            detailSlides.Add(entry.Thumbnail);
         }
+        detailsIcon.sprite = detailSlides[0];
         detailsIcon.preserveAspect = true;
+        detailsIconFade.preserveAspect = true;
+        detailsIconFade.color = new Color(detailsIconFade.color.r, detailsIconFade.color.g, detailsIconFade.color.b, 0f);
+        timeUntilSwitch = timePerSlide;
     }
 
     public void NavigateDetail(int dir)
@@ -296,6 +319,25 @@ public class PolypediaUI : BaseMenuUI
         {
             PopulateDetailsView((IPolypediaEntry)nextEntry.Registry);
         }
+    }
+
+    protected IEnumerator NextDetailSlide()
+    {
+        detailsIconFade.sprite = detailSlides[currDetailSlideIdx];
+        currDetailSlideIdx = (currDetailSlideIdx + 1) % detailSlides.Count;
+        detailsIcon.sprite = detailSlides[currDetailSlideIdx];
+        //detailsIconFade.color
+
+        Color opaque = new Color(detailsIconFade.color.r, detailsIconFade.color.g, detailsIconFade.color.b, 1f);
+        Color transparent = new Color(detailsIconFade.color.r, detailsIconFade.color.g, detailsIconFade.color.b, 0f);
+        float elapsedTime = 0f;
+        while (elapsedTime <= slideTransitionTime)
+        {
+            elapsedTime += Time.deltaTime;
+            detailsIconFade.color = Color.Lerp(opaque, transparent, elapsedTime / slideTransitionTime);
+            yield return null;
+        }
+        detailsIconFade.color = transparent;
     }
 
 }
