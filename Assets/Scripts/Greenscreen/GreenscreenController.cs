@@ -22,7 +22,8 @@ public class GreenscreenController : MonoBehaviour
     private Transform targetTransform;
     private Vector3 startingCameraPos, startingTargetPos;
     private Quaternion startingCameraRot, startingTargetRot;
-
+    public int ImageWidth { get; set; } 
+    public int ImageHeight { get; set; }
 
     private void Awake()
     {
@@ -33,7 +34,7 @@ public class GreenscreenController : MonoBehaviour
 
         inputActions.Greeenscreen.Scrub.performed += ctx => ui.Scrub(ctx.ReadValue<float>() > 0);
 
-        inputActions.Greeenscreen.TakeSnapshot.performed += ctx => TakeSnapshot();
+        inputActions.Greeenscreen.TakeSnapshot.performed += ctx => TakeSnapshot(ImageWidth, ImageHeight);
         
         inputActions.Greeenscreen.SwapControl.performed += ctx => ToggleMode();
         inputActions.Greeenscreen.SwapTarget.performed += ctx => ToggleTarget();
@@ -118,8 +119,9 @@ public class GreenscreenController : MonoBehaviour
         }
     }
 
-    public void TakeSnapshot()
+    public void TakeSnapshot(int height, int width)
     {
+        snapCam.SetResolution(width, height);
         snapCam.TakeSnapshot();
     }
 
