@@ -168,7 +168,7 @@ PrefabInstance:
         type: 3}
       propertyPath: characterMesh
       value: 
-      objectReference: {fileID: 4202899985560269545}
+      objectReference: {fileID: 2629234781637942889}
     - target: {fileID: 7153916419779688960, guid: b876125315b763f439a49a003d6689be,
         type: 3}
       propertyPath: m_AnchorMax.y
