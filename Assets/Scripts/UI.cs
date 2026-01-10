@@ -22,6 +22,7 @@ public class UI : MonoBehaviour
     
     public Sprite defaultItemSprite;
     private Racer racer;
+    private VFX vfx;
 
     private bool isPrimaryUI;
     private static UI primaryUI;

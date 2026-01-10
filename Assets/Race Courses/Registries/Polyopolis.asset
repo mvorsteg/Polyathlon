@@ -14,6 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   displayName: Polyopolis
   subtitle: 
-  info: 
+  info: A classic race that takes you through the city of Polyopolis on foot, then
+    up a mountan trail on a bike, and finally jetpacking through the sky. Watch out
+    for birds!
   icon: {fileID: 21300000, guid: 3d01642b6e7901d46a1828e0a4c8c8f2, type: 3}
+  screenshots: []
   sceneName: Course 1

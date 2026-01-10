@@ -48,6 +48,16 @@ public class TitleUI : BaseMenuUI
         mainMenuUI.TransitionToMode(MenuMode.Settings);
     }
 
+    public void OnPolypediaClicked()
+    {
+        mainMenuUI.TransitionToMode(MenuMode.Polypedia);
+    }
+
+    public void OnCreditsClicked()
+    {
+        mainMenuUI.TransitionToMode(MenuMode.Credits);
+    }
+
     public void OnQuitClicked()
     {
 #if UNITY_EDITOR

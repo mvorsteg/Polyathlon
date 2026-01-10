@@ -16,8 +16,8 @@ MonoBehaviour:
   subtitle: Unrelated to Bo
   info: 
   icon: {fileID: 21300000, guid: 3aeb1e8924418a547a348004fcbb9146, type: 3}
-  playerObj: {fileID: 8244711337795581057, guid: e3a9d80cc43a09349a3722ae3f3b213f,
+  playerObj: {fileID: 4202899985560269551, guid: 4d72b7641fcbb7045b05af77e88bbb49,
     type: 3}
-  npcObj: {fileID: 5726297956981979253, guid: 2f643fc1fabbe7042b6a3e7ad9023a4e, type: 3}
+  npcObj: {fileID: 7325667905137948090, guid: 0f84ebb253167264b8247e76f359329a, type: 3}
   previewObj: {fileID: 6907639614740660239, guid: a80bca964294b924c81b9f88fbf209e9,
     type: 3}

@@ -23,19 +23,7 @@ public class SettingsUI : BaseMenuUI
         base.Awake();
         
         unitsSpinner.FillWithEnum<SpeedUnits>();
-        SpeedUnits units = (SpeedUnits)PlayerPrefs.GetInt(PlayerPrefsKeys.SPEED_UNITS, 0);
-        if (EnumUtility.TryGetDescriptionFromValue(units, out string description))
-        {
-            unitsSpinner.SkipToValue(description);
-        }
-
         qualitySpinner.FillWithEnum<QualityLevel>();
-        QualityLevel quality = (QualityLevel)PlayerPrefs.GetInt(PlayerPrefsKeys.QUALITY_LEVEL, 0);
-        if (EnumUtility.TryGetDescriptionFromValue(quality, out description))
-        {
-            qualitySpinner.SkipToValue(description);
-            QualitySettings.SetQualityLevel((int)quality);
-        }
 
         masterVolSlider.value = PlayerPrefs.GetFloat(PlayerPrefsKeys.MASTER_VOL, 1f);
         sfxVolSlider.value = PlayerPrefs.GetFloat(PlayerPrefsKeys.SOUNDS_VOL, 1f);
@@ -44,6 +32,24 @@ public class SettingsUI : BaseMenuUI
         mixer.SetFloat("masterVol", masterVolSlider.value);
         mixer.SetFloat("musicVol", musicVolSlider.value);
         mixer.SetFloat("soundsVol", sfxVolSlider.value);
+    }
+
+    protected override void Start()
+    {
+        base.Start();
+
+        SpeedUnits units = (SpeedUnits)PlayerPrefs.GetInt(PlayerPrefsKeys.SPEED_UNITS, 0);
+        if (EnumUtility.TryGetDescriptionFromValue(units, out string description))
+        {
+            unitsSpinner.SkipToValue(description);
+        }
+
+        QualityLevel quality = (QualityLevel)PlayerPrefs.GetInt(PlayerPrefsKeys.QUALITY_LEVEL, 0);
+        if (EnumUtility.TryGetDescriptionFromValue(quality, out description))
+        {
+            QualitySettings.SetQualityLevel((int)quality);
+            qualitySpinner.SkipToValue(description);
+        }
     }
 
     public override void Navigate(MainMenuPlayer player, Vector2 input)

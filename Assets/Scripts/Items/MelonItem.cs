@@ -9,6 +9,13 @@ public class MelonItem : Item
 
     public override void Use(Racer racer)
     {
-        racer.ThrowItem();
+        Vector3 pos = racer.GetItemSpawnPos();
+        GameObject obj = Instantiate(Child, pos, Quaternion.identity);
+        Rigidbody itemRb = obj.GetComponent<Rigidbody>();
+
+        itemRb.linearVelocity = racer.Speed * racer.Forward;
+        itemRb.AddForce(1000 * (racer.characterMesh.transform.forward + 0.1f * transform.up));
+
+        racer.EquipItem(null);
     }
 }

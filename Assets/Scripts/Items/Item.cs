@@ -7,16 +7,18 @@ public class Item : MonoBehaviour
     public bool consumable = false;
 
     public Sprite icon;
+    public AudioClip soundWhenUsed;
 
     [SerializeField]
     private GameObject child;
     private Collider itemCollider;
     private ItemWaypoint itemWaypoint;
+
     private bool available = true;
 
     public GameObject Child { get => child; }
 
-    void Start()
+    protected virtual void Start()
     {
         child = transform.GetChild(0).gameObject;
         itemCollider = GetComponent<Collider>();

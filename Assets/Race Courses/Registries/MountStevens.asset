@@ -14,6 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   displayName: Mt. Stevens
   subtitle: 
-  info: 
+  info: This course has you jumping off a boat and swimming to shore, then climbing
+    a mountain on foot, and finally jetpacking through a field of laser turrets atop
+    a mountain
   icon: {fileID: 21300000, guid: 292c6474999edab4b966c1203625b195, type: 3}
+  screenshots: []
   sceneName: Course 2

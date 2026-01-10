@@ -82,7 +82,14 @@ public class Swim : Movement
     /*  grounds the player after a jump is complete */
     public override void Land()
     {
-        grounded = true;
-        // anim.SetTrigger("land"Trigger("land");
+        base.Land();
+    }
+
+    public override void ApplyJumpSplosion(Vector3 force)
+    {
+        // i have no idea what would happen if you do this when swimming
+        // add some lift maybe? 
+        force += Vector3.up * 300f;
+        Launch(force);
     }
 }

@@ -14,6 +14,7 @@ public class PlayerController : Racer
     private InputActions inputActions;
     private PlayerInput playerInput;
     private UI ui;
+    private VFX vfx;
     private bool canMove;
     private bool canLook = true;
     private int playerNumber = -1;
@@ -57,7 +58,7 @@ public class PlayerController : Racer
 
     public void OnUseItem(InputAction.CallbackContext ctx)
     {
-        if (RaceManager.IsTrainingCourse)
+        if (RaceManager.RespawnOnUse)
         {
             RaceManager.RespawnPlayer(this);
         }
@@ -198,9 +199,12 @@ public class PlayerController : Racer
     }
 
 
-    private void Awake() 
+    protected override void Awake() 
     {
+        base.Awake();
+
         playerInput = GetComponent<PlayerInput>();
+        vfx = GetComponentInChildren<VFX>();
         //inputActions = new InputActions();
         //inputActions.Debug.Exit.performed += ctx => Application.Quit();
         Cursor.visible = false;
@@ -211,6 +215,8 @@ public class PlayerController : Racer
 
     protected override void Start() 
     {
+        base.Start();
+        
        // inputActions.Disable();
         canMove = false;
         foreach(Movement m in movementOptions)
@@ -301,12 +307,32 @@ public class PlayerController : Racer
         move = movePreserve;
     }
 
+    public void EnableDebugControls()
+    {
+        playerInput.actions.FindActionMap("Debug").Enable();
+    }
+
+    public override void SetTarget(Transform target)
+    {
+        vfx.SetTarget(target);
+    }
+
+    protected override IEnumerator SpeedBoost(float magnitude, float duration)
+    {
+        vfx.SetSpeedLines(true);
+        cameraController.SetZoom(true);
+        yield return base.SpeedBoost(magnitude, duration);
+        cameraController.SetZoom(false);
+        vfx.SetSpeedLines(false);
+    }
+
     public override void Die(bool emphasizeTorso, Vector3 newMomentum = default(Vector3))
     {
         base.Die(emphasizeTorso, newMomentum);
         Debug.Log("die");
         // Have the camera start following the ragdoll
         StartCoroutine(cameraController.FollowRagdoll());
+        vfx.ShowDamage();
     }
 
     public override void Revive(bool forceRevive = false)

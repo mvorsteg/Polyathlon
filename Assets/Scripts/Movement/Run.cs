@@ -27,43 +27,46 @@ public class Run : Movement
     {
         base.AddMovement(forward, right);
 
-        Vector3 translation = Vector3.zero;
-        // for npcs
-        if (cameraController == null)
+        if (!launched)
         {
-            translation += right * transform.forward;
-            translation += forward * transform.right;    
-        }
-        // for players
-        else
-        {
-            translation += right * cameraController.transform.forward;
-            translation += forward * cameraController.transform.right;
-        }
-        
-        translation.y = 0;
-        if (translation.magnitude > 0)
-        {
-            velocity = translation;
-        }
-        else
-        {
-            velocity = Vector3.zero;
-        }
+            Vector3 translation = Vector3.zero;
+            // for npcs
+            if (cameraController == null)
+            {
+                translation += right * transform.forward;
+                translation += forward * transform.right;    
+            }
+            // for players
+            else
+            {
+                translation += right * cameraController.transform.forward;
+                translation += forward * cameraController.transform.right;
+            }
+            
+            translation.y = 0;
+            if (translation.magnitude > 0)
+            {
+                velocity = translation;
+            }
+            else
+            {
+                velocity = Vector3.zero;
+            }
 
-        // moved from update
-        if (velocity.magnitude > 0)
-        {
-            rb.linearVelocity = new Vector3(velocity.normalized.x * smoothSpeed, rb.linearVelocity.y, velocity.normalized.z * smoothSpeed);
-            smoothSpeed = Mathf.Lerp(smoothSpeed, maxSpeed * bonusSpeed, Time.deltaTime);
-            // rotate the character mesh if enabled
-            
-            characterMesh.rotation = Quaternion.Lerp(characterMesh.rotation, Quaternion.LookRotation(velocity), Time.deltaTime * rotationSpeed);
-            
-        }
-        else
-        {
-            smoothSpeed = Mathf.Lerp(smoothSpeed, 0, Time.deltaTime*8);
+            // moved from update
+            if (velocity.magnitude > 0)
+            {
+                rb.linearVelocity = new Vector3(velocity.normalized.x * smoothSpeed, rb.linearVelocity.y, velocity.normalized.z * smoothSpeed);
+                smoothSpeed = Mathf.Lerp(smoothSpeed, maxSpeed * bonusSpeed, Time.deltaTime);
+                // rotate the character mesh if enabled
+                
+                characterMesh.rotation = Quaternion.Lerp(characterMesh.rotation, Quaternion.LookRotation(velocity), Time.deltaTime * rotationSpeed);
+                
+            }
+            else
+            {
+                smoothSpeed = Mathf.Lerp(smoothSpeed, 0, Time.deltaTime*8);
+            }
         }
     
         // if the player landed, enable another jump
@@ -139,8 +142,14 @@ public class Run : Movement
     /*  grounds the player after a jump is complete */
     public override void Land()
     {
+        base.Land();
+
         Debug.Log(gameObject.name + " has landed!!!");
-        grounded = true;
-        // anim.SetTrigger("land");
+    }
+
+    public override void ApplyJumpSplosion(Vector3 force)
+    {
+        Jump(true);
+        Launch(force);
     }
 }

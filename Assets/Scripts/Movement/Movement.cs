@@ -34,6 +34,7 @@ public abstract class Movement : MonoBehaviour
     public float maxSpeed;
     public float acceleration;
     public float angularSpeed;
+    public Transform itemDropPoint;
 
     protected CameraController cameraController;
 
@@ -68,13 +69,15 @@ public abstract class Movement : MonoBehaviour
     // used to determine when jumping can occur
     protected bool grounded = true;
     protected bool falling = false;
+    protected bool launched = false;
     
     public Vector3 Velocity { get => actualVelocity; set => velocity = value; }
     public bool Falling { get => falling; set => falling = value; } 
     public bool Grounded { get => grounded; set => grounded = value; }
     public float BonusSpeed { get => bonusSpeed; set => bonusSpeed = value; }
     public CameraController CameraController { get => cameraController; set => cameraController = value; }
-
+    public virtual Vector3 Forward { get => characterMesh.forward; }
+    public virtual Vector3 ItemDropPoint { get => itemDropPoint.position; }
     protected virtual void OnEnable()
     {
         rb = GetComponent<Rigidbody>();
@@ -126,12 +129,25 @@ public abstract class Movement : MonoBehaviour
         racer.Revive();
     }
 
+    public virtual void Launch(Vector3 force)
+    {
+        launched = true;
+        rb.AddForce(force);
+    }
+
     /*  grounds the player after a jump is complete */
     public virtual void Land()
     {
-
+        grounded = true;
+        if (launched)
+        {
+            launched = false;
+            rb.linearVelocity = rb.linearVelocity.normalized * maxSpeed;
+        }
+        
     }
 
+    public abstract void ApplyJumpSplosion(Vector3 force);
 
     protected virtual void LateUpdate()
     {

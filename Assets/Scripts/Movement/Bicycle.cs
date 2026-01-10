@@ -34,6 +34,7 @@ public class Bicycle : Movement
     private Vector3 upDirection = Vector3.up;
 
     public float speedModifier = 10f;
+    public override Vector3 Forward { get => bike.transform.forward; }
 
     // Start is called before the first frame update
     protected override void OnEnable()
@@ -66,62 +67,62 @@ public class Bicycle : Movement
     public override void AddMovement(float forward, float right)
     {
         base.AddMovement(forward, right);
+        if (!launched)
+        {
+            Vector3 translation = Vector3.zero;
+            float rot = 0;
 
-        Vector3 translation = Vector3.zero;
-        float rot = 0;
-
-        if (right > 0)
-            translation += right * transform.forward;
-        rot += forward * rotSpeed;
-        
-        translation.y = 0;
-        if (translation.magnitude > 0)
-        {
-            velocity = translation;
-        }
-        else
-        {
-            velocity = Vector3.zero;
-        }
-
-        // moved from update
-        if (velocity.magnitude > 0)
-        {
-            rb.linearVelocity = new Vector3(velocity.normalized.x * smoothSpeed, rb.linearVelocity.y, velocity.normalized.z * smoothSpeed);
-            smoothSpeed = Mathf.Lerp(smoothSpeed, maxSpeed * bonusSpeed, Time.deltaTime);    
-        }
-        else
-        {
-            smoothSpeed = Mathf.Lerp(smoothSpeed, 0, Time.deltaTime * 8);
-        }
-
-        if (rb.linearVelocity.magnitude > 0.001 && forward != 0)
-        {
-            transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, transform.localEulerAngles.y + (rot * Time.deltaTime), 0);
-            if (rb.linearVelocity.magnitude > 10f)
-            if (forward > 0)
+            if (right > 0)
+                translation += right * transform.forward;
+            rot += forward * rotSpeed;
+            
+            translation.y = 0;
+            if (translation.magnitude > 0)
             {
-                lean = Mathf.Lerp(lean, 45f, Time.deltaTime);
+                velocity = translation;
             }
             else
             {
-                lean = Mathf.Lerp(lean, -45f, Time.deltaTime);   
+                velocity = Vector3.zero;
             }
+
+            // moved from update
+            if (velocity.magnitude > 0)
+            {
+                rb.linearVelocity = new Vector3(velocity.normalized.x * smoothSpeed, rb.linearVelocity.y, velocity.normalized.z * smoothSpeed);
+                smoothSpeed = Mathf.Lerp(smoothSpeed, maxSpeed * bonusSpeed, Time.deltaTime);    
+            }
+            else
+            {
+                smoothSpeed = Mathf.Lerp(smoothSpeed, 0, Time.deltaTime * 8);
+            }
+
+            if (rb.linearVelocity.magnitude > 0.001 && forward != 0)
+            {
+                transform.localEulerAngles = new Vector3(transform.localEulerAngles.x, transform.localEulerAngles.y + (rot * Time.deltaTime), 0);
+                if (rb.linearVelocity.magnitude > 10f)
+                if (forward > 0)
+                {
+                    lean = Mathf.Lerp(lean, 45f, Time.deltaTime);
+                }
+                else
+                {
+                    lean = Mathf.Lerp(lean, -45f, Time.deltaTime);   
+                }
+            }
+            else
+            {
+                lean = Mathf.Lerp(lean, 0.5f, Time.deltaTime * 4);
+            }
+            //characterMesh.localEulerAngles = new Vector3(characterMesh.localEulerAngles.x, characterMesh.localEulerAngles.y, lean);
+            //bike.transform.localEulerAngles = new Vector3(bike.transform.localEulerAngles.x, bike.transform.localEulerAngles.y, lean);
         }
-        else
-        {
-            lean = Mathf.Lerp(lean, 0.5f, Time.deltaTime * 4);
-        }
-        //characterMesh.localEulerAngles = new Vector3(characterMesh.localEulerAngles.x, characterMesh.localEulerAngles.y, lean);
-        //bike.transform.localEulerAngles = new Vector3(bike.transform.localEulerAngles.x, bike.transform.localEulerAngles.y, lean);
-    
         // if the player landed, enable another jump
         if (!grounded)
         {
             RaycastHit hit;
             if (falling && Physics.Linecast(transform.position + new Vector3(0, 0.1f, 0), transform.position + new Vector3(0, -0.2f, 0), out hit))
             {
-                falling = false;
                 Land();
             }
         }
@@ -166,5 +167,27 @@ public class Bicycle : Movement
     public override void Jump(bool hold)
     {
         base.Jump(hold);
+    }    
+    
+    public override void Launch(Vector3 force)
+    {
+        base.Launch(force);
+        // Bike doesn't jump, so un-ground here
+        grounded = false;
+        StartCoroutine(LaunchCooldown());
+    }
+
+    private IEnumerator LaunchCooldown()
+    {
+        falling = false;
+        yield return new WaitForSeconds(0.2f);
+        falling = true;
+    }
+
+    public override void ApplyJumpSplosion(Vector3 force)
+    {
+        // add some vertical lift
+        force += Vector3.up * 300f;
+        Launch(force);
     }
 }

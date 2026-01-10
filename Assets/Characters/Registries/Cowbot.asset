@@ -16,8 +16,8 @@ MonoBehaviour:
   subtitle: Robots need milk too
   info: 
   icon: {fileID: 21300000, guid: 4d0a223a08a16984885aae404d313699, type: 3}
-  playerObj: {fileID: 411290082333151904, guid: 9acadf4bf46cec3419502d95f1037e60,
+  playerObj: {fileID: 5239885759907529284, guid: 07ee9d5c6f621d44d80f8473c914d7c9,
     type: 3}
-  npcObj: {fileID: 5726297956981979253, guid: e939743a968905541b0fc0ffcf36d601, type: 3}
+  npcObj: {fileID: 5585353142469060200, guid: e5dcf7ec6e127114298632410ed9a5bc, type: 3}
   previewObj: {fileID: 1955606547528251518, guid: f0bbc810402d7f741be50948da9a45a1,
     type: 3}
