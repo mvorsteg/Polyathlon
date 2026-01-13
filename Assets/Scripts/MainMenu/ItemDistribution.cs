@@ -2,5 +2,6 @@ public enum ItemDistribution
 {
     Balanced,
     Aggressive,
-    Strategic
+    Strategic,
+    Random
 }
