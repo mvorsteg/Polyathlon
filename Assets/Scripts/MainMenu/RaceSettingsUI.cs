@@ -11,7 +11,7 @@ public class RaceSettingsUI : BaseMenuUI
     [SerializeField]
     private StageSelectUI stageSelectUI;
     [SerializeField]
-    private LootTable balancedItems, aggressiveItems, strategicItems;
+    private LootTable balancedItems, aggressiveItems, strategicItems, randomItems;
     public int maxTotalRacers = 12;
 
     protected override void Awake()
@@ -96,6 +96,11 @@ public class RaceSettingsUI : BaseMenuUI
                     case ItemDistribution.Strategic:
                         {
                             lootTable = strategicItems;
+                        }
+                        break;
+                    case ItemDistribution.Random:
+                        {
+                            lootTable = randomItems;
                         }
                         break;
                     default:

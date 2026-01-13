@@ -8365,9 +8365,9 @@ MonoBehaviour:
   detailsTitleText: {fileID: 406438631}
   detailsDescriptionText: {fileID: 1175303556}
   detailsIcon: {fileID: 899804085}
-  detailsIconFade: {fileID: 310377020}
-  timePerSlide: 10
-  slideTransitionTime: 2
+  detailsIconFade: {fileID: 0}
+  timePerSlide: 5
+  slideTransitionTime: 0.5
 --- !u!1 &899804083
 GameObject:
   m_ObjectHideFlags: 0
@@ -16487,6 +16487,7 @@ MonoBehaviour:
   balancedItems: {fileID: 11400000, guid: bd6efe75f6f94a84085ec0a88a4194e8, type: 2}
   aggressiveItems: {fileID: 11400000, guid: 47a77a17f071b9a41bd20ee87fe79332, type: 2}
   strategicItems: {fileID: 11400000, guid: b59801ed3acf5bc43a4653ac00fd5e2b, type: 2}
+  randomItems: {fileID: 11400000, guid: 0bc51452b96e4f44d90c74910a3ec530, type: 2}
   maxTotalRacers: 12
 --- !u!224 &1827655766 stripped
 RectTransform:
