@@ -138,14 +138,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e508022f6cd918942af622304fb3729d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
   cameraTransform: {fileID: 6156198436851047742}
-  characterHips: {fileID: 0}
   layerMask:
     serializedVersion: 2
     m_Bits: 563
   zoomedOutFOV: 75
   camera: {fileID: 6156198436851047728}
+  vfxCam: {fileID: 3222331886798531970}
 --- !u!1 &8383303214427071507
 GameObject:
   m_ObjectHideFlags: 0
