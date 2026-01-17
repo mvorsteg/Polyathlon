@@ -165,6 +165,7 @@ MonoBehaviour:
   preloadedStages: []
   numRaces: 0
   raceSelection: 0
+  lootTable: {fileID: 11400000, guid: 0bc51452b96e4f44d90c74910a3ec530, type: 2}
   cpuDifficulty: 0
   numCPUs: 0
   mainMenuSceneName: 
