@@ -32,10 +32,17 @@ public class AudioManager : MonoBehaviour
 
     public void PlaySong(int idx)
     {
-        AudioSource src = isSource1 ? musicSource1 : musicSource2;
-        src.clip = songs[idx];
-        src.loop = true;
-        src.Play();
+        if (idx < songs.Length)
+        {
+            AudioSource src = isSource1 ? musicSource1 : musicSource2;
+            src.clip = songs[idx];
+            src.loop = true;
+            src.Play();
+        }
+        else
+        {
+            Debug.Log("No song is available at index " + idx + " of the songs array");
+        }
     }
 
     /*  fades between the current song and the next one we have asked for */
