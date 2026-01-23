@@ -184,6 +184,29 @@ public class PlayerController : Racer
                 movement.Jump(false);
         }
     }
+
+    // Wheeling
+    public void OnWheelingMovement(InputAction.CallbackContext ctx)
+    {
+        if (canMove)
+        {
+            if (ctx.performed)
+                move = ctx.ReadValue<Vector2>();
+            else if (ctx.canceled)
+                move = Vector2.zero;
+        }
+    }
+
+    public void OnWheelingLook(InputAction.CallbackContext ctx)
+    {
+        if (canLook)
+        {
+            if (ctx.performed)
+                look = ctx.ReadValue<Vector2>() * (ctx.control.device is Gamepad ? Time.deltaTime * gamepadLookSensititvity : keyboardSchemeSensitivity);
+            else if (ctx.canceled)
+                look = Vector2.zero;
+        }
+    }
     
     public void OnFinishAnyKeyPressed(InputAction.CallbackContext ctx)
     {
@@ -304,6 +327,7 @@ public class PlayerController : Racer
         Vector2 movePreserve = move;
         base.SetMovementMode(mode, initial);
         playerInput.currentActionMap = playerInput.actions.actionMaps[(int)mode];
+        Debug.Log("currentActionMap " + playerInput.currentActionMap);
         move = movePreserve;
     }
 

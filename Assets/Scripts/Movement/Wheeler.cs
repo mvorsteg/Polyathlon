@@ -1,0 +1,182 @@
+using UnityEngine;
+
+[RequireComponent(typeof(Rigidbody))]
+[RequireComponent(typeof(CapsuleCollider))]
+public class Wheeler : Movement
+{
+    
+ 
+    public float driveForce = 800f;
+
+    public GameObject wheeler;
+
+
+    private float forward;
+    private float right;
+    private Vector3 defaultCOM;
+    private Rigidbody leftWheel;
+    private Rigidbody rightWheel;
+
+    void Start()
+    {
+
+
+       leftWheel = transform.Find("Rideables/Wheeler/Wheeler Structure/Left Wheel").GetComponent<Rigidbody>();
+       leftWheel.GetComponent<ConfigurableJoint>().connectedBody = rb;
+       leftWheel.solverIterations = 12;
+       rightWheel = transform.Find("Rideables/Wheeler/Wheeler Structure/Right Wheel").GetComponent<Rigidbody>();
+       rightWheel.GetComponent<ConfigurableJoint>().connectedBody = rb;
+       rightWheel.solverIterations = 12;
+    }
+
+    // enable wheeler
+    protected override void OnEnable() 
+    {
+        base.OnEnable();
+
+        SetWheeler(true);
+    }
+
+    // Put away wheeler
+    protected override void OnDisable()
+    {
+        base.OnDisable();
+        SetWheeler(false);
+    }
+
+
+    /*  moves the player rigidbody */
+    public override void AddMovement(float forward, float right)
+    {
+        base.AddMovement(forward, right);
+        // they're flipped here for some reason
+        this.right = forward;
+        this.forward = right;
+    }
+
+
+    float GetPitchAngle()
+    {
+        Vector3 forward = transform.forward;
+        Vector3 flatForward = Vector3.ProjectOnPlane(forward, Vector3.up).normalized;
+        return Vector3.SignedAngle(flatForward, forward, transform.right);
+    }
+
+    void FixedUpdate()
+    {
+        ApplyDriveForce();        // translation
+        ApplyTurnForce();              // yaw
+
+        // Clamp velocity
+        
+        maxSpeed = 10;
+        
+        Vector3 horizontalVel = Vector3.ProjectOnPlane(rb.linearVelocity, Vector3.up);
+
+        if (horizontalVel.magnitude > maxSpeed)
+        {
+            Vector3 clampedHorizontal = horizontalVel.normalized * maxSpeed;
+            rb.linearVelocity = clampedHorizontal + Vector3.up * rb.linearVelocity.y;
+        }
+
+
+        // clamp drift
+        float maxDriftSpeed = 1;
+        float driftSpeed = Vector3.Dot(rb.linearVelocity, transform.right);
+
+        driftSpeed = Mathf.Clamp(driftSpeed, -maxDriftSpeed, maxDriftSpeed);
+
+        Vector3 lateral = rb.linearVelocity - transform.right * Vector3.Dot(rb.linearVelocity, transform.right);
+        rb.linearVelocity = transform.right * driftSpeed + lateral;
+
+
+    }
+
+
+    bool IsGrounded()
+    {
+        return Physics.Raycast(
+            transform.position,
+            -transform.up,
+            out _,
+            1.0f
+        );
+    }
+
+
+    void ApplyDriveForce()
+    {
+        if (forward != 0)
+        {
+            if (!IsGrounded())
+                return;
+
+            Vector3 pitchAxis =
+                Vector3.Cross(transform.forward, Vector3.up).normalized;
+
+            Vector3 driveDir =
+                - Vector3.Cross(pitchAxis, Vector3.up).normalized;
+
+            rb.AddForce(
+                driveDir * forward * driveForce,
+                ForceMode.Force
+            );
+        }
+    }
+
+
+    void ApplyTurnForce()
+    {
+        // Turn using an offset force so that we can keep the center of mass where it is without
+        // causing the wheeler to rotate over the local Z axis
+        if (right != 0)
+        {
+            if (!IsGrounded())
+                return;
+            
+            Vector3 flatForward = Vector3.ProjectOnPlane(transform.forward, Vector3.up).normalized;
+            Vector3 force = -flatForward * 10;
+            Vector3 yawRight = Vector3.Cross(Vector3.up, flatForward); // right, yaw-only
+            Vector3 posRight = transform.position + yawRight * 10f * right;
+            Vector3 posLeft = transform.position - yawRight * 10f * right; // left, yaw-only
+            rb.AddForceAtPosition(force, posRight, ForceMode.Impulse);
+            rb.AddForceAtPosition(-force, posLeft, ForceMode.Impulse);
+        }
+
+    }
+
+
+
+    public override void ApplyJumpSplosion(Vector3 force)
+    {
+        Jump(true);
+        Launch(force);
+    }
+
+    public virtual void SetWheeler(bool enabled)
+    {
+        wheeler.SetActive(enabled);
+
+        if (enabled)
+        {
+            characterMesh.localPosition = new Vector3(0,0.56f,0);
+            rb.mass = 100;
+            rb.linearVelocity = new Vector3(0,0,0);
+            rb.angularDamping = 5.0f;
+            defaultCOM = rb.centerOfMass;
+            rb.centerOfMass = new Vector3(0f, -3f, 0f);
+            rb.constraints = RigidbodyConstraints.FreezeRotationZ;
+            rb.interpolation = RigidbodyInterpolation.Interpolate;
+            ConfigurableJoint[] joints = wheeler.GetComponentsInChildren<ConfigurableJoint>();
+        }
+        else
+        {
+            characterMesh.localPosition = new Vector3(0,0,0);
+            rb.mass = 1;
+            rb.angularDamping = 0.05f;
+            rb.centerOfMass = defaultCOM;
+            rb.constraints = RigidbodyConstraints.FreezeRotation;
+            rb.interpolation = RigidbodyInterpolation.None;
+        }
+    }
+}

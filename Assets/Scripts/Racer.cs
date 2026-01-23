@@ -164,6 +164,11 @@ public class Racer : MonoBehaviour
                     audioSource.clip = bikeSound;
                     audioSource.Play();
                     break;
+                case Movement.Mode.Wheeling:
+                    if (!(movement is Wheeler))
+                        movement.Land();
+                    movement = movementOptions[(int)Movement.Mode.Wheeling];
+                    break;
                 case Movement.Mode.GetOffTheBoat:
                     movement = movementOptions[(int)Movement.Mode.Running];
                     break;
