@@ -44,14 +44,62 @@ public class Wheeler : Movement
         SetWheeler(false);
     }
 
-
-    /*  moves the player rigidbody */
+    // Simple non-camera relative steering, less jittery but less intuitive
+    /*  
     public override void AddMovement(float forward, float right)
     {
         base.AddMovement(forward, right);
         // they're flipped here for some reason
         this.right = forward;
         this.forward = right;
+    }*/
+
+    // Calculate camera-relative steering.
+    public override void AddMovement(float inputForward, float inputRight)
+    {
+        base.AddMovement(inputForward, inputRight);
+
+        float rawForward = inputRight;   // W/S
+        float rawTurn    = inputForward; // A/D
+
+        if (cameraController == null)
+        {
+            forward = rawForward;
+            right   = rawTurn;
+            return;
+        }
+
+        Vector3 toCamera = cameraController.cameraTransform.position - transform.position;
+        toCamera = Vector3.ProjectOnPlane(toCamera, Vector3.up).normalized;
+
+        Vector3 desiredForward = -toCamera;
+
+        float yawError = Vector3.SignedAngle(
+            transform.forward,
+            desiredForward,
+            Vector3.up
+        );
+
+        // Dead Zone
+        const float yawDeadZone = 2f;
+        if (Mathf.Abs(yawError) < yawDeadZone)
+            yawError = 0f;
+
+        // Camera align turn
+        float alignTurn = 0f;
+        if (rawForward != 0 || rawTurn != 0)
+        {
+            if (yawError != 0f && Mathf.Abs(rawForward) > 0.01f)
+            {
+                alignTurn = Mathf.Sign(yawError) * Mathf.Min(Mathf.Abs(yawError) / 45f, 1f);
+            }
+            right = Mathf.Clamp(rawTurn + alignTurn, -1f, 1f);
+        }
+        else
+        {
+            right = 0;
+        }
+        forward = rawForward;
     }
 
 
@@ -168,6 +216,7 @@ public class Wheeler : Movement
             rb.constraints = RigidbodyConstraints.FreezeRotationZ;
             rb.interpolation = RigidbodyInterpolation.Interpolate;
             ConfigurableJoint[] joints = wheeler.GetComponentsInChildren<ConfigurableJoint>();
+            cameraController.EnableYawDecoupling();
         }
         else
         {
@@ -177,6 +226,7 @@ public class Wheeler : Movement
             rb.centerOfMass = defaultCOM;
             rb.constraints = RigidbodyConstraints.FreezeRotation;
             rb.interpolation = RigidbodyInterpolation.None;
+            cameraController.DisableYawDecoupling();
         }
     }
 }
