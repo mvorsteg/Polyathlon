@@ -117,8 +117,6 @@ public class Wheeler : Movement
 
         // Clamp velocity
         
-        maxSpeed = 10;
-        
         Vector3 horizontalVel = Vector3.ProjectOnPlane(rb.linearVelocity, Vector3.up);
 
         if (horizontalVel.magnitude > maxSpeed)
@@ -216,7 +214,8 @@ public class Wheeler : Movement
             rb.constraints = RigidbodyConstraints.FreezeRotationZ;
             rb.interpolation = RigidbodyInterpolation.Interpolate;
             ConfigurableJoint[] joints = wheeler.GetComponentsInChildren<ConfigurableJoint>();
-            cameraController.EnableYawDecoupling();
+            if (cameraController != null)
+                cameraController.EnableYawDecoupling();
         }
         else
         {
@@ -226,7 +225,8 @@ public class Wheeler : Movement
             rb.centerOfMass = defaultCOM;
             rb.constraints = RigidbodyConstraints.FreezeRotation;
             rb.interpolation = RigidbodyInterpolation.None;
-            cameraController.DisableYawDecoupling();
+            if (cameraController != null)
+                cameraController.DisableYawDecoupling();
         }
     }
 }

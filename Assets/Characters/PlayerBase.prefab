@@ -858,6 +858,26 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 74fb1003-5667-4873-9b79-c13a13ee12e4
     m_ActionName: 'Debug/PrevChar[/Keyboard/pageDown]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 5ea21c8e-417f-459c-a220-d088a3c339db
+    m_ActionName: 'Wheeling/Movement[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 0b977e9d-d7b3-401f-846a-1dc94347e3ec
+    m_ActionName: 'Wheeling/Look[/Mouse/delta,/Keyboard/upArrow,/Keyboard/downArrow,/Keyboard/leftArrow,/Keyboard/rightArrow]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 4a480789-10d0-4e46-8ac0-01e0534e51e6
+    m_ActionName: 'Wheeling/Jump[/Keyboard/space]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 676ddd46-77fc-4556-a41c-d79cb32b03ee
+    m_ActionName: 'Wheeling/Item[/Mouse/leftButton,/Mouse/rightButton,/Keyboard/e]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 25397818-9a4f-44d2-b085-bb9157364e19
+    m_ActionName: Wheeling/StartButton
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Running
@@ -895,23 +915,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74dcc19c2eaf76140b2bfda59c6b8abd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Wheeler
-  maxSpeed: 0
+  maxSpeed: 10
   acceleration: 0
   angularSpeed: 0
   itemDropPoint: {fileID: 0}
-  leftWheelRaycaster: {fileID: 8387665681241225497}
-  rightWheelRaycaster: {fileID: 8968926416774875935}
-  wheelRadius: 0.35
-  suspensionLength: 0.2
-  suspensionStrength: 2000
-  suspensionDamping: 200
-  maxLeanAngle: 30
-  leanDriveGain: 25
-  driveLeanForce: 60
   driveForce: 1500
   wheeler: {fileID: 3166750812779697307}
-  headingHoldStrength: 2.5
-  indicator: {fileID: 0}
 --- !u!1 &4550237746107024480
 GameObject:
   m_ObjectHideFlags: 0
@@ -1212,18 +1221,6 @@ GameObject:
 --- !u!4 &4027058778690895194 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2962416683747405903, guid: 7c7b00cd2293bcb47a1b58fef57ddb51,
-    type: 3}
-  m_PrefabInstance: {fileID: 2233331146249817365}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &8387665681241225497 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 7681060306429637644, guid: 7c7b00cd2293bcb47a1b58fef57ddb51,
-    type: 3}
-  m_PrefabInstance: {fileID: 2233331146249817365}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &8968926416774875935 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 7099473835722966538, guid: 7c7b00cd2293bcb47a1b58fef57ddb51,
     type: 3}
   m_PrefabInstance: {fileID: 2233331146249817365}
   m_PrefabAsset: {fileID: 0}

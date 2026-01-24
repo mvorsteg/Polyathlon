@@ -50,10 +50,13 @@ public class NPC : Racer
         base.Start();
     }
 
+    private Vector3 smoothedDesired;
+    private const float desiredSmoothTime = 0.15f;
+
+
     protected override void Update()
     {
-        //move.x = agent.desiredVelocity.x;
-        //move.y = agent.desiredVelocity.z;
+        
         base.Update();
         if (movementMode == Movement.Mode.Jetpacking)
         {
@@ -77,7 +80,6 @@ public class NPC : Racer
         }
         else if (movementMode == Movement.Mode.Gliding)
         {
-            // TODO: Detect if we're gliding and figure out how to pilot the glider
             if (!movement.Grounded)
             {
                 if (!gliderControlActive)
@@ -96,7 +98,54 @@ public class NPC : Racer
             Debug.DrawRay(transform.position, newDir, Color.red);
             transform.rotation = Quaternion.LookRotation(newDir);
             move = new Vector2(0, 1f);
-        }        
+        }
+        else if (movementMode == Movement.Mode.Wheeling)
+        {
+            if (!agent.enabled || !agent.isOnNavMesh)
+            {
+                move = Vector2.zero;
+                return;
+            }
+
+            // KEEP AGENT IN SYNC WITH PHYSICS
+            agent.nextPosition = transform.position;
+
+            Vector3 desired;
+
+            if (agent.hasPath && agent.path.corners.Length > 1)
+                desired = agent.path.corners[1] - transform.position;
+            else
+                desired = agent.desiredVelocity;
+
+            if (desired.sqrMagnitude < 0.01f)
+            {
+                move = Vector2.zero;
+                return;
+            }
+
+            // Smooth
+            smoothedDesired = Vector3.Lerp(
+                smoothedDesired,
+                desired,
+                Time.deltaTime * 6f
+            );
+
+            Vector3 flatDesired = Vector3.ProjectOnPlane(smoothedDesired, Vector3.up).normalized;
+
+            float forwardIntent = Vector3.Dot(transform.forward, flatDesired);
+            float turnIntent    = Vector3.Dot(transform.right,  flatDesired);
+
+            forwardIntent = Mathf.Clamp(forwardIntent, -1f, 1f);
+            turnIntent    = Mathf.Clamp(turnIntent, -1f, 1f);
+
+            // Optional: slow down while turning
+            forwardIntent *= Mathf.Lerp(1f, 0.4f, Mathf.Abs(turnIntent));
+
+            // Match Wheeler axis expectations
+            move.x = turnIntent;
+            move.y = forwardIntent;
+        }
+
     }
 
     void FixedUpdate()
@@ -184,7 +233,7 @@ public class NPC : Racer
                         move += new Vector2(0, -0.1f);
                     }
                 }
-                else if ((distanceToLanding > distanceToTarget && (characterMesh.up.z > -0.5f)))
+                else if (distanceToLanding > distanceToTarget && (characterMesh.up.z > -0.5f))
                 {
                     
                     if (rb.linearVelocity.magnitude < stallSpeed && characterMesh.up.z > -0.5f)
@@ -252,7 +301,7 @@ public class NPC : Racer
         }
     }
 
-    public override void Die(bool emphasizeTorso, Vector3 newMomentum = default(Vector3))
+    public override void Die(bool emphasizeTorso, Vector3 newMomentum = default)
     {
         base.Die(emphasizeTorso, newMomentum);
         if (agent.isOnNavMesh)
@@ -281,6 +330,7 @@ public class NPC : Racer
     /*  updates player's movement mode and maxSpeed/locomotion accordingly */
     public override void SetMovementMode(Movement.Mode mode, bool initial = false)
     {
+        Debug.Log("Setting mode: " + mode);
         base.SetMovementMode(mode, initial);
         move = new Vector2(0, 0);
         if (mode == Movement.Mode.Swimming || mode == Movement.Mode.GetOffTheBoat)
@@ -290,6 +340,14 @@ public class NPC : Racer
         else
         {
             SetNavMeshAgent(true);
+        }
+        if (mode == Movement.Mode.Wheeling)
+        {
+            agent.updatePosition = false;
+        }
+        else
+        {
+            agent.updatePosition = true;
         }
         agent.speed = movement.maxSpeed;
         agent.acceleration = movement.acceleration;

@@ -176,7 +176,7 @@ public class Racer : MonoBehaviour
             }
             movement.enabled = true;
             animEvents.movement = movement;
-            anim.SetInteger("movement_mode", (int)movementMode % 5);
+            anim.SetInteger("movement_mode", (int)movementMode % 6);
         }
     }
 
