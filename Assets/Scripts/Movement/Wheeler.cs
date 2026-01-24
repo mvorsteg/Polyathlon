@@ -13,20 +13,16 @@ public class Wheeler : Movement
 
     private float forward;
     private float right;
-    private Vector3 defaultCOM;
-    private Rigidbody leftWheel;
-    private Rigidbody rightWheel;
+    private Rigidbody wheelerRb;
 
     void Start()
     {
+        
 
-
-       leftWheel = transform.Find("Rideables/Wheeler/Wheeler Structure/Left Wheel").GetComponent<Rigidbody>();
-       leftWheel.GetComponent<ConfigurableJoint>().connectedBody = rb;
-       leftWheel.solverIterations = 12;
-       rightWheel = transform.Find("Rideables/Wheeler/Wheeler Structure/Right Wheel").GetComponent<Rigidbody>();
-       rightWheel.GetComponent<ConfigurableJoint>().connectedBody = rb;
-       rightWheel.solverIterations = 12;
+        Rigidbody leftWheel = transform.Find("Rideables/Wheeler/Wheeler Structure/Left Wheel").GetComponent<Rigidbody>();
+        leftWheel.solverIterations = 12;
+        Rigidbody rightWheel = transform.Find("Rideables/Wheeler/Wheeler Structure/Right Wheel").GetComponent<Rigidbody>();
+        rightWheel.solverIterations = 12;
     }
 
     // enable wheeler
@@ -46,13 +42,51 @@ public class Wheeler : Movement
 
 
     /*  moves the player rigidbody */
+    /*
     public override void AddMovement(float forward, float right)
     {
         base.AddMovement(forward, right);
         // they're flipped here for some reason
         this.right = forward;
         this.forward = right;
+    }*/
+
+    public override void AddMovement(float inputForward, float inputRight)
+    {
+        base.AddMovement(inputForward, inputRight);
+
+        if (cameraController == null)
+        {
+            forward = inputRight;  // W/S
+            right   = inputForward; // A/D
+            return;
+        }
+
+        // Fix flipped input
+        float rawForward = inputRight; // W/S
+        float rawRight   = inputForward; // A/D
+
+        // ----- Vector from player to camera (XZ) -----
+        Vector3 toCamera = cameraController.cameraTransform.position - wheeler.transform.position;
+        toCamera = Vector3.ProjectOnPlane(toCamera, Vector3.up).normalized;
+
+        // Forward = +1 when camera behind, -1 when in front
+        forward = -Vector3.Dot(wheeler.transform.forward, toCamera) * rawForward;
+
+        // Right = +1 when camera left, -1 when camera right
+        right   = -Vector3.Dot(wheeler.transform.right, toCamera) * rawForward + rawRight;
+
+        // Clamp
+        forward = Mathf.Clamp(forward, -1f, 1f);
+        right   = Mathf.Clamp(right, -1f, 1f);
+        Debug.Log("toCamera: " + toCamera + " inputForward: " + inputForward +  " forward: " + forward + " inputRight: " + inputRight + " right: " + right);
     }
+
+
+
+
+//Debug.Log("forward: " + forward + " right: " + right);
+//Debug.Log("inputForward: " + inputForward + " forwardDot: " + forwardDot + " forward: " + forward + " inputRight: " + inputRight + " rightDot: " + rightDot + " right: " + right);
 
 
     float GetPitchAngle()
@@ -62,6 +96,15 @@ public class Wheeler : Movement
         return Vector3.SignedAngle(flatForward, forward, transform.right);
     }
 
+    /*
+    Plan to fix camera-relative motion
+    - Add rigidbody to main body of segway
+    - Have it match the properties given to the current rigidbody in SetWheeler()
+    - When we set wheeler, disable the regular rigidbody. When set wheeler false, re-enable regular rigidbody
+    - Also move CharacterMesh to be a child of wheeler gameobject, and move it back when wheeler is false
+    - Replace all the references to the regular rigidbody with wheeler rigidbody    
+    */
+    
     void FixedUpdate()
     {
         ApplyDriveForce();        // translation
@@ -71,23 +114,23 @@ public class Wheeler : Movement
         
         maxSpeed = 10;
         
-        Vector3 horizontalVel = Vector3.ProjectOnPlane(rb.linearVelocity, Vector3.up);
+        Vector3 horizontalVel = Vector3.ProjectOnPlane(wheelerRb.linearVelocity, Vector3.up);
 
         if (horizontalVel.magnitude > maxSpeed)
         {
             Vector3 clampedHorizontal = horizontalVel.normalized * maxSpeed;
-            rb.linearVelocity = clampedHorizontal + Vector3.up * rb.linearVelocity.y;
+            wheelerRb.linearVelocity = clampedHorizontal + Vector3.up * wheelerRb.linearVelocity.y;
         }
 
 
         // clamp drift
         float maxDriftSpeed = 1;
-        float driftSpeed = Vector3.Dot(rb.linearVelocity, transform.right);
+        float driftSpeed = Vector3.Dot(wheelerRb.linearVelocity, wheeler.transform.right);
 
         driftSpeed = Mathf.Clamp(driftSpeed, -maxDriftSpeed, maxDriftSpeed);
 
-        Vector3 lateral = rb.linearVelocity - transform.right * Vector3.Dot(rb.linearVelocity, transform.right);
-        rb.linearVelocity = transform.right * driftSpeed + lateral;
+        Vector3 lateral = wheelerRb.linearVelocity - wheeler.transform.right * Vector3.Dot(wheelerRb.linearVelocity, wheeler.transform.right);
+        wheelerRb.linearVelocity = wheeler.transform.right * driftSpeed + lateral;
 
 
     }
@@ -96,8 +139,8 @@ public class Wheeler : Movement
     bool IsGrounded()
     {
         return Physics.Raycast(
-            transform.position,
-            -transform.up,
+            wheeler.transform.position,
+            -wheeler.transform.up,
             out _,
             1.0f
         );
@@ -112,12 +155,12 @@ public class Wheeler : Movement
                 return;
 
             Vector3 pitchAxis =
-                Vector3.Cross(transform.forward, Vector3.up).normalized;
+                Vector3.Cross(wheeler.transform.forward, Vector3.up).normalized;
 
             Vector3 driveDir =
                 - Vector3.Cross(pitchAxis, Vector3.up).normalized;
 
-            rb.AddForce(
+            wheelerRb.AddForce(
                 driveDir * forward * driveForce,
                 ForceMode.Force
             );
@@ -134,13 +177,13 @@ public class Wheeler : Movement
             if (!IsGrounded())
                 return;
             
-            Vector3 flatForward = Vector3.ProjectOnPlane(transform.forward, Vector3.up).normalized;
+            Vector3 flatForward = Vector3.ProjectOnPlane(wheeler.transform.forward, Vector3.up).normalized;
             Vector3 force = -flatForward * 10;
             Vector3 yawRight = Vector3.Cross(Vector3.up, flatForward); // right, yaw-only
-            Vector3 posRight = transform.position + yawRight * 10f * right;
-            Vector3 posLeft = transform.position - yawRight * 10f * right; // left, yaw-only
-            rb.AddForceAtPosition(force, posRight, ForceMode.Impulse);
-            rb.AddForceAtPosition(-force, posLeft, ForceMode.Impulse);
+            Vector3 posRight = wheeler.transform.position + yawRight * 10f * right;
+            Vector3 posLeft = wheeler.transform.position - yawRight * 10f * right; // left, yaw-only
+            wheelerRb.AddForceAtPosition(force, posRight, ForceMode.Impulse);
+            wheelerRb.AddForceAtPosition(-force, posLeft, ForceMode.Impulse);
         }
 
     }
@@ -155,28 +198,35 @@ public class Wheeler : Movement
 
     public virtual void SetWheeler(bool enabled)
     {
-        wheeler.SetActive(enabled);
-
         if (enabled)
         {
+            wheeler.SetActive(true);
+            wheelerRb = wheeler.GetComponent<Rigidbody>();
+            wheeler.GetComponent<ItemPickup>().AssignRacer(racer);
+            wheelerRb.centerOfMass = new Vector3(0, -3f, -1f);
+            rb.isKinematic = true;
+
             characterMesh.localPosition = new Vector3(0,0.56f,0);
-            rb.mass = 100;
-            rb.linearVelocity = new Vector3(0,0,0);
-            rb.angularDamping = 5.0f;
-            defaultCOM = rb.centerOfMass;
-            rb.centerOfMass = new Vector3(0f, -3f, 0f);
-            rb.constraints = RigidbodyConstraints.FreezeRotationZ;
-            rb.interpolation = RigidbodyInterpolation.Interpolate;
-            ConfigurableJoint[] joints = wheeler.GetComponentsInChildren<ConfigurableJoint>();
+            characterMesh.parent = wheeler.transform;
+            StartCoroutine(cameraController.FollowTransform(wheeler.transform, 1f));
+            GetComponent<CapsuleCollider>().enabled = false;
+            wheelerRb.isKinematic = false;
+            racer.overrideRb = wheelerRb;
         }
         else
         {
+            transform.position = wheeler.transform.position;
+            wheeler.transform.localPosition = Vector3.zero;
+            characterMesh.parent = transform;
             characterMesh.localPosition = new Vector3(0,0,0);
-            rb.mass = 1;
-            rb.angularDamping = 0.05f;
-            rb.centerOfMass = defaultCOM;
-            rb.constraints = RigidbodyConstraints.FreezeRotation;
-            rb.interpolation = RigidbodyInterpolation.None;
+            wheelerRb.isKinematic = false;
+            
+            // counterintuitively we start this particular coroutine again to stop it
+            StartCoroutine(cameraController.FollowTransform(wheeler.transform, 1f));
+            rb.isKinematic = false;
+            racer.overrideRb = null;
+            GetComponent<CapsuleCollider>().enabled = true;
+            wheeler.SetActive(false);
         }
     }
 }

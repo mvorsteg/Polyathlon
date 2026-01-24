@@ -77,12 +77,14 @@ public class CameraController : MonoBehaviour
 
     // Start this to have the camera follow the character when they ragdoll
     // Start this again to stop following
-    public IEnumerator FollowRagdoll()
+    public IEnumerator FollowTransform(Transform target, float verticalOffset = 0f)
     {
-        //Debug.Log("FollowRagdoll");
+        if (target == null)
+            target = characterHips;
+
         if (following)
         {
-            //Debug.Log("Stop Following!");
+
             following = false;
             yield break;
         }
@@ -90,12 +92,10 @@ public class CameraController : MonoBehaviour
         while (following)
         {
             
-            transform.position = characterHips.position;
-            //Debug.Log("our pos: " + transform.position);
-            //Debug.Log("character pos: " + characterHips.position);
+            transform.position = target.position + new Vector3(0, verticalOffset, 0);
+
             yield return null;
         }
-        //Debug.Log("End!");
         transform.localPosition = new Vector3(0, 1.5f, 0);
     }
 

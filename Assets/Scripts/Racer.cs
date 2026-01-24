@@ -34,6 +34,7 @@ public class Racer : MonoBehaviour
     public Checkpoint lastCheckpoint;
     public Checkpoint nextCheckpoint;
     public bool isFinished = false;
+    public Rigidbody overrideRb; // assign to this when using wheeler for example
 
     [Header("Sound Effects")]
     public AudioClip bikeSound;
@@ -51,6 +52,10 @@ public class Racer : MonoBehaviour
             if (ragdoll.IsEnabled)
             {
                 return ragdoll.Speed;
+            }
+            else if (overrideRb != null)
+            {
+                return overrideRb.linearVelocity.magnitude;
             }
             return rb.linearVelocity.magnitude;
         }
