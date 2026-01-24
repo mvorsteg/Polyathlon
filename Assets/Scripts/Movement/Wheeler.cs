@@ -119,9 +119,9 @@ public class Wheeler : Movement
         
         Vector3 horizontalVel = Vector3.ProjectOnPlane(rb.linearVelocity, Vector3.up);
 
-        if (horizontalVel.magnitude > maxSpeed)
+        if (horizontalVel.magnitude > maxSpeed * BonusSpeed)
         {
-            Vector3 clampedHorizontal = horizontalVel.normalized * maxSpeed;
+            Vector3 clampedHorizontal = horizontalVel.normalized * maxSpeed * BonusSpeed;
             rb.linearVelocity = clampedHorizontal + Vector3.up * rb.linearVelocity.y;
         }
 
@@ -164,7 +164,7 @@ public class Wheeler : Movement
                 - Vector3.Cross(pitchAxis, Vector3.up).normalized;
 
             rb.AddForce(
-                driveDir * forward * driveForce,
+                driveDir * forward * driveForce * BonusSpeed,
                 ForceMode.Force
             );
         }
@@ -191,12 +191,15 @@ public class Wheeler : Movement
 
     }
 
-
+    public override void Jump(bool hold)
+    {
+        base.Jump(hold);
+    }
 
     public override void ApplyJumpSplosion(Vector3 force)
     {
         Jump(true);
-        Launch(force);
+        Launch(force * rb.mass * 4 + rb.linearVelocity.normalized * 15);
     }
 
     public virtual void SetWheeler(bool enabled)

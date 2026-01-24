@@ -94,6 +94,17 @@ public class PlayerController : Racer
         }
     }
 
+    public void OnSwimmingJump(InputAction.CallbackContext ctx)
+    {
+        if (canMove)
+        {
+            if (ctx.performed)
+                movement.Jump(true);
+            else if (ctx.canceled)
+                movement.Jump(false);
+        }
+    }
+
     // Biking
     public void OnBikingMovement(InputAction.CallbackContext ctx)
     {
@@ -114,6 +125,17 @@ public class PlayerController : Racer
                 look = ctx.ReadValue<Vector2>() * (ctx.control.device is Gamepad ? Time.deltaTime * gamepadLookSensititvity : keyboardSchemeSensitivity);
             else if (ctx.canceled)
                 look = Vector2.zero;
+        }
+    }
+
+    public void OnBikingJump(InputAction.CallbackContext ctx)
+    {
+        if (canMove)
+        {
+            if (ctx.performed)
+                movement.Jump(true);
+            else if (ctx.canceled)
+                movement.Jump(false);
         }
     }
 
@@ -205,6 +227,17 @@ public class PlayerController : Racer
                 look = ctx.ReadValue<Vector2>() * (ctx.control.device is Gamepad ? Time.deltaTime * gamepadLookSensititvity : keyboardSchemeSensitivity);
             else if (ctx.canceled)
                 look = Vector2.zero;
+        }
+    }
+
+    public void OnWheelingJump(InputAction.CallbackContext ctx)
+    {
+        if (canMove)
+        {
+            if (ctx.performed)
+                movement.Jump(true);
+            else if (ctx.canceled)
+                movement.Jump(false);
         }
     }
     
