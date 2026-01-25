@@ -223,6 +223,8 @@ public class Wheeler : Movement
         else
         {
             characterMesh.localPosition = new Vector3(0,0,0);
+            characterMesh.localEulerAngles = new Vector3(0,0,0);
+            transform.localEulerAngles = new Vector3(0, transform.localEulerAngles.y, 0);
             rb.mass = 1;
             rb.angularDamping = 0.05f;
             rb.centerOfMass = defaultCOM;
