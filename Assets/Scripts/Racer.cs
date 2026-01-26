@@ -7,6 +7,7 @@ public class Racer : MonoBehaviour
     
 
     public Movement.Mode movementMode;
+    public Movement.Mode prevMovementMode; // sometimes its helpful to know what we had previously
     public Movement[] movementOptions;
 
     public Transform characterMesh;
@@ -126,6 +127,7 @@ public class Racer : MonoBehaviour
     {
         if (initial || mode != movementMode)
         {
+            prevMovementMode = movementMode;
             movementMode = mode;
             if (movement != null)
                 movement.enabled = false;

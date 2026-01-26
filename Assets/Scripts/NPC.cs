@@ -344,6 +344,9 @@ public class NPC : Racer
         if (mode == Movement.Mode.Wheeling)
         {
             agent.updatePosition = false;
+            // when the NPC drives the wheeler off a cliff, they get confused.
+            StartCoroutine(FallMonitor());
+            StartCoroutine(PathRefresher());
         }
         else
         {
@@ -451,6 +454,52 @@ public class NPC : Racer
             }
         }
         isGoingToJetpack = false;
+    }
+
+    // Interruptable coroutine!
+    private IEnumerator FallMonitor()
+    {
+        float ypos = transform.position.y;
+        while (movementMode == Movement.Mode.Wheeling)
+        {
+            yield return new WaitForSeconds(1);
+            // if we fell more than 3 meters in one second
+            if (ypos - transform.position.y > 3f)
+            {
+                ResetNavMeshAgent();
+            }
+        }
+    }
+
+    private IEnumerator PathRefresher()
+    {
+        float ypos = transform.position.y;
+        while (movementMode == Movement.Mode.Wheeling)
+        {
+            yield return new WaitForSeconds(10);
+            // Every 10 seconds reset the path just to be safe
+            if (ypos - transform.position.y > 3f)
+            {
+                ResetNavMeshAgent();
+            }
+        }
+    }
+
+    private void ResetNavMeshAgent()
+    {
+        // Put the agent back on a navmesh and recalculate the path
+        Vector3 currentDestination = agent.destination;
+        NavMeshHit hit;
+        if (NavMesh.SamplePosition(
+                transform.position,
+                out hit,
+                3f,
+                NavMesh.AllAreas))
+        {
+            agent.Warp(hit.position);
+            agent.ResetPath();
+            agent.SetDestination(currentDestination);
+        }
     }
 
     protected void SetNavMeshAgent(bool active)
