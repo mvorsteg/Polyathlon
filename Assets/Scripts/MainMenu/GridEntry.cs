@@ -21,6 +21,7 @@ public class GridEntry : MonoBehaviour, IPointerEnterHandler
     public Selectable Button { get => button; }
     public int SelectorCount { get => currentSelectors.Count; }
     public ScriptableObject Registry { get => registry; }
+    public int RowIdx { get; private set; }
 
     protected virtual void Awake()
     {
@@ -38,11 +39,12 @@ public class GridEntry : MonoBehaviour, IPointerEnterHandler
         }
     }
 
-    public virtual void Initialize(ScriptableObject registry, string name, Sprite image, int maxTargets)
+    public virtual void Initialize(ScriptableObject registry, string name, Sprite image, int maxTargets, int rowIndex)
     {
         this.registry = registry;
         nameText.text = name;
         thumbnail.sprite = image;
+        RowIdx = rowIndex;
 
         for (int i = 0; i < maxTargets; i++)
         {

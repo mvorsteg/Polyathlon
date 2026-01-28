@@ -249,7 +249,7 @@ public class CharSelectUI : BaseMenuUI
     private void AddCharacter(CharacterRegistry character)
     {
         GridEntry entry = Instantiate(entryTemplate, entryParent);
-        entry.Initialize(character, character.displayName, character.icon, maxLocalPlayers);
+        entry.Initialize(character, character.displayName, character.icon, maxLocalPlayers, 0); // TODO get row index
         entries.Add(entry);
         if (firstSelectable == null)
         {
