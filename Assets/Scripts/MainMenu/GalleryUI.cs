@@ -307,11 +307,6 @@ public class GalleryUI : BaseMenuUI
                 {
                     gridEntry.SetMouseSelector(selector);
                 }
-                if (photoCount == 0)
-                {
-                    gridEntry.AddSelector(selector, true);
-                    selector.selectedEntry = gridEntry;
-                }
 
                 if (photoCount % gridLayoutGroup.constraintCount == 0)
                 {
@@ -324,9 +319,12 @@ public class GalleryUI : BaseMenuUI
             }
         }
 
-        // skip a frame to allow grid entries to size themselves
-        Canvas.ForceUpdateCanvases(); 
+        // force grid entries to size themselves
         yield return null;
+        Canvas.ForceUpdateCanvases(); 
+        selector.selectedEntry = firstEntriesPerRow[0];
+        selector.selectedEntry.AddSelector(selector, false);
+    
         
         numGridRows = firstEntriesPerRow.Count;
         foreach (GridEntry entry in firstEntriesPerRow)
