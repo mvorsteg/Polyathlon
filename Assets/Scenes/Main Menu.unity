@@ -12516,7 +12516,7 @@ MonoBehaviour:
   detailsTitleText: {fileID: 406438631}
   detailsDescriptionText: {fileID: 1175303556}
   detailsIcon: {fileID: 899804085}
-  detailsIconFade: {fileID: 0}
+  detailsIconFade: {fileID: 310377020}
   timePerSlide: 5
   slideTransitionTime: 0.5
 --- !u!1 &899804083
