@@ -323,7 +323,7 @@ public class GalleryUI : BaseMenuUI
         yield return null;
         Canvas.ForceUpdateCanvases(); 
         selector.selectedEntry = firstEntriesPerRow[0];
-        selector.selectedEntry.AddSelector(selector, false);
+        selector.selectedEntry.AddSelector(selector, false);    // TODO warp=true is broken
     
         
         numGridRows = firstEntriesPerRow.Count;

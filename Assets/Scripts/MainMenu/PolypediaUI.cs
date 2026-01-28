@@ -270,8 +270,9 @@ public class PolypediaUI : BaseMenuUI
 
         if (currentEntries.Count > 0)
         {
-            currentEntries[0].AddSelector(selector, true);
+            Canvas.ForceUpdateCanvases();
             selector.selectedEntry = currentEntries[0];
+            selector.selectedEntry.AddSelector(selector, false);    // TODO warp=true is broken
         }
     }
 
