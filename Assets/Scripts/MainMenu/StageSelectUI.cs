@@ -34,7 +34,6 @@ public class StageSelectUI : BaseMenuUI
             AddStage(stage);
         }
 
-        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)entryParent.transform);
     }
 
     protected override void OnEnable()
@@ -56,8 +55,10 @@ public class StageSelectUI : BaseMenuUI
 
         if (stages.stages.Count > 0)
         {
-            entries[0].AddSelector(selector, true);
+            LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)entryParent.transform);
+            Canvas.ForceUpdateCanvases();
             selector.selectedEntry = entries[0];
+            selector.selectedEntry.AddSelector(selector, false);    // TODO warp=true is broken
         }
         allReadyOverlay.SetActive(false);
     }

@@ -62,6 +62,9 @@ public class CharSelectUI : BaseMenuUI
             players.Add(null);
         }
             
+        LayoutRebuilder.ForceRebuildLayoutImmediate((RectTransform)entryParent.transform);
+        Canvas.ForceUpdateCanvases();
+
         allReadyOverlay.SetActive(false);
     }
 
@@ -162,6 +165,15 @@ public class CharSelectUI : BaseMenuUI
         Selector selector = GetSelectorForPlayer(player);
         if (selector != null)
         {
+            int numPlayers = 0;
+            foreach (PlayerReadyIndicator indicator in indicators)
+            {
+                if (!indicator.IsFree)
+                {
+                    numPlayers++;
+                }
+            }
+
             if (selector.Locked)
             {
                 selector.Unlock();
@@ -169,22 +181,18 @@ public class CharSelectUI : BaseMenuUI
             }
             else
             {
-                RemovePlayer(player);
+                // dont remove if last player
+                if (numPlayers > 1)
+                { 
+                    RemovePlayer(player);
+                }
+                numPlayers--;
                 indicators[player.PlayerNum].RemovePlayer();
             }
             
             UpdateReadyOverlay();
-            
-            bool allPlayersLeft = true;
-            foreach (PlayerReadyIndicator indicator in indicators)
-            {
-                if (!indicator.IsFree)
-                {
-                    allPlayersLeft = false;
-                    break;
-                }
-            }
-            if (allPlayersLeft)
+
+            if (numPlayers < 1)
             {
                 mainMenuUI.TransitionToPreviousMode();
             }
@@ -280,7 +288,7 @@ public class CharSelectUI : BaseMenuUI
                 {
                     if (entry.SelectorCount == 0)
                     {
-                        entry.AddSelector(selector, true);
+                        entry.AddSelector(selector, false);
                         selector.selectedEntry = entry;
                         break;
                     }
