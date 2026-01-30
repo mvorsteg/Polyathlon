@@ -473,34 +473,36 @@ public class NPC : Racer
 
     private IEnumerator PathRefresher()
     {
-        float ypos = transform.position.y;
         while (movementMode == Movement.Mode.Wheeling)
         {
-            yield return new WaitForSeconds(10);
-            // Every 10 seconds reset the path just to be safe
-            if (ypos - transform.position.y > 3f)
-            {
-                ResetNavMeshAgent();
-            }
+            yield return new WaitForSeconds(10 + Random.Range(-1f, 10f));
+            // Every 9-20 seconds reset the path just to be safe
+            // Vary the time so that it doesn't look like every NPC is refreshing at once
+            ResetNavMeshAgent();
         }
     }
 
     private void ResetNavMeshAgent()
     {
-        // Put the agent back on a navmesh and recalculate the path
         Vector3 currentDestination = agent.destination;
-        NavMeshHit hit;
-        if (NavMesh.SamplePosition(
-                transform.position,
-                out hit,
-                3f,
-                NavMesh.AllAreas))
+        if (NavMesh.SamplePosition(transform.position, out NavMeshHit hit, 3f, NavMesh.AllAreas))
         {
             agent.Warp(hit.position);
-            agent.ResetPath();
-            agent.SetDestination(currentDestination);
+            // wait 1 frame to allow warp to complete so that we'll definitely be on a NavMesh
+            StartCoroutine(ResumeAgentNextFrame(currentDestination));
         }
     }
+
+    private IEnumerator ResumeAgentNextFrame(Vector3 destination)
+    {
+        yield return null; 
+
+        if (!agent.isOnNavMesh)
+            yield break;
+        agent.ResetPath();
+        agent.SetDestination(destination);
+    }
+
 
     protected void SetNavMeshAgent(bool active)
     {

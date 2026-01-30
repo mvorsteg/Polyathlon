@@ -23,10 +23,10 @@ public class Wheeler : Movement
 
        leftWheel = transform.Find("Rideables/Wheeler/Wheeler Structure/Left Wheel").GetComponent<Rigidbody>();
        leftWheel.GetComponent<ConfigurableJoint>().connectedBody = rb;
-       leftWheel.solverIterations = 12;
+       leftWheel.solverIterations = 30;
        rightWheel = transform.Find("Rideables/Wheeler/Wheeler Structure/Right Wheel").GetComponent<Rigidbody>();
        rightWheel.GetComponent<ConfigurableJoint>().connectedBody = rb;
-       rightWheel.solverIterations = 12;
+       rightWheel.solverIterations = 30;
     }
 
     // enable wheeler
@@ -177,8 +177,6 @@ public class Wheeler : Movement
         // causing the wheeler to rotate over the local Z axis
         if (right != 0)
         {
-            if (!IsGrounded())
-                return;
             
             Vector3 flatForward = Vector3.ProjectOnPlane(transform.forward, Vector3.up).normalized;
             Vector3 force = -flatForward * 10;
@@ -216,6 +214,8 @@ public class Wheeler : Movement
             rb.centerOfMass = new Vector3(0f, -3f, 0f);
             rb.constraints = RigidbodyConstraints.FreezeRotationZ;
             rb.interpolation = RigidbodyInterpolation.Interpolate;
+            rb.collisionDetectionMode = CollisionDetectionMode.ContinuousSpeculative;
+
             ConfigurableJoint[] joints = wheeler.GetComponentsInChildren<ConfigurableJoint>();
             if (cameraController != null)
                 cameraController.EnableYawDecoupling();
@@ -228,6 +228,7 @@ public class Wheeler : Movement
             rb.mass = 1;
             rb.angularDamping = 0.05f;
             rb.centerOfMass = defaultCOM;
+            rb.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
             rb.constraints = RigidbodyConstraints.FreezeRotation;
             rb.interpolation = RigidbodyInterpolation.None;
             if (cameraController != null)
