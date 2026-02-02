@@ -18,10 +18,14 @@ public class GridEntry : MonoBehaviour, IPointerEnterHandler
     protected List<Selector> currentSelectors; // TODO change to dict w/ max cap???
     protected Selector mouseSelector;   // special selector for the player who is using a mouse
 
+    [SerializeField]
+    protected GameObject radioButtonParent, radioButtonCheck;
+
     public Selectable Button { get => button; }
     public int SelectorCount { get => currentSelectors.Count; }
     public ScriptableObject Registry { get => registry; }
     public int RowIdx { get; private set; }
+    public bool IsChecked { get; private set; }
 
     protected virtual void Awake()
     {
@@ -37,6 +41,7 @@ public class GridEntry : MonoBehaviour, IPointerEnterHandler
         {
             target.gameObject.SetActive(false);
         }
+        EnableRadioButton(false);
     }
 
     public virtual void Initialize(ScriptableObject registry, string name, Sprite image, int maxTargets, int rowIndex)
@@ -114,6 +119,19 @@ public class GridEntry : MonoBehaviour, IPointerEnterHandler
             }
             currentSelectors[i].MoveToTarget(targets[i], warp);
         }
+    }
+
+    public void EnableRadioButton(bool enabled)
+    {
+        IsChecked = false;
+        radioButtonCheck.SetActive(false);
+        radioButtonParent.SetActive(enabled);
+    }
+
+    public void ToggleRadioButton()
+    {
+        IsChecked = !IsChecked;
+        radioButtonCheck.SetActive(IsChecked);
     }
 
 }

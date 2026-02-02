@@ -23,7 +23,7 @@ public class GalleryUI : BaseMenuUI
         DetailsView
     }
     [SerializeField]
-    protected Button backButton;
+    protected Button backButton, deleteButton, yesButton, noButton;
 
     [SerializeField]
     protected GameObject gridView, detailsView;
@@ -46,7 +46,9 @@ public class GalleryUI : BaseMenuUI
     [SerializeField]
     protected Image detailsIcon;
     protected GalleryState currState;    
-    protected Dictionary<GridEntry, Tuple<Sprite, FileInfo>> currentEntries;
+    protected List<GridEntry> gridEntriesOrdered;
+    protected Dictionary<GridEntry, Tuple<Sprite, FileInfo>> entriesLookup;
+    protected GridEntry currentlyDisplayingGridEntry;
     [SerializeField]
     protected GameObject loadingPanel;
     [SerializeField]
@@ -54,13 +56,20 @@ public class GalleryUI : BaseMenuUI
     [SerializeField]
     protected float loadingTextDelay = 1f;
     protected bool allSnapshotsLoaded = false;
+    protected bool isDeleting = false;
+    [SerializeField]
+    protected GameObject deleteConfirmPanel;
+    [SerializeField]
+    protected TextMeshProUGUI deleteConfirmText;
 
     protected int currentDetailIdx = -1;
     protected override void Awake()
     {
         base.Awake();
         currState = GalleryState.GridView;
-        currentEntries = new Dictionary<GridEntry, Tuple<Sprite, FileInfo>>();
+        gridEntriesOrdered = new List<GridEntry>();
+        entriesLookup = new Dictionary<GridEntry, Tuple<Sprite, FileInfo>>();
+        currentlyDisplayingGridEntry = null;
         selector.Initialize(0, "");
         gridLayoutGroup = gridParent.GetComponentInChildren<GridLayoutGroup>();
         gridScrollRect = gridParent.GetComponentInParent<ScrollRect>(true);
@@ -88,8 +97,10 @@ public class GalleryUI : BaseMenuUI
     public override void Reset()
     {
         base.Reset();  
+        currentlyDisplayingGridEntry = null;
         gridView.SetActive(true);   
         detailsView.SetActive(false);  
+        SetDeleteMode(false);
         if (!allSnapshotsLoaded)
         {
             StartCoroutine(LoadSnapshotCoroutine());
@@ -105,7 +116,9 @@ public class GalleryUI : BaseMenuUI
         {
             case GalleryState.GridView:
                 {
+                    currentlyDisplayingGridEntry = null;
                     gridView.SetActive(true);   
+                    SetDeleteMode(false);
                 }
                 break;
             case GalleryState.DetailsView:
@@ -124,7 +137,14 @@ public class GalleryUI : BaseMenuUI
         {
             case GalleryState.GridView:
                 {
-                    mainMenuUI.TransitionToPreviousMode();
+                    if (isDeleting)
+                    {
+                        SetDeleteMode(false);
+                    }
+                    else
+                    {
+                        mainMenuUI.TransitionToPreviousMode();
+                    }
                 }
                 break;
             case GalleryState.DetailsView:
@@ -210,14 +230,26 @@ public class GalleryUI : BaseMenuUI
     {
         if (player.IsPrimary())
         {
-            if (EventSystem.current.currentSelectedGameObject != backButton.gameObject)
-                {
+            // TBD there has gotta be a better way than this...
+            if (EventSystem.current.currentSelectedGameObject != backButton.gameObject &&
+                EventSystem.current.currentSelectedGameObject != deleteButton.gameObject &&
+                EventSystem.current.currentSelectedGameObject != yesButton.gameObject &&
+                EventSystem.current.currentSelectedGameObject != noButton.gameObject &&
+                EventSystem.current.currentSelectedGameObject != gridScrollRect.verticalScrollbar.gameObject)
+            {
                 switch (currState)
                 {
                     case GalleryState.GridView:
                         {
-                            PopulateDetailsView(selector.selectedEntry);
-                            currentDetailIdx = selector.selectedEntry.transform.GetSiblingIndex();
+                            if (isDeleting)
+                            {
+                                selector.selectedEntry.ToggleRadioButton();
+                            }
+                            else
+                            {
+                                PopulateDetailsView(selector.selectedEntry);
+                                currentDetailIdx = selector.selectedEntry.transform.GetSiblingIndex();
+                            }
                         }
                         break;
                     case GalleryState.DetailsView:
@@ -278,7 +310,8 @@ public class GalleryUI : BaseMenuUI
             Destroy(child.gameObject);
         }
 
-        currentEntries.Clear();
+        gridEntriesOrdered.Clear();
+        entriesLookup.Clear();
 
         string snapshotFolderPath = string.Format("{0}/Snapshots/", Application.dataPath);
         
@@ -315,7 +348,8 @@ public class GalleryUI : BaseMenuUI
 
                 photoCount++;
 
-                currentEntries[gridEntry] = Tuple.Create(sprite, f);
+                gridEntriesOrdered.Add(gridEntry);
+                entriesLookup[gridEntry] = Tuple.Create(sprite, f);
             }
         }
 
@@ -388,11 +422,12 @@ public class GalleryUI : BaseMenuUI
 
     protected void PopulateDetailsView(GridEntry entry)
     {
-        Tuple<Sprite, FileInfo> tup = currentEntries[entry];
+        Tuple<Sprite, FileInfo> tup = entriesLookup[entry];
         detailsIcon.sprite = tup.Item1;
         detailsIcon.preserveAspect = true;
         detailsText.text = tup.Item2.CreationTime.ToString();
 
+        currentlyDisplayingGridEntry = entry;
         SetState(GalleryState.DetailsView);
     }
 
@@ -456,7 +491,134 @@ public class GalleryUI : BaseMenuUI
             // no scrolling, can exit early
             return;
         }
+    }
 
+    public void OnDeletePressed()
+    {
+        switch (currState)
+        {
+            case GalleryState.GridView:
+                {
+                    if (!isDeleting)
+                    {
+                        SetDeleteMode(true);
+                    }
+                    else
+                    {
+                        EnableDeleteConfirmation(true, true);
+                    }
+                }
+                break;
+            case GalleryState.DetailsView:
+                {
+                    EnableDeleteConfirmation(true, false);
+                }
+                break;
+        }
+    }
+
+    public void OnDeleteConfirmed()
+    {
+        DeleteSelectedPhotos();
+        SetDeleteMode(false);
+    }
+
+    public void OnDeleteCanceled()
+    {
+        SetDeleteMode(false);
+    }
+
+    void SetDeleteMode(bool enabled)
+    {
+        isDeleting = enabled;
+        foreach (GridEntry ge in gridEntriesOrdered)
+        {
+            ge.EnableRadioButton(enabled);
+        }
+        if (!enabled)
+        {
+            EnableDeleteConfirmation(false, false);
+        }
+    }
+
+    void EnableDeleteConfirmation(bool enable, bool grid)
+    {   
+        if (enable)
+        {
+            if (grid)
+            {
+                int numToDelete = 0;
+                foreach (GridEntry ge in gridEntriesOrdered)
+                {
+                    if (ge.IsChecked)
+                    {
+                        numToDelete++;
+                    }
+                }
+                deleteConfirmText.text = String.Format("Are you sure you want to delete {0} photos?", numToDelete);
+            }
+            else
+            {
+                deleteConfirmText.text = String.Format("Are you sure you want to delete this photo?");
+            }
+        }
+        deleteConfirmPanel.SetActive(enable);
+    }
+
+    void DeleteSelectedPhotos()
+    {
+        List<GridEntry> entriesToDelete = new List<GridEntry>();
+        bool deleteSelectedEntry = false;                    
+        int indexOfSelectedEntry = gridEntriesOrdered.IndexOf(selector.selectedEntry);
+
+        switch (currState)
+        {
+            case GalleryState.GridView:
+                {
+                    foreach (GridEntry ge in gridEntriesOrdered)
+                    {
+                        if (ge.IsChecked)
+                        {
+                            if (selector.selectedEntry == ge)
+                            {
+                                deleteSelectedEntry = true;
+                            }
+                            entriesToDelete.Add(ge);
+                        }
+                    }
+                }
+                break;
+            case GalleryState.DetailsView:
+                {
+                    if (currentlyDisplayingGridEntry == selector.selectedEntry)
+                    {
+                        deleteSelectedEntry = true;
+                    }
+                    entriesToDelete.Add(currentlyDisplayingGridEntry);
+                    NavigateDetail(1);
+                }
+                break;
+        }
         
+        foreach (GridEntry ge in entriesToDelete)
+        {
+            Tuple<Sprite, FileInfo> t = entriesLookup[ge];
+#if UNITY_EDITOR
+            File.Delete(t.Item2.FullName + ".meta");
+#endif
+            t.Item2.Delete();
+            gridEntriesOrdered.Remove(ge);
+            entriesLookup.Remove(ge);
+            Destroy(ge.gameObject);
+        }
+
+        // update selector if its entry was deleted
+        if (deleteSelectedEntry)
+        {
+            GridEntry newSelectedEntry = gridEntriesOrdered[Mathf.Min(gridEntriesOrdered.Count - 1, indexOfSelectedEntry)];
+            selector.selectedEntry = newSelectedEntry;
+            selector.selectedEntry.AddSelector(selector, false);    // TODO warp=true is broken
+        }
+
     }
 }
