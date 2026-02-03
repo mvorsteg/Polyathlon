@@ -108,12 +108,12 @@ public class GalleryUI : BaseMenuUI
         {
             StartCoroutine(LoadSnapshotCoroutine());
         }
-        if (gridEntriesOrdered.Count == 0)
+        else if (gridEntriesOrdered.Count == 0)
         {
             emptyGalleryDisplayObj.SetActive(true);
             selector.gameObject.SetActive(false);
         }
-        //LoadSnapshots();
+
     }
 
     protected void SetState(GalleryState newState)
@@ -327,7 +327,6 @@ public class GalleryUI : BaseMenuUI
         rowBounds.Clear();
         int photoCount = 0;
         DirectoryInfo di = new DirectoryInfo(snapshotFolderPath);
-        di.Create();
         FileInfo[] files = di.GetFiles().OrderByDescending(f => f.CreationTime).ToArray();
         foreach (FileInfo f in files)
         {
@@ -400,6 +399,12 @@ public class GalleryUI : BaseMenuUI
         }
         allSnapshotsLoaded = true;
         loadingPanel.SetActive(false);
+        
+        if (gridEntriesOrdered.Count == 0)
+        {
+            emptyGalleryDisplayObj.SetActive(true);
+            selector.gameObject.SetActive(false);
+        }
 
     }
 
