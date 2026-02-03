@@ -327,6 +327,7 @@ public class GalleryUI : BaseMenuUI
         rowBounds.Clear();
         int photoCount = 0;
         DirectoryInfo di = new DirectoryInfo(snapshotFolderPath);
+        di.Create();
         FileInfo[] files = di.GetFiles().OrderByDescending(f => f.CreationTime).ToArray();
         foreach (FileInfo f in files)
         {
