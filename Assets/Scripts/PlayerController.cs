@@ -204,7 +204,7 @@ public class PlayerController : Racer
     // This is only for exiting training while using a gamepad
     public void OnPause(InputAction.CallbackContext ctx)
     {
-        if (ctx.performed == true)
+        if (ctx.performed == true && !isFinished)
         {
             // if (RaceManager.IsTrainingCourse)
             //     RaceManager.ReturnToMenu();
