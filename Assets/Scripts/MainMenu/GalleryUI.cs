@@ -27,6 +27,8 @@ public class GalleryUI : BaseMenuUI
 
     [SerializeField]
     protected GameObject gridView, detailsView;
+    [SerializeField]
+    protected GameObject emptyGalleryDisplayObj;
 
     [SerializeField]
     protected Transform gridParent;
@@ -98,12 +100,18 @@ public class GalleryUI : BaseMenuUI
     {
         base.Reset();  
         currentlyDisplayingGridEntry = null;
+        emptyGalleryDisplayObj.SetActive(false);
         gridView.SetActive(true);   
         detailsView.SetActive(false);  
         SetDeleteMode(false);
         if (!allSnapshotsLoaded)
         {
             StartCoroutine(LoadSnapshotCoroutine());
+        }
+        if (gridEntriesOrdered.Count == 0)
+        {
+            emptyGalleryDisplayObj.SetActive(true);
+            selector.gameObject.SetActive(false);
         }
         //LoadSnapshots();
     }
@@ -356,37 +364,42 @@ public class GalleryUI : BaseMenuUI
         // force grid entries to size themselves
         yield return null;
         Canvas.ForceUpdateCanvases(); 
-        selector.selectedEntry = firstEntriesPerRow[0];
-        selector.selectedEntry.AddSelector(selector, false);    // TODO warp=true is broken
-    
-        
-        numGridRows = firstEntriesPerRow.Count;
-        foreach (GridEntry entry in firstEntriesPerRow)
+
+        if (gridEntriesOrdered.Count > 0)
         {
-            if (entry.TryGetComponent(out RectTransform rt))
+            selector.selectedEntry = firstEntriesPerRow[0];
+            selector.selectedEntry.AddSelector(selector, false);    // TODO warp=true is broken
+        
+            
+            numGridRows = firstEntriesPerRow.Count;
+            foreach (GridEntry entry in firstEntriesPerRow)
             {
-                rowBounds.Add(new Vector2(rt.offsetMax.y, rt.offsetMin.y));
+                if (entry.TryGetComponent(out RectTransform rt))
+                {
+                    rowBounds.Add(new Vector2(rt.offsetMax.y, rt.offsetMin.y));
+                }
             }
+
+            // scale the content manually 
+            // this is required since we cannot put the GridLayoutGroup directly, as the selector must be outside a grid
+            float gridHeight = gridLayoutGroup.GetComponent<RectTransform>().sizeDelta.y;
+            gridScrollRect.content.sizeDelta = new Vector2(gridScrollRect.content.sizeDelta.x, gridHeight);
+
+            // now, find the row indices that are visible
+            // RectTransform viewportRT = gridScrollRect.viewport;
+            // Vector3[] corners = new Vector3[4];
+            // viewportRT.GetWorldCorners(corners);
+            // float viewportMinY = corners[1].y;
+            // float viewportMaxY = corners[0].y;
+
+            RecalculateYBounds();
+
+            numGridRows = (photoCount + gridLayoutGroup.constraintCount - 1) / gridLayoutGroup.constraintCount;
+
         }
-
-        // scale the content manually 
-        // this is required since we cannot put the GridLayoutGroup directly, as the selector must be outside a grid
-        float gridHeight = gridLayoutGroup.GetComponent<RectTransform>().sizeDelta.y;
-        gridScrollRect.content.sizeDelta = new Vector2(gridScrollRect.content.sizeDelta.x, gridHeight);
-
-        // now, find the row indices that are visible
-        // RectTransform viewportRT = gridScrollRect.viewport;
-        // Vector3[] corners = new Vector3[4];
-        // viewportRT.GetWorldCorners(corners);
-        // float viewportMinY = corners[1].y;
-        // float viewportMaxY = corners[0].y;
-
-        RecalculateYBounds();
-
         allSnapshotsLoaded = true;
-        numGridRows = (photoCount + gridLayoutGroup.constraintCount - 1) / gridLayoutGroup.constraintCount;
-
         loadingPanel.SetActive(false);
+
     }
 
     protected IEnumerator ChangeLoadingText()
