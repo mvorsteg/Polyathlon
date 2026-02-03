@@ -68,8 +68,20 @@ public class PhotoModeController : MonoBehaviour
 
     public void TakeSnapshot()
     {
+        Vector2Int widthHeight = ui.GetPhotoDimensions();
+        snapshotCamera.SetResolution(widthHeight.x, widthHeight.y);
         snapshotCamera.TakeSnapshot();
         ui.TakeSnapshot();
+    }
+
+    public void CycleResolution()
+    {
+        ui.CycleResolution();
+    }
+
+    public void CycleAspectRatio()
+    {
+        ui.CycleAspectRatio();
     }
 
     public void HideUI()

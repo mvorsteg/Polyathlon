@@ -3250,6 +3250,24 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""CycleResolution"",
+                    ""type"": ""Button"",
+                    ""id"": ""d265ef76-a968-4a3e-a9b5-78152e0d981c"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""CycleAspectRatio"",
+                    ""type"": ""Button"",
+                    ""id"": ""7d6fa685-f774-4d8e-8071-1c7eeda17ad0"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -3503,6 +3521,50 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": "";Gamepad"",
                     ""action"": ""HideUI"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6bd88a7b-7503-4230-8526-890d49436e32"",
+                    ""path"": ""<Keyboard>/j"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard"",
+                    ""action"": ""CycleResolution"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0fe10f80-80cc-426d-b6b1-20f3a62070b6"",
+                    ""path"": ""<Gamepad>/dpad/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Gamepad"",
+                    ""action"": ""CycleResolution"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1963bf08-4a78-48fa-b92d-4ae744d04c99"",
+                    ""path"": ""<Keyboard>/k"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard"",
+                    ""action"": ""CycleAspectRatio"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""61765e5a-a194-408c-9815-b300711599bb"",
+                    ""path"": ""<Gamepad>/dpad/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Gamepad"",
+                    ""action"": ""CycleAspectRatio"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -3798,6 +3860,8 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         m_PhotoMode_Pause = m_PhotoMode.FindAction("Pause", throwIfNotFound: true);
         m_PhotoMode_TakePhoto = m_PhotoMode.FindAction("TakePhoto", throwIfNotFound: true);
         m_PhotoMode_HideUI = m_PhotoMode.FindAction("HideUI", throwIfNotFound: true);
+        m_PhotoMode_CycleResolution = m_PhotoMode.FindAction("CycleResolution", throwIfNotFound: true);
+        m_PhotoMode_CycleAspectRatio = m_PhotoMode.FindAction("CycleAspectRatio", throwIfNotFound: true);
         // Paused
         m_Paused = asset.FindActionMap("Paused", throwIfNotFound: true);
         m_Paused_Navigate = m_Paused.FindAction("Navigate", throwIfNotFound: true);
@@ -5346,6 +5410,8 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_PhotoMode_Pause;
     private readonly InputAction m_PhotoMode_TakePhoto;
     private readonly InputAction m_PhotoMode_HideUI;
+    private readonly InputAction m_PhotoMode_CycleResolution;
+    private readonly InputAction m_PhotoMode_CycleAspectRatio;
     /// <summary>
     /// Provides access to input actions defined in input action map "PhotoMode".
     /// </summary>
@@ -5385,6 +5451,14 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "PhotoMode/HideUI".
         /// </summary>
         public InputAction @HideUI => m_Wrapper.m_PhotoMode_HideUI;
+        /// <summary>
+        /// Provides access to the underlying input action "PhotoMode/CycleResolution".
+        /// </summary>
+        public InputAction @CycleResolution => m_Wrapper.m_PhotoMode_CycleResolution;
+        /// <summary>
+        /// Provides access to the underlying input action "PhotoMode/CycleAspectRatio".
+        /// </summary>
+        public InputAction @CycleAspectRatio => m_Wrapper.m_PhotoMode_CycleAspectRatio;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -5432,6 +5506,12 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @HideUI.started += instance.OnHideUI;
             @HideUI.performed += instance.OnHideUI;
             @HideUI.canceled += instance.OnHideUI;
+            @CycleResolution.started += instance.OnCycleResolution;
+            @CycleResolution.performed += instance.OnCycleResolution;
+            @CycleResolution.canceled += instance.OnCycleResolution;
+            @CycleAspectRatio.started += instance.OnCycleAspectRatio;
+            @CycleAspectRatio.performed += instance.OnCycleAspectRatio;
+            @CycleAspectRatio.canceled += instance.OnCycleAspectRatio;
         }
 
         /// <summary>
@@ -5464,6 +5544,12 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @HideUI.started -= instance.OnHideUI;
             @HideUI.performed -= instance.OnHideUI;
             @HideUI.canceled -= instance.OnHideUI;
+            @CycleResolution.started -= instance.OnCycleResolution;
+            @CycleResolution.performed -= instance.OnCycleResolution;
+            @CycleResolution.canceled -= instance.OnCycleResolution;
+            @CycleAspectRatio.started -= instance.OnCycleAspectRatio;
+            @CycleAspectRatio.performed -= instance.OnCycleAspectRatio;
+            @CycleAspectRatio.canceled -= instance.OnCycleAspectRatio;
         }
 
         /// <summary>
@@ -6166,6 +6252,20 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnHideUI(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "CycleResolution" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnCycleResolution(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "CycleAspectRatio" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnCycleAspectRatio(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Paused" which allows adding and removing callbacks.

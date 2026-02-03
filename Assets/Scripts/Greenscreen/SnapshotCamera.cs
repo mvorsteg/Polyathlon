@@ -21,15 +21,7 @@ public class SnapshotCamera : MonoBehaviour
         resWidth = width;
         resHeight = height;
 
-        if (snapCam.targetTexture == null)
-        {
-            snapCam.targetTexture = new RenderTexture(resWidth, resHeight, 24);
-        }
-        else
-        {
-            snapCam.targetTexture.width = resWidth;
-            snapCam.targetTexture.height = resHeight;
-        }
+        snapCam.targetTexture = new RenderTexture(resWidth, resHeight, 24);
     }
 
     public void TakeSnapshot()

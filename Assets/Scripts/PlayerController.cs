@@ -284,6 +284,28 @@ public class PlayerController : Racer
         }
     }
 
+    public void OnPhotoModeCycleResolution(InputAction.CallbackContext ctx)
+    {
+        if (photoModeController != null)
+        {
+            if (ctx.performed)
+            {
+                photoModeController.CycleResolution();
+            }        
+        }
+    }
+
+    public void OnPhotoModeCycleAspectRatio(InputAction.CallbackContext ctx)
+    {
+        if (photoModeController != null)
+        {
+            if (ctx.performed)
+            {
+                photoModeController.CycleAspectRatio();
+            }        
+        }
+    }
+
     public void OnPhotoModeHideUI(InputAction.CallbackContext ctx)
     {
         if (photoModeController != null)
