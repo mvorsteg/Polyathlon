@@ -32,6 +32,13 @@ public class SnapshotCamera : MonoBehaviour
         snapshot.ReadPixels(new Rect(0, 0, resWidth, resHeight), 0, 0);
         byte[] bytes = snapshot.EncodeToPNG();
         string filename = SnapshotName();
+        
+        string directoryName = Path.GetDirectoryName(filename);
+        if (!Directory.Exists(directoryName))
+        {
+            Directory.CreateDirectory(directoryName);    
+        }
+
         File.WriteAllBytes(filename, bytes);
         Debug.Log(string.Format("Snapshot saved to {0}", filename));
 #if UNITY_EDITOR
