@@ -23,7 +23,7 @@ public class GalleryUI : BaseMenuUI
         DetailsView
     }
     [SerializeField]
-    protected Button backButton, deleteButton, yesButton, noButton;
+    protected Button backButton, fileExplorerButton, deleteButton, yesButton, noButton;
 
     [SerializeField]
     protected GameObject gridView, detailsView;
@@ -240,6 +240,7 @@ public class GalleryUI : BaseMenuUI
         {
             // TBD there has gotta be a better way than this...
             if (EventSystem.current.currentSelectedGameObject != backButton.gameObject &&
+                EventSystem.current.currentSelectedGameObject != fileExplorerButton.gameObject &&
                 EventSystem.current.currentSelectedGameObject != deleteButton.gameObject &&
                 EventSystem.current.currentSelectedGameObject != yesButton.gameObject &&
                 EventSystem.current.currentSelectedGameObject != noButton.gameObject &&
@@ -639,5 +640,10 @@ public class GalleryUI : BaseMenuUI
             selector.selectedEntry.AddSelector(selector, false);    // TODO warp=true is broken
         }
 
+    }
+
+    public void OnFileExplorerPressed()
+    {
+        CrossPlatformUtility.OpenFileExplorer(string.Format("{0}/Snapshots/", Application.dataPath));
     }
 }
