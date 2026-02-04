@@ -238,34 +238,37 @@ public class GalleryUI : BaseMenuUI
     {
         if (player.IsPrimary())
         {
-            // TBD there has gotta be a better way than this...
-            if (EventSystem.current.currentSelectedGameObject != backButton.gameObject &&
-                EventSystem.current.currentSelectedGameObject != fileExplorerButton.gameObject &&
-                EventSystem.current.currentSelectedGameObject != deleteButton.gameObject &&
-                EventSystem.current.currentSelectedGameObject != yesButton.gameObject &&
-                EventSystem.current.currentSelectedGameObject != noButton.gameObject &&
-                EventSystem.current.currentSelectedGameObject != gridScrollRect.verticalScrollbar.gameObject)
+            if (allSnapshotsLoaded)
             {
-                switch (currState)
+                // TBD there has gotta be a better way than this...
+                if (EventSystem.current.currentSelectedGameObject != backButton.gameObject &&
+                    EventSystem.current.currentSelectedGameObject != fileExplorerButton.gameObject &&
+                    EventSystem.current.currentSelectedGameObject != deleteButton.gameObject &&
+                    EventSystem.current.currentSelectedGameObject != yesButton.gameObject &&
+                    EventSystem.current.currentSelectedGameObject != noButton.gameObject &&
+                    EventSystem.current.currentSelectedGameObject != gridScrollRect.verticalScrollbar.gameObject)
                 {
-                    case GalleryState.GridView:
-                        {
-                            if (isDeleting)
+                    switch (currState)
+                    {
+                        case GalleryState.GridView:
                             {
-                                selector.selectedEntry.ToggleRadioButton();
+                                if (isDeleting)
+                                {
+                                    selector.selectedEntry.ToggleRadioButton();
+                                }
+                                else
+                                {
+                                    PopulateDetailsView(selector.selectedEntry);
+                                    currentDetailIdx = selector.selectedEntry.transform.GetSiblingIndex();
+                                }
                             }
-                            else
+                            break;
+                        case GalleryState.DetailsView:
                             {
-                                PopulateDetailsView(selector.selectedEntry);
-                                currentDetailIdx = selector.selectedEntry.transform.GetSiblingIndex();
                             }
-                        }
-                        break;
-                    case GalleryState.DetailsView:
-                        {
-                        }
-                        break;
+                            break;
 
+                    }
                 }
             }
         }
@@ -515,25 +518,28 @@ public class GalleryUI : BaseMenuUI
 
     public void OnDeletePressed()
     {
-        switch (currState)
+        if (allSnapshotsLoaded)
         {
-            case GalleryState.GridView:
-                {
-                    if (!isDeleting)
+            switch (currState)
+            {
+                case GalleryState.GridView:
                     {
-                        SetDeleteMode(true);
+                        if (!isDeleting)
+                        {
+                            SetDeleteMode(true);
+                        }
+                        else
+                        {
+                            EnableDeleteConfirmation(true, true);
+                        }
                     }
-                    else
+                    break;
+                case GalleryState.DetailsView:
                     {
-                        EnableDeleteConfirmation(true, true);
+                        EnableDeleteConfirmation(true, false);
                     }
-                }
-                break;
-            case GalleryState.DetailsView:
-                {
-                    EnableDeleteConfirmation(true, false);
-                }
-                break;
+                    break;
+            }
         }
     }
 
