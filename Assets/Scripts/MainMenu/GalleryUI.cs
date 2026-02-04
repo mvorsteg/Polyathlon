@@ -22,6 +22,21 @@ public class GalleryUI : BaseMenuUI
         GridView,
         DetailsView
     }
+
+    protected struct PhotoData
+    {
+        public Sprite thumbnail;
+        public FileInfo thumbnailInfo;
+        public FileInfo fullImageInfo;
+
+        public PhotoData(Sprite thumbnail, FileInfo thumbnailInfo, FileInfo fullImageInfo)
+        {
+            this.thumbnail = thumbnail;
+            this.thumbnailInfo = thumbnailInfo;
+            this.fullImageInfo = fullImageInfo;
+        }
+    }
+
     [SerializeField]
     protected Button backButton, fileExplorerButton, deleteButton, yesButton, noButton;
 
@@ -49,7 +64,7 @@ public class GalleryUI : BaseMenuUI
     protected Image detailsIcon;
     protected GalleryState currState;    
     protected List<GridEntry> gridEntriesOrdered;
-    protected Dictionary<GridEntry, Tuple<Sprite, FileInfo>> entriesLookup;
+    protected Dictionary<GridEntry, PhotoData> entriesLookup;
     protected GridEntry currentlyDisplayingGridEntry;
     [SerializeField]
     protected GameObject loadingPanel;
@@ -70,7 +85,7 @@ public class GalleryUI : BaseMenuUI
         base.Awake();
         currState = GalleryState.GridView;
         gridEntriesOrdered = new List<GridEntry>();
-        entriesLookup = new Dictionary<GridEntry, Tuple<Sprite, FileInfo>>();
+        entriesLookup = new Dictionary<GridEntry, PhotoData>();
         currentlyDisplayingGridEntry = null;
         selector.Initialize(0, "");
         gridLayoutGroup = gridParent.GetComponentInChildren<GridLayoutGroup>();
@@ -326,28 +341,36 @@ public class GalleryUI : BaseMenuUI
         entriesLookup.Clear();
 
         string snapshotFolderPath = string.Format("{0}/Snapshots/", Application.dataPath);
-        
+        string thumbnailsFolderPath = string.Format("{0}/Thumbnails/", snapshotFolderPath);
+
         List<GridEntry> firstEntriesPerRow = new List<GridEntry>();
         rowBounds.Clear();
         int photoCount = 0;
-        DirectoryInfo di = new DirectoryInfo(snapshotFolderPath);
+        DirectoryInfo di = new DirectoryInfo(thumbnailsFolderPath);
+        di.Create();
         FileInfo[] files = di.GetFiles().OrderByDescending(f => f.CreationTime).ToArray();
         foreach (FileInfo f in files)
         {
             Texture2D texture;
-            string filepath = Path.Combine(snapshotFolderPath, f.FullName);
+            string filepath = Path.Combine(thumbnailsFolderPath, f.FullName);
             if (File.Exists(filepath) && Path.GetExtension(filepath) == ".png")
             {
+                FileInfo fullFileInfo = new FileInfo(Path.Combine(snapshotFolderPath, f.Name));
+                if (!fullFileInfo.Exists)
+                {
+                    fullFileInfo = null;
+                }
+
                 byte[] fileData = File.ReadAllBytes(filepath);
                 texture = new Texture2D(2, 2);
                 texture.LoadImage(fileData);
-                Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
-                
+                Sprite thumbnailSprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
+
                 AsyncInstantiateOperation<GridEntry> asyncResult = InstantiateAsync(gridEntryTemplate, gridParent);
                 yield return asyncResult;
                 //GridEntry gridEntry = Instantiate(gridEntryTemplate, gridParent);
                 GridEntry gridEntry = asyncResult.Result[0];
-                gridEntry.Initialize(null, "", sprite, 1, photoCount / gridLayoutGroup.constraintCount);
+                gridEntry.Initialize(null, "", thumbnailSprite, 1, photoCount / gridLayoutGroup.constraintCount);
                 if (mainMenuUI.PrimaryControlScheme == ControlScheme.Keyboard)
                 {
                     gridEntry.SetMouseSelector(selector);
@@ -361,7 +384,7 @@ public class GalleryUI : BaseMenuUI
                 photoCount++;
 
                 gridEntriesOrdered.Add(gridEntry);
-                entriesLookup[gridEntry] = Tuple.Create(sprite, f);
+                entriesLookup[gridEntry] = new PhotoData(thumbnailSprite, f, fullFileInfo);
             }
         }
 
@@ -445,13 +468,46 @@ public class GalleryUI : BaseMenuUI
 
     protected void PopulateDetailsView(GridEntry entry)
     {
-        Tuple<Sprite, FileInfo> tup = entriesLookup[entry];
-        detailsIcon.sprite = tup.Item1;
+        PhotoData pd = entriesLookup[entry];
+        detailsIcon.sprite = pd.thumbnail;
         detailsIcon.preserveAspect = true;
-        detailsText.text = tup.Item2.CreationTime.ToString();
+        detailsText.text = pd.fullImageInfo.CreationTime.ToString();
 
         currentlyDisplayingGridEntry = entry;
         SetState(GalleryState.DetailsView);
+
+        LoadTextureFromFileAsync(pd.fullImageInfo.FullName);
+    }
+
+    protected async Task<Texture2D> LoadTextureFromFileAsync(string filepath)
+    {
+        byte[] fileData = null;
+        await Task.Run(() =>
+        {
+           if (File.Exists(filepath))
+            {
+                fileData = File.ReadAllBytes(filepath);
+            } 
+        });        
+        Texture2D texture = new Texture2D(2, 2);
+        texture.LoadImage(fileData);
+        
+        Sprite s = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
+        detailsIcon.sprite = s;
+
+        return texture;
+    }
+
+    protected async void LoadDetailImageAsync(string filepath)
+    {
+        Texture2D texture;
+        byte[] fileData = File.ReadAllBytes(filepath);
+        texture = new Texture2D(2, 2);
+        texture.LoadImage(fileData);
+        Sprite fullSprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
+        
+        detailsIcon.sprite = fullSprite;
+        detailsIcon.preserveAspect = true;
     }
 
     public void OnScrollbarUpdated(float newVal)
@@ -628,11 +684,13 @@ public class GalleryUI : BaseMenuUI
         
         foreach (GridEntry ge in entriesToDelete)
         {
-            Tuple<Sprite, FileInfo> t = entriesLookup[ge];
+            PhotoData pd = entriesLookup[ge];
 #if UNITY_EDITOR
-            File.Delete(t.Item2.FullName + ".meta");
+            File.Delete(pd.fullImageInfo.FullName + ".meta");
+            File.Delete(pd.thumbnailInfo.FullName + ".meta");
 #endif
-            t.Item2.Delete();
+            pd.fullImageInfo.Delete();
+            pd.thumbnailInfo.Delete();
             gridEntriesOrdered.Remove(ge);
             entriesLookup.Remove(ge);
             Destroy(ge.gameObject);
