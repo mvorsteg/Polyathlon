@@ -49,6 +49,8 @@ public class MasterMenuUI : MonoBehaviour
 
     private void Start()
     {
+        ((SettingsUI)settingsUI).LoadPrefs();
+
         if (RaceSettings.instance.IsMidRace)
         {
             TransitionToMode(MenuMode.StageSelect);
