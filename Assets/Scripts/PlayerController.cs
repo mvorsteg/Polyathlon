@@ -101,6 +101,17 @@ public class PlayerController : Racer
         }
     }
 
+    public void OnSwimmingJump(InputAction.CallbackContext ctx)
+    {
+        if (canMove)
+        {
+            if (ctx.performed)
+                movement.Jump(true);
+            else if (ctx.canceled)
+                movement.Jump(false);
+        }
+    }
+
     // Biking
     public void OnBikingMovement(InputAction.CallbackContext ctx)
     {
@@ -121,6 +132,17 @@ public class PlayerController : Racer
                 look = ctx.ReadValue<Vector2>() * (ctx.control.device is Gamepad ? Time.deltaTime * gamepadLookSensititvity : keyboardSchemeSensitivity);
             else if (ctx.canceled)
                 look = Vector2.zero;
+        }
+    }
+
+    public void OnBikingJump(InputAction.CallbackContext ctx)
+    {
+        if (canMove)
+        {
+            if (ctx.performed)
+                movement.Jump(true);
+            else if (ctx.canceled)
+                movement.Jump(false);
         }
     }
 
@@ -184,6 +206,40 @@ public class PlayerController : Racer
     public void OnGlidingJump(InputAction.CallbackContext ctx)
     {
         if (canMove && !RaceManager.IsPaused)
+        {
+            if (ctx.performed)
+                movement.Jump(true);
+            else if (ctx.canceled)
+                movement.Jump(false);
+        }
+    }
+
+    // Wheeling
+    public void OnWheelingMovement(InputAction.CallbackContext ctx)
+    {
+        if (canMove)
+        {
+            if (ctx.performed)
+                move = ctx.ReadValue<Vector2>();
+            else if (ctx.canceled)
+                move = Vector2.zero;
+        }
+    }
+
+    public void OnWheelingLook(InputAction.CallbackContext ctx)
+    {
+        if (canLook)
+        {
+            if (ctx.performed)
+                look = ctx.ReadValue<Vector2>() * (ctx.control.device is Gamepad ? Time.deltaTime * gamepadLookSensititvity : keyboardSchemeSensitivity);
+            else if (ctx.canceled)
+                look = Vector2.zero;
+        }
+    }
+
+    public void OnWheelingJump(InputAction.CallbackContext ctx)
+    {
+        if (canMove)
         {
             if (ctx.performed)
                 movement.Jump(true);
@@ -460,6 +516,7 @@ public class PlayerController : Racer
         Vector2 movePreserve = move;
         base.SetMovementMode(mode, initial);
         playerInput.currentActionMap = playerInput.actions.actionMaps[(int)mode];
+        Debug.Log("currentActionMap " + playerInput.currentActionMap);
         move = movePreserve;
     }
 
