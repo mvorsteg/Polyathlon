@@ -1802,6 +1802,15 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
+                    ""name"": ""Pause"",
+                    ""type"": ""Button"",
+                    ""id"": ""95f655d9-43da-40a1-a07b-2e5ff63d11c2"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""Look"",
                     ""type"": ""PassThrough"",
                     ""id"": ""0b977e9d-d7b3-401f-846a-1dc94347e3ec"",
@@ -1814,7 +1823,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""name"": ""Jump"",
                     ""type"": ""Button"",
                     ""id"": ""4a480789-10d0-4e46-8ac0-01e0534e51e6"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -1902,6 +1911,28 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""processors"": ""ScaleVector2"",
                     ""groups"": ""Gamepad"",
                     ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0e7b930c-d1f1-4468-83e1-6ee3df7e3bb0"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pause"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d819198a-d0e8-4239-9197-c41168a4c40a"",
+                    ""path"": ""<Gamepad>/start"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Pause"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -4135,11 +4166,11 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         // Wheeling
         m_Wheeling = asset.FindActionMap("Wheeling", throwIfNotFound: true);
         m_Wheeling_Movement = m_Wheeling.FindAction("Movement", throwIfNotFound: true);
+        m_Wheeling_Pause = m_Wheeling.FindAction("Pause", throwIfNotFound: true);
         m_Wheeling_Look = m_Wheeling.FindAction("Look", throwIfNotFound: true);
         m_Wheeling_Jump = m_Wheeling.FindAction("Jump", throwIfNotFound: true);
         m_Wheeling_Item = m_Wheeling.FindAction("Item", throwIfNotFound: true);
         m_Wheeling_StartButton = m_Wheeling.FindAction("StartButton", throwIfNotFound: true);
-        m_Wheeling_Pause = m_Wheeling.FindAction("Pause", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -5019,6 +5050,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Wheeling;
     private List<IWheelingActions> m_WheelingActionsCallbackInterfaces = new List<IWheelingActions>();
     private readonly InputAction m_Wheeling_Movement;
+    private readonly InputAction m_Wheeling_Pause;
     private readonly InputAction m_Wheeling_Look;
     private readonly InputAction m_Wheeling_Jump;
     private readonly InputAction m_Wheeling_Item;
@@ -5038,6 +5070,10 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Wheeling/Movement".
         /// </summary>
         public InputAction @Movement => m_Wrapper.m_Wheeling_Movement;
+        /// <summary>
+        /// Provides access to the underlying input action "Wheeling/Pause".
+        /// </summary>
+        public InputAction @Pause => m_Wrapper.m_Wheeling_Pause;
         /// <summary>
         /// Provides access to the underlying input action "Wheeling/Look".
         /// </summary>
@@ -5083,6 +5119,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @Movement.started += instance.OnMovement;
             @Movement.performed += instance.OnMovement;
             @Movement.canceled += instance.OnMovement;
+            @Pause.started += instance.OnPause;
+            @Pause.performed += instance.OnPause;
+            @Pause.canceled += instance.OnPause;
             @Look.started += instance.OnLook;
             @Look.performed += instance.OnLook;
             @Look.canceled += instance.OnLook;
@@ -5109,6 +5148,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @Movement.started -= instance.OnMovement;
             @Movement.performed -= instance.OnMovement;
             @Movement.canceled -= instance.OnMovement;
+            @Pause.started -= instance.OnPause;
+            @Pause.performed -= instance.OnPause;
+            @Pause.canceled -= instance.OnPause;
             @Look.started -= instance.OnLook;
             @Look.performed -= instance.OnLook;
             @Look.canceled -= instance.OnLook;
@@ -6454,6 +6496,13 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnMovement(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Pause" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnPause(InputAction.CallbackContext context);
         /// <summary>
         /// Method invoked when associated input action "Look" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
